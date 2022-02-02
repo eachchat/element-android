@@ -23,6 +23,7 @@ import io.realm.RealmMigration
 import io.realm.RealmObjectSchema
 import org.matrix.android.sdk.api.extensions.tryOrNull
 import org.matrix.android.sdk.api.util.JsonDict
+import org.matrix.android.sdk.internal.crypto.MXCRYPTO_ALGORITHM_MEGOLM
 import org.matrix.android.sdk.internal.crypto.model.MXDeviceInfo
 import org.matrix.android.sdk.internal.crypto.model.OlmInboundGroupSessionWrapper
 import org.matrix.android.sdk.internal.crypto.model.OlmInboundGroupSessionWrapper2
@@ -55,7 +56,7 @@ internal object RealmCryptoStoreMigration : RealmMigration {
     // 0, 1, 2: legacy Riot-Android
     // 3: migrate to RiotX schema
     // 4, 5, 6, 7, 8, 9: migrations from RiotX (which was previously 1, 2, 3, 4, 5, 6)
-    const val CRYPTO_STORE_SCHEMA_VERSION = 14L
+    const val CRYPTO_STORE_SCHEMA_VERSION = 15L
 
     private fun RealmObjectSchema.addFieldIfNotExists(fieldName: String, fieldType: Class<*>): RealmObjectSchema {
         if (!hasField(fieldName)) {
@@ -95,6 +96,7 @@ internal object RealmCryptoStoreMigration : RealmMigration {
         if (oldVersion <= 11) migrateTo12(realm)
         if (oldVersion <= 12) migrateTo13(realm)
         if (oldVersion <= 13) migrateTo14(realm)
+        if (oldVersion <= 14) migrateTo15(realm)
     }
 
     private fun migrateTo1Legacy(realm: DynamicRealm) {
@@ -570,6 +572,18 @@ internal object RealmCryptoStoreMigration : RealmMigration {
                             .equalTo(DeviceInfoEntityFields.DEVICE_ID, sharedDeviceId)
                             .findFirst()
                     it.setString(SharedSessionEntityFields.DEVICE_IDENTITY_KEY, knownDevice?.getString(DeviceInfoEntityFields.IDENTITY_KEY))
+                }
+    }
+
+    // Version 15L Defensive coding
+    private fun migrateTo15(realm: DynamicRealm) {
+        Timber.d("Step 14 -> 15")
+        realm.schema.get("CryptoRoomEntity")
+                ?.addField(CryptoRoomEntityFields.WAS_ENCRYPTED_ONCE, Boolean::class.java)
+                ?.setNullable(CryptoRoomEntityFields.WAS_ENCRYPTED_ONCE, true)
+                ?.transform {
+                    val currentAlgorithm = it.getString(CryptoRoomEntityFields.ALGORITHM)
+                    it.set(CryptoRoomEntityFields.WAS_ENCRYPTED_ONCE, currentAlgorithm == MXCRYPTO_ALGORITHM_MEGOLM)
                 }
     }
 }

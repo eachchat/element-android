@@ -31,8 +31,6 @@ import org.matrix.android.sdk.api.util.Cancelable
 import org.matrix.android.sdk.api.util.NoOpCancellable
 import org.matrix.android.sdk.api.util.Optional
 import org.matrix.android.sdk.api.util.toOptional
-import org.matrix.android.sdk.internal.crypto.CryptoSessionInfoProvider
-import org.matrix.android.sdk.internal.crypto.DefaultCryptoService
 import org.matrix.android.sdk.internal.database.mapper.TimelineEventMapper
 import org.matrix.android.sdk.internal.database.mapper.asDomain
 import org.matrix.android.sdk.internal.database.model.EventAnnotationsSummaryEntity
@@ -53,8 +51,6 @@ internal class DefaultRelationService @AssistedInject constructor(
         private val eventEditor: EventEditor,
         private val eventSenderProcessor: EventSenderProcessor,
         private val eventFactory: LocalEchoEventFactory,
-        private val cryptoSessionInfoProvider: CryptoSessionInfoProvider,
-        private val cryptoService: DefaultCryptoService,
         private val findReactionEventForUndoTask: FindReactionEventForUndoTask,
         private val fetchEditHistoryTask: FetchEditHistoryTask,
         private val fetchThreadTimelineTask: FetchThreadTimelineTask,
@@ -162,7 +158,7 @@ internal class DefaultRelationService @AssistedInject constructor(
                 ?.also { saveLocalEcho(it) }
                 ?: return null
 
-        return eventSenderProcessor.postEvent(event, cryptoSessionInfoProvider.isRoomEncrypted(roomId))
+        return eventSenderProcessor.postEvent(event)
     }
 
     override fun getEventAnnotationsSummary(eventId: String): EventAnnotationsSummary? {
@@ -218,7 +214,7 @@ internal class DefaultRelationService @AssistedInject constructor(
                         saveLocalEcho(it)
                     }
         }
-        return eventSenderProcessor.postEvent(event, cryptoSessionInfoProvider.isRoomEncrypted(roomId))
+        return eventSenderProcessor.postEvent(event)
     }
 
     override suspend fun fetchThreadTimeline(rootThreadEventId: String): Boolean {
