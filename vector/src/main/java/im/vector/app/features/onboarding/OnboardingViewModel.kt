@@ -47,6 +47,7 @@ import im.vector.app.features.login.ReAuthHelper
 import im.vector.app.features.login.ServerType
 import im.vector.app.features.login.SignMode
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.matrix.android.sdk.api.MatrixPatterns.getDomain
 import org.matrix.android.sdk.api.auth.AuthenticationService
@@ -149,6 +150,8 @@ class OnboardingViewModel @AssistedInject constructor(
             is OnboardingAction.PostViewEvent              -> _viewEvents.post(action.viewEvent)
             OnboardingAction.PersonalizeProfile            -> _viewEvents.post(OnboardingViewEvents.OnPersonalizeProfile)
             OnboardingAction.TakeMeHome                    -> _viewEvents.post(OnboardingViewEvents.OnTakeMeHome)
+            is OnboardingAction.UpdateDisplayName          -> updateDisplayName(action.displayName)
+            OnboardingAction.UpdateDisplayNameSkipped      -> _viewEvents.post(OnboardingViewEvents.OnDisplayNameSkipped)
         }.exhaustive
     }
 
@@ -896,6 +899,17 @@ class OnboardingViewModel @AssistedInject constructor(
 
     fun getFallbackUrl(forSignIn: Boolean, deviceId: String?): String? {
         return authenticationService.getFallbackUrl(forSignIn, deviceId)
+    }
+
+    private fun updateDisplayName(displayName: String) {
+        setState { copy(asyncDisplayName = Loading()) }
+        viewModelScope.launch {
+            // TODO real upstream display name update
+            delay(2000)
+            displayName.toString()
+            setState { copy(asyncDisplayName = Success(Unit)) }
+            _viewEvents.post(OnboardingViewEvents.OnDisplayNameUpdated)
+        }
     }
 }
 
