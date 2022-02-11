@@ -1157,6 +1157,7 @@ class TimelineViewModel @AssistedInject constructor(
             setState {
                 val typingMessage = typingHelper.getTypingMessage(summary.typingUsers)
                 copy(
+                        typingUsers = summary.typingUsers,
                         formattedTypingUsers = typingMessage,
                         hasFailedSending = summary.hasFailedSending
                 )

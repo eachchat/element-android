@@ -273,6 +273,7 @@ class TimelineFragment @Inject constructor(
         CurrentCallsView.Callback {
 
     companion object {
+
         /**
          * Sanitize the display name.
          *
@@ -287,6 +288,7 @@ class TimelineFragment @Inject constructor(
             return displayName
         }
 
+        const val MAX_TYPING_MESSAGE_USERS_COUNT = 4
         private const val ircPattern = " (IRC)"
     }
 
@@ -1542,6 +1544,7 @@ class TimelineFragment @Inject constructor(
         invalidateOptionsMenu()
         val summary = mainState.asyncRoomSummary()
         renderToolbar(summary, mainState.formattedTypingUsers)
+        renderTypingMessageNotification(summary, mainState)
         views.removeJitsiWidgetView.render(mainState)
         if (mainState.hasFailedSending) {
             lazyLoadedViews.failedMessagesWarningView(inflateIfNeeded = true, createFailedMessagesWarningCallback())?.isVisible = true
@@ -1554,6 +1557,7 @@ class TimelineFragment @Inject constructor(
             views.jumpToBottomView.drawBadge = summary.hasUnreadMessages
             timelineEventController.update(mainState)
             lazyLoadedViews.inviteView(false)?.isVisible = false
+
             if (mainState.tombstoneEvent == null) {
                 views.composerLayout.isInvisible = !messageComposerState.isComposerVisible
                 views.voiceMessageRecorderView.isVisible = messageComposerState.isVoiceMessageRecorderVisible
@@ -1595,6 +1599,17 @@ class TimelineFragment @Inject constructor(
     private fun FragmentTimelineBinding.hideComposerViews() {
         composerLayout.isVisible = false
         voiceMessageRecorderView.isVisible = false
+    }
+
+    private fun renderTypingMessageNotification(roomSummary: RoomSummary?, state: RoomDetailViewState) {
+        if (!isThreadTimeLine() && roomSummary != null) {
+            views.typingMessageView.isInvisible = state.typingUsers.isNullOrEmpty()
+            state.typingUsers?.let { senders ->
+                views.typingMessageView.render(senders.take(MAX_TYPING_MESSAGE_USERS_COUNT), avatarRenderer)
+            }
+        } else {
+            views.typingMessageView.isInvisible = true
+        }
     }
 
     private fun renderToolbar(roomSummary: RoomSummary?, typingMessage: String?) {
