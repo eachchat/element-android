@@ -84,4 +84,5 @@ sealed class OnboardingAction : VectorViewModelAction {
     object PersonalizeProfile : OnboardingAction()
     data class UpdateDisplayName(val displayName: String) : OnboardingAction()
     object UpdateDisplayNameSkipped : OnboardingAction()
+    object UpdateProfilePictureSkipped : OnboardingAction()
 }

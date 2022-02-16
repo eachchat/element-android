@@ -151,6 +151,7 @@ class OnboardingViewModel @AssistedInject constructor(
             OnboardingAction.TakeMeHome                    -> _viewEvents.post(OnboardingViewEvents.OnTakeMeHome)
             is OnboardingAction.UpdateDisplayName          -> updateDisplayName(action.displayName)
             OnboardingAction.UpdateDisplayNameSkipped      -> _viewEvents.post(OnboardingViewEvents.OnDisplayNameSkipped)
+            OnboardingAction.UpdateProfilePictureSkipped   -> TODO()
         }.exhaustive
     }
 
