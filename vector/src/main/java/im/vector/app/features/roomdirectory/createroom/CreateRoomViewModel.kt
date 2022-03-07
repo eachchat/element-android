@@ -255,33 +255,38 @@ class CreateRoomViewModel @AssistedInject constructor(
                         )
                     }
 
-                    when (state.roomJoinRules) {
-                        RoomJoinRules.PUBLIC     -> {
-                            // Directory visibility
-                            visibility = RoomDirectoryVisibility.PUBLIC
-                            // Preset
-                            preset = CreateRoomPreset.PRESET_PUBLIC_CHAT
-                            roomAliasName = state.aliasLocalPart
-                        }
-                        RoomJoinRules.RESTRICTED -> {
-                            state.parentSpaceId?.let {
-                                featurePreset = RestrictedRoomPreset(
-                                        session.getHomeServerCapabilities(),
-                                        listOf(RoomJoinRulesAllowEntry.restrictedToRoom(state.parentSpaceId))
-                                )
-                            }
-                        }
-//                        RoomJoinRules.KNOCK      ->
-//                        RoomJoinRules.PRIVATE    ->
-//                        RoomJoinRules.INVITE
-                        else                     -> {
-                            // by default create invite only
-                            // Directory visibility
-                            visibility = RoomDirectoryVisibility.PRIVATE
-                            // Preset
-                            preset = CreateRoomPreset.PRESET_PRIVATE_CHAT
-                        }
-                    }.exhaustive
+//                    when (state.roomJoinRules) {
+//                        RoomJoinRules.PUBLIC     -> {
+//                            // Directory visibility
+//                            visibility = RoomDirectoryVisibility.PUBLIC
+//                            // Preset
+//                            preset = CreateRoomPreset.PRESET_PUBLIC_CHAT
+//                            roomAliasName = state.aliasLocalPart
+//                        }
+//                        RoomJoinRules.RESTRICTED -> {
+//                            state.parentSpaceId?.let {
+//                                featurePreset = RestrictedRoomPreset(
+//                                        session.getHomeServerCapabilities(),
+//                                        listOf(RoomJoinRulesAllowEntry.restrictedToRoom(state.parentSpaceId))
+//                                )
+//                            }
+//                        }
+////                        RoomJoinRules.KNOCK      ->
+////                        RoomJoinRules.PRIVATE    ->
+////                        RoomJoinRules.INVITE
+//                        else                     -> {
+//                            // by default create invite only
+//                            // Directory visibility
+//                            visibility = RoomDirectoryVisibility.PRIVATE
+//                            // Preset
+//                            preset = CreateRoomPreset.PRESET_PRIVATE_CHAT
+//                        }
+//                    }.exhaustive
+
+                    //只能设置私有房间
+                    visibility = RoomDirectoryVisibility.PRIVATE
+                    preset = CreateRoomPreset.PRESET_PRIVATE_CHAT
+
                     // Disabling federation
                     disableFederation = state.disableFederation
 

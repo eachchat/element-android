@@ -32,10 +32,7 @@ import im.vector.app.features.home.room.detail.timeline.TimelineEventController
 import im.vector.app.features.home.room.detail.timeline.tools.createLinkMovementMethod
 import im.vector.app.features.settings.VectorPreferences
 import im.vector.lib.core.utils.epoxy.charsequence.toEpoxyCharSequence
-import me.gujun.android.span.image
-import me.gujun.android.span.span
 import org.matrix.android.sdk.api.crypto.RoomEncryptionTrustLevel
-import org.matrix.android.sdk.api.session.room.model.RoomEncryptionAlgorithm
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import javax.inject.Inject
 
@@ -97,7 +94,7 @@ class RoomProfileController @Inject constructor(
                 }
 
         // Security
-        buildProfileSection(stringProvider.getString(R.string.room_profile_section_security))
+        //buildProfileSection(stringProvider.getString(R.string.room_profile_section_security))
 
         // Upgrade warning
         val roomVersion = data.roomCreateContent()?.roomVersion
@@ -120,60 +117,60 @@ class RoomProfileController @Inject constructor(
             }
         }
 
-        var encryptionMisconfigured = false
-        val e2eInfoText = if (roomSummary.isEncrypted) {
-            if (roomSummary.roomEncryptionAlgorithm is RoomEncryptionAlgorithm.SupportedAlgorithm) {
-                stringProvider.getString(
-                        if (roomSummary.isDirect) R.string.direct_room_profile_encrypted_subtitle
-                        else R.string.room_profile_encrypted_subtitle
-                )
-            } else {
-                encryptionMisconfigured = true
-                buildString {
-                    append(stringProvider.getString(R.string.encryption_has_been_misconfigured))
-                    append(" ")
-                    apply {
-                        if (!data.canUpdateRoomState) {
-                            append(stringProvider.getString(R.string.contact_admin_to_restore_encryption))
-                        }
-                    }
-                }
-            }
-        } else {
-            stringProvider.getString(
-                    if (roomSummary.isDirect) R.string.direct_room_profile_not_encrypted_subtitle
-                    else R.string.room_profile_not_encrypted_subtitle
-            )
-        }
-        genericFooterItem {
-            id("e2e info")
-            centered(false)
-            text(
-                    span {
-                        apply {
-                            if (encryptionMisconfigured) {
-                                host.drawableProvider.getDrawable(R.drawable.ic_warning_badge)?.let {
-                                    image(it, "baseline")
-                                }
-                                +" "
-                            }
-                        }
-                        +e2eInfoText
-                    }.toEpoxyCharSequence()
-            )
-        }
-
-        if (encryptionMisconfigured && data.canUpdateRoomState) {
-            genericPositiveButtonItem {
-                id("restore_encryption")
-                text(host.stringProvider.getString(R.string.room_profile_section_restore_security))
-                iconRes(R.drawable.ic_shield_black_no_border)
-                buttonClickAction {
-                    host.callback?.restoreEncryptionState()
-                }
-            }
-        }
-        buildEncryptionAction(data.actionPermissions, roomSummary)
+//        var encryptionMisconfigured = false
+//        val e2eInfoText = if (roomSummary.isEncrypted) {
+//            if (roomSummary.roomEncryptionAlgorithm is RoomEncryptionAlgorithm.SupportedAlgorithm) {
+//                stringProvider.getString(
+//                        if (roomSummary.isDirect) R.string.direct_room_profile_encrypted_subtitle
+//                        else R.string.room_profile_encrypted_subtitle
+//                )
+//            } else {
+//                encryptionMisconfigured = true
+//                buildString {
+//                    append(stringProvider.getString(R.string.encryption_has_been_misconfigured))
+//                    append(" ")
+//                    apply {
+//                        if (!data.canUpdateRoomState) {
+//                            append(stringProvider.getString(R.string.contact_admin_to_restore_encryption))
+//                        }
+//                    }
+//                }
+//            }
+//        } else {
+//            stringProvider.getString(
+//                    if (roomSummary.isDirect) R.string.direct_room_profile_not_encrypted_subtitle
+//                    else R.string.room_profile_not_encrypted_subtitle
+//            )
+//        }
+//        genericFooterItem {
+//            id("e2e info")
+//            centered(false)
+//            text(
+//                    span {
+//                        apply {
+//                            if (encryptionMisconfigured) {
+//                                host.drawableProvider.getDrawable(R.drawable.ic_warning_badge)?.let {
+//                                    image(it, "baseline")
+//                                }
+//                                +" "
+//                            }
+//                        }
+//                        +e2eInfoText
+//                    }.toEpoxyCharSequence()
+//            )
+//        }
+//
+//        if (encryptionMisconfigured && data.canUpdateRoomState) {
+//            genericPositiveButtonItem {
+//                id("restore_encryption")
+//                text(host.stringProvider.getString(R.string.room_profile_section_restore_security))
+//                iconRes(R.drawable.ic_shield_black_no_border)
+//                buttonClickAction {
+//                    host.callback?.restoreEncryptionState()
+//                }
+//            }
+//        }
+//        buildEncryptionAction(data.actionPermissions, roomSummary)
 
         // More
         buildProfileSection(stringProvider.getString(R.string.room_profile_section_more))

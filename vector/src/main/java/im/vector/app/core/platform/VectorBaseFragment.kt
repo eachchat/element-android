@@ -135,6 +135,7 @@ abstract class VectorBaseFragment<VB : ViewBinding> : Fragment(), MavericksView 
 
     final override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         Timber.i("onCreateView Fragment ${javaClass.simpleName}")
+        Timber.v("创建Fragment ${javaClass.simpleName}")
         _binding = getBinding(inflater, container)
         return views.root
     }

@@ -119,14 +119,14 @@ class RoomSettingsController @Inject constructor(
                 action = { if (data.actionPermissions.canChangeHistoryVisibility) callback?.onHistoryVisibilityClicked() }
         )
 
-        buildProfileAction(
-                id = "joinRule",
-                title = stringProvider.getString(R.string.room_settings_room_access_title),
-                subtitle = data.getJoinRuleWording(stringProvider),
-                divider = true,
-                editable = data.actionPermissions.canChangeJoinRule,
-                action = { if (data.actionPermissions.canChangeJoinRule) callback?.onJoinRuleClicked() }
-        )
+//        buildProfileAction(
+//                id = "joinRule",
+//                title = stringProvider.getString(R.string.room_settings_room_access_title),
+//                subtitle = data.getJoinRuleWording(stringProvider),
+//                divider = true,
+//                editable = data.actionPermissions.canChangeJoinRule,
+//                action = { if (data.actionPermissions.canChangeJoinRule) callback?.onJoinRuleClicked() }
+//        )
 
         val isPublic = (data.newRoomJoinRules.newJoinRules ?: data.currentRoomJoinRules) == RoomJoinRules.PUBLIC
         if (vectorPreferences.developerMode() && isPublic) {

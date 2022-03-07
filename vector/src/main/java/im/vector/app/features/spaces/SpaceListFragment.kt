@@ -54,7 +54,7 @@ class SpaceListFragment @Inject constructor(
         sharedActionViewModel = activityViewModelProvider.get(HomeSharedActionViewModel::class.java)
         spaceController.callback = this
         views.stateView.contentView = views.groupListView
-        views.groupListView.configureWith(spaceController)
+//        views.groupListView.configureWith(spaceController) 屏蔽空间功能
         EpoxyTouchHelper.initDragging(spaceController)
                 .withRecyclerView(views.groupListView)
                 .forVerticalList()

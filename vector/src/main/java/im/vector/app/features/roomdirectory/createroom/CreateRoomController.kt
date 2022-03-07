@@ -51,6 +51,7 @@ class CreateRoomController @Inject constructor(
 
     private fun buildForm(viewState: CreateRoomViewState, enableFormElement: Boolean) {
         val host = this
+        host.listener?.setIsEncrypted(false)//屏蔽加密功能
         formEditableAvatarItem {
             id("avatar")
             enabled(enableFormElement)
@@ -88,46 +89,46 @@ class CreateRoomController @Inject constructor(
             }
         }
 
-        settingsSectionTitleItem {
-            id("visibility")
-            titleResId(R.string.room_settings_room_access_title)
-        }
+//        settingsSectionTitleItem {
+//            id("visibility")
+//            titleResId(R.string.room_settings_room_access_title)
+//        }
 
-        when (viewState.roomJoinRules) {
-            RoomJoinRules.INVITE     -> {
-                buildProfileAction(
-                        id = "joinRule",
-                        title = stringProvider.getString(R.string.room_settings_room_access_private_title),
-                        subtitle = stringProvider.getString(R.string.room_settings_room_access_private_description),
-                        divider = false,
-                        editable = true,
-                        action = { host.listener?.selectVisibility() }
-                )
-            }
-            RoomJoinRules.PUBLIC     -> {
-                buildProfileAction(
-                        id = "joinRule",
-                        title = stringProvider.getString(R.string.room_settings_room_access_public_title),
-                        subtitle = stringProvider.getString(R.string.room_settings_room_access_public_description),
-                        divider = false,
-                        editable = true,
-                        action = { host.listener?.selectVisibility() }
-                )
-            }
-            RoomJoinRules.RESTRICTED -> {
-                buildProfileAction(
-                        id = "joinRule",
-                        title = stringProvider.getString(R.string.room_settings_room_access_restricted_title),
-                        subtitle = stringProvider.getString(R.string.room_create_member_of_space_name_can_join, viewState.parentSpaceSummary?.displayName),
-                        divider = false,
-                        editable = true,
-                        action = { host.listener?.selectVisibility() }
-                )
-            }
-            else                     -> {
-                // not yet supported
-            }
-        }
+//        when (viewState.roomJoinRules) {
+//            RoomJoinRules.INVITE     -> {
+//                buildProfileAction(
+//                        id = "joinRule",
+//                        title = stringProvider.getString(R.string.room_settings_room_access_private_title),
+//                        subtitle = stringProvider.getString(R.string.room_settings_room_access_private_description),
+//                        divider = false,
+//                        editable = true,
+//                        action = { host.listener?.selectVisibility() }
+//                )
+//            }
+//            RoomJoinRules.PUBLIC     -> {
+//                buildProfileAction(
+//                        id = "joinRule",
+//                        title = stringProvider.getString(R.string.room_settings_room_access_public_title),
+//                        subtitle = stringProvider.getString(R.string.room_settings_room_access_public_description),
+//                        divider = false,
+//                        editable = true,
+//                        action = { host.listener?.selectVisibility() }
+//                )
+//            }
+//            RoomJoinRules.RESTRICTED -> {
+//                buildProfileAction(
+//                        id = "joinRule",
+//                        title = stringProvider.getString(R.string.room_settings_room_access_restricted_title),
+//                        subtitle = stringProvider.getString(R.string.room_create_member_of_space_name_can_join, viewState.parentSpaceSummary?.displayName),
+//                        divider = false,
+//                        editable = true,
+//                        action = { host.listener?.selectVisibility() }
+//                )
+//            }
+//            else                     -> {
+//                // not yet supported
+//            }
+//        }
 
         settingsSectionTitleItem {
             id("settingsSection")
@@ -136,45 +137,46 @@ class CreateRoomController @Inject constructor(
 
         if (viewState.roomJoinRules == RoomJoinRules.PUBLIC) {
             // Room alias for public room
-            formEditTextItem {
-                id("alias")
-                enabled(enableFormElement)
-                value(viewState.aliasLocalPart)
-                suffixText(":" + viewState.homeServerName)
-                prefixText("#")
-                maxLength(MatrixConstants.maxAliasLocalPartLength(viewState.homeServerName))
-                hint(host.stringProvider.getString(R.string.room_alias_address_hint))
-                errorMessage(
-                        host.roomAliasErrorFormatter.format(
-                                (((viewState.asyncCreateRoomRequest as? Fail)?.error) as? CreateRoomFailure.AliasError)?.aliasError)
-                )
-                onTextChange { value ->
-                    host.listener?.setAliasLocalPart(value)
-                }
-            }
+            //屏蔽公共房间相关功能
+//            formEditTextItem {
+//                id("alias")
+//                enabled(enableFormElement)
+//                value(viewState.aliasLocalPart)
+//                suffixText(":" + viewState.homeServerName)
+//                prefixText("#")
+//                maxLength(MatrixConstants.maxAliasLocalPartLength(viewState.homeServerName))
+//                hint(host.stringProvider.getString(R.string.room_alias_address_hint))
+//                errorMessage(
+//                        host.roomAliasErrorFormatter.format(
+//                                (((viewState.asyncCreateRoomRequest as? Fail)?.error) as? CreateRoomFailure.AliasError)?.aliasError)
+//                )
+//                onTextChange { value ->
+//                    host.listener?.setAliasLocalPart(value)
+//                }
+//            }
         } else {
             dividerItem {
                 id("divider0")
             }
             // Room encryption for private room
-            formSwitchItem {
-                id("encryption")
-                enabled(enableFormElement)
-                title(host.stringProvider.getString(R.string.create_room_encryption_title))
-                summary(
-                        if (viewState.hsAdminHasDisabledE2E) {
-                            host.stringProvider.getString(R.string.settings_hs_admin_e2e_disabled)
-                        } else {
-                            host.stringProvider.getString(R.string.create_room_encryption_description)
-                        }
-                )
-
-                switchChecked(viewState.isEncrypted ?: viewState.defaultEncrypted[viewState.roomJoinRules].orFalse())
-
-                listener { value ->
-                    host.listener?.setIsEncrypted(value)
-                }
-            }
+//            formSwitchItem {
+//                id("encryption")
+//                enabled(enableFormElement)
+//                title(host.stringProvider.getString(R.string.create_room_encryption_title))
+//                summary(
+//                        if (viewState.hsAdminHasDisabledE2E) {
+//                            host.stringProvider.getString(R.string.settings_hs_admin_e2e_disabled)
+//                        } else {
+//                            host.stringProvider.getString(R.string.create_room_encryption_description)
+//                        }
+//                )
+//
+//                switchChecked(false)
+//
+//                listener { value ->
+//                    host.listener?.setIsEncrypted(value)
+//                }
+//            }
         }
 
 //        dividerItem {

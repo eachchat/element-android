@@ -83,7 +83,7 @@ class RoomPermissionsController @Inject constructor(
             EditablePermission.ChangeHistoryVisibility(),
             EditablePermission.ChangePermissions(),
             EditablePermission.SendRoomServerAclEvents(),
-            EditablePermission.EnableRoomEncryption(),
+//            EditablePermission.EnableRoomEncryption(),
             EditablePermission.UpgradeTheRoom()
     )
 

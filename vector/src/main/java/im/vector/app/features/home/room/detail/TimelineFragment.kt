@@ -1013,13 +1013,16 @@ class TimelineFragment @Inject constructor(
         withState(timelineViewModel) { state ->
             // Set the visual state of the call buttons (voice/video) to enabled/disabled according to user permissions
             val hasCallInRoom = callManager.getCallsByRoomId(state.roomId).isNotEmpty() || state.jitsiState.hasJoined
-            val callButtonsEnabled = !hasCallInRoom && when (state.asyncRoomSummary.invoke()?.joinedMembersCount) {
+            val callButtonsEnabled = !hasCallInRoom
+                    && timelineViewModel.getRoomSummary()?.isDirect == true //不显示群聊中的音视频选项
+                    && when (state.asyncRoomSummary.invoke()?.joinedMembersCount) {
                 1    -> false
                 2    -> state.isAllowedToStartWebRTCCall
                 else -> state.isAllowedToManageWidgets
             }
             setOf(R.id.voice_call, R.id.video_call).forEach {
-                menu.findItem(it).icon?.alpha = if (callButtonsEnabled) 0xFF else 0x40
+//                menu.findItem(it).icon?.alpha = if (callButtonsEnabled) 0xFF else 0x40
+                menu.findItem(it).setVisible(callButtonsEnabled)
             }
 
             val matrixAppsMenuItem = menu.findItem(R.id.open_matrix_apps)

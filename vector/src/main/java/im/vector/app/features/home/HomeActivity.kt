@@ -254,10 +254,10 @@ class HomeActivity :
 
         homeActivityViewModel.observeViewEvents {
             when (it) {
-                is HomeActivityViewEvents.AskPasswordToInitCrossSigning -> handleAskPasswordToInitCrossSigning(it)
-                is HomeActivityViewEvents.OnNewSession                  -> handleOnNewSession(it)
+                is HomeActivityViewEvents.AskPasswordToInitCrossSigning -> {}//handleAskPasswordToInitCrossSigning(it)
+                is HomeActivityViewEvents.OnNewSession                  -> {}//handleOnNewSession(it)
                 HomeActivityViewEvents.PromptToEnableSessionPush        -> handlePromptToEnablePush()
-                is HomeActivityViewEvents.OnCrossSignedInvalidated      -> handleCrossSigningInvalidated(it)
+                is HomeActivityViewEvents.OnCrossSignedInvalidated      -> {}//handleCrossSigningInvalidated(it)
                 HomeActivityViewEvents.ShowAnalyticsOptIn               -> handleShowAnalyticsOptIn()
             }.exhaustive
         }

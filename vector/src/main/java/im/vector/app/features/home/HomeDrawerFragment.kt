@@ -96,6 +96,7 @@ class HomeDrawerFragment @Inject constructor(
             }
         }
 
+        views.homeDrawerInviteFriendButton.visibility = View.GONE
         views.homeDrawerInviteFriendButton.debouncedClicks {
             session.permalinkService().createPermalink(sharedActionViewModel.session.myUserId)?.let { permalink ->
                 analyticsTracker.screen(Screen(screenName = Screen.ScreenName.MobileInviteFriends))
