@@ -1607,7 +1607,7 @@ Abisua: Fitxategi hau ezabatu daiteke aplikazioa desinstalatzen bada.</string>
 
     <string name="push_gateway_item_app_display_name">aplikazio_pantaila_izena:</string>
     <string name="bottom_action_people_x">Mezu zuzenak</string>
-
+    <string name="title_action_people_x">私聊</string>
     <string name="send_file_step_idle">Itxaroten…</string>
     <string name="send_file_step_encrypting_thumbnail">Iruditxoa zifratzen…</string>
     <string name="send_file_step_sending_thumbnail">"Iruditxoa bidaltzen  (%1$s / %2$s)"</string>

@@ -1606,6 +1606,7 @@
     <string name="send_suggestion_failed">Návrh sa nepodarilo odoslať (%s)</string>
     <string name="settings_labs_show_hidden_events_in_timeline">Zobrazovať skryté udalosti na časovej osy</string>
     <string name="bottom_action_people_x">Priame konverzácie</string>
+    <string name="title_action_people_x">私聊</string>
     <string name="send_file_step_idle">Čakanie…</string>
     <string name="send_file_step_encrypting_thumbnail">Šifrovanie náhľadu…</string>
     <string name="send_file_step_sending_thumbnail">Odosielanie náhľadu (%1$s / %2$s)</string>

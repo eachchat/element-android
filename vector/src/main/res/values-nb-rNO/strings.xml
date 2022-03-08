@@ -486,6 +486,7 @@
     <string name="create_room_name_hint">Rommets navn</string>
     <string name="push_gateway_item_url">URL:</string>
     <string name="bottom_action_people_x">Direktemeldinger</string>
+    <string name="title_action_people_x">私聊</string>
     <string name="message_edits">Meldingsredigeringer</string>
     <string name="room_filtering_filter_hint">Filtrer samtaler …</string>
     <string name="room_filtering_footer_create_new_room">Opprett et nytt rom</string>

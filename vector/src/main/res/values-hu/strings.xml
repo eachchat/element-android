@@ -1398,6 +1398,7 @@ Ha nem te állítottad be a visszaállítási metódust, akkor egy támadó pró
     <string name="send_suggestion_failed">A javaslatot nem sikerült elküldeni (%s)</string>
     <string name="settings_labs_show_hidden_events_in_timeline">Rejtett események megjelenítése az idővonalon</string>
     <string name="bottom_action_people_x">Közvetlen beszélgetés</string>
+    <string name="title_action_people_x">私聊</string>
     <string name="send_file_step_idle">Várakozik…</string>
     <string name="send_file_step_encrypting_thumbnail">Bélyegképek titkosítása…</string>
     <string name="send_file_step_sending_thumbnail">Bélyegképek küldése (%1$s / %2$s)</string>

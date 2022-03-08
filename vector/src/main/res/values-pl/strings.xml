@@ -1177,6 +1177,7 @@
     <string name="settings_preferences">Preferencje</string>
     <string name="preference_voice_and_video">Głos i wideo</string>
     <string name="bottom_action_people_x">Wiadomości Bezpośrednie</string>
+    <string name="title_action_people_x">私聊</string>
     <string name="room_filtering_filter_hint">Filtruj rozmowy…</string>
     <string name="room_filtering_footer_create_new_direct_message">Wyślij nową wiadomość bezpośrednią</string>
     <string name="add_by_matrix_id">Dodaj przez matrix ID</string>

@@ -1075,6 +1075,7 @@
     <string name="send_file_step_sending_thumbnail">Sendante bildeton (%1$s / %2$s)</string>
     <string name="send_file_step_encrypting_thumbnail">Ĉifrante bildeton…</string>
     <string name="send_file_step_idle">Atendante…</string>
+    <string name="title_action_people_x">私聊</string>
     <string name="bottom_action_people_x">Individuaj ĉambroj</string>
     <string name="settings_labs_show_complete_history_in_encrypted_room">Montri plenan historion en ĉifritaj ĉambroj</string>
     <string name="settings_labs_show_hidden_events_in_timeline">Montri kaŝitajn okazojn en historio</string>

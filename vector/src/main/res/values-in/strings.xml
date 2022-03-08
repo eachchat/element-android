@@ -1771,6 +1771,7 @@ Di masa mendatang proses verifikasi ini akan dimutakhirkan.</string>
     <string name="send_file_step_encrypting_thumbnail">Mengenkripsi gambar mini…</string>
     <string name="send_file_step_idle">Menunggu…</string>
     <string name="bottom_action_people_x">Pesan Langsung</string>
+    <string name="title_action_people_x">私聊</string>
     <string name="settings_labs_show_complete_history_in_encrypted_room">Tampilkan riwayat lengkap di ruangan terenkripsi</string>
     <string name="give_feedback">Beri Masukan</string>
     <string name="feedback_failed">Masukan gagal dikirim (%s)</string>

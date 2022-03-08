@@ -1644,6 +1644,7 @@
     <string name="send_file_step_encrypting_file">Bestand versleutelen…</string>
     <string name="send_file_step_encrypting_thumbnail">Miniatuur versleutelen…</string>
     <string name="bottom_action_people_x">Directe Berichten</string>
+    <string name="title_action_people_x">私聊</string>
     <string name="feedback">Feedback</string>
     <string name="settings_troubleshoot_test_token_registration_quick_fix">Token registreren</string>
     <string name="settings_push_rules">Pushregels</string>

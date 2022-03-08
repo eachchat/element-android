@@ -1529,6 +1529,7 @@
     <string name="settings_labs_show_hidden_events_in_timeline">Показать скрытые события в ленте сообщений</string>
     <string name="template_room_preview_world_readable_room_not_supported_yet">Предварительный просмотр открытой комнаты в ${app_name} пока не поддерживается</string>
     <string name="bottom_action_people_x">Диалоги</string>
+    <string name="title_action_people_x">私聊</string>
     <string name="send_file_step_idle">Ждите…</string>
     <string name="send_file_step_encrypting_thumbnail">Шифрование миниатюры…</string>
     <string name="send_file_step_sending_thumbnail">Отправка миниатюр (%1$s / %2$s)</string>

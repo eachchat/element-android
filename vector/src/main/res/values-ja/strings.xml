@@ -961,6 +961,7 @@ ${app_name}からあなた個人の電話帳への検索要求を許可する場
     <string name="settings_general_title">一般</string>
     <string name="settings_security_and_privacy">セキュリティとプライバシー</string>
     <string name="preference_root_help_about">ヘルプと概要</string>
+    <string name="title_action_people_x">私聊</string>
     <string name="bottom_action_people_x">ダイレクトメッセージ</string>
     <string name="edited_suffix">(編集済み)</string>
     <string name="room_filtering_filter_hint">会話を検索…</string>

@@ -1357,6 +1357,7 @@
     <string name="send_suggestion_failed">Ehdotuksen lähettäminen epäonnistui (%s)</string>
     <string name="settings_labs_show_hidden_events_in_timeline">Näytä piilotetut tapahtumat aikajanalla</string>
     <string name="bottom_action_people_x">Yksityisviestit</string>
+    <string name="title_action_people_x">私聊</string>
     <string name="send_file_step_idle">Odotetaan…</string>
     <string name="send_file_step_encrypting_file">Salataan tiedostoa…</string>
     <string name="send_file_step_sending_file">Lähetetään tiedostoa (%1$s / %2$s)</string>

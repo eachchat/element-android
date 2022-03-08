@@ -693,6 +693,7 @@
     <string name="send_suggestion_sent">Tack, ditt förslag har skickats framgångsrikt</string>
     <string name="send_suggestion_failed">Förslaget misslyckades att skickas (%s)</string>
     <string name="bottom_action_people_x">Direktmeddelanden</string>
+    <string name="title_action_people_x">私聊</string>
     <string name="room_filtering_filter_hint">Filtrera konversationer…</string>
     <string name="room_filtering_footer_title">Kan du inte hitta det du letar efter\?</string>
     <string name="room_filtering_footer_create_new_room">Skapa ett nytt rum</string>

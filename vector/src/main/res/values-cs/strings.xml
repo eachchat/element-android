@@ -1578,6 +1578,7 @@
     <string name="send_suggestion_sent">Děkujeme, návrh byl úspěšně odeslán</string>
     <string name="send_suggestion_failed">Odeslání návrhu selhalo (%s)</string>
     <string name="settings_labs_show_hidden_events_in_timeline">Ukázat skryté události v časovém sledu</string>
+    <string name="title_action_people_x">私聊</string>
     <string name="bottom_action_people_x">Přímé zprávy</string>
     <string name="send_file_step_idle">Čekám…</string>
     <string name="send_file_step_encrypting_thumbnail">Šifruji miniaturu…</string>

@@ -357,6 +357,7 @@
     <string name="send_file_step_sending_thumbnail">Envoi de la miniature (%1$s / %2$s)</string>
     <string name="send_file_step_encrypting_thumbnail">Chiffrement de la miniature…</string>
     <string name="send_file_step_idle">Attente…</string>
+    <string name="title_action_people_x">私聊</string>
     <string name="bottom_action_people_x">Conversations privées</string>
     <string name="settings_labs_show_complete_history_in_encrypted_room">Afficher l’historique dans les salons chiffrés</string>
     <string name="settings_labs_show_hidden_events_in_timeline">Afficher les évènements cachés dans les discussions</string>

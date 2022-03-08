@@ -1463,6 +1463,7 @@
     <string name="push_gateway_item_app_display_name">app_display_name:</string>
     <string name="push_gateway_item_device_name">emër_sesioni:</string>
     <string name="bottom_action_people_x">Mesazhe të Drejtpërdrejtë</string>
+    <string name="title_action_people_x">私聊</string>
     <string name="send_file_step_idle">Po pritet…</string>
     <string name="send_file_step_encrypting_thumbnail">Po fshehtëzohet miniatura…</string>
     <string name="send_file_step_sending_thumbnail">Po dërgohet miniaturë (%1$s / %2$s)</string>

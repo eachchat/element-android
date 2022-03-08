@@ -1504,6 +1504,7 @@
     <string name="send_file_step_sending_thumbnail">Küçük resim gönderiliyor (%1$s / %2$s)</string>
     <string name="send_file_step_encrypting_thumbnail">Küçük resim şifreleniyor…</string>
     <string name="bottom_action_people_x">Direkt mesajlar</string>
+    <string name="title_action_people_x">私聊</string>
     <string name="send_suggestion_sent">Teşekkürler, öneri başarıyla gönderildi</string>
     <string name="send_suggestion_report_placeholder">Önerinizi buraya yazınız</string>
     <string name="send_suggestion">Öneri yap</string>

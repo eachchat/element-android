@@ -500,6 +500,7 @@
     <string name="preference_voice_and_video">Ameslaw &amp; Tavidyut</string>
     <string name="preference_root_help_about">Tallalt &amp; Ɣef</string>
     <string name="settings_labs_show_hidden_events_in_timeline">Sken-d ineḍruyen yeffren deg uzray</string>
+    <string name="title_action_people_x">私聊</string>
     <string name="bottom_action_people_x">Iznan usligen</string>
     <string name="terms_of_service">Tiwtilin n useqdec</string>
     <string name="change_identity_server">Snifel aqeddac n timagit</string>

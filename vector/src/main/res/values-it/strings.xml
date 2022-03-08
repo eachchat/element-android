@@ -1468,6 +1468,7 @@
     <string name="settings_labs_show_hidden_events_in_timeline">Mostra gli eventi nascosti nella Timeline</string>
     <string name="room_list_catchup_empty_title">Non hai nulla di nuovo da vedere!</string>
     <string name="bottom_action_people_x">Messaggi diretti</string>
+    <string name="title_action_people_x">私聊</string>
     <string name="send_file_step_idle">In attesa…</string>
     <string name="send_file_step_encrypting_thumbnail">Criptazione miniatura…</string>
     <string name="send_file_step_sending_thumbnail">Invio miniatura (%1$s / %2$s)</string>

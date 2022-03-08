@@ -1344,6 +1344,7 @@
     <string name="preference_voice_and_video">Glas i video</string>
     <string name="preference_root_help_about">Pomoć i o aplikaciji</string>
     <string name="bottom_action_people_x">Izravne poruke</string>
+    <string name="title_action_people_x">私聊</string>
     <string name="message_action_item_redact">Ukloni…</string>
     <string name="delete_event_dialog_title">Potvrda uklanjanja</string>
     <string name="delete_event_dialog_content">Jeste li sigurni da želite ukloniti (izbrisati) ovaj događaj\? Ukoliko izbrišete naziv sobe ili promjenu teme, to može poništiti promjenu.</string>

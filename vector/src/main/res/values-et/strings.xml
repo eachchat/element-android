@@ -1770,6 +1770,7 @@
     <string name="settings_troubleshoot_test_token_registration_quick_fix">Registreeri tunnusluba</string>
     <string name="settings_labs_show_hidden_events_in_timeline">Näita peidetud sündmusi ajajoonel</string>
     <string name="bottom_action_people_x">Isiklikud sõnumid</string>
+    <string name="title_action_people_x">私聊</string>
     <string name="send_file_step_idle">Ootan…</string>
     <string name="send_file_step_encrypting_thumbnail">Krüptin pisipilti…</string>
     <string name="send_file_step_sending_thumbnail">Saadan pisipilti (%1$s / %2$s)</string>

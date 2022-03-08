@@ -2951,6 +2951,7 @@
     <string name="send_file_step_sending_thumbnail">Gửi hình thu nhỏ (%1$s / %2$s)</string>
     <string name="send_file_step_encrypting_thumbnail">Đang mã hóa hình nhỏ…</string>
     <string name="send_file_step_idle">Đang đợi…</string>
+    <string name="title_action_people_x">私聊</string>
     <string name="bottom_action_people_x">Tin nhắn trực tiếp</string>
     <string name="settings_labs_show_complete_history_in_encrypted_room">Hiển thị lịch sử đầy đủ trong các phòng được mã hóa</string>
     <string name="settings_labs_show_hidden_events_in_timeline">Hiện các sự kiện ẩn trong dòng thời gian</string>

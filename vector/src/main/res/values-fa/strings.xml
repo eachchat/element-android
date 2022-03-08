@@ -706,6 +706,7 @@
     <string name="send_suggestion_failed">فرستادن پیشنهاد شکست خورد (%s)</string>
     <string name="settings_labs_show_hidden_events_in_timeline">نمایش رویدادهای نهفته در خط زمانی</string>
     <string name="bottom_action_people_x">پیام‌های مستقیم</string>
+    <string name="title_action_people_x">私聊</string>
     <string name="send_file_step_idle">منتظر…</string>
     <string name="send_file_step_encrypting_thumbnail">رمزنگاری بندانگشتی‌ها…</string>
     <string name="send_file_step_sending_thumbnail">فرستادن بندانگشتی‌ها (%1$s / %2$s)</string>

@@ -1652,6 +1652,7 @@
     <string name="a11y_create_direct_message">Crea un nou xat personal</string>
     <string name="a11y_create_direct_message_by_mxid">Crea un nou xat personal a partir d\'un ID de Matrix</string>
     <string name="room_filtering_footer_create_new_direct_message">Envia un nou missatge</string>
+    <string name="title_action_people_x">私聊</string>
     <string name="bottom_action_people_x">Xats personals</string>
     <string name="direct_room_encryption_enabled_tile_description">Els missatges en aquesta sala estan xifrats d\'extrem a extrem.</string>
     <string name="settings_labs_show_hidden_events_in_timeline">Mostra els esdeveniments amagats a la cronologia</string>

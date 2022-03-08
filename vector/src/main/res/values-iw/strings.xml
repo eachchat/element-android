@@ -1599,6 +1599,7 @@
     <string name="send_file_step_sending_thumbnail">שולח תמונה ממוזערת (%1$s / %2$s)</string>
     <string name="send_file_step_encrypting_thumbnail">מצפין תמונה ממוזערת …</string>
     <string name="send_file_step_idle">ממתין…</string>
+    <string name="title_action_people_x">私聊</string>
     <string name="bottom_action_people_x">הודעות ישירות</string>
     <string name="settings_labs_show_complete_history_in_encrypted_room">הצג היסטוריה מלאה בחדרים מוצפנים</string>
     <string name="settings_labs_show_hidden_events_in_timeline">הצג אירועים מוסתרים בציר הזמן</string>

@@ -1417,6 +1417,7 @@
     <string name="send_suggestion_sent">Благодаря! Предложението ви беше изпратено</string>
     <string name="send_suggestion_failed">Предложението не беше изпратено (%s)</string>
     <string name="settings_labs_show_hidden_events_in_timeline">Показвай скрити събития в чата</string>
+    <string name="title_action_people_x">私聊</string>
     <string name="bottom_action_people_x">Директни съобщения</string>
     <string name="send_file_step_idle">Изчакване…</string>
     <string name="send_file_step_encrypting_thumbnail">Шифроване на малката снимка…</string>

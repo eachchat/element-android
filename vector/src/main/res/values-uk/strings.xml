@@ -1030,6 +1030,7 @@
     <string name="room_list_people_empty_body">Тут з\'явиться список бесід з вашими особистими повідомленнями. Торкніться + внизу праворуч щоб розпочати бесіду.</string>
     <string name="event_redacted">Повідомлення видалено</string>
     <string name="fab_menu_create_chat">Особисті повідомлення</string>
+    <string name="title_action_people_x">私聊</string>
     <string name="bottom_action_people_x">Особисті повідомлення</string>
     <string name="room_filtering_footer_create_new_direct_message">Надіслати нове особисте повідомлення</string>
     <string name="command_description_shrug">Додає ¯\\_(ツ)_/¯ перед текстовим повідомленням</string>

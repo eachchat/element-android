@@ -1440,6 +1440,7 @@
     <string name="send_suggestion_failed">建議傳送失敗 (%s)</string>
     <string name="settings_labs_show_hidden_events_in_timeline">在時間軸中顯示隱藏的活動</string>
     <string name="bottom_action_people_x">直接訊息</string>
+    <string name="title_action_people_x">私聊</string>
     <string name="send_file_step_idle">正在等待……</string>
     <string name="send_file_step_encrypting_thumbnail">正在加密縮圖……</string>
     <string name="send_file_step_sending_thumbnail">正在傳送縮圖 (%1$s / %2$s)</string>
