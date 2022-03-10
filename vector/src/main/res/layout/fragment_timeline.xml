@@ -24,7 +24,8 @@
             android:id="@+id/roomToolbar"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
-            android:transitionName="toolbar">
+            android:transitionName="toolbar"
+            android:background="@color/fff2f3f5">
 
             <include
                 android:id="@+id/includeThreadToolbar"
@@ -71,7 +72,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/removeJitsiWidgetView"
-        tools:listitem="@layout/item_timeline_event_base" />
+        tools:listitem="@layout/item_timeline_event_base"
+        android:background="@color/fff2f3f5"/>
 
     <com.google.android.material.chip.Chip
         android:id="@+id/jumpToReadMarkerView"
