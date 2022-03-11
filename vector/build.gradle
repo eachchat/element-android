@@ -552,4 +552,7 @@ dependencies {
         exclude group: 'org.jetbrains.kotlin'
     }
     androidTestUtil libs.androidx.orchestrator
+
+    // MiPush
+    implementation files('libs/MiPush_SDK_Client_4_9_1.jar')
 }
