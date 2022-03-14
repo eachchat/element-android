@@ -13,8 +13,8 @@ kapt {
 }
 
 // Note: 2 digits max for each value
-ext.versionMajor = 1
-ext.versionMinor = 4
+ext.versionMajor = 2
+ext.versionMinor = 6
 // Note: even values are reserved for regular release, odd values for hotfix release.
 // When creating a hotfix, you should decrease the value, since the current value
 // is the value for the next regular release.
@@ -115,7 +115,7 @@ android {
     compileSdk versions.compileSdk
 
     defaultConfig {
-        applicationId "im.vector.app"
+        applicationId "ai.workly.eachchat"
         // Set to API 21: see #405
         minSdk versions.minSdk
         targetSdk versions.targetSdk
@@ -216,23 +216,28 @@ android {
     }
     signingConfigs {
         debug {
-            keyAlias 'androiddebugkey'
-            keyPassword 'android'
-            storeFile file('./signature/debug.keystore')
-            storePassword 'android'
+//            keyAlias 'androiddebugkey'
+//            keyPassword 'android'
+//            storeFile file('./signature/debug.keystore')
+//            storePassword 'android'
+
+            keyAlias 'ai.workly.yql.android'
+            keyPassword 'zhu88jie'
+            storeFile file('./signature/yiqia-android-signature.jks')
+            storePassword 'Zhu88jie'
         }
         release {
-            keyAlias 'androiddebugkey'
-            keyPassword 'android'
-            storeFile file('./signature/debug.keystore')
-            storePassword 'android'
+            keyAlias 'ai.workly.yql.android'
+            keyPassword 'zhu88jie'
+            storeFile file('./signature/yiqia-android-signature.jks')
+            storePassword 'Zhu88jie'
         }
     }
 
     buildTypes {
         debug {
-            applicationIdSuffix ".debug"
-            resValue "string", "app_name", "亿洽测试版"
+//            applicationIdSuffix ".debug"
+            resValue "string", "app_name", "亿洽test"
 
             resValue "bool", "debug_mode", "true"
             buildConfigField "boolean", "LOW_PRIVACY_LOG_ENABLE", "false"
