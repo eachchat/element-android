@@ -31,6 +31,7 @@
     <im.vector.app.core.preference.VectorPreference
         android:icon="@drawable/ic_settings_root_ignored_users"
         android:title="@string/settings_ignored_users"
+        app:isPreferenceVisible="false"
         app:fragment="im.vector.app.features.settings.ignored.VectorSettingsIgnoredUsersFragment" />
 
     <im.vector.app.core.preference.VectorPreference
@@ -41,11 +42,13 @@
     <im.vector.app.core.preference.VectorPreference
         android:icon="@drawable/ic_settings_root_labs"
         android:title="@string/room_settings_labs_pref_title"
+        app:isPreferenceVisible="false"
         app:fragment="im.vector.app.features.settings.VectorSettingsLabsFragment" />
 
     <im.vector.app.core.preference.VectorPreference
         android:icon="@drawable/ic_settings_root_advanced"
         android:title="@string/settings_advanced_settings"
+        app:isPreferenceVisible="false"
         app:fragment="im.vector.app.features.settings.VectorSettingsAdvancedSettingsFragment" />
 
     <im.vector.app.core.preference.VectorPreference
@@ -56,6 +59,7 @@
     <im.vector.app.core.preference.VectorPreference
         android:icon="@drawable/ic_settings_root_legals"
         android:title="@string/preference_root_legals"
+        app:isPreferenceVisible="false"
         app:fragment="im.vector.app.features.settings.legals.LegalsFragment" />
 
 </androidx.preference.PreferenceScreen>

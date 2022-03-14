@@ -714,8 +714,8 @@ class TimelineViewModel @AssistedInject constructor(
         } else {
             when (itemId) {
                 R.id.timeline_setting          -> true
-                R.id.invite                    -> state.canInvite
-                R.id.open_matrix_apps          -> true
+                R.id.invite                    -> getRoomSummary()?.isDirect != true && state.canInvite // state.canInvite
+                R.id.open_matrix_apps          -> false // true
                 R.id.voice_call                -> state.isWebRTCCallOptionAvailable()
                 R.id.video_call                -> state.isWebRTCCallOptionAvailable() || state.jitsiState.confId == null || state.jitsiState.hasJoined
                 // Show Join conference button only if there is an active conf id not joined. Otherwise fallback to default video disabled. ^

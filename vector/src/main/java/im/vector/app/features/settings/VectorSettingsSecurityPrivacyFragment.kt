@@ -300,7 +300,7 @@ class VectorSettingsSecurityPrivacyFragment @Inject constructor(
     }
 
     private fun setUpAnalytics() {
-        analyticsCategory.isVisible = analyticsConfig.isEnabled
+//        analyticsCategory.isVisible = analyticsConfig.isEnabled
 
         analyticsConsent.setOnPreferenceChangeListener { _, newValue ->
             val newValueBool = newValue as? Boolean ?: false

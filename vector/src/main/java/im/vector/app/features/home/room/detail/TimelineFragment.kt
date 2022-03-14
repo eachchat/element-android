@@ -1008,14 +1008,21 @@ class TimelineFragment @Inject constructor(
     override fun onPrepareOptionsMenu(menu: Menu) {
         menu.forEach {
             it.isVisible = timelineViewModel.isMenuItemVisible(it.itemId)
+            if (it.itemId == R.id.timeline_setting) {
+                if (timelineViewModel.getRoomSummary()?.isDirect == true) {
+                    it.setTitle(R.string.user_detail)
+                } else {
+                    it.setTitle(R.string.group_chat_detail)
+                }
+            }
         }
 
         withState(timelineViewModel) { state ->
             // Set the visual state of the call buttons (voice/video) to enabled/disabled according to user permissions
             val hasCallInRoom = callManager.getCallsByRoomId(state.roomId).isNotEmpty() || state.jitsiState.hasJoined
-            val callButtonsEnabled = !hasCallInRoom
-                    && timelineViewModel.getRoomSummary()?.isDirect == true //不显示群聊中的音视频选项
-                    && when (state.asyncRoomSummary.invoke()?.joinedMembersCount) {
+            val callButtonsEnabled = !hasCallInRoom &&
+                    timelineViewModel.getRoomSummary()?.isDirect == true && // 不显示群聊中的音视频选项
+                    when (state.asyncRoomSummary.invoke()?.joinedMembersCount) {
                 1    -> false
                 2    -> state.isAllowedToStartWebRTCCall
                 else -> state.isAllowedToManageWidgets
