@@ -30,7 +30,8 @@
 
     </im.vector.app.core.preference.VectorPreferenceCategory>
 
-    <im.vector.app.core.preference.VectorPreferenceCategory android:title="@string/spaces">
+    <im.vector.app.core.preference.VectorPreferenceCategory android:title="@string/spaces"
+        app:isPreferenceVisible="false">
 
         <im.vector.app.core.preference.VectorSwitchPreference
             android:defaultValue="false"
@@ -70,13 +71,15 @@
             android:key="SETTINGS_INTERFACE_TAKE_PHOTO_VIDEO"
             android:persistent="false"
             android:title="@string/option_take_photo_video"
-            tools:summary="@string/option_always_ask" />
+            tools:summary="@string/option_always_ask"
+            app:isPreferenceVisible="false"/>
 
         <im.vector.app.core.preference.VectorSwitchPreference
             android:defaultValue="false"
             android:key="SETTINGS_PREF_ENABLE_LOCATION_SHARING"
             android:summary="@string/settings_enable_location_sharing_summary"
-            android:title="@string/settings_enable_location_sharing" />
+            android:title="@string/settings_enable_location_sharing"
+            app:isPreferenceVisible="false"/>
 
     </im.vector.app.core.preference.VectorPreferenceCategory>
 
@@ -197,7 +200,8 @@
 
     </im.vector.app.core.preference.VectorPreferenceCategory>
 
-    <im.vector.app.core.preference.VectorPreferenceCategory android:title="@string/settings_category_room_directory">
+    <im.vector.app.core.preference.VectorPreferenceCategory android:title="@string/settings_category_room_directory"
+        app:isPreferenceVisible="false">
 
         <im.vector.app.core.preference.VectorSwitchPreference
             android:key="SETTINGS_ROOM_DIRECTORY_SHOW_ALL_PUBLIC_ROOMS"
