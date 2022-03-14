@@ -1359,7 +1359,7 @@
     <string name="auth_add_phone_message_2">设定电话，然后就可以让认识你的人选择性探索到你。</string>
     <string name="auth_add_email_phone_message_2">设定电子邮件以供恢复账号。然后就可以让认识你的人用电子邮件或电话选择性探索到你。</string>
     <string name="auth_add_email_and_phone_message_2">设定电子邮件以供恢复账号。然后就可以让认识你的人用电子邮件或电话选择性探索到你。</string>
-    <string name="login_error_no_homeserver_found">這不是有效的 Matrix 服务器位置</string>
+    <string name="login_error_no_homeserver_found">这不是有效的 Matrix 服务器位置</string>
     <string name="login_error_homeserver_not_found">无法在此 URL 找到主服务器，请检查</string>
     <string name="settings_call_ringtone_use_default_stun">允许后备呼叫协助服务器</string>
     <string name="action_play">播放</string>
@@ -1683,7 +1683,7 @@
     <string name="login_connect_to">连接到 %1$s</string>
     <string name="login_connect_to_modular">连接到 Element Matrix 服务</string>
     <string name="login_connect_to_a_custom_server">连接到自定义服务器</string>
-    <string name="login_signin_to">登录 %1$s</string>
+    <string name="login_signin_to">访问 %1$s</string>
     <string name="login_signup">注册</string>
     <string name="login_signin">登录</string>
     <string name="login_signin_sso">使用单点登录继续</string>
@@ -3003,4 +3003,9 @@
     <string name="yiqia_user_policy">亿洽用户协议</string>
     <string name="yiqia_privacy_policy">亿洽隐私政策</string>
     <string name="yiqia_copyright_notice">亿洽版权声明</string>
+    <string name="message_bubbles">会话显示气泡模式</string>
+    <string name="yiqia">亿洽</string>
+    <string name="organization_name">组织名称</string>
+    <string name="please_enter_organization_name">请输入您的组织名称</string>
+    <string name="login_signin_to_yiqia">登录到亿洽</string>
 </resources>

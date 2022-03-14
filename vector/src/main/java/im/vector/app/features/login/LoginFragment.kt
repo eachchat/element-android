@@ -57,6 +57,10 @@ class LoginFragment @Inject constructor() : AbstractSSOLoginFragment<FragmentLog
 
     private var isSignupMode = false
 
+    companion object {
+        const val MATRIX_ORG_URL = "https://matrix-client.matrix.org"
+    }
+
     // Temporary patch for https://github.com/vector-im/riotX-android/issues/1410,
     // waiting for https://github.com/matrix-org/synapse/issues/7576
     private var isNumericOnlyUserIdForbidden = false
@@ -161,7 +165,7 @@ class LoginFragment @Inject constructor() : AbstractSSOLoginFragment<FragmentLog
         // Handle direct signin first
         if (state.signMode == SignMode.SignInWithMatrixId) {
             views.loginServerIcon.isVisible = false
-            views.loginTitle.text = getString(R.string.login_signin_matrix_id_title)
+            views.loginTitle.text = getString(R.string.login_signin_to_yiqia)
             views.loginNotice.text = getString(R.string.login_signin_matrix_id_notice)
             views.loginPasswordNotice.isVisible = true
         } else {
@@ -174,15 +178,15 @@ class LoginFragment @Inject constructor() : AbstractSSOLoginFragment<FragmentLog
 
             when (state.serverType) {
                 ServerType.MatrixOrg -> {
-                    views.loginServerIcon.isVisible = true
+                    views.loginServerIcon.isVisible = false
                     views.loginServerIcon.setImageResource(R.drawable.ic_logo_matrix_org)
-                    views.loginTitle.text = getString(resId, state.homeServerUrlFromUser.toReducedUrl())
+                    views.loginTitle.text = getString(R.string.login_signin_to_yiqia)
                     views.loginNotice.text = getString(R.string.login_server_matrix_org_text)
                 }
                 ServerType.EMS       -> {
-                    views.loginServerIcon.isVisible = true
+                    views.loginServerIcon.isVisible = false
                     views.loginServerIcon.setImageResource(R.drawable.ic_logo_element_matrix_services)
-                    views.loginTitle.text = getString(resId, "Element Matrix Services")
+                    views.loginTitle.text = getString(R.string.login_signin_to_yiqia)
                     views.loginNotice.text = getString(R.string.login_server_modular_text)
                 }
                 ServerType.Other     -> {
@@ -267,6 +271,14 @@ class LoginFragment @Inject constructor() : AbstractSSOLoginFragment<FragmentLog
         setupAutoFill(state)
         setupSocialLoginButtons(state)
         setupButtons(state)
+
+        views.loginNotice.text = getString(R.string.login_signin_to, state.homeServerUrl)
+
+        if (state.homeServerUrl == MATRIX_ORG_URL) {
+            views.forgetPasswordButton.visibility = View.VISIBLE
+        } else {
+            views.forgetPasswordButton.visibility = View.INVISIBLE
+        }
 
         when (state.asyncLoginAction) {
             is Loading -> {

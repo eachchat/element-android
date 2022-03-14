@@ -84,7 +84,7 @@ class LoginServerUrlFormFragment @Inject constructor() : AbstractLoginFragment<F
         when (state.serverType) {
             ServerType.EMS -> {
                 views.loginServerUrlFormIcon.isVisible = true
-                views.loginServerUrlFormTitle.text = getString(R.string.login_connect_to_modular)
+                //views.loginServerUrlFormTitle.text = getString(R.string.login_connect_to_modular)
                 views.loginServerUrlFormText.text = getString(R.string.login_server_url_form_modular_text)
                 views.loginServerUrlFormLearnMore.isVisible = true
                 views.loginServerUrlFormHomeServerUrlTil.hint = getText(R.string.login_server_url_form_modular_hint)
@@ -92,10 +92,10 @@ class LoginServerUrlFormFragment @Inject constructor() : AbstractLoginFragment<F
             }
             else           -> {
                 views.loginServerUrlFormIcon.isVisible = false
-                views.loginServerUrlFormTitle.text = getString(R.string.login_server_other_title)
-                views.loginServerUrlFormText.text = getString(R.string.login_connect_to_a_custom_server)
+                //views.loginServerUrlFormTitle.text = getString(R.string.login_server_other_title)
+                views.loginServerUrlFormText.text = getString(R.string.organization_name)
                 views.loginServerUrlFormLearnMore.isVisible = false
-                views.loginServerUrlFormHomeServerUrlTil.hint = getText(R.string.login_server_url_form_other_hint)
+                views.loginServerUrlFormHomeServerUrlTil.hint = getText(R.string.please_enter_organization_name)
                 views.loginServerUrlFormNotice.text = getString(R.string.login_server_url_form_common_notice)
             }
         }
@@ -158,6 +158,6 @@ class LoginServerUrlFormFragment @Inject constructor() : AbstractLoginFragment<F
     override fun updateWithState(state: LoginViewState) {
         setupUi(state)
 
-        views.loginServerUrlFormClearHistory.isInvisible = state.knownCustomHomeServersUrls.isEmpty()
+//        views.loginServerUrlFormClearHistory.isInvisible = state.knownCustomHomeServersUrls.isEmpty()
     }
 }

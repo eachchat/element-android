@@ -169,7 +169,7 @@ class FtueAuthLoginFragment @Inject constructor() : AbstractSSOFtueAuthFragment<
         // Handle direct signin first
         if (state.signMode == SignMode.SignInWithMatrixId) {
             views.loginServerIcon.isVisible = false
-            views.loginTitle.text = getString(R.string.login_signin_matrix_id_title)
+            views.loginTitle.text = getString(R.string.login_signin_to_yiqia)
             views.loginNotice.text = getString(R.string.login_signin_matrix_id_notice)
             views.loginPasswordNotice.isVisible = true
         } else {
@@ -182,13 +182,13 @@ class FtueAuthLoginFragment @Inject constructor() : AbstractSSOFtueAuthFragment<
 
             when (state.serverType) {
                 ServerType.MatrixOrg -> {
-                    views.loginServerIcon.isVisible = true
+                    views.loginServerIcon.isVisible = false
                     views.loginServerIcon.setImageResource(R.drawable.ic_logo_matrix_org)
                     views.loginTitle.text = getString(resId, state.homeServerUrlFromUser.toReducedUrl())
                     views.loginNotice.text = getString(R.string.login_server_matrix_org_text)
                 }
                 ServerType.EMS       -> {
-                    views.loginServerIcon.isVisible = true
+                    views.loginServerIcon.isVisible = false
                     views.loginServerIcon.setImageResource(R.drawable.ic_logo_element_matrix_services)
                     views.loginTitle.text = getString(resId, "Element Matrix Services")
                     views.loginNotice.text = getString(R.string.login_server_modular_text)

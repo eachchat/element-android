@@ -139,4 +139,6 @@
     <color name="vctr_presence_indicator_offline_dark">@color/palette_gray_450</color>
 
     <color name="fff2f3f5">#fff2f3f5</color>
+    <color name="ff00c975">#ff00c975</color>
+    <color name="icon_green">#ff00c975</color>
 </resources>
