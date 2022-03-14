@@ -67,7 +67,7 @@ class RoomMemberProfileController @Inject constructor(
     private fun buildUserActions(state: RoomMemberProfileViewState) {
         val ignoreActionTitle = state.buildIgnoreActionTitle() ?: return
         // More
-        buildProfileSection(stringProvider.getString(R.string.room_profile_section_more))
+//        buildProfileSection(stringProvider.getString(R.string.room_profile_section_more))
         buildProfileAction(
                 id = "ignore",
                 title = ignoreActionTitle,
@@ -88,9 +88,25 @@ class RoomMemberProfileController @Inject constructor(
 
     private fun buildRoomMemberActions(state: RoomMemberProfileViewState) {
         if (!state.isSpace) {
-            buildSecuritySection(state)
+//            buildSecuritySection(state)
         }
-        buildMoreSection(state)
+        if (!state.isMine) {
+            buildProfileAction(
+                    id = "direct",
+                    editable = false,
+                    title = stringProvider.getString(R.string.room_member_open_or_create_dm),
+                    action = { callback?.onOpenDmClicked() }
+            )
+            val ignoreActionTitle = state.buildIgnoreActionTitle()
+            buildProfileAction(
+                    id = "mention",
+                    title = stringProvider.getString(R.string.room_participants_action_mention),
+                    editable = false,
+                    divider = ignoreActionTitle != null,
+                    action = { callback?.onMentionClicked() }
+            )
+        }
+        //buildMoreSection(state)
         buildAdminSection(state)
     }
 
@@ -299,20 +315,20 @@ class RoomMemberProfileController @Inject constructor(
                 else              -> Unit
             }
         }
-        if (canBan) {
-            val banActionTitle = if (membership == Membership.BAN) {
-                stringProvider.getString(R.string.room_participants_action_unban)
-            } else {
-                stringProvider.getString(R.string.room_participants_action_ban)
-            }
-            buildProfileAction(
-                    id = "ban",
-                    editable = false,
-                    destructive = true,
-                    title = banActionTitle,
-                    action = { callback?.onBanClicked(state.isSpace, membership == Membership.BAN) }
-            )
-        }
+//        if (canBan) {
+//            val banActionTitle = if (membership == Membership.BAN) {
+//                stringProvider.getString(R.string.room_participants_action_unban)
+//            } else {
+//                stringProvider.getString(R.string.room_participants_action_ban)
+//            }
+//            buildProfileAction(
+//                    id = "ban",
+//                    editable = false,
+//                    destructive = true,
+//                    title = banActionTitle,
+//                    action = { callback?.onBanClicked(state.isSpace, membership == Membership.BAN) }
+//            )
+//        }
     }
 
     private fun RoomMemberProfileViewState.buildIgnoreActionTitle(): String? {
