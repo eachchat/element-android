@@ -25,6 +25,7 @@ import im.vector.app.core.utils.copyToClipboard
 import im.vector.app.core.utils.openAppSettingsPage
 import im.vector.app.core.utils.openUrlInChromeCustomTab
 import im.vector.app.features.version.VersionProvider
+import im.vector.app.features.webview.VectorWebViewActivity
 import org.matrix.android.sdk.api.Matrix
 import javax.inject.Inject
 
@@ -56,18 +57,19 @@ class VectorSettingsHelpAboutFragment @Inject constructor(
 
         // application version
         findPreference<VectorPreference>(VectorPreferences.SETTINGS_VERSION_PREFERENCE_KEY)!!.let {
-            it.summary = buildString {
-                append(versionProvider.getVersion(longFormat = false, useBuildNumber = true))
-                if (BuildConfig.DEBUG) {
-                    append(" ")
-                    append(BuildConfig.GIT_BRANCH_NAME)
-                }
-            }
-
-            it.setOnPreferenceClickListener { pref ->
-                copyToClipboard(requireContext(), pref.summary)
-                true
-            }
+            it.summary = BuildConfig.VERSION_NAME
+//            it.summary = buildString {
+//                append(versionProvider.getVersion(longFormat = false, useBuildNumber = true))
+//                if (BuildConfig.DEBUG) {
+//                    append(" ")
+//                    append(BuildConfig.GIT_BRANCH_NAME)
+//                }
+//            }
+//
+//            it.setOnPreferenceClickListener { pref ->
+//                copyToClipboard(requireContext(), pref.summary)
+//                true
+//            }
         }
 
         // SDK version
@@ -83,6 +85,32 @@ class VectorSettingsHelpAboutFragment @Inject constructor(
         // olm version
         findPreference<VectorPreference>(VectorPreferences.SETTINGS_OLM_VERSION_PREFERENCE_KEY)!!
                 .summary = session.cryptoService().getCryptoVersion(requireContext(), false)
+
+        //法律信息
+        //版权声明
+        findPreference<VectorPreference>(VectorPreferences.SETTINGS_COPYRIGHT_NOTICE_PREFERENCE_KEY)!!
+                .onPreferenceClickListener = Preference.OnPreferenceClickListener {
+            val intent = VectorWebViewActivity.getIntent(requireContext(), "file:///android_asset/copyright-notice.html", getString(R.string.yiqia_copyright_notice))
+            requireActivity().startActivity(intent)
+            false
+        }
+
+        //用户协议
+        findPreference<VectorPreference>(VectorPreferences.SETTINGS_USER_POLICY_PREFERENCE_KEY)!!
+                .onPreferenceClickListener = Preference.OnPreferenceClickListener {
+            val intent = VectorWebViewActivity.getIntent(requireContext(), "file:///android_asset/user-agreements.html", getString(R.string.yiqia_user_policy))
+            startActivity(intent)
+            false
+        }
+
+        //隐私政策
+        findPreference<VectorPreference>(VectorPreferences.SETTING_PRIVACY_POLICY_PREFERENCE_KEY)!!
+                .onPreferenceClickListener = Preference.OnPreferenceClickListener {
+            val intent = VectorWebViewActivity.getIntent(requireContext(), "file:///android_asset/privacy-policy.html", getString(R.string.yiqia_privacy_policy))
+            startActivity(intent)
+            false
+        }
+
     }
 
     companion object {
