@@ -19,6 +19,7 @@ package im.vector.app.features.roommemberprofile.powerlevel
 import android.app.Activity
 import android.content.DialogInterface
 import android.view.KeyEvent
+import android.view.View
 import androidx.annotation.StringRes
 import androidx.core.view.isVisible
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -39,6 +40,7 @@ object EditPowerLevelDialogs {
             views.powerLevelCustomEditLayout.isVisible = checkedId == R.id.powerLevelCustomRadio
         }
         views.powerLevelCustomEdit.setText(currentRole.value.toString())
+        views.powerLevelCustomRadio.visibility = View.GONE
 
         when (currentRole) {
             Role.Admin     -> views.powerLevelAdminRadio.isChecked = true
@@ -50,7 +52,7 @@ object EditPowerLevelDialogs {
         MaterialAlertDialogBuilder(activity)
                 .setTitle(titleRes)
                 .setView(dialogLayout)
-                .setPositiveButton(R.string.edit) { _, _ ->
+                .setPositiveButton(R.string.confirm) { _, _ ->
                     val newValue = when (views.powerLevelRadioGroup.checkedRadioButtonId) {
                         R.id.powerLevelAdminRadio     -> Role.Admin.value
                         R.id.powerLevelModeratorRadio -> Role.Moderator.value
