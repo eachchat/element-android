@@ -148,7 +148,7 @@ open class LoginActivity : VectorBaseActivity<ActivityLoginBinding>(), UnlockedA
                             // ft.setCustomAnimations(enterAnim, exitAnim, popEnterAnim, popExitAnim)
                         })
             is LoginViewEvents.OnServerSelectionDone                      -> onServerSelectionDone(loginViewEvents)
-            is LoginViewEvents.OnSignModeSelected                         -> onSignModeSelected(loginViewEvents)
+            is LoginViewEvents.OnSignModeSelected                         -> {} // onSignModeSelected(loginViewEvents)
             is LoginViewEvents.OnLoginFlowRetrieved                       ->
 //                addFragmentToBackstack(views.loginFragmentContainer,
 //                        LoginSignUpSignInSelectionFragment::class.java,

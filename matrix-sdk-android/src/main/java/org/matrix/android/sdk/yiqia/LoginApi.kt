@@ -17,7 +17,9 @@
 package org.matrix.android.sdk.yiqia
 
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Url
 
 interface LoginApi {
 
@@ -32,6 +34,9 @@ interface LoginApi {
 
     @POST("/api/services/global/v1/tenant/names")
     suspend fun orgNames(@Body input: OrgSearchInput): Response<Any?, List<String>>
+
+    @GET
+    suspend fun authSettings(@Url url: String): Response<AuthSettingResult?, Any?>
 }
 
 data class OrgSearchInput(val tenantName: String)
@@ -62,3 +67,14 @@ data class Entry(val host: String, val port: String, val tls: Boolean) {
 //    val mqttUrl: String
 //        get() = "tcp://$host:$port"
 }
+
+data class AuthSettingResult(
+        val authType: String,
+        val threeAuthType: String?,
+        val userNamePlaceHolder: String?,
+        val passwordPlaceHolder: String?,
+        val matrixEmail: String?,
+        val threeEmail: String?,
+        val initPasswordRegex: String?,
+        val passwordChangeInfo: String?
+)

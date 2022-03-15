@@ -67,6 +67,7 @@ import org.matrix.android.sdk.api.session.integrationmanager.IntegrationManagerC
 import org.matrix.android.sdk.api.session.integrationmanager.IntegrationManagerService
 import org.matrix.android.sdk.flow.flow
 import org.matrix.android.sdk.flow.unwrap
+import org.matrix.android.sdk.yiqia.LoginApi
 import java.io.File
 import java.util.UUID
 import javax.inject.Inject
@@ -79,6 +80,8 @@ class VectorSettingsGeneralFragment @Inject constructor(
 
     override var titleRes = R.string.settings_general_title
     override val preferenceXmlRes = R.xml.vector_settings_general
+    var isLdap: Boolean? = null
+    var changePasswordMessage:String? = null
 
     private val galleryOrCameraDialogHelper = GalleryOrCameraDialogHelper(this, colorProvider)
 
@@ -173,7 +176,24 @@ class VectorSettingsGeneralFragment @Inject constructor(
         // Hide the preference if password can not be updated
         if (session.getHomeServerCapabilities().canChangePassword) {
             mPasswordPreference.onPreferenceClickListener = Preference.OnPreferenceClickListener {
-                onPasswordUpdateClick()
+                if (isLdap != null) {
+                    onPasswordUpdateClick(isLdap, changePasswordMessage)
+                    return@OnPreferenceClickListener false
+                }
+                lifecycleScope.launch(Dispatchers.IO) {
+                    kotlin.runCatching {
+                        val response = LoginApi.getInstance().authSettings("${session.sessionParams.homeServerUrl}/api/services/auth/v1/auth/setting")
+                        if (response.isSuccess) {
+                            if (response.obj?.authType == "three" && response.obj?.threeAuthType == "ldap") {
+                                isLdap = true
+                                changePasswordMessage = response.obj?.passwordChangeInfo
+                            }
+                        }
+                    }
+                    requireActivity().runOnUiThread {
+                        onPasswordUpdateClick(isLdap, changePasswordMessage)
+                    }
+                }
                 false
             }
         } else {
@@ -362,7 +382,21 @@ class VectorSettingsGeneralFragment @Inject constructor(
     /**
      * Update the password.
      */
-    private fun onPasswordUpdateClick() {
+    private fun onPasswordUpdateClick(isLdap: Boolean?, changePasswordMessage: String?) {
+        if (isLdap == true) {
+            activity?.let {
+                val view: ViewGroup = it.layoutInflater.inflate(R.layout.dialog_event_content, null) as ViewGroup
+                val views = im.vector.app.databinding.DialogEventContentBinding.bind(view)
+                val dialog = MaterialAlertDialogBuilder(it)
+                        .setView(view)
+                        .setCancelable(true)
+                        .setMessage(changePasswordMessage)
+                        .setPositiveButton(R.string.confirm, null)
+                        .create()
+                dialog.show()
+            }
+            return
+        }
         activity?.let { activity ->
             val view: ViewGroup = activity.layoutInflater.inflate(R.layout.dialog_change_password, null) as ViewGroup
             val views = DialogChangePasswordBinding.bind(view)
