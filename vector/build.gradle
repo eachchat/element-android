@@ -341,6 +341,9 @@ android {
 
 dependencies {
 
+    implementation libs.squareup.retrofit
+    implementation libs.squareup.retrofitMoshi
+
     implementation project(":matrix-sdk-android")
     implementation project(":matrix-sdk-android-flow")
     implementation project(":diff-match-patch")

@@ -272,7 +272,7 @@ class LoginFragment @Inject constructor() : AbstractSSOLoginFragment<FragmentLog
         setupSocialLoginButtons(state)
         setupButtons(state)
 
-        views.loginNotice.text = getString(R.string.login_signin_to, state.homeServerUrl)
+        views.loginNotice.text = getString(R.string.login_signin_to, state.homeServerName?: state.homeServerUrl)
 
         if (state.homeServerUrl == MATRIX_ORG_URL) {
             views.forgetPasswordButton.visibility = View.VISIBLE

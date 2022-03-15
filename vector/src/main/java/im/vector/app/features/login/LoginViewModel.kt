@@ -23,6 +23,7 @@ import com.airbnb.mvrx.Loading
 import com.airbnb.mvrx.MavericksViewModelFactory
 import com.airbnb.mvrx.Success
 import com.airbnb.mvrx.Uninitialized
+import com.airbnb.mvrx.lifecycleAwareLazy
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -35,6 +36,7 @@ import im.vector.app.core.extensions.exhaustive
 import im.vector.app.core.platform.VectorViewModel
 import im.vector.app.core.resources.StringProvider
 import im.vector.app.core.utils.ensureTrailingSlash
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.matrix.android.sdk.api.MatrixPatterns.getDomain
@@ -51,6 +53,9 @@ import org.matrix.android.sdk.api.auth.wellknown.WellknownResult
 import org.matrix.android.sdk.api.failure.Failure
 import org.matrix.android.sdk.api.failure.MatrixIdFailure
 import org.matrix.android.sdk.api.session.Session
+import org.matrix.android.sdk.yiqia.LoginApi
+import org.matrix.android.sdk.yiqia.OrgSearchInput
+import org.matrix.android.sdk.yiqia.RetrofitManager
 import timber.log.Timber
 import java.util.concurrent.CancellationException
 
@@ -744,17 +749,24 @@ class LoginViewModel @AssistedInject constructor(
     }
 
     private fun handleUpdateHomeserver(action: LoginAction.UpdateHomeServer) {
-        val homeServerConnectionConfig = homeServerConnectionConfigFactory.create(action.homeServerUrl)
-        if (homeServerConnectionConfig == null) {
-            // This is invalid
-            _viewEvents.post(LoginViewEvents.Failure(Throwable("Unable to create a HomeServerConnectionConfig")))
-        } else {
-            getLoginFlow(homeServerConnectionConfig)
+        viewModelScope.launch(Dispatchers.IO) {
+            var homeServerUrl = action.homeServerUrl
+            val response = LoginApi.getInstance().gms(OrgSearchInput(action.homeServerUrl))
+            if (response.isSuccess) {
+                homeServerUrl = response.obj?.entry?.cooperationUrl?: homeServerUrl
+            }
+            val homeServerConnectionConfig = homeServerConnectionConfigFactory.create(homeServerUrl)
+            if (homeServerConnectionConfig == null) {
+                // This is invalid
+                _viewEvents.post(LoginViewEvents.Failure(Throwable("Unable to create a HomeServerConnectionConfig")))
+            } else {
+                getLoginFlow(homeServerConnectionConfig, homeServerName = action.homeServerUrl)
+            }
         }
     }
 
     private fun getLoginFlow(homeServerConnectionConfig: HomeServerConnectionConfig,
-                             serverTypeOverride: ServerType? = null) {
+                             serverTypeOverride: ServerType? = null, homeServerName: String? = null) {
         currentHomeServerConnectionConfig = homeServerConnectionConfig
 
         currentJob = viewModelScope.launch {
@@ -807,6 +819,7 @@ class LoginViewModel @AssistedInject constructor(
                         asyncHomeServerLoginFlowRequest = Uninitialized,
                         homeServerUrlFromUser = homeServerConnectionConfig.homeServerUri.toString(),
                         homeServerUrl = data.homeServerUrl,
+                        homeServerName = homeServerName,
                         loginMode = loginMode,
                         loginModeSupportedTypes = data.supportedLoginTypes.toList()
                 )
@@ -830,5 +843,23 @@ class LoginViewModel @AssistedInject constructor(
 
     fun getFallbackUrl(forSignIn: Boolean, deviceId: String?): String? {
         return authenticationService.getFallbackUrl(forSignIn, deviceId)
+    }
+
+    fun getOrgNames(it: String, getOrgNamesCallback: (List<String>?) -> Unit) {
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                val response = LoginApi.getInstance().orgNames(OrgSearchInput(it))
+                if (response.isSuccess) {
+                    Timber.v("获取组织名成功" + response.results.toString())
+                    getOrgNamesCallback.invoke(response.results)
+                } else {
+                    Timber.v("获取组织名失败")
+                    getOrgNamesCallback.invoke(null)
+                }
+            }.exceptionOrNull()?.let {
+                Timber.v("获取组织名失败" + it.message)
+                getOrgNamesCallback.invoke(null)
+            }
+        }
     }
 }

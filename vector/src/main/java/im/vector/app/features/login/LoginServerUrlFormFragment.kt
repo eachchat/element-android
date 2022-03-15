@@ -23,18 +23,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.ArrayAdapter
-import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
+import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
-import com.google.android.material.textfield.TextInputLayout
-import im.vector.app.BuildConfig
 import im.vector.app.R
 import im.vector.app.core.extensions.hideKeyboard
 import im.vector.app.core.utils.ensureProtocol
 import im.vector.app.core.utils.openUrlInChromeCustomTab
 import im.vector.app.databinding.FragmentLoginServerUrlFormBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import org.matrix.android.sdk.api.failure.Failure
 import reactivecircus.flowbinding.android.widget.textChanges
 import java.net.UnknownHostException
@@ -44,6 +45,8 @@ import javax.inject.Inject
  * In this screen, the user is prompted to enter a homeserver url
  */
 class LoginServerUrlFormFragment @Inject constructor() : AbstractLoginFragment<FragmentLoginServerUrlFormBinding>() {
+
+    var isSelectOrg = false
 
     override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentLoginServerUrlFormBinding {
         return FragmentLoginServerUrlFormBinding.inflate(inflater, container, false)
@@ -60,6 +63,30 @@ class LoginServerUrlFormFragment @Inject constructor() : AbstractLoginFragment<F
         views.loginServerUrlFormLearnMore.debouncedClicks { learnMore() }
         views.loginServerUrlFormClearHistory.debouncedClicks { clearHistory() }
         views.loginServerUrlFormSubmit.debouncedClicks { submit() }
+        //选择组织名后不会再次弹出选择框
+        views.loginServerUrlFormHomeServerUrl.setOnItemClickListener { _, _, _, _ ->
+            isSelectOrg = true
+        }
+        views.loginServerUrlFormHomeServerUrl.doAfterTextChanged { editable ->
+            if (editable.isNullOrBlank()) {
+                views.loginServerUrlFormHomeServerUrl.dismissDropDown()
+                return@doAfterTextChanged
+            }
+            loginViewModel.getOrgNames(editable.toString().trim()) {
+                lifecycleScope.launch (Dispatchers.Main) {
+                    val orgNamesList: List<String> = it?.toMutableList() ?: listOf()
+                    views.loginServerUrlFormHomeServerUrl.setAdapter(ArrayAdapter(
+                            requireContext(),
+                            R.layout.item_completion_homeserver,
+                            orgNamesList
+                    ))
+                    if (orgNamesList.isNotEmpty() && !editable.isNullOrBlank() && !isSelectOrg) {
+                        isSelectOrg = false
+                        views.loginServerUrlFormHomeServerUrl.showDropDown()
+                    }
+                }
+            }
+        }
     }
 
     private fun setupHomeServerField() {
@@ -72,7 +99,7 @@ class LoginServerUrlFormFragment @Inject constructor() : AbstractLoginFragment<F
 
         views.loginServerUrlFormHomeServerUrl.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                views.loginServerUrlFormHomeServerUrl.dismissDropDown()
+//                views.loginServerUrlFormHomeServerUrl.dismissDropDown()
                 submit()
                 return@setOnEditorActionListener true
             }
@@ -99,15 +126,15 @@ class LoginServerUrlFormFragment @Inject constructor() : AbstractLoginFragment<F
                 views.loginServerUrlFormNotice.text = getString(R.string.login_server_url_form_common_notice)
             }
         }
-        val completions = state.knownCustomHomeServersUrls + if (BuildConfig.DEBUG) listOf("http://10.0.2.2:8080") else emptyList()
-        views.loginServerUrlFormHomeServerUrl.setAdapter(ArrayAdapter(
-                requireContext(),
-                R.layout.item_completion_homeserver,
-                completions
-        ))
-        views.loginServerUrlFormHomeServerUrlTil.endIconMode = TextInputLayout.END_ICON_DROPDOWN_MENU
-                .takeIf { completions.isNotEmpty() }
-                ?: TextInputLayout.END_ICON_NONE
+//        val completions = state.knownCustomHomeServersUrls + if (BuildConfig.DEBUG) listOf("http://10.0.2.2:8080") else emptyList()
+//        views.loginServerUrlFormHomeServerUrl.setAdapter(ArrayAdapter(
+//                requireContext(),
+//                R.layout.item_completion_homeserver,
+//                completions
+//        ))
+//        views.loginServerUrlFormHomeServerUrlTil.endIconMode = TextInputLayout.END_ICON_DROPDOWN_MENU
+//                .takeIf { completions.isNotEmpty() }
+//                ?: TextInputLayout.END_ICON_NONE
     }
 
     private fun learnMore() {
@@ -127,14 +154,14 @@ class LoginServerUrlFormFragment @Inject constructor() : AbstractLoginFragment<F
         cleanupUi()
 
         // Static check of homeserver url, empty, malformed, etc.
-        val serverUrl = views.loginServerUrlFormHomeServerUrl.text.toString().trim().ensureProtocol()
+        val serverUrl = views.loginServerUrlFormHomeServerUrl.text.toString().trim() // .ensureProtocol()
 
         when {
             serverUrl.isBlank() -> {
                 views.loginServerUrlFormHomeServerUrlTil.error = getString(R.string.login_error_invalid_home_server)
             }
             else                -> {
-                views.loginServerUrlFormHomeServerUrl.setText(serverUrl, false /* to avoid completion dialog flicker*/)
+//                views.loginServerUrlFormHomeServerUrl.setText(serverUrl, false /* to avoid completion dialog flicker*/)
                 loginViewModel.handle(LoginAction.UpdateHomeServer(serverUrl))
             }
         }
