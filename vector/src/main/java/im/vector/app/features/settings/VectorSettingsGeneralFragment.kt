@@ -67,7 +67,7 @@ import org.matrix.android.sdk.api.session.integrationmanager.IntegrationManagerC
 import org.matrix.android.sdk.api.session.integrationmanager.IntegrationManagerService
 import org.matrix.android.sdk.flow.flow
 import org.matrix.android.sdk.flow.unwrap
-import org.matrix.android.sdk.yiqia.LoginApi
+import org.yiqia.LoginApi
 import java.io.File
 import java.util.UUID
 import javax.inject.Inject

@@ -18,10 +18,12 @@ package im.vector.app.features.login
 
 import android.os.Build
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.widget.Toast
 import androidx.autofill.HintConstants
 import androidx.core.text.isDigitsOnly
 import androidx.core.view.isVisible
@@ -35,6 +37,7 @@ import im.vector.app.core.extensions.hideKeyboard
 import im.vector.app.core.extensions.hidePassword
 import im.vector.app.core.extensions.toReducedUrl
 import im.vector.app.databinding.FragmentLoginBinding
+import im.vector.app.features.webview.NormalWebViewActivity
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
@@ -74,6 +77,7 @@ class LoginFragment @Inject constructor() : AbstractSSOLoginFragment<FragmentLog
 
         setupSubmitButton()
         setupForgottenPasswordButton()
+        setUpPolicyButton()
 
         views.passwordField.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
@@ -115,6 +119,13 @@ class LoginFragment @Inject constructor() : AbstractSSOLoginFragment<FragmentLog
     }
 
     private fun submit() {
+        if (!views.acceptCheckBox.isChecked) {
+            val toast = Toast.makeText(requireContext(), getString(R.string.please_check_user_agreement_and_privacy), Toast.LENGTH_SHORT)
+            toast.setGravity(Gravity.CENTER, 0, 0)
+            toast.show()
+            return
+        }
+
         cleanupUi()
 
         val login = views.loginField.text.toString()
@@ -320,4 +331,19 @@ class LoginFragment @Inject constructor() : AbstractSSOLoginFragment<FragmentLog
      * Detect if password ends or starts with spaces
      */
     private fun spaceInPassword() = views.passwordField.text.toString().let { it.trim() != it }
+
+
+    private fun setUpPolicyButton() {
+        //用户协议
+        views.tvUserAgreement.setOnClickListener {
+            val intent = NormalWebViewActivity.getIntent(requireContext(), "file:///android_asset/user-agreements.html", getString(R.string.yiqia_user_policy))
+            startActivity(intent)
+        }
+
+        //隐私政策
+        views.tvPrivacyPolicy.setOnClickListener {
+            val intent = NormalWebViewActivity.getIntent(requireContext(), "file:///android_asset/privacy-policy.html", getString(R.string.yiqia_privacy_policy))
+            startActivity(intent)
+        }
+    }
 }

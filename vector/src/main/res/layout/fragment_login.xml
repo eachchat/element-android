@@ -84,6 +84,50 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <LinearLayout
+                android:id="@+id/llAccept"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/acceptCheckBox"
+                    style="@style/Widget.AppCompat.CompoundButton.CheckBox"
+                    android:layout_width="28dp"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/read_and_agree" />
+
+                <TextView
+                    android:id="@+id/tvUserAgreement"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/login_user_agreement"
+                    android:textColor="@color/link_text" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/and" />
+
+                <TextView
+                    android:id="@+id/tvPrivacyPolicy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:ellipsize="marquee"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="@string/login_privacy_policy"
+                    android:textColor="@color/link_text" />
+
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/loginPasswordNotice"
                 style="@style/Widget.Vector.TextView.Caption"
@@ -101,17 +145,9 @@
                 android:layout_marginTop="22dp">
 
                 <Button
-                    android:id="@+id/forgetPasswordButton"
-                    style="@style/Widget.Vector.Button.Text.Login"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:text="@string/auth_forgot_password" />
-
-                <Button
                     android:id="@+id/loginSubmit"
                     style="@style/Widget.Vector.Button.Login"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:text="@string/auth_login"
@@ -119,6 +155,14 @@
                     tools:ignore="RelativeOverlap" />
 
             </FrameLayout>
+
+            <Button
+                android:id="@+id/forgetPasswordButton"
+                style="@style/Widget.Vector.Button.Text.Login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:text="@string/auth_forgot_password" />
 
             <!-- Social Logins buttons -->
             <LinearLayout

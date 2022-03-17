@@ -680,6 +680,7 @@
     <string name="bottom_action_favourites">收藏夹</string>
     <string name="bottom_action_people">联系人</string>
     <string name="bottom_action_rooms">群聊</string>
+    <string name="bottom_action_chat">聊天</string>
     <string name="home_filter_placeholder_home">按群聊名称过滤</string>
     <string name="home_filter_placeholder_favorites">按收藏夹过滤</string>
     <string name="home_filter_placeholder_people">按联系人过滤</string>
@@ -1538,7 +1539,7 @@
     <string name="send_suggestion_failed">建议发送失败 (%s)</string>
     <string name="settings_labs_show_hidden_events_in_timeline">在时间线上显示隐藏事件</string>
     <string name="title_action_people_x">私聊</string>
-    <string name="bottom_action_people_x">私聊消息</string>
+    <string name="bottom_action_people_x">私聊</string>
     <string name="send_file_step_idle">正在等待…</string>
     <string name="send_file_step_encrypting_thumbnail">正在加密缩略图…</string>
     <string name="send_file_step_sending_thumbnail">正在发送缩略图 (%1$s / %2$s)</string>
@@ -1553,7 +1554,7 @@
     <string name="room_filtering_footer_create_new_room">发起群聊</string>
     <string name="room_filtering_footer_create_new_direct_message">发送新私聊消息</string>
     <string name="room_filtering_footer_open_room_directory">查看群聊目录</string>
-    <string name="room_directory_search_hint">名称或 ID (#example:matrix.org)</string>
+    <string name="room_directory_search_hint">搜索名称或ID</string>
     <string name="labs_swipe_to_reply_in_timeline">启用在时间线中滑动回复</string>
     <string name="labs_show_unread_notifications_as_tab">在主屏幕上添加未读通知选项卡。</string>
     <string name="link_copied_to_clipboard">链接已复制到剪贴板</string>
@@ -1741,9 +1742,9 @@
     <string name="login_msisdn_error_not_international">国际电话号码必须以 ‘+’ 开头</string>
     <string name="login_msisdn_error_other">电话号码似乎无效。请检查</string>
     <string name="login_signup_to">在 %1$s 上注册</string>
-    <string name="login_signin_username_hint">用户名或电子邮件</string>
+    <string name="login_signin_username_hint">请输入用户名、电子邮件或手机号</string>
     <string name="login_signup_username_hint">用户名</string>
-    <string name="login_signup_password_hint">密码</string>
+    <string name="login_signup_password_hint">请输入密码</string>
     <string name="login_signup_submit">下一个</string>
     <string name="login_signup_error_user_in_use">用户名已占用</string>
     <string name="login_signup_cancel_confirmation_title">注意</string>
@@ -2244,7 +2245,7 @@
     <string name="settings_remove_three_pid_confirmation_content">移除 %s？</string>
     <string name="error_threepid_auth_failed">请确认你已点击我们向你发送的电子邮件中的链接。</string>
     <string name="settings_emails_and_phone_numbers_title">电子邮件和电话号码</string>
-    <string name="settings_emails_and_phone_numbers_summary">管理链接到你的 Matrix 账号的电子邮件和电话号码</string>
+    <string name="settings_emails_and_phone_numbers_summary">管理你的电子邮件和手机号登录账号</string>
     <string name="settings_text_message_sent_hint">代码</string>
     <string name="login_msisdn_notice">请使用国际格式（电话号码必须以 ‘+’ 开始）</string>
     <string name="confirm_your_identity_quad_s">通过验证此登录确认你的身份，授权它访问加密信息。</string>
@@ -2802,13 +2803,13 @@
     <string name="settings_room_invitations">群聊邀请</string>
     <string name="settings_encrypted_group_messages">加密的群组消息</string>
     <string name="settings_group_messages">群组消息</string>
-    <string name="settings_encrypted_direct_messages">加密的私信</string>
-    <string name="settings_messages_direct_messages">私信</string>
+    <string name="settings_encrypted_direct_messages">加密的私聊</string>
+    <string name="settings_messages_direct_messages">私聊消息</string>
     <string name="settings_messages_containing_username">我的用户名</string>
     <string name="settings_messages_containing_display_name">我的显示名称</string>
     <string name="settings_notification_notify_me_for">通知事项</string>
     <string name="settings_notification_other">其他</string>
-    <string name="settings_notification_mentions_and_keywords">提及和关键词</string>
+    <string name="settings_notification_mentions_and_keywords">提及</string>
     <string name="settings_notification_default">默认通知</string>
     <string name="call_tile_video_active">活跃视频通话</string>
     <string name="call_tile_voice_active">活跃语音通话</string>
@@ -2886,7 +2887,7 @@
     <string name="settings_developer_mode_show_info_on_screen_title">在屏幕商显示调试信息</string>
     <string name="does_not_look_like_valid_email">看起来不像是有效的邮箱地址</string>
     <string name="open_discovery_settings">打开“发现”设置</string>
-    <string name="user_directory_search_hint_2">按名称、ID或邮箱搜索</string>
+    <string name="user_directory_search_hint_2">搜索姓名、ID、电子邮件或手机号</string>
     <string name="create_new_space">创建新空间</string>
     <string name="room_settings_space_access_public_description">任何人均可找到此空间并加入</string>
     <string name="room_settings_space_access_title">空间访问</string>
@@ -2998,7 +2999,7 @@
     <string name="confirm">确认</string>
     <string name="law_info">法律信息</string>
     <string name="copyright_notice">版权声明</string>
-    <string name="user_policy">用户协议</string>
+    <string name="user_agreement">用户协议</string>
     <string name="privacy_policy">隐私政策</string>
     <string name="yiqia_user_policy">亿洽用户协议</string>
     <string name="yiqia_privacy_policy">亿洽隐私政策</string>
@@ -3007,5 +3008,10 @@
     <string name="yiqia">亿洽</string>
     <string name="organization_name">组织名称</string>
     <string name="please_enter_organization_name">请输入您的组织名称</string>
-    <string name="login_signin_to_yiqia">登录到亿洽</string>
+    <string name="login_signin_to_yiqia">登录 亿洽</string>
+    <string name="read_and_agree">我已阅读并同意</string>
+    <string name="login_user_agreement"> 《用户协议》 </string>
+    <string name="and">和</string>
+    <string name="login_privacy_policy"> 《隐私政策》 </string>
+    <string name="please_check_user_agreement_and_privacy">请勾选同意《用户协议》和《隐私条款》</string>
 </resources>

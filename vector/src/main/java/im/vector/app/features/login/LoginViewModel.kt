@@ -23,7 +23,6 @@ import com.airbnb.mvrx.Loading
 import com.airbnb.mvrx.MavericksViewModelFactory
 import com.airbnb.mvrx.Success
 import com.airbnb.mvrx.Uninitialized
-import com.airbnb.mvrx.lifecycleAwareLazy
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -53,9 +52,8 @@ import org.matrix.android.sdk.api.auth.wellknown.WellknownResult
 import org.matrix.android.sdk.api.failure.Failure
 import org.matrix.android.sdk.api.failure.MatrixIdFailure
 import org.matrix.android.sdk.api.session.Session
-import org.matrix.android.sdk.yiqia.LoginApi
-import org.matrix.android.sdk.yiqia.OrgSearchInput
-import org.matrix.android.sdk.yiqia.RetrofitManager
+import org.yiqia.LoginApi
+import org.yiqia.OrgSearchInput
 import timber.log.Timber
 import java.util.concurrent.CancellationException
 

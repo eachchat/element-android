@@ -188,6 +188,7 @@
         <activity android:name=".features.createdirect.CreateDirectRoomActivity" />
         <activity android:name=".features.invite.InviteUsersToRoomActivity" />
         <activity android:name=".features.webview.VectorWebViewActivity" />
+        <activity android:name=".features.webview.NormalWebViewActivity" />
 
         <!-- Activity to intercept links coming from a web instance -->
         <!-- exported="true" is required to handle android.intent.action.VIEW for URL redirection-->

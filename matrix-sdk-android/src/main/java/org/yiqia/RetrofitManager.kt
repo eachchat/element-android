@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.matrix.android.sdk.yiqia
+package org.yiqia
 
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
