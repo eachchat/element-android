@@ -41,6 +41,7 @@ import org.matrix.android.sdk.internal.session.pushers.UpdatePushRuleActionsTask
 import org.matrix.android.sdk.internal.session.pushers.UpdatePushRuleEnableStatusTask
 import org.matrix.android.sdk.internal.task.TaskExecutor
 import org.matrix.android.sdk.internal.task.configureWith
+import org.yiqia.PushRulesUtils.disableUselessPushRules
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -138,7 +139,7 @@ internal class DefaultPushRuleService @Inject constructor(
     }
 
     override fun getActions(event: Event): List<Action> {
-        val rules = getPushRules(RuleScope.GLOBAL).getAllRules()
+        val rules = getPushRules(RuleScope.GLOBAL).getAllRules().toMutableList().disableUselessPushRules()
 
         return pushRuleFinder.fulfilledBingRule(event, rules)?.getActions().orEmpty()
     }

@@ -41,7 +41,7 @@
 
         <im.vector.app.core.preference.VectorPreference
             android:key="SETTINGS_USER_POLICY_PREFERENCE_KEY"
-            android:title="@string/user_policy" />
+            android:title="@string/user_agreement" />
 
         <im.vector.app.core.preference.VectorPreference
             android:key="SETTING_PRIVACY_POLICY_PREFERENCE_KEY"

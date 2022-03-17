@@ -45,6 +45,7 @@ import org.matrix.android.sdk.internal.session.sync.handler.room.RoomSyncHandler
 import org.matrix.android.sdk.internal.session.sync.handler.room.ThreadsAwarenessHandler
 import org.matrix.android.sdk.internal.util.awaitTransaction
 import org.matrix.android.sdk.internal.worker.WorkerParamsFactory
+import org.yiqia.PushRulesUtils.disableUselessPushRules
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -212,7 +213,7 @@ internal class SyncResponseHandler @Inject constructor(
             return
         } // nothing on initial sync
 
-        val rules = pushRuleService.getPushRules(RuleScope.GLOBAL).getAllRules()
+        val rules = pushRuleService.getPushRules(RuleScope.GLOBAL).getAllRules().toMutableList().disableUselessPushRules()
         processEventForPushTask.execute(ProcessEventForPushTask.Params(roomsSyncResponse, rules))
         Timber.v("[PushRules] <-- Push task scheduled")
     }
