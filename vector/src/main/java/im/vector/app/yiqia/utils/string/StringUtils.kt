@@ -6,6 +6,7 @@ import androidx.annotation.RequiresApi
 import im.vector.app.yiqia.utils.string.HtmlUtils.fromHtml
 
 object StringUtils {
+    @JvmStatic
     fun List<String>.highlightKeyword(keyword: String): List<Spanned> {
         val highlightList = ArrayList<Spanned>()
         this.forEach {
@@ -14,6 +15,7 @@ object StringUtils {
         return highlightList
     }
 
+    @JvmStatic
     private fun String.getKeywordStr(keyword: String?): String {
         if (this.isEmpty()) {
             return ""
