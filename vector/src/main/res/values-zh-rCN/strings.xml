@@ -276,7 +276,7 @@
     <string name="auth_send_reset_email">发送密码重置电子邮件</string>
     <string name="auth_return_to_login">返回登录页面</string>
     <string name="auth_user_id_placeholder">电子邮箱或用户名</string>
-    <string name="auth_password_placeholder">密码</string>
+    <string name="auth_password_placeholder">请输入您的登录密码</string>
     <string name="auth_new_password_placeholder">新密码</string>
     <string name="auth_user_name_placeholder">用户名</string>
     <string name="auth_email_placeholder">电子邮箱地址</string>
@@ -1552,8 +1552,8 @@
     <string name="room_filtering_filter_hint">过滤对话…</string>
     <string name="room_filtering_footer_title">找不到你要找的？</string>
     <string name="room_filtering_footer_create_new_room">发起群聊</string>
-    <string name="room_filtering_footer_create_new_direct_message">发送新私聊消息</string>
-    <string name="room_filtering_footer_open_room_directory">查看群聊目录</string>
+    <string name="room_filtering_footer_create_new_direct_message">开始私聊</string>
+    <string name="room_filtering_footer_open_room_directory">探索公共聊天室</string>
     <string name="room_directory_search_hint">搜索名称或ID</string>
     <string name="labs_swipe_to_reply_in_timeline">启用在时间线中滑动回复</string>
     <string name="labs_show_unread_notifications_as_tab">在主屏幕上添加未读通知选项卡。</string>
@@ -2452,7 +2452,7 @@
     <plurals name="call_only_paused">
         <item quantity="other">%1$d 暂停了通话</item>
     </plurals>
-    <string name="re_authentication_activity_title">需要重新验证</string>
+    <string name="re_authentication_activity_title">需要身份认证</string>
     <string name="event_status_a11y_delete_all">删除失败的消息</string>
     <string name="event_status_cancel_sending_dialog_message">你确定要取消发送消息吗？</string>
     <string name="event_status_failed_messages_warning">消息发送失败</string>
@@ -2569,7 +2569,7 @@
     <string name="space_leave_prompt_msg_only_you">你是这唯一的人。如果你离开，包括你在内的所有人都将无法加入此空间。</string>
     <string name="leave_space">离开空间</string>
     <string name="space_add_child_title">添加群聊</string>
-    <string name="space_explore_activity_title">探索群聊</string>
+    <string name="space_explore_activity_title">探索公共聊天室</string>
     <plurals name="space_people_you_know">
         <item quantity="other">你认识的 %d 个人已加入</item>
     </plurals>
@@ -2628,7 +2628,7 @@
     <string name="a11y_unchecked">未检查</string>
     <string name="a11y_open_widget">开启挂件</string>
     <string name="a11y_screenshot">屏幕截图</string>
-    <string name="template_re_authentication_default_confirm_text">${app_name} 要求你输入凭据才能执行此操作。</string>
+    <string name="template_re_authentication_default_confirm_text">移除会话需要额外的身份认证。</string>
     <string name="call_transfer_failure">呼叫转移时发生错误</string>
     <string name="call_transfer_consult_first">先询问</string>
     <plurals name="call_one_active_and_other_paused">
@@ -2848,7 +2848,7 @@
     <string name="room_settings_room_notifications_notify_me">通知事项</string>
     <string name="settings_mentions_and_keywords_encryption_notice">在移动端的加密房间里，你不会收到提及和关键字的通知。</string>
     <string name="settings_messages_containing_keywords">关键词</string>
-    <string name="settings_mentions_at_room">\@群聊</string>
+    <string name="settings_mentions_at_room">\@所有人</string>
     <string name="settings_notification_keyword_contains_invalid_character">关键词不能包含 \'%s\'</string>
     <string name="settings_notification_keyword_contains_dot">关键词不能以 \'.\' 开头</string>
     <string name="settings_notification_new_keyword">添加新关键词</string>
@@ -3004,7 +3004,7 @@
     <string name="yiqia_user_policy">亿洽用户协议</string>
     <string name="yiqia_privacy_policy">亿洽隐私政策</string>
     <string name="yiqia_copyright_notice">亿洽版权声明</string>
-    <string name="message_bubbles">会话显示气泡模式</string>
+    <string name="message_bubbles">显示消息气泡</string>
     <string name="yiqia">亿洽</string>
     <string name="organization_name">组织名称</string>
     <string name="please_enter_organization_name">请输入您的组织名称</string>

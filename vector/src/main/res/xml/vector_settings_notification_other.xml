@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <im.vector.app.core.preference.VectorPreferenceCategory
         android:key="SETTINGS_OTHER"
         android:title="@string/settings_notification_notify_me_for">
@@ -17,11 +18,13 @@
         <im.vector.app.core.preference.VectorCheckboxPreference
             android:key="SETTINGS_PUSH_RULE_MESSAGES_SENT_BY_BOT_PREFERENCE_KEY"
             android:persistent="false"
-            android:title="@string/settings_messages_by_bot" />
+            android:title="@string/settings_messages_by_bot"
+            app:isPreferenceVisible="false" />
 
         <im.vector.app.core.preference.VectorCheckboxPreference
             android:key="SETTINGS_PUSH_RULE_ROOMS_UPGRADED_KEY"
             android:persistent="false"
-            android:title="@string/settings_room_upgrades" />
+            android:title="@string/settings_room_upgrades"
+            app:isPreferenceVisible="false" />
     </im.vector.app.core.preference.VectorPreferenceCategory>
 </androidx.preference.PreferenceScreen>
