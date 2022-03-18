@@ -3779,4 +3779,7 @@
     <string name="tooltip_attachment_poll">Create poll</string>
     <string name="tooltip_attachment_location">Share location</string>
 
+    <string name="audio_and_video_notification">Audio And Video Notification</string>
+    <string name="message_notification">Messages notification</string>
+
 </resources>

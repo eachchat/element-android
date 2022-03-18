@@ -2989,4 +2989,7 @@
 \n你可以阅读我们所有的条款 %s。</string>
     <string name="analytics_opt_in_title">帮助改进 Element</string>
     <string name="action_enable">启用</string>
+
+    <string name="audio_and_video_notification">音视频通话通知</string>
+    <string name="message_notification">消息通知</string>
 </resources>
