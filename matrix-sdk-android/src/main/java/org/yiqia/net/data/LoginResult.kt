@@ -1,4 +1,4 @@
-package org.yiqia
+package org.yiqia.net.data
 
 data class OrgSearchInput(val tenantName: String)
 

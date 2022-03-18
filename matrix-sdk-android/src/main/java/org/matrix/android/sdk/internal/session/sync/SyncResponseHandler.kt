@@ -45,7 +45,7 @@ import org.matrix.android.sdk.internal.session.sync.handler.room.RoomSyncHandler
 import org.matrix.android.sdk.internal.session.sync.handler.room.ThreadsAwarenessHandler
 import org.matrix.android.sdk.internal.util.awaitTransaction
 import org.matrix.android.sdk.internal.worker.WorkerParamsFactory
-setting import org.yiqia.push_rule.PushRulesUtils.disableUselessPushRules
+import org.yiqia.push_rule.PushRulesUtils.disableUselessPushRules
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject

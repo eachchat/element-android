@@ -1,4 +1,4 @@
-package org.yiqia
+package org.yiqia.net.data
 
 import java.io.Serializable
 
