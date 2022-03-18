@@ -283,7 +283,7 @@ class DeviceVerificationInfoBottomSheetController @Inject constructor(
     }
 
     private fun handleNonE2EDevice(data: DeviceVerificationInfoBottomSheetViewState) {
-        val host = this
+        //val host = this
         val info = data.deviceInfo.invoke() ?: return
         genericItem {
             id("info${info.deviceId}")
@@ -291,10 +291,10 @@ class DeviceVerificationInfoBottomSheetController @Inject constructor(
             description("(${info.deviceId})".toEpoxyCharSequence())
         }
 
-        genericFooterItem {
-            id("infoCrypto${info.deviceId}")
-            text(host.stringProvider.getString(R.string.settings_failed_to_get_crypto_device_info).toEpoxyCharSequence())
-        }
+//        genericFooterItem {
+//            id("infoCrypto${info.deviceId}")
+//            text(host.stringProvider.getString(R.string.settings_failed_to_get_crypto_device_info).toEpoxyCharSequence())
+//        }
 
         info.deviceId?.let { addGenericDeviceManageActions(data, it) }
     }

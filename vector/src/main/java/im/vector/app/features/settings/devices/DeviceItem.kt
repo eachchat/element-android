@@ -77,18 +77,18 @@ abstract class DeviceItem : VectorEpoxyModel<DeviceItem.Holder>() {
         super.bind(holder)
         holder.root.onClick(itemClickAction)
 
-        if (e2eCapable) {
-            val shield = TrustUtils.shieldForTrust(
-                    currentDevice,
-                    trustedSession,
-                    legacyMode,
-                    trusted
-            )
-
-            holder.trustIcon.render(shield)
-        } else {
-            holder.trustIcon.render(null)
-        }
+//        if (e2eCapable && !currentDevice) { //不显示本机的红色盾牌
+//            val shield = TrustUtils.shieldForTrust(
+//                    currentDevice,
+//                    trustedSession,
+//                    legacyMode,
+//                    trusted
+//            )
+//
+//            holder.trustIcon.render(shield)
+//        } else {
+//            holder.trustIcon.render(null)
+//        }
 
         val detailedModeLabels = listOf(
                 holder.displayNameLabelText,
