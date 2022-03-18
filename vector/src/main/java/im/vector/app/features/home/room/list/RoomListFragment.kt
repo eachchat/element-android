@@ -45,6 +45,7 @@ import im.vector.app.databinding.FragmentRoomListBinding
 import im.vector.app.features.analytics.plan.Screen
 import im.vector.app.features.home.RoomListDisplayMode
 import im.vector.app.features.home.room.filtered.FilteredRoomFooterItem
+import im.vector.app.features.home.room.filtered.FilteredRoomsActivity
 import im.vector.app.features.home.room.list.actions.RoomListQuickActionsBottomSheet
 import im.vector.app.features.home.room.list.actions.RoomListQuickActionsSharedAction
 import im.vector.app.features.home.room.list.actions.RoomListQuickActionsSharedActionViewModel
@@ -271,7 +272,11 @@ class RoomListFragment @Inject constructor(
             val sectionAdapter = SectionHeaderAdapter {
                 roomListViewModel.handle(RoomListAction.ToggleSection(section))
             }.also {
-                it.updateSection(SectionHeaderAdapter.RoomsSectionData(section.sectionName))
+                if (activity is FilteredRoomsActivity) {
+                    it.updateSection(SectionHeaderAdapter.RoomsSectionData(getString(R.string.bottom_action_chat)))
+                } else {
+                    it.updateSection(SectionHeaderAdapter.RoomsSectionData(section.sectionName))
+                }
             }
 
             val contentAdapter =

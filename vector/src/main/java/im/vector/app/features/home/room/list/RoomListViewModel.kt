@@ -112,7 +112,7 @@ class RoomListViewModel @AssistedInject constructor(
                     )
                 }
 
-        //appStateHandler.setCurrentSpace(null)//默认选中主页
+        // appStateHandler.setCurrentSpace(null)//默认选中主页
     }
 
     private fun observeMembershipChanges() {

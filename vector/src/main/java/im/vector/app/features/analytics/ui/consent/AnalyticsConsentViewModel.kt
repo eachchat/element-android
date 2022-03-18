@@ -47,9 +47,9 @@ class AnalyticsConsentViewModel @AssistedInject constructor(
         analytics.didAskUserConsent().setOnEach {
             copy(didAskUserConsent = it)
         }
-        analytics.getUserConsent().setOnEach {
-            copy(userConsent = it)
-        }
+//        analytics.getUserConsent().setOnEach {
+//            copy(userConsent = it)
+//        }
     }
 
     override fun handle(action: AnalyticsConsentViewActions) {

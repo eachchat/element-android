@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <im.vector.app.core.preference.VectorPreferenceCategory
         android:key="SETTINGS_DEFAULT"
         android:title="@string/settings_notification_notify_me_for">
@@ -12,7 +13,8 @@
         <im.vector.app.core.preference.VectorCheckboxPreference
             android:key="SETTINGS_PUSH_RULE_MESSAGES_IN_E2E_ONE_ONE_CHAT_PREFERENCE_KEY"
             android:persistent="false"
-            android:title="@string/settings_encrypted_direct_messages" />
+            android:title="@string/settings_encrypted_direct_messages"
+            app:isPreferenceVisible="false" />
 
         <im.vector.app.core.preference.VectorCheckboxPreference
             android:key="SETTINGS_PUSH_RULE_MESSAGES_IN_GROUP_CHAT_PREFERENCE_KEY"
@@ -22,7 +24,8 @@
         <im.vector.app.core.preference.VectorCheckboxPreference
             android:key="SETTINGS_PUSH_RULE_MESSAGES_IN_E2E_GROUP_CHAT_PREFERENCE_KEY"
             android:persistent="false"
-            android:title="@string/settings_encrypted_group_messages" />
+            android:title="@string/settings_encrypted_group_messages"
+            app:isPreferenceVisible="false" />
 
     </im.vector.app.core.preference.VectorPreferenceCategory>
 </androidx.preference.PreferenceScreen>

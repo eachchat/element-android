@@ -74,3 +74,5 @@
     java.lang.Object writeReplace();
     java.lang.Object readResolve();
 }
+
+-keep class org.yiqia.net.data.** { *; }

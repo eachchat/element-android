@@ -145,7 +145,7 @@ class VectorSettingsNotificationPreferenceFragment @Inject constructor(
             }
         }
 
-        bindEmailNotifications()
+        //bindEmailNotifications()
         refreshBackgroundSyncPrefs()
 
         handleSystemPreference()

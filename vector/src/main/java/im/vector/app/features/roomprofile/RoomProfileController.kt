@@ -174,31 +174,35 @@ class RoomProfileController @Inject constructor(
 
         // More
         buildProfileSection(stringProvider.getString(R.string.room_profile_section_more))
-        buildProfileAction(
-                id = "settings",
-                title = stringProvider.getString(if (roomSummary.isDirect) {
-                    R.string.direct_room_profile_section_more_settings
-                } else {
-                    R.string.room_profile_section_more_settings
-                }),
-                icon = R.drawable.ic_room_profile_settings,
-                action = { callback?.onSettingsClicked() }
-        )
+        if (!roomSummary.isDirect) {
+            buildProfileAction(
+                    id = "settings",
+                    title = stringProvider.getString(if (roomSummary.isDirect) {
+                        R.string.direct_room_profile_section_more_settings
+                    } else {
+                        R.string.room_profile_section_more_settings
+                    }),
+                    icon = R.drawable.ic_room_profile_settings,
+                    action = { callback?.onSettingsClicked() }
+            )
+        }
         buildProfileAction(
                 id = "notifications",
                 title = stringProvider.getString(R.string.room_profile_section_more_notifications),
                 icon = R.drawable.ic_room_profile_notification,
                 action = { callback?.onNotificationsClicked() }
         )
-        val numberOfMembers = roomSummary.joinedMembersCount ?: 0
-        val hasWarning = roomSummary.isEncrypted && roomSummary.roomEncryptionTrustLevel == RoomEncryptionTrustLevel.Warning
-        buildProfileAction(
-                id = "member_list",
-                title = stringProvider.getQuantityString(R.plurals.room_profile_section_more_member_list, numberOfMembers, numberOfMembers),
-                icon = R.drawable.ic_room_profile_member_list,
-                accessory = R.drawable.ic_shield_warning.takeIf { hasWarning } ?: 0,
-                action = { callback?.onMemberListClicked() }
-        )
+        if (!roomSummary.isDirect) {
+            val numberOfMembers = roomSummary.joinedMembersCount ?: 0
+            val hasWarning = roomSummary.isEncrypted && roomSummary.roomEncryptionTrustLevel == RoomEncryptionTrustLevel.Warning
+            buildProfileAction(
+                    id = "member_list",
+                    title = stringProvider.getQuantityString(R.plurals.room_profile_section_more_member_list, numberOfMembers, numberOfMembers),
+                    icon = R.drawable.ic_room_profile_member_list,
+                    accessory = R.drawable.ic_shield_warning.takeIf { hasWarning } ?: 0,
+                    action = { callback?.onMemberListClicked() }
+            )
+        }
 
         if (data.bannedMembership.invoke()?.isNotEmpty() == true) {
             buildProfileAction(
@@ -210,80 +214,88 @@ class RoomProfileController @Inject constructor(
         }
         buildProfileAction(
                 id = "uploads",
-                title = stringProvider.getString(R.string.room_profile_section_more_uploads),
-                icon = R.drawable.ic_room_profile_uploads,
+                title = stringProvider.getString(R.string.file),
+                icon = R.drawable.ic_file_filled,
                 action = { callback?.onUploadsClicked() }
         )
-        if (shortcutCreator.canCreateShortcut()) {
+        buildProfileAction(
+                id = "complain",
+                title = stringProvider.getString(R.string.complain),
+                icon = R.drawable.ic_complain_filled,
+                action = {  }
+        )
+//        if (shortcutCreator.canCreateShortcut()) {
+//            buildProfileAction(
+//                    id = "shortcut",
+//                    title = stringProvider.getString(R.string.room_settings_add_homescreen_shortcut),
+//                    editable = false,
+//                    icon = R.drawable.ic_add_to_home_screen_24dp,
+//                    action = { callback?.createShortcut() }
+//            )
+//        }
+        if (!roomSummary.isDirect) {
             buildProfileAction(
-                    id = "shortcut",
-                    title = stringProvider.getString(R.string.room_settings_add_homescreen_shortcut),
+                    id = "leave",
+                    title = stringProvider.getString(if (roomSummary.isDirect) {
+                        R.string.direct_room_profile_section_more_leave
+                    } else {
+                        R.string.room_profile_section_more_leave
+                    }),
+                    divider = false,
+                    destructive = true,
+                    icon = R.drawable.ic_room_actions_leave,
                     editable = false,
-                    icon = R.drawable.ic_add_to_home_screen_24dp,
-                    action = { callback?.createShortcut() }
+                    action = { callback?.onLeaveRoomClicked() }
             )
         }
-        buildProfileAction(
-                id = "leave",
-                title = stringProvider.getString(if (roomSummary.isDirect) {
-                    R.string.direct_room_profile_section_more_leave
-                } else {
-                    R.string.room_profile_section_more_leave
-                }),
-                divider = false,
-                destructive = true,
-                icon = R.drawable.ic_room_actions_leave,
-                editable = false,
-                action = { callback?.onLeaveRoomClicked() }
-        )
 
         // Advanced
-        buildProfileSection(stringProvider.getString(R.string.room_settings_category_advanced_title))
-
-        buildProfileAction(
-                id = "alias",
-                title = stringProvider.getString(R.string.room_settings_alias_title),
-                subtitle = stringProvider.getString(R.string.room_settings_alias_subtitle),
-                divider = true,
-                editable = true,
-                action = { callback?.onRoomAliasesClicked() }
-        )
-
-        buildProfileAction(
-                id = "permissions",
-                title = stringProvider.getString(R.string.room_settings_permissions_title),
-                subtitle = stringProvider.getString(R.string.room_settings_permissions_subtitle),
-                divider = vectorPreferences.developerMode(),
-                editable = true,
-                action = { callback?.onRoomPermissionsClicked() }
-        )
-
-        if (vectorPreferences.developerMode()) {
-            buildProfileAction(
-                    id = "roomId",
-                    title = stringProvider.getString(R.string.room_settings_room_internal_id),
-                    subtitle = roomSummary.roomId,
-                    divider = true,
-                    editable = false,
-                    action = { callback?.onRoomIdClicked() }
-            )
-            roomVersion?.let {
-                buildProfileAction(
-                        id = "roomVersion",
-                        title = stringProvider.getString(R.string.room_settings_room_version_title),
-                        subtitle = it,
-                        divider = true,
-                        editable = false
-                )
-            }
-            buildProfileAction(
-                    id = "devTools",
-                    title = stringProvider.getString(R.string.dev_tools_menu_name),
-                    divider = false,
-                    editable = true,
-                    action = { callback?.onRoomDevToolsClicked() }
-            )
-        }
+//        buildProfileSection(stringProvider.getString(R.string.room_settings_category_advanced_title))
+//
+//        buildProfileAction(
+//                id = "alias",
+//                title = stringProvider.getString(R.string.room_settings_alias_title),
+//                subtitle = stringProvider.getString(R.string.room_settings_alias_subtitle),
+//                divider = true,
+//                editable = true,
+//                action = { callback?.onRoomAliasesClicked() }
+//        )
+//
+//        buildProfileAction(
+//                id = "permissions",
+//                title = stringProvider.getString(R.string.room_settings_permissions_title),
+//                subtitle = stringProvider.getString(R.string.room_settings_permissions_subtitle),
+//                divider = vectorPreferences.developerMode(),
+//                editable = true,
+//                action = { callback?.onRoomPermissionsClicked() }
+//        )
+//
+//        if (vectorPreferences.developerMode()) {
+//            buildProfileAction(
+//                    id = "roomId",
+//                    title = stringProvider.getString(R.string.room_settings_room_internal_id),
+//                    subtitle = roomSummary.roomId,
+//                    divider = true,
+//                    editable = false,
+//                    action = { callback?.onRoomIdClicked() }
+//            )
+//            roomVersion?.let {
+//                buildProfileAction(
+//                        id = "roomVersion",
+//                        title = stringProvider.getString(R.string.room_settings_room_version_title),
+//                        subtitle = it,
+//                        divider = true,
+//                        editable = false
+//                )
+//            }
+//            buildProfileAction(
+//                    id = "devTools",
+//                    title = stringProvider.getString(R.string.dev_tools_menu_name),
+//                    divider = false,
+//                    editable = true,
+//                    action = { callback?.onRoomDevToolsClicked() }
+//            )
+//        }
     }
 
     private fun buildEncryptionAction(actionPermissions: RoomProfileViewState.ActionPermissions, roomSummary: RoomSummary) {

@@ -202,6 +202,10 @@ class VectorPreferences @Inject constructor(private val context: Context) {
         private const val SETTINGS_LABS_RENDER_LOCATIONS_IN_TIMELINE = "SETTINGS_LABS_RENDER_LOCATIONS_IN_TIMELINE"
         const val SETTINGS_LABS_ENABLE_THREAD_MESSAGES = "SETTINGS_LABS_ENABLE_THREAD_MESSAGES"
 
+        const val SETTINGS_COPYRIGHT_NOTICE_PREFERENCE_KEY = "SETTINGS_COPYRIGHT_NOTICE_PREFERENCE_KEY"
+        const val SETTINGS_USER_POLICY_PREFERENCE_KEY = "SETTINGS_USER_POLICY_PREFERENCE_KEY"
+        const val SETTING_PRIVACY_POLICY_PREFERENCE_KEY = "SETTING_PRIVACY_POLICY_PREFERENCE_KEY"
+
         // Possible values for TAKE_PHOTO_VIDEO_MODE
         const val TAKE_PHOTO_VIDEO_MODE_ALWAYS_ASK = 0
         const val TAKE_PHOTO_VIDEO_MODE_PHOTO = 1
@@ -311,39 +315,48 @@ class VectorPreferences @Inject constructor(private val context: Context) {
     }
 
     fun developerMode(): Boolean {
-        return defaultPrefs.getBoolean(SETTINGS_DEVELOPER_MODE_PREFERENCE_KEY, false)
+        //return defaultPrefs.getBoolean(SETTINGS_DEVELOPER_MODE_PREFERENCE_KEY, false)
+        return false
     }
 
     fun developerShowDebugInfo(): Boolean {
-        return developerMode() && defaultPrefs.getBoolean(SETTINGS_DEVELOPER_MODE_SHOW_INFO_ON_SCREEN_KEY, false)
+        //return developerMode() && defaultPrefs.getBoolean(SETTINGS_DEVELOPER_MODE_SHOW_INFO_ON_SCREEN_KEY, false)
+        return false
     }
 
     fun shouldShowHiddenEvents(): Boolean {
-        return developerMode() && defaultPrefs.getBoolean(SETTINGS_LABS_SHOW_HIDDEN_EVENTS_PREFERENCE_KEY, false)
+        //return developerMode() && defaultPrefs.getBoolean(SETTINGS_LABS_SHOW_HIDDEN_EVENTS_PREFERENCE_KEY, false)
+        return false
     }
 
     fun swipeToReplyIsEnabled(): Boolean {
-        return defaultPrefs.getBoolean(SETTINGS_LABS_ENABLE_SWIPE_TO_REPLY, true)
+        //return defaultPrefs.getBoolean(SETTINGS_LABS_ENABLE_SWIPE_TO_REPLY, true)
+        return false
     }
 
     fun labShowCompleteHistoryInEncryptedRoom(): Boolean {
-        return developerMode() && defaultPrefs.getBoolean(SETTINGS_LABS_SHOW_COMPLETE_HISTORY_IN_ENCRYPTED_ROOM, false)
+        //return developerMode() && defaultPrefs.getBoolean(SETTINGS_LABS_SHOW_COMPLETE_HISTORY_IN_ENCRYPTED_ROOM, false)
+        return false
     }
 
     fun labAllowedExtendedLogging(): Boolean {
-        return developerMode() && defaultPrefs.getBoolean(SETTINGS_LABS_ALLOW_EXTENDED_LOGS, false)
+        //return developerMode() && defaultPrefs.getBoolean(SETTINGS_LABS_ALLOW_EXTENDED_LOGS, false)
+        return false
     }
 
     fun labAddNotificationTab(): Boolean {
-        return defaultPrefs.getBoolean(SETTINGS_LABS_UNREAD_NOTIFICATIONS_AS_TAB, false)
+        //return defaultPrefs.getBoolean(SETTINGS_LABS_UNREAD_NOTIFICATIONS_AS_TAB, false)
+        return false
     }
 
     fun latexMathsIsEnabled(): Boolean {
-        return defaultPrefs.getBoolean(SETTINGS_LABS_ENABLE_LATEX_MATHS, false)
+        //return defaultPrefs.getBoolean(SETTINGS_LABS_ENABLE_LATEX_MATHS, false)
+        return false
     }
 
     fun failFast(): Boolean {
-        return BuildConfig.DEBUG || (developerMode() && defaultPrefs.getBoolean(SETTINGS_DEVELOPER_MODE_FAIL_FAST_PREFERENCE_KEY, false))
+        //return BuildConfig.DEBUG || (developerMode() && defaultPrefs.getBoolean(SETTINGS_DEVELOPER_MODE_FAIL_FAST_PREFERENCE_KEY, false))
+        return false
     }
 
     fun didAskUserToEnableSessionPush(): Boolean {
@@ -433,7 +446,8 @@ class VectorPreferences @Inject constructor(private val context: Context) {
      * Show all rooms in room directory
      */
     fun showAllPublicRooms(): Boolean {
-        return defaultPrefs.getBoolean(SETTINGS_ROOM_DIRECTORY_SHOW_ALL_PUBLIC_ROOMS, false)
+//        return defaultPrefs.getBoolean(SETTINGS_ROOM_DIRECTORY_SHOW_ALL_PUBLIC_ROOMS, false)
+        return false
     }
 
     /**
@@ -856,7 +870,7 @@ class VectorPreferences @Inject constructor(private val context: Context) {
      * @return true to show timeline message in bubble.
      */
     fun useMessageBubblesLayout(): Boolean {
-        return defaultPrefs.getBoolean(SETTINGS_INTERFACE_BUBBLE_KEY, false)
+        return defaultPrefs.getBoolean(SETTINGS_INTERFACE_BUBBLE_KEY, true)
     }
 
     /**
@@ -865,7 +879,8 @@ class VectorPreferences @Inject constructor(private val context: Context) {
      * @return true if the rage shake is used
      */
     fun useRageshake(): Boolean {
-        return defaultPrefs.getBoolean(SETTINGS_USE_RAGE_SHAKE_KEY, true)
+        //return defaultPrefs.getBoolean(SETTINGS_USE_RAGE_SHAKE_KEY, true)
+        return false
     }
 
     /**
@@ -888,7 +903,8 @@ class VectorPreferences @Inject constructor(private val context: Context) {
      * The user does not allow screenshots of the application
      */
     fun useFlagSecure(): Boolean {
-        return defaultPrefs.getBoolean(SETTINGS_SECURITY_USE_FLAG_SECURE, false)
+//        return defaultPrefs.getBoolean(SETTINGS_SECURITY_USE_FLAG_SECURE, false)
+        return false
     }
 
     /**
@@ -896,15 +912,18 @@ class VectorPreferences @Inject constructor(private val context: Context) {
      * Currently we use the pin code store to know if the pin is enabled, so this is not used
      */
     fun useFlagPinCode(): Boolean {
-        return defaultPrefs.getBoolean(SETTINGS_SECURITY_USE_PIN_CODE_FLAG, false)
+//        return defaultPrefs.getBoolean(SETTINGS_SECURITY_USE_PIN_CODE_FLAG, false)
+        return false
     }
 
     fun useBiometricsToUnlock(): Boolean {
-        return defaultPrefs.getBoolean(SETTINGS_SECURITY_USE_BIOMETRICS_FLAG, true)
+//        return defaultPrefs.getBoolean(SETTINGS_SECURITY_USE_BIOMETRICS_FLAG, true)
+        return false
     }
 
     fun useGracePeriod(): Boolean {
-        return defaultPrefs.getBoolean(SETTINGS_SECURITY_USE_GRACE_PERIOD_FLAG, true)
+//        return defaultPrefs.getBoolean(SETTINGS_SECURITY_USE_GRACE_PERIOD_FLAG, true)
+        return false
     }
 
     fun chatEffectsEnabled(): Boolean {
@@ -915,8 +934,9 @@ class VectorPreferences @Inject constructor(private val context: Context) {
      * Return true if Pin code is disabled, or if user set the settings to see full notification content
      */
     fun useCompleteNotificationFormat(): Boolean {
-        return !useFlagPinCode() ||
-                defaultPrefs.getBoolean(SETTINGS_SECURITY_USE_COMPLETE_NOTIFICATIONS_FLAG, true)
+//        return !useFlagPinCode() ||
+//                defaultPrefs.getBoolean(SETTINGS_SECURITY_USE_COMPLETE_NOTIFICATIONS_FLAG, true)
+        return true
     }
 
     fun backgroundSyncTimeOut(): Int {
@@ -969,17 +989,20 @@ class VectorPreferences @Inject constructor(private val context: Context) {
     }
 
     private fun labsSpacesOnlyOrphansInHome(): Boolean {
-        return defaultPrefs.getBoolean(SETTINGS_LABS_SPACES_HOME_AS_ORPHAN, false)
+        return false
+        //return defaultPrefs.getBoolean(SETTINGS_LABS_SPACES_HOME_AS_ORPHAN, false)
     }
 
     fun labsAutoReportUISI(): Boolean {
-        return defaultPrefs.getBoolean(SETTINGS_LABS_AUTO_REPORT_UISI, false)
+        return false
+        //return defaultPrefs.getBoolean(SETTINGS_LABS_AUTO_REPORT_UISI, false)
     }
 
     fun prefSpacesShowAllRoomInHome(): Boolean {
-        return defaultPrefs.getBoolean(SETTINGS_PREF_SPACE_SHOW_ALL_ROOM_IN_HOME,
-                // migration of old property
-                !labsSpacesOnlyOrphansInHome())
+//        return defaultPrefs.getBoolean(SETTINGS_PREF_SPACE_SHOW_ALL_ROOM_IN_HOME,
+//                // migration of old property
+//                !labsSpacesOnlyOrphansInHome())
+         return false
     }
 
     /*
@@ -996,14 +1019,17 @@ class VectorPreferences @Inject constructor(private val context: Context) {
     }
 
     fun isLocationSharingEnabled(): Boolean {
-        return defaultPrefs.getBoolean(SETTINGS_PREF_ENABLE_LOCATION_SHARING, false) && BuildConfig.enableLocationSharing
+//        return defaultPrefs.getBoolean(SETTINGS_PREF_ENABLE_LOCATION_SHARING, false) && BuildConfig.enableLocationSharing
+        return false
     }
 
     fun labsRenderLocationsInTimeline(): Boolean {
-        return defaultPrefs.getBoolean(SETTINGS_LABS_RENDER_LOCATIONS_IN_TIMELINE, true)
+        //return defaultPrefs.getBoolean(SETTINGS_LABS_RENDER_LOCATIONS_IN_TIMELINE, true)
+        return false
     }
 
     fun areThreadMessagesEnabled(): Boolean {
-        return defaultPrefs.getBoolean(SETTINGS_LABS_ENABLE_THREAD_MESSAGES, false)
+        //return defaultPrefs.getBoolean(SETTINGS_LABS_ENABLE_THREAD_MESSAGES, false)
+        return false
     }
 }

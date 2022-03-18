@@ -43,6 +43,8 @@ data class LoginViewState(
         // Can be modified after a Wellknown request
         @PersistState
         val homeServerUrl: String? = null,
+        @PersistState
+        val homeServerName: String? = null,
 
         // For SSO session recovery
         @PersistState

@@ -90,7 +90,7 @@ class LoginServerUrlFormFragment2 @Inject constructor() : AbstractLoginFragment2
                 .takeIf { completions.isNotEmpty() }
                 ?: TextInputLayout.END_ICON_NONE
 
-        views.loginServerUrlFormClearHistory.isInvisible = state.knownCustomHomeServersUrls.isEmpty()
+//        views.loginServerUrlFormClearHistory.isInvisible = state.knownCustomHomeServersUrls.isEmpty()
     }
 
     private fun clearHistory() {

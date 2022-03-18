@@ -4,13 +4,13 @@
     android:opacity="opaque">
 
     <!-- Background color -->
-    <item android:drawable="?colorPrimary" />
+    <item android:drawable="@color/palette_white" />
 
     <!-- Centered logo -->
     <item>
         <bitmap
-            android:gravity="center"
-            android:src="@drawable/element_splash_white" />
+            android:gravity="bottom"
+            android:src="@drawable/ic_launcher_logo" />
     </item>
 
 </layer-list>

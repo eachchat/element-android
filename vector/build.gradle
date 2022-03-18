@@ -129,7 +129,8 @@ android {
         versionCode project.getVersionCode()
 
         // Required for sonar analysis
-        versionName "${versionMajor}.${versionMinor}.${versionPatch}-sonar"
+//        versionName "${versionMajor}.${versionMinor}.${versionPatch}-sonar"
+        versionName "2.6.0"
 
         buildConfigField "String", "GIT_REVISION", "\"${gitRevision()}\""
         resValue "string", "git_revision", "\"${gitRevision()}\""
@@ -226,11 +227,6 @@ android {
             storePassword 'Zhu88jie'
         }
         release {
-//            keyAlias 'androiddebugkey'
-//            keyPassword 'android'
-//            storeFile file('./signature/debug.keystore')
-//            storePassword 'android'
-
             keyAlias 'ai.workly.yql.android'
             keyPassword 'zhu88jie'
             storeFile file('./signature/yiqia-android-signature.jks')
@@ -241,7 +237,7 @@ android {
     buildTypes {
         debug {
 //            applicationIdSuffix ".debug"
-            resValue "string", "app_name", "亿洽"
+            resValue "string", "app_name", "亿洽test"
 
             resValue "bool", "debug_mode", "true"
             resValue("string" , "mipush_appid","2882303761518846476")
@@ -285,7 +281,8 @@ android {
 
             dimension "store"
             isDefault = true
-            versionName "${versionMajor}.${versionMinor}.${versionPatch}${getGplayVersionSuffix()}"
+//            versionName "${versionMajor}.${versionMinor}.${versionPatch}${getGplayVersionSuffix()}"
+            versionName "2.6.0"
 
             resValue "bool", "isGplay", "true"
             buildConfigField "boolean", "ALLOW_FCM_USE", "true"
@@ -296,7 +293,8 @@ android {
         fdroid {
             dimension "store"
 
-            versionName "${versionMajor}.${versionMinor}.${versionPatch}${getFdroidVersionSuffix()}"
+            //versionName "${versionMajor}.${versionMinor}.${versionPatch}${getFdroidVersionSuffix()}"
+            versionName "2.6.0"
 
             resValue "bool", "isGplay", "false"
             buildConfigField "boolean", "ALLOW_FCM_USE", "false"

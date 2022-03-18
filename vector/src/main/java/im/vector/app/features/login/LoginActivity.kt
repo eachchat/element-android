@@ -101,7 +101,7 @@ open class LoginActivity : VectorBaseActivity<ActivityLoginBinding>(), UnlockedA
     }
 
     protected open fun addFirstFragment() {
-        addFragment(views.loginFragmentContainer, LoginSplashFragment::class.java)
+        addFragment(views.loginFragmentContainer, LoginServerUrlFormFragment::class.java)
     }
 
     private fun handleLoginViewEvents(loginViewEvents: LoginViewEvents) {
@@ -148,11 +148,20 @@ open class LoginActivity : VectorBaseActivity<ActivityLoginBinding>(), UnlockedA
                             // ft.setCustomAnimations(enterAnim, exitAnim, popEnterAnim, popExitAnim)
                         })
             is LoginViewEvents.OnServerSelectionDone                      -> onServerSelectionDone(loginViewEvents)
-            is LoginViewEvents.OnSignModeSelected                         -> onSignModeSelected(loginViewEvents)
+            is LoginViewEvents.OnSignModeSelected                         -> {} // onSignModeSelected(loginViewEvents)
             is LoginViewEvents.OnLoginFlowRetrieved                       ->
+//                addFragmentToBackstack(views.loginFragmentContainer,
+//                        LoginSignUpSignInSelectionFragment::class.java,
+//                        option = commonOption)
+                //直接进入登录页面
+            {
+                loginViewModel.handle(LoginAction.UpdateSignMode(SignMode.SignIn))
                 addFragmentToBackstack(views.loginFragmentContainer,
-                        LoginSignUpSignInSelectionFragment::class.java,
-                        option = commonOption)
+                        LoginFragment::class.java,
+                        tag = FRAGMENT_REGISTRATION_STAGE_TAG,
+                        option = commonOption
+                )
+            }
             is LoginViewEvents.OnWebLoginError                            -> onWebLoginError(loginViewEvents)
             is LoginViewEvents.OnForgetPasswordClicked                    ->
                 addFragmentToBackstack(views.loginFragmentContainer,

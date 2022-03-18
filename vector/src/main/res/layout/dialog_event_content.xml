@@ -9,10 +9,11 @@
         style="@style/Widget.Vector.TextView.Caption"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
+        android:layout_margin="24dp"
         android:fontFamily="monospace"
         android:textColor="?vctr_content_primary"
         android:textIsSelectable="true"
-        tools:text="Event content" />
+        tools:text="Event content"
+        android:autoLink="all" />
 
 </ScrollView>

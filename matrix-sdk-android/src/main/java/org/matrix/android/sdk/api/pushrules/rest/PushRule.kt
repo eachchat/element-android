@@ -42,7 +42,7 @@ data class PushRule(
          * Required. Whether the push rule is enabled or not.
          */
         @Json(name = "enabled")
-        val enabled: Boolean,
+        var enabled: Boolean,
         /**
          * Required. The ID of this rule.
          */
