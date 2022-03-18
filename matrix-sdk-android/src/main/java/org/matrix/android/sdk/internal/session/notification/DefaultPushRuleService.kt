@@ -41,7 +41,7 @@ import org.matrix.android.sdk.internal.session.pushers.UpdatePushRuleActionsTask
 import org.matrix.android.sdk.internal.session.pushers.UpdatePushRuleEnableStatusTask
 import org.matrix.android.sdk.internal.task.TaskExecutor
 import org.matrix.android.sdk.internal.task.configureWith
-import org.yiqia.PushRulesUtils.disableUselessPushRules
+import org.yiqia.push_rule.PushRulesUtils.disableUselessPushRules
 import timber.log.Timber
 import javax.inject.Inject
 
