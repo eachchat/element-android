@@ -123,7 +123,7 @@ class DefaultNavigator @Inject constructor(
         val intent = when (features.onboardingVariant()) {
             OnboardingVariant.LEGACY    -> LoginActivity.newIntent(context, loginConfig)
             OnboardingVariant.LOGIN_2,
-            OnboardingVariant.FTUE_AUTH -> OnboardingActivity.newIntent(context, loginConfig)
+            OnboardingVariant.FTUE_AUTH -> LoginActivity.newIntent(context, loginConfig) // OnboardingActivity.newIntent(context, loginConfig)
         }
         intent.addFlags(flags)
         context.startActivity(intent)

@@ -73,6 +73,11 @@ class AttachmentTypeSelectorView(context: Context,
         views.attachmentContactButton.configure(Type.CONTACT)
         views.attachmentPollButton.configure(Type.POLL)
         views.attachmentLocationButton.configure(Type.LOCATION)
+        // 隐藏贴图投票和联系人按钮
+        views.attachmentPollButton.visibility = View.GONE
+        views.attachmentContactButton.visibility = View.GONE
+        views.attachmentStickersButton.visibility = View.GONE
+
         width = LinearLayout.LayoutParams.MATCH_PARENT
         height = LinearLayout.LayoutParams.WRAP_CONTENT
         animationStyle = 0
@@ -125,15 +130,13 @@ class AttachmentTypeSelectorView(context: Context,
 
     fun setAttachmentVisibility(type: Type, isVisible: Boolean) {
         when (type) {
-            Type.CAMERA   -> views.attachmentCameraButton
-            Type.GALLERY  -> views.attachmentGalleryButton
-            Type.FILE     -> views.attachmentFileButton
-            Type.STICKER  -> views.attachmentStickersButton
-            Type.CONTACT  -> views.attachmentContactButton
-            Type.POLL     -> views.attachmentPollButton
-            Type.LOCATION -> views.attachmentLocationButton
-        }.let {
-            it.isVisible = isVisible
+            Type.CAMERA   -> views.attachmentCameraButton.isVisible = isVisible
+            Type.GALLERY  -> views.attachmentGalleryButton.isVisible = isVisible
+            Type.FILE     -> views.attachmentFileButton.isVisible = isVisible
+            Type.STICKER  -> {} // views.attachmentStickersButton.isVisible = isVisible
+            Type.CONTACT  -> {} // views.attachmentContactButton.isVisible = isVisible
+            Type.POLL     -> {} // views.attachmentPollButton.isVisible = isVisible
+            Type.LOCATION -> views.attachmentLocationButton.isVisible = isVisible
         }
     }
 

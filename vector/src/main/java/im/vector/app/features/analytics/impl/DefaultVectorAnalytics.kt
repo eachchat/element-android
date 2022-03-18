@@ -83,7 +83,7 @@ class DefaultVectorAnalytics @Inject constructor(
     }
 
     override fun init() {
-        observeUserConsent()
+//        observeUserConsent()
         observeAnalyticsId()
         createAnalyticsClient()
     }

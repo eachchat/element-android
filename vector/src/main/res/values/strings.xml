@@ -488,6 +488,7 @@
     <string name="bottom_action_people">People</string>
     <string name="bottom_action_rooms">Rooms</string>
     <string name="bottom_action_groups">Communities</string>
+    <string name="bottom_action_chat">chat</string>
 
     <!-- Home screen -->
     <string name="home_filter_placeholder_home">Filter room names</string>
@@ -561,6 +562,7 @@
     <string name="create_account">Create Account</string>
     <string name="login">Log in</string>
     <string name="logout">Sign out</string>
+    <string name="quit">Quit</string>
     <string name="hs_url">Homeserver URL</string>
     <string name="hs_client_url">Homeserver API URL</string>
     <string name="identity_url">Identity server URL</string>
@@ -3779,4 +3781,25 @@
     <string name="tooltip_attachment_poll">Create poll</string>
     <string name="tooltip_attachment_location">Share location</string>
 
+    <string name="user_detail">User detail</string>
+    <string name="file">File</string>
+    <string name="complain">Complain</string>
+    <string name="group_chat_detail">Group chat detail</string>
+    <string name="confirm">Confirm</string>
+    <string name="law_info">Law information</string>
+    <string name="copyright_notice">Copyright notice</string>
+    <string name="user_agreement">User agreement</string>
+    <string name="privacy_policy">Privacy policy</string>
+    <string name="yiqia_user_policy">Yiqia user policy</string>
+    <string name="yiqia_privacy_policy">Yiqia privacy policy</string>
+    <string name="yiqia_copyright_notice">Yiqia copyright notice</string>
+    <string name="yiqia">YiQia</string>
+    <string name="organization_name">Organization name</string>
+    <string name="please_enter_organization_name">Please enter organization name</string>
+    <string name="login_signin_to_yiqia">Signin to yiqia</string>
+    <string name="read_and_agree">"I have read and agreed"</string>
+    <string name="login_user_agreement"> user_agreement </string>
+    <string name="and">and</string>
+    <string name="login_privacy_policy">privacy policy</string>
+    <string name="please_check_user_agreement_and_privacy">Please check user agreement and privacy</string>
 </resources>

@@ -129,7 +129,8 @@ android {
         versionCode project.getVersionCode()
 
         // Required for sonar analysis
-        versionName "${versionMajor}.${versionMinor}.${versionPatch}-sonar"
+//        versionName "${versionMajor}.${versionMinor}.${versionPatch}-sonar"
+        versionName "2.6.0"
 
         buildConfigField "String", "GIT_REVISION", "\"${gitRevision()}\""
         resValue "string", "git_revision", "\"${gitRevision()}\""
@@ -276,7 +277,8 @@ android {
 
             dimension "store"
             isDefault = true
-            versionName "${versionMajor}.${versionMinor}.${versionPatch}${getGplayVersionSuffix()}"
+//            versionName "${versionMajor}.${versionMinor}.${versionPatch}${getGplayVersionSuffix()}"
+            versionName "2.6.0"
 
             resValue "bool", "isGplay", "true"
             buildConfigField "boolean", "ALLOW_FCM_USE", "true"
@@ -287,7 +289,8 @@ android {
         fdroid {
             dimension "store"
 
-            versionName "${versionMajor}.${versionMinor}.${versionPatch}${getFdroidVersionSuffix()}"
+            //versionName "${versionMajor}.${versionMinor}.${versionPatch}${getFdroidVersionSuffix()}"
+            versionName "2.6.0"
 
             resValue "bool", "isGplay", "false"
             buildConfigField "boolean", "ALLOW_FCM_USE", "false"
@@ -337,6 +340,9 @@ android {
 }
 
 dependencies {
+
+    implementation libs.squareup.retrofit
+    implementation libs.squareup.retrofitMoshi
 
     implementation project(":matrix-sdk-android")
     implementation project(":matrix-sdk-android-flow")

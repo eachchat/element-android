@@ -18,10 +18,12 @@ package im.vector.app.features.login
 
 import android.os.Build
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.widget.Toast
 import androidx.autofill.HintConstants
 import androidx.core.text.isDigitsOnly
 import androidx.core.view.isVisible
@@ -35,6 +37,7 @@ import im.vector.app.core.extensions.hideKeyboard
 import im.vector.app.core.extensions.hidePassword
 import im.vector.app.core.extensions.toReducedUrl
 import im.vector.app.databinding.FragmentLoginBinding
+import im.vector.app.features.webview.NormalWebViewActivity
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
@@ -57,6 +60,10 @@ class LoginFragment @Inject constructor() : AbstractSSOLoginFragment<FragmentLog
 
     private var isSignupMode = false
 
+    companion object {
+        const val MATRIX_ORG_URL = "https://matrix-client.matrix.org"
+    }
+
     // Temporary patch for https://github.com/vector-im/riotX-android/issues/1410,
     // waiting for https://github.com/matrix-org/synapse/issues/7576
     private var isNumericOnlyUserIdForbidden = false
@@ -70,6 +77,7 @@ class LoginFragment @Inject constructor() : AbstractSSOLoginFragment<FragmentLog
 
         setupSubmitButton()
         setupForgottenPasswordButton()
+        setUpPolicyButton()
 
         views.passwordField.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
@@ -111,6 +119,13 @@ class LoginFragment @Inject constructor() : AbstractSSOLoginFragment<FragmentLog
     }
 
     private fun submit() {
+        if (!views.acceptCheckBox.isChecked) {
+            val toast = Toast.makeText(requireContext(), getString(R.string.please_check_user_agreement_and_privacy), Toast.LENGTH_SHORT)
+            toast.setGravity(Gravity.CENTER, 0, 0)
+            toast.show()
+            return
+        }
+
         cleanupUi()
 
         val login = views.loginField.text.toString()
@@ -161,7 +176,7 @@ class LoginFragment @Inject constructor() : AbstractSSOLoginFragment<FragmentLog
         // Handle direct signin first
         if (state.signMode == SignMode.SignInWithMatrixId) {
             views.loginServerIcon.isVisible = false
-            views.loginTitle.text = getString(R.string.login_signin_matrix_id_title)
+            views.loginTitle.text = getString(R.string.login_signin_to_yiqia)
             views.loginNotice.text = getString(R.string.login_signin_matrix_id_notice)
             views.loginPasswordNotice.isVisible = true
         } else {
@@ -174,15 +189,15 @@ class LoginFragment @Inject constructor() : AbstractSSOLoginFragment<FragmentLog
 
             when (state.serverType) {
                 ServerType.MatrixOrg -> {
-                    views.loginServerIcon.isVisible = true
+                    views.loginServerIcon.isVisible = false
                     views.loginServerIcon.setImageResource(R.drawable.ic_logo_matrix_org)
-                    views.loginTitle.text = getString(resId, state.homeServerUrlFromUser.toReducedUrl())
+                    views.loginTitle.text = getString(R.string.login_signin_to_yiqia)
                     views.loginNotice.text = getString(R.string.login_server_matrix_org_text)
                 }
                 ServerType.EMS       -> {
-                    views.loginServerIcon.isVisible = true
+                    views.loginServerIcon.isVisible = false
                     views.loginServerIcon.setImageResource(R.drawable.ic_logo_element_matrix_services)
-                    views.loginTitle.text = getString(resId, "Element Matrix Services")
+                    views.loginTitle.text = getString(R.string.login_signin_to_yiqia)
                     views.loginNotice.text = getString(R.string.login_server_modular_text)
                 }
                 ServerType.Other     -> {
@@ -268,6 +283,14 @@ class LoginFragment @Inject constructor() : AbstractSSOLoginFragment<FragmentLog
         setupSocialLoginButtons(state)
         setupButtons(state)
 
+        views.loginNotice.text = getString(R.string.login_signin_to, state.homeServerName?: state.homeServerUrl)
+
+        if (state.homeServerUrl == MATRIX_ORG_URL) {
+            views.forgetPasswordButton.visibility = View.VISIBLE
+        } else {
+            views.forgetPasswordButton.visibility = View.INVISIBLE
+        }
+
         when (state.asyncLoginAction) {
             is Loading -> {
                 // Ensure password is hidden
@@ -308,4 +331,19 @@ class LoginFragment @Inject constructor() : AbstractSSOLoginFragment<FragmentLog
      * Detect if password ends or starts with spaces
      */
     private fun spaceInPassword() = views.passwordField.text.toString().let { it.trim() != it }
+
+
+    private fun setUpPolicyButton() {
+        //用户协议
+        views.tvUserAgreement.setOnClickListener {
+            val intent = NormalWebViewActivity.getIntent(requireContext(), "file:///android_asset/user-agreements.html", getString(R.string.yiqia_user_policy))
+            startActivity(intent)
+        }
+
+        //隐私政策
+        views.tvPrivacyPolicy.setOnClickListener {
+            val intent = NormalWebViewActivity.getIntent(requireContext(), "file:///android_asset/privacy-policy.html", getString(R.string.yiqia_privacy_policy))
+            startActivity(intent)
+        }
+    }
 }

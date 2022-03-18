@@ -135,6 +135,9 @@ class RoomMemberProfileFragment @Inject constructor(
             }.exhaustive
         }
         setupLongClicks()
+
+        headerViews.memberProfileIdView.visibility = View.GONE
+        headerViews.memberProfilePowerLevelView.visibility = View.GONE
     }
 
     private fun setupLongClicks() {
@@ -251,7 +254,7 @@ class RoomMemberProfileFragment @Inject constructor(
                 }
             }
         }
-        headerViews.memberProfilePowerLevelView.setTextOrHide(state.userPowerLevelString())
+        //headerViews.memberProfilePowerLevelView.setTextOrHide(state.userPowerLevelString())
         roomMemberProfileController.setData(state)
     }
 

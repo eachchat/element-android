@@ -38,7 +38,8 @@ class LocalePickerController @Inject constructor(
     var listener: Listener? = null
 
     override fun buildModels(data: LocalePickerViewState?) {
-        val list = data?.locales ?: return
+//        val list = data?.locales ?: return
+        if (data == null) return
         val host = this
 
         profileSectionItem {
@@ -53,38 +54,38 @@ class LocalePickerController @Inject constructor(
             }
             clickListener { host.listener?.onUseCurrentClicked() }
         }
-        profileSectionItem {
-            id("otherTitle")
-            title(host.stringProvider.getString(R.string.choose_locale_other_locales_title))
-        }
-        when (list) {
-            is Incomplete -> {
-                loadingItem {
-                    id("loading")
-                    loadingText(host.stringProvider.getString(R.string.choose_locale_loading_locales))
-                }
-            }
-            is Success    ->
-                if (list().isEmpty()) {
-                    noResultItem {
-                        id("noResult")
-                        text(host.stringProvider.getString(R.string.no_result_placeholder))
-                    }
-                } else {
-                    list()
-                            .filter { it.toString() != data.currentLocale.toString() }
-                            .forEach { locale ->
-                                localeItem {
-                                    id(locale.toString())
-                                    title(VectorLocale.localeToLocalisedString(locale).safeCapitalize(locale))
-                                    if (host.vectorPreferences.developerMode()) {
-                                        subtitle(VectorLocale.localeToLocalisedStringInfo(locale))
-                                    }
-                                    clickListener { host.listener?.onLocaleClicked(locale) }
-                                }
-                            }
-                }
-        }
+//        profileSectionItem {
+//            id("otherTitle")
+//            title(host.stringProvider.getString(R.string.choose_locale_other_locales_title))
+//        }
+//        when (list) {
+//            is Incomplete -> {
+//                loadingItem {
+//                    id("loading")
+//                    loadingText(host.stringProvider.getString(R.string.choose_locale_loading_locales))
+//                }
+//            }
+//            is Success    ->
+//                if (list().isEmpty()) {
+//                    noResultItem {
+//                        id("noResult")
+//                        text(host.stringProvider.getString(R.string.no_result_placeholder))
+//                    }
+//                } else {
+//                    list()
+//                            .filter { it.toString() != data.currentLocale.toString() }
+//                            .forEach { locale ->
+//                                localeItem {
+//                                    id(locale.toString())
+//                                    title(VectorLocale.localeToLocalisedString(locale).safeCapitalize(locale))
+//                                    if (host.vectorPreferences.developerMode()) {
+//                                        subtitle(VectorLocale.localeToLocalisedStringInfo(locale))
+//                                    }
+//                                    clickListener { host.listener?.onLocaleClicked(locale) }
+//                                }
+//                            }
+//                }
+//        }
     }
 
     interface Listener {

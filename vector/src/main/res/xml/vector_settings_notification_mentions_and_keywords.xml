@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <im.vector.app.core.preference.VectorPreferenceCategory
         android:key="SETTINGS_KEYWORDS_AND_MENTIONS"
         android:title="@string/settings_notification_notify_me_for">
@@ -22,12 +23,14 @@
         <im.vector.app.core.preference.VectorCheckboxPreference
             android:key="SETTINGS_PUSH_RULE_MESSAGES_CONTAINING_KEYWORDS_PREFERENCE_KEY"
             android:persistent="false"
-            android:title="@string/settings_messages_containing_keywords" />
+            android:title="@string/settings_messages_containing_keywords"
+            app:isPreferenceVisible="false" />
     </im.vector.app.core.preference.VectorPreferenceCategory>
 
     <im.vector.app.core.preference.VectorPreferenceCategory
         android:key="SETTINGS_YOUR_KEYWORDS"
-        android:title="@string/settings_notification_your_keywords">
+        android:title="@string/settings_notification_your_keywords"
+        app:isPreferenceVisible="false" >
         <im.vector.app.core.preference.KeywordPreference
             android:key="SETTINGS_KEYWORD_EDIT"
             android:persistent="false"

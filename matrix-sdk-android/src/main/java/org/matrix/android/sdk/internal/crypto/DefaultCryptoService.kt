@@ -174,7 +174,7 @@ internal class DefaultCryptoService @Inject constructor(
 ) : CryptoService {
 
     private val isStarting = AtomicBoolean(false)
-    private val isStarted = AtomicBoolean(false)
+    private val isStarted = AtomicBoolean(true)
 
     fun onStateEvent(roomId: String, event: Event) {
         when (event.type) {

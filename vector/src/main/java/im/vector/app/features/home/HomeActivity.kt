@@ -186,7 +186,7 @@ class HomeActivity :
         super.onCreate(savedInstanceState)
         analyticsScreenName = Screen.ScreenName.Home
         supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentLifecycleCallbacks, false)
-        FcmHelper.ensureFcmTokenIsRetrieved(this, pushManager, vectorPreferences.areNotificationEnabledForDevice())
+        //FcmHelper.ensureFcmTokenIsRetrieved(this, pushManager, vectorPreferences.areNotificationEnabledForDevice())
         sharedActionViewModel = viewModelProvider.get(HomeSharedActionViewModel::class.java)
         views.drawerLayout.addDrawerListener(drawerListener)
         if (isFirstCreation()) {
@@ -254,10 +254,10 @@ class HomeActivity :
 
         homeActivityViewModel.observeViewEvents {
             when (it) {
-                is HomeActivityViewEvents.AskPasswordToInitCrossSigning -> {}//handleAskPasswordToInitCrossSigning(it)
-                is HomeActivityViewEvents.OnNewSession                  -> {}//handleOnNewSession(it)
+                is HomeActivityViewEvents.AskPasswordToInitCrossSigning -> {} // handleAskPasswordToInitCrossSigning(it)
+                is HomeActivityViewEvents.OnNewSession                  -> {} // handleOnNewSession(it)
                 HomeActivityViewEvents.PromptToEnableSessionPush        -> handlePromptToEnablePush()
-                is HomeActivityViewEvents.OnCrossSignedInvalidated      -> {}//handleCrossSigningInvalidated(it)
+                is HomeActivityViewEvents.OnCrossSignedInvalidated      -> {} // handleCrossSigningInvalidated(it)
                 HomeActivityViewEvents.ShowAnalyticsOptIn               -> handleShowAnalyticsOptIn()
             }.exhaustive
         }

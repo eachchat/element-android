@@ -68,7 +68,8 @@ abstract class RoomDirectoryItem : VectorEpoxyModel<RoomDirectoryItem.Holder>() 
                     }
                 }
                 .into(holder.avatarView)
-        holder.avatarView.isInvisible = directoryAvatarUrl.isNullOrBlank() && includeAllNetworks
+//        holder.avatarView.isInvisible = directoryAvatarUrl.isNullOrBlank() && includeAllNetworks
+
 
         holder.nameView.text = directoryName
         holder.descriptionView.setTextOrHide(directoryDescription)
