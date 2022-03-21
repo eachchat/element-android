@@ -3,5 +3,5 @@
     <gradient
         android:angle="@integer/rtl_mirror_flip"
         android:endColor="#33BBE7CF"
-        android:startColor="#330DBD8B" />
+        android:startColor="#3300C975" />
 </shape>

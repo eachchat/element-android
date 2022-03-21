@@ -204,20 +204,31 @@ class RoomProfileController @Inject constructor(
             )
         }
 
-        if (data.bannedMembership.invoke()?.isNotEmpty() == true) {
-            buildProfileAction(
-                    id = "banned_list",
-                    title = stringProvider.getString(R.string.room_settings_banned_users_title),
-                    icon = R.drawable.ic_settings_root_labs,
-                    action = { callback?.onBannedMemberListClicked() }
-            )
-        }
+//        if (data.bannedMembership.invoke()?.isNotEmpty() == true) {
+//            buildProfileAction(
+//                    id = "banned_list",
+//                    title = stringProvider.getString(R.string.room_settings_banned_users_title),
+//                    icon = R.drawable.ic_settings_root_labs,
+//                    action = { callback?.onBannedMemberListClicked() }
+//            )
+//        }
+
         buildProfileAction(
                 id = "uploads",
                 title = stringProvider.getString(R.string.file),
                 icon = R.drawable.ic_file_filled,
                 action = { callback?.onUploadsClicked() }
         )
+
+        if (data.actionPermissions.canChangePowerLevels) {
+            buildProfileAction(
+                    id = "permissions",
+                    title = stringProvider.getString(R.string.room_manage),
+                    icon = R.drawable.ic_room_profile_permission,
+                    action = { callback?.onRoomPermissionsClicked() }
+            )
+        }
+
         buildProfileAction(
                 id = "complain",
                 title = stringProvider.getString(R.string.complain),

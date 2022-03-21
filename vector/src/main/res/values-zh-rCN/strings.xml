@@ -154,7 +154,7 @@
     <string name="notice_widget_modified_by_you">你修改了 %1$s 挂件</string>
     <string name="power_level_admin">群主</string>
     <string name="power_level_moderator">群管理员</string>
-    <string name="power_level_default">默认</string>
+    <string name="power_level_default">群成员</string>
     <string name="power_level_custom">自定义（%1$d）</string>
     <string name="power_level_custom_no_value">自定义</string>
     <string name="notice_power_level_changed_by_you">你更改了%1$s 的权力等级。</string>
@@ -284,7 +284,7 @@
     <string name="auth_phone_number_placeholder">手机号码</string>
     <string name="auth_opt_phone_number_placeholder">手机号码（可选）</string>
     <string name="auth_repeat_new_password_placeholder">确认你的新密码</string>
-    <string name="auth_invalid_login_param">用户名和/或密码错误</string>
+    <string name="auth_invalid_login_param">用户名或密码错误</string>
     <string name="auth_invalid_user_name">用户名仅可由字母、数字、点、连字符与下划线组成</string>
     <string name="auth_invalid_password">密码太短（至少 6 位）</string>
     <string name="auth_missing_password">缺少密码</string>
@@ -1361,7 +1361,7 @@
     <string name="auth_add_email_phone_message_2">设定电子邮件以供恢复账号。然后就可以让认识你的人用电子邮件或电话选择性探索到你。</string>
     <string name="auth_add_email_and_phone_message_2">设定电子邮件以供恢复账号。然后就可以让认识你的人用电子邮件或电话选择性探索到你。</string>
     <string name="login_error_no_homeserver_found">这不是有效的 Matrix 服务器位置</string>
-    <string name="login_error_homeserver_not_found">无法在此 URL 找到主服务器，请检查</string>
+    <string name="login_error_homeserver_not_found">您的组织未开通服务</string>
     <string name="settings_call_ringtone_use_default_stun">允许后备呼叫协助服务器</string>
     <string name="action_play">播放</string>
     <string name="action_pause">暂停</string>
@@ -1400,7 +1400,7 @@
     <string name="room_participants_action_unignore_prompt_msg">取消忽略此用户将重新显示来自他们的全部消息。</string>
     <string name="room_participants_action_cancel_invite_title">取消邀请</string>
     <string name="room_participants_action_cancel_invite_prompt_msg">你确定想要取消邀请此用户吗？</string>
-    <string name="room_participants_remove_title">踢掉用户</string>
+    <string name="room_participants_remove_title">移除用户</string>
     <string name="room_participants_remove_reason">踢掉理由</string>
     <string name="room_participants_remove_prompt_msg">踢掉用户将从此群聊移除他们。
 \n
@@ -2420,17 +2420,17 @@
     <string name="room_permissions_change_main_address_for_the_room">更改群聊主要地址</string>
     <string name="room_permissions_change_room_avatar">更改群聊头像</string>
     <string name="room_permissions_modify_widgets">修改挂件</string>
-    <string name="room_permissions_notify_everyone">通知每个人</string>
+    <string name="room_permissions_notify_everyone">通知所有人</string>
     <string name="room_permissions_remove_messages_sent_by_others">移除其他人发送的消息</string>
     <string name="room_permissions_ban_users">封禁用户</string>
-    <string name="room_permissions_remove_users">踢掉用户</string>
+    <string name="room_permissions_remove_users">移除用户</string>
     <string name="room_permissions_change_settings">更改设置</string>
     <string name="room_permissions_invite_users">邀请用户</string>
     <string name="room_permissions_send_messages">发送消息</string>
     <string name="room_permissions_default_role">默认角色</string>
     <string name="room_permissions_notice_read_only">你没有权限更新更改群聊多个部分所需角色</string>
     <string name="room_permissions_notice">选择更改群聊各个部分所需的角色</string>
-    <string name="room_permissions_title">权限</string>
+    <string name="room_permissions_title">权限管理</string>
     <string name="room_settings_permissions_subtitle">需要查看和更新角色以更改群聊多个部分。</string>
     <string name="room_settings_permissions_title">群聊权限</string>
     <string name="room_participants_leave_private_warning">此群聊不公开。你没有邀请将无法重新加入。</string>
@@ -3014,4 +3014,9 @@
     <string name="and">和</string>
     <string name="login_privacy_policy"> 《隐私政策》 </string>
     <string name="please_check_user_agreement_and_privacy">请勾选同意《用户协议》和《隐私条款》</string>
+    <string name="room_manage">群管理</string>
+    <string name="only_room_owner">仅群主</string>
+    <string name="room_owner_and_moderator">仅群主和群管理员</string>
+    <string name="all_room_member">所有群成员</string>
+
 </resources>

@@ -18,6 +18,7 @@
 package im.vector.app.features.roomprofile
 
 import com.airbnb.mvrx.MavericksViewModelFactory
+import com.airbnb.mvrx.Success
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -29,6 +30,7 @@ import im.vector.app.core.platform.VectorViewModel
 import im.vector.app.core.resources.StringProvider
 import im.vector.app.features.home.ShortcutCreator
 import im.vector.app.features.powerlevel.PowerLevelsFlowFactory
+import im.vector.app.features.roomprofile.permissions.RoomPermissionsViewState
 import im.vector.app.features.session.coroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
@@ -118,15 +120,33 @@ class RoomProfileViewModel @AssistedInject constructor(
     }
 
     private fun observePermissions() {
+//        PowerLevelsFlowFactory(room)
+//                .createFlow()
+//                .setOnEach {
+//                    val powerLevelsHelper = PowerLevelsHelper(it)
+//                    val permissions = RoomProfileViewState.ActionPermissions(
+//                            canEnableEncryption = powerLevelsHelper.isUserAllowedToSend(session.myUserId, true, EventType.STATE_ROOM_ENCRYPTION)
+//                    )
+//                    copy(actionPermissions = permissions)
+//                }
         PowerLevelsFlowFactory(room)
                 .createFlow()
-                .setOnEach {
-                    val powerLevelsHelper = PowerLevelsHelper(it)
-                    val permissions = RoomProfileViewState.ActionPermissions(
-                            canEnableEncryption = powerLevelsHelper.isUserAllowedToSend(session.myUserId, true, EventType.STATE_ROOM_ENCRYPTION)
+                .onEach { powerLevelContent ->
+                    val powerLevelsHelper = PowerLevelsHelper(powerLevelContent)
+                    val permissions = RoomPermissionsViewState.ActionPermissions(
+                            canChangePowerLevels = powerLevelsHelper.isUserAllowedToSend(
+                                    userId = session.myUserId,
+                                    isState = true,
+                                    eventType = EventType.STATE_ROOM_POWER_LEVELS
+                            )
                     )
-                    copy(actionPermissions = permissions)
-                }
+                    setState {
+                        copy(
+                                actionPermissions = permissions,
+                                currentPowerLevelsContent = Success(powerLevelContent)
+                        )
+                    }
+                }.launchIn(viewModelScope)
     }
 
     override fun handle(action: RoomProfileAction) {

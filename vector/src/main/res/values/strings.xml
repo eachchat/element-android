@@ -3802,4 +3802,8 @@
     <string name="and">and</string>
     <string name="login_privacy_policy">privacy policy</string>
     <string name="please_check_user_agreement_and_privacy">Please check user agreement and privacy</string>
+    <string name="room_manage">room manage</string>
+    <string name="only_room_owner">only room owner</string>
+    <string name="room_owner_and_moderator">room owner and moderator</string>
+    <string name="all_room_member">all room member</string>
 </resources>

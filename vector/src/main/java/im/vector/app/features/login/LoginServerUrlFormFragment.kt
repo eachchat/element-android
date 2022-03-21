@@ -23,6 +23,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
@@ -30,6 +31,7 @@ import im.vector.app.R
 import im.vector.app.core.extensions.hideKeyboard
 import im.vector.app.core.utils.openUrlInChromeCustomTab
 import im.vector.app.databinding.FragmentLoginServerUrlFormBinding
+import im.vector.app.yiqia.utils.ToastUtil
 import im.vector.app.yiqia.utils.string.StringUtils.highlightKeyword
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
@@ -97,7 +99,7 @@ class LoginServerUrlFormFragment @Inject constructor() :
     private fun setupHomeServerField() {
         views.loginServerUrlFormHomeServerUrl.textChanges()
             .onEach {
-                views.loginServerUrlFormHomeServerUrlTil.error = null
+                //views.loginServerUrlFormHomeServerUrlTil.error = null
                 views.loginServerUrlFormSubmit.isEnabled = it.isNotBlank()
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
@@ -169,8 +171,8 @@ class LoginServerUrlFormFragment @Inject constructor() :
 
         when {
             serverUrl.isBlank() -> {
-                views.loginServerUrlFormHomeServerUrlTil.error =
-                    getString(R.string.login_error_invalid_home_server)
+                //views.loginServerUrlFormHomeServerUrlTil.error =
+                ToastUtil.showError(context, getString(R.string.login_error_invalid_home_server))
             }
             else -> {
 //                views.loginServerUrlFormHomeServerUrl.setText(serverUrl, false /* to avoid completion dialog flicker*/)
@@ -181,18 +183,18 @@ class LoginServerUrlFormFragment @Inject constructor() :
 
     private fun cleanupUi() {
         views.loginServerUrlFormSubmit.hideKeyboard()
-        views.loginServerUrlFormHomeServerUrlTil.error = null
+        //views.loginServerUrlFormHomeServerUrlTil.error = null
     }
 
     override fun onError(throwable: Throwable) {
-        views.loginServerUrlFormHomeServerUrlTil.error =
+        //views.loginServerUrlFormHomeServerUrlTil.error =
             if (throwable is Failure.NetworkConnection &&
                 throwable.ioException is UnknownHostException
             ) {
                 // Invalid homeserver?
-                getString(R.string.login_error_homeserver_not_found)
+                ToastUtil.showError(context, getString(R.string.login_error_homeserver_not_found))
             } else {
-                errorFormatter.toHumanReadable(throwable)
+                ToastUtil.showError(context, errorFormatter.toHumanReadable(throwable))
             }
     }
 
