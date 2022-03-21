@@ -48,8 +48,9 @@ import org.matrix.android.sdk.api.auth.wellknown.WellknownResult
 import org.matrix.android.sdk.api.failure.Failure
 import org.matrix.android.sdk.api.failure.MatrixIdFailure
 import org.matrix.android.sdk.api.session.Session
-import org.yiqia.net.api.LoginApi
-import org.yiqia.net.data.OrgSearchInput
+import im.vector.app.eachchat.service.LoginApi
+import im.vector.app.eachchat.bean.OrgSearchInput
+import im.vector.app.eachchat.net.NetConstant
 import timber.log.Timber
 import java.util.concurrent.CancellationException
 
@@ -778,9 +779,10 @@ class LoginViewModel @AssistedInject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 var homeServerUrl = action.homeServerUrl
-                val response = LoginApi.getInstance().gms(OrgSearchInput(action.homeServerUrl))
+                val response = LoginApi.getInstance()?.gms(OrgSearchInput(action.homeServerUrl)) ?: return@launch
                 if (response.isSuccess) {
                     homeServerUrl = response.obj?.entry?.cooperationUrl ?: homeServerUrl
+                    NetConstant.setServerHost(homeServerUrl)
                 }
 
                 val homeServerConnectionConfig =
@@ -883,7 +885,7 @@ class LoginViewModel @AssistedInject constructor(
     fun getOrgNames(it: String, getOrgNamesCallback: (List<String>?) -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                val response = LoginApi.getInstance().orgNames(OrgSearchInput(it))
+                val response = LoginApi.getInstance()?.orgNames(OrgSearchInput(it)) ?: return@launch
                 if (response.isSuccess) {
                     getOrgNamesCallback.invoke(response.results)
                 } else {

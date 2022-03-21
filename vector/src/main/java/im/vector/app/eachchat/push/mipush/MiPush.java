@@ -40,22 +40,26 @@ public class MiPush extends AbsPush {
         MiPushClient.registerPush(context,
                 context.getString(R.string.mipush_appid),
                 context.getString(R.string.mipush_appkey));
-//        LogUtil.e("mipush id", "appId:" + context.getString(R.string.mipush_appid));
+        LogUtil.i("## appId:" + context.getString(R.string.mipush_appid));
         MiPushClient.disablePush(context);
+
     }
 
     @Override
     public void startPush() {
+        LogUtil.i("## startPush");
         MiPushClient.enablePush(mContext);
     }
 
     @Override
     public void stopPush() {
+        LogUtil.i("## stopPush");
         MiPushClient.disablePush(mContext);
     }
 
     @Override
     public String getRegId() {
+        LogUtil.i("## getRegId");
         return MiPushClient.getRegId(mContext);
     }
 
@@ -66,6 +70,7 @@ public class MiPush extends AbsPush {
 
     @Override
     public void clearPush() {
+        LogUtil.i("## clearPush");
         MiPushClient.clearNotification(mContext);
     }
 }

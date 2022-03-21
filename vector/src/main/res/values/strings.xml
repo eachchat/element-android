@@ -3802,4 +3802,6 @@
     <string name="and">and</string>
     <string name="login_privacy_policy">privacy policy</string>
     <string name="please_check_user_agreement_and_privacy">Please check user agreement and privacy</string>
+    <string name="audio_and_video_notification">Audio And Video Notification</string>
+    <string name="message_notification">Messages notification</string>
 </resources>

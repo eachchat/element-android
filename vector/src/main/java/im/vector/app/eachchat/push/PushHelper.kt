@@ -33,11 +33,9 @@ import im.vector.app.eachchat.utils.AppCache
 import im.vector.app.features.home.HomeActivity
 import im.vector.app.features.settings.VectorPreferences
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.matrix.android.sdk.api.session.pushers.PushersService
-import java.lang.Exception
 import javax.inject.Inject
 import kotlin.math.abs
 
@@ -55,7 +53,6 @@ class PushHelper {
             initClient(AppCache.getPNS())
             return
         }
-        AppCache.setBindDevice(false)
         val input = PNSInput()
         input.model = Build.MODEL
         input.brand = Build.BRAND
@@ -201,9 +198,6 @@ class PushHelper {
 //            if (!UserCache.isLogin()) {
 //                return
 //            }
-//        if (!AppCache.getPushEnable()) {
-//            return
-//        }
         if (!DefaultSharedPreferences.getInstance(BaseModule.getContext())
                         .getBoolean(VectorPreferences.SETTINGS_ENABLE_THIS_DEVICE_PREFERENCE_KEY, true)) {
             return
@@ -222,8 +216,6 @@ class PushHelper {
         clearNotification()
         pushClient?.stopPush()
         pushClient = null
-        AppCache.setBindDevice(false)
-        AppCache.setRequestPNSTime(0L)
     }
 
     fun logout() {
@@ -285,7 +277,11 @@ class PushHelper {
 //        }
 
     fun clickNotification(context: Context) {
-        HomeActivity.newIntent(context)
+//        HomeActivity.newIntent(context)
+
+        val intent = Intent(context, HomeActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+        context.startActivity(intent)
     }
 
     fun clearNotification() {

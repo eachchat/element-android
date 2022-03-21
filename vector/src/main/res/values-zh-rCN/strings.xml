@@ -3014,4 +3014,6 @@
     <string name="and">和</string>
     <string name="login_privacy_policy"> 《隐私政策》 </string>
     <string name="please_check_user_agreement_and_privacy">请勾选同意《用户协议》和《隐私条款》</string>
+    <string name="audio_and_video_notification">音视频通话通知</string>
+    <string name="message_notification">消息通知</string>
 </resources>

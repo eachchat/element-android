@@ -2,8 +2,8 @@ package im.vector.app.eachchat.service
 
 import im.vector.app.eachchat.bean.PNSInput
 import im.vector.app.eachchat.bean.PNSOutput
+import im.vector.app.eachchat.bean.Response
 import im.vector.app.eachchat.net.NetWorkManager
-import im.vector.app.eachchat.net.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
 
