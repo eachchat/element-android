@@ -214,9 +214,9 @@ class VectorSettingsNotificationPreferenceFragment @Inject constructor(
             }
         }
 
-        findPreference<VectorPreferenceCategory>(VectorPreferences.SETTINGS_BACKGROUND_SYNC_PREFERENCE_KEY)?.let {
-            it.isVisible = !FcmHelper.isPushSupported()
-        }
+//        findPreference<VectorPreferenceCategory>(VectorPreferences.SETTINGS_BACKGROUND_SYNC_PREFERENCE_KEY)?.let {
+//            it.isVisible = !FcmHelper.isPushSupported()
+//        }
 
         val backgroundSyncEnabled = vectorPreferences.isBackgroundSyncEnabled()
         findPreference<VectorEditTextPreference>(VectorPreferences.SETTINGS_SET_SYNC_TIMEOUT_PREFERENCE_KEY)?.let {
