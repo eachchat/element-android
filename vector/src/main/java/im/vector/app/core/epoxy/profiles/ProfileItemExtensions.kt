@@ -20,6 +20,7 @@ package im.vector.app.core.epoxy.profiles
 import androidx.annotation.DrawableRes
 import com.airbnb.epoxy.EpoxyController
 import im.vector.app.core.epoxy.ClickListener
+import im.vector.app.core.epoxy.customHeightDividerItem
 import im.vector.app.core.epoxy.dividerItem
 import im.vector.app.features.home.AvatarRenderer
 import org.matrix.android.sdk.api.util.MatrixItem
@@ -65,5 +66,12 @@ fun EpoxyController.buildProfileAction(
         dividerItem {
             id("divider_$title")
         }
+    }
+}
+
+fun EpoxyController.buildDivider(dividerName: String, height: Int) {
+    customHeightDividerItem {
+        id("divider_$dividerName")
+        customHeight(height)
     }
 }

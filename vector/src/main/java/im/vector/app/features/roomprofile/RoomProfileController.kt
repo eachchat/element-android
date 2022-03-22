@@ -20,6 +20,7 @@ package im.vector.app.features.roomprofile
 import com.airbnb.epoxy.TypedEpoxyController
 import im.vector.app.R
 import im.vector.app.core.epoxy.expandableTextItem
+import im.vector.app.core.epoxy.profiles.buildDivider
 import im.vector.app.core.epoxy.profiles.buildProfileAction
 import im.vector.app.core.epoxy.profiles.buildProfileSection
 import im.vector.app.core.resources.ColorProvider
@@ -27,6 +28,7 @@ import im.vector.app.core.resources.DrawableProvider
 import im.vector.app.core.resources.StringProvider
 import im.vector.app.core.ui.list.genericFooterItem
 import im.vector.app.core.ui.list.genericPositiveButtonItem
+import im.vector.app.core.utils.DimensionConverter
 import im.vector.app.features.home.ShortcutCreator
 import im.vector.app.features.home.room.detail.timeline.TimelineEventController
 import im.vector.app.features.home.room.detail.timeline.tools.createLinkMovementMethod
@@ -173,8 +175,12 @@ class RoomProfileController @Inject constructor(
 //        buildEncryptionAction(data.actionPermissions, roomSummary)
 
         // More
-        buildProfileSection(stringProvider.getString(R.string.room_profile_section_more))
+        if (roomSummary.isDirect) {
+            buildDivider("direct", 8)
+        }
+
         if (!roomSummary.isDirect) {
+            buildProfileSection(stringProvider.getString(R.string.room_profile_section_more))
             buildProfileAction(
                     id = "settings",
                     title = stringProvider.getString(if (roomSummary.isDirect) {
