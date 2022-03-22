@@ -7,3 +7,12 @@ include ':library:core-utils'
 include ':library:ui-styles'
 include ':library:jsonviewer'
 include ':matrix-sdk-android-flow'
+
+dependencyResolutionManagement {
+    repositories {
+        google()
+        jcenter()
+        // 配置HMS Core SDK的Maven仓地址。
+        maven {url 'https://developer.huawei.com/repo/'}
+    }
+}

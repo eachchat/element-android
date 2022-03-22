@@ -1,4 +1,4 @@
-package org.yiqia.net.data
+package im.vector.app.eachchat.bean
 
 import java.io.Serializable
 

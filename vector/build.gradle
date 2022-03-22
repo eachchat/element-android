@@ -2,6 +2,7 @@ import com.android.build.OutputFile
 
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.android.gms.oss-licenses-plugin'
+apply plugin: 'com.huawei.agconnect'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-parcelize'
 apply plugin: 'kotlin-kapt'
@@ -164,29 +165,29 @@ android {
 
         // Keep abiFilter for the universalApk
         ndk {
-            abiFilters "armeabi-v7a", "x86", 'arm64-v8a', 'x86_64'
+            abiFilters "armeabi", "armeabi-v7a", "arm64-v8a"
         }
 
         // Ref: https://developer.android.com/studio/build/configure-apk-splits.html
-        splits {
-            // Configures multiple APKs based on ABI.
-            abi {
-                // Enables building multiple APKs per ABI.
-                enable true
-
-                // By default all ABIs are included, so use reset() and include to specify that we only
-                // want APKs for armeabi-v7a, x86, arm64-v8a and x86_64.
-
-                // Resets the list of ABIs that Gradle should create APKs for to none.
-                reset()
-
-                // Specifies a list of ABIs that Gradle should create APKs for.
-                include "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
-
-                // Generate a universal APK that includes all ABIs, so user who install from CI tool can use this one by default.
-                universalApk true
-            }
-        }
+//        splits {
+//            // Configures multiple APKs based on ABI.
+//            abi {
+//                // Enables building multiple APKs per ABI.
+//                enable true
+//
+//                // By default all ABIs are included, so use reset() and include to specify that we only
+//                // want APKs for armeabi-v7a, x86, arm64-v8a and x86_64.
+//
+//                // Resets the list of ABIs that Gradle should create APKs for to none.
+//                reset()
+//
+//                // Specifies a list of ABIs that Gradle should create APKs for.
+//                include "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
+//
+//                // Generate a universal APK that includes all ABIs, so user who install from CI tool can use this one by default.
+//                universalApk true
+//            }
+//        }
 
         applicationVariants.all { variant ->
             // assign different version code for each output
@@ -240,6 +241,11 @@ android {
             resValue "string", "app_name", "亿洽test"
 
             resValue "bool", "debug_mode", "true"
+//            resValue("string" , "mipush_appid","2882303761518846476")
+//            resValue("string" , "mipush_appkey","5911884680476")
+            resValue("string" , "mipush_appid","2882303761518807958")
+            resValue("string" , "mipush_appkey","5501880794958")
+            resValue("string" , "huawei_push_appid","103371193")
             buildConfigField "boolean", "LOW_PRIVACY_LOG_ENABLE", "false"
             // Set to true if you want to enable strict mode in debug
             buildConfigField "boolean", "ENABLE_STRICT_MODE_LOGS", "false"
@@ -251,6 +257,9 @@ android {
             resValue "string", "app_name", "亿洽"
 
             resValue "bool", "debug_mode", "false"
+            resValue("string" , "mipush_appid","2882303761518807958")
+            resValue("string" , "mipush_appkey","5501880794958")
+            resValue("string" , "huawei_push_appid","103371193")
             buildConfigField "boolean", "LOW_PRIVACY_LOG_ENABLE", "false"
             buildConfigField "boolean", "ENABLE_STRICT_MODE_LOGS", "false"
 
@@ -341,9 +350,6 @@ android {
 
 dependencies {
 
-    implementation libs.squareup.retrofit
-    implementation libs.squareup.retrofitMoshi
-
     implementation project(":matrix-sdk-android")
     implementation project(":matrix-sdk-android-flow")
     implementation project(":diff-match-patch")
@@ -368,6 +374,12 @@ dependencies {
 
     implementation "org.threeten:threetenbp:1.4.0:no-tzdb"
     implementation "com.gabrielittner.threetenbp:lazythreetenbp:0.9.0"
+
+    // Network
+    implementation libs.squareup.retrofit
+    implementation libs.squareup.retrofitMoshi
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.9.0'
+    implementation "com.squareup.retrofit2:converter-gson:2.9.0"
 
     implementation libs.squareup.moshi
     kapt libs.squareup.moshiKotlin
@@ -553,4 +565,9 @@ dependencies {
         exclude group: 'org.jetbrains.kotlin'
     }
     androidTestUtil libs.androidx.orchestrator
+
+    // MiPush
+    implementation files('libs/MiPush_SDK_Client_4_9_1.jar')
+    // huawei push
+    implementation 'com.huawei.hms:push:6.3.0.302'
 }
