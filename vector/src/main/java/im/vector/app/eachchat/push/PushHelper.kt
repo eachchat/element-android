@@ -27,6 +27,7 @@ import im.vector.app.eachchat.BaseModule
 import im.vector.app.eachchat.bean.PNSInput
 import im.vector.app.eachchat.net.CloseableCoroutineScope
 import im.vector.app.eachchat.net.NetConstant
+import im.vector.app.eachchat.push.hwpush.HWPush
 import im.vector.app.eachchat.push.mipush.MiPush
 import im.vector.app.eachchat.service.ApiService
 import im.vector.app.eachchat.utils.AppCache
@@ -82,7 +83,7 @@ class PushHelper {
             return
         }
             pushClient = when (type) {
-//                TYPE_HMS -> HWPush(YQLApplication.getContext())
+                TYPE_HMS -> HWPush(BaseModule.getContext())
                 TYPE_MIPUSH -> MiPush(BaseModule.getContext())
 //                TYPE_OPPO_PUSH -> OppoPush(YQLApplication.getContext())
 //                TYPE_FIREBASE -> FirebasePush(YQLApplication.getContext())
@@ -276,8 +277,6 @@ class PushHelper {
 //        }
 
     fun clickNotification(context: Context) {
-//        HomeActivity.newIntent(context)
-
         val intent = Intent(context, HomeActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
         context.startActivity(intent)

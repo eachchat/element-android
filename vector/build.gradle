@@ -2,6 +2,7 @@ import com.android.build.OutputFile
 
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.android.gms.oss-licenses-plugin'
+apply plugin: 'com.huawei.agconnect'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-parcelize'
 apply plugin: 'kotlin-kapt'
@@ -244,6 +245,7 @@ android {
 //            resValue("string" , "mipush_appkey","5911884680476")
             resValue("string" , "mipush_appid","2882303761518807958")
             resValue("string" , "mipush_appkey","5501880794958")
+            resValue("string" , "huawei_push_appid","103371193")
             buildConfigField "boolean", "LOW_PRIVACY_LOG_ENABLE", "false"
             // Set to true if you want to enable strict mode in debug
             buildConfigField "boolean", "ENABLE_STRICT_MODE_LOGS", "false"
@@ -257,6 +259,7 @@ android {
             resValue "bool", "debug_mode", "false"
             resValue("string" , "mipush_appid","2882303761518807958")
             resValue("string" , "mipush_appkey","5501880794958")
+            resValue("string" , "huawei_push_appid","103371193")
             buildConfigField "boolean", "LOW_PRIVACY_LOG_ENABLE", "false"
             buildConfigField "boolean", "ENABLE_STRICT_MODE_LOGS", "false"
 
@@ -565,4 +568,6 @@ dependencies {
 
     // MiPush
     implementation files('libs/MiPush_SDK_Client_4_9_1.jar')
+    // huawei push
+    implementation 'com.huawei.hms:push:6.3.0.302'
 }

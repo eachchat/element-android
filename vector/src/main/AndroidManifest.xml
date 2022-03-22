@@ -161,6 +161,16 @@
         </receiver>
         <!-- MiPush End -->
 
+        <!-- HMS -->
+        <service
+            android:name=".eachchat.push.hwpush.HWMessageService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.huawei.push.action.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <!-- HMS end-->
+
         <!-- No limit for screen ratio: avoid black strips -->
         <meta-data
             android:name="android.max_aspect"
