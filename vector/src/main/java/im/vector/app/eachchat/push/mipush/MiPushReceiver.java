@@ -65,7 +65,6 @@ public class MiPushReceiver extends PushMessageReceiver {
         super.onReceiveRegisterResult(context, message);
         // 用来接受客户端向服务器发送注册命令消息后返回的响应
         LogUtil.i("## mi onReceiveRegisterResult message = " + message);
-        Toast.makeText(context, message.toString(), Toast.LENGTH_SHORT).show();
         String command = message.getCommand();
         List<String> arguments = message.getCommandArguments();
         String cmdArg1 = ((arguments != null && arguments.size() > 0) ? arguments.get(0) : null);

@@ -36,13 +36,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.matrix.android.sdk.api.session.pushers.PushersService
-import javax.inject.Inject
 import kotlin.math.abs
 
 class PushHelper {
 
-    @Inject lateinit var activeSessionHolder: ActiveSessionHolder
-
+    private lateinit var activeSessionHolder: ActiveSessionHolder
     private var pushClient: AbsPush? = null
     private var hasReg = false
     private var hasBind = false
@@ -194,7 +192,8 @@ class PushHelper {
         }
     }
 
-    fun startPush() {
+    fun startPush(holder: ActiveSessionHolder) {
+        activeSessionHolder = holder
 //            if (!UserCache.isLogin()) {
 //                return
 //            }
