@@ -519,6 +519,13 @@ dependencies {
     implementation 'org.maplibre.gl:android-sdk:9.5.2'
     implementation 'org.maplibre.gl:android-plugin-annotation-v9:1.0.0'
 
+    //Utils
+    implementation 'com.blankj:utilcode:1.30.7'
+
+    //retrofit
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.3'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.9.0'
 
     // TESTS
     testImplementation libs.tests.junit

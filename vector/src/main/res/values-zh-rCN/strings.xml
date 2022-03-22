@@ -3018,5 +3018,8 @@
     <string name="only_room_owner">仅群主</string>
     <string name="room_owner_and_moderator">仅群主和群管理员</string>
     <string name="all_room_member">所有群成员</string>
+    <string name="each_chat_privacy_policy_statement">亿洽隐私政策声明</string>
+    <string name="disagree_and_exit">不同意并退出</string>
+    <string name="agree">同意</string>
 
 </resources>

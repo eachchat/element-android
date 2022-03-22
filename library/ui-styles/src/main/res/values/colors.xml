@@ -149,4 +149,6 @@
     <color name="error_text">#CE514F</color>
     <color name="error_bg">#FFF5F5</color>
     <color name="ff4c4c4c">#ff4c4c4c</color>
+    <color name="ff999999">#ff999999</color>
+    <color name="ff4e6eed">#ff4e6eed</color>
 </resources>

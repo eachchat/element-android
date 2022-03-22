@@ -3806,4 +3806,7 @@
     <string name="only_room_owner">only room owner</string>
     <string name="room_owner_and_moderator">room owner and moderator</string>
     <string name="all_room_member">all room member</string>
+    <string name="each_chat_privacy_policy_statement">EachChat Privacy Policy Statement</string>
+    <string name="disagree_and_exit">Disagree and exit</string>
+    <string name="agree">Agree</string>
 </resources>
