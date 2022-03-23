@@ -14,13 +14,9 @@
  * limitations under the License.
  */
 
-package org.yiqia.net.api
+package im.vector.app.eachchat.service
 
-import org.yiqia.net.data.AuthSettingResult
-import org.yiqia.net.data.GMSResult
-import org.yiqia.net.data.OrgSearchInput
-import org.yiqia.net.data.Response
-import org.yiqia.net.retrofit.RetrofitManager
+import im.vector.app.eachchat.net.NetWorkManager
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -31,18 +27,17 @@ interface LoginApi {
     companion object {
         private const val GMS_URL = "https://gms.yiqia.com";
 
-        fun getInstance(): LoginApi = RetrofitManager.instance.getMatrixRetrofit(GMS_URL).create(
-            LoginApi::class.java)
+        fun getInstance(): LoginApi? = NetWorkManager.getInstance().getMatrixRetrofit(GMS_URL)?.create(LoginApi::class.java)
     }
 
     @POST("/api/services/global/v1/configuration")
-    suspend fun gms(@Body input: OrgSearchInput): Response<GMSResult?, Any?>
+    suspend fun gms(@Body input: im.vector.app.eachchat.bean.OrgSearchInput): im.vector.app.eachchat.bean.Response<im.vector.app.eachchat.bean.GMSResult?, Any?>
 
     @POST("/api/services/global/v1/tenant/names")
-    suspend fun orgNames(@Body input: OrgSearchInput): Response<Any?, List<String>>
+    suspend fun orgNames(@Body input: im.vector.app.eachchat.bean.OrgSearchInput): im.vector.app.eachchat.bean.Response<Any?, List<String>>
 
     @GET
-    suspend fun authSettings(@Url url: String): Response<AuthSettingResult?, Any?>
+    suspend fun authSettings(@Url url: String): im.vector.app.eachchat.bean.Response<im.vector.app.eachchat.bean.AuthSettingResult?, Any?>
 }
 
 

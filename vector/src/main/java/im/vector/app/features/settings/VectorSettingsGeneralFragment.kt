@@ -65,6 +65,7 @@ import org.matrix.android.sdk.api.session.integrationmanager.IntegrationManagerS
 import org.matrix.android.sdk.flow.flow
 import org.matrix.android.sdk.flow.unwrap
 import im.vector.app.yiqia.login.api.LoginApi
+import im.vector.app.eachchat.service.LoginApi
 import java.io.File
 import java.util.*
 import javax.inject.Inject
@@ -180,7 +181,7 @@ class VectorSettingsGeneralFragment @Inject constructor(
                 lifecycleScope.launch(Dispatchers.IO) {
                     kotlin.runCatching {
                         val response = LoginApi.getInstance()
-                            .authSettings("${session.sessionParams.homeServerUrl}/api/services/auth/v1/auth/setting")
+                                ?.authSettings("${session.sessionParams.homeServerUrl}/api/services/auth/v1/auth/setting") ?: return@launch
                         if (response.isSuccess) {
                             if (response.obj?.authType == "three" && response.obj?.threeAuthType == "ldap") {
                                 isLdap = true

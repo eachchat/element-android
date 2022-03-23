@@ -240,6 +240,8 @@ android {
             resValue "string", "app_name", "亿洽test"
 
             resValue "bool", "debug_mode", "true"
+            resValue("string" , "mipush_appid","2882303761518846476")
+            resValue("string" , "mipush_appkey","5911884680476")
             buildConfigField "boolean", "LOW_PRIVACY_LOG_ENABLE", "false"
             // Set to true if you want to enable strict mode in debug
             buildConfigField "boolean", "ENABLE_STRICT_MODE_LOGS", "false"
@@ -251,6 +253,8 @@ android {
             resValue "string", "app_name", "亿洽"
 
             resValue "bool", "debug_mode", "false"
+            resValue("string" , "mipush_appid","2882303761518807958")
+            resValue("string" , "mipush_appkey","5501880794958")
             buildConfigField "boolean", "LOW_PRIVACY_LOG_ENABLE", "false"
             buildConfigField "boolean", "ENABLE_STRICT_MODE_LOGS", "false"
 
@@ -341,9 +345,6 @@ android {
 
 dependencies {
 
-    implementation libs.squareup.retrofit
-    implementation libs.squareup.retrofitMoshi
-
     implementation project(":matrix-sdk-android")
     implementation project(":matrix-sdk-android-flow")
     implementation project(":diff-match-patch")
@@ -368,6 +369,12 @@ dependencies {
 
     implementation "org.threeten:threetenbp:1.4.0:no-tzdb"
     implementation "com.gabrielittner.threetenbp:lazythreetenbp:0.9.0"
+
+    // Network
+    implementation libs.squareup.retrofit
+    implementation libs.squareup.retrofitMoshi
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.9.0'
+    implementation "com.squareup.retrofit2:converter-gson:2.9.0"
 
     implementation libs.squareup.moshi
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
@@ -561,4 +568,7 @@ dependencies {
         exclude group: 'org.jetbrains.kotlin'
     }
     androidTestUtil libs.androidx.orchestrator
+
+    // MiPush
+    implementation files('libs/MiPush_SDK_Client_4_9_1.jar')
 }

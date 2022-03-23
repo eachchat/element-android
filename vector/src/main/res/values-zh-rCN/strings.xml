@@ -3024,4 +3024,6 @@
     <string name="select_reason_to_complain">请选择投诉该群(成员)的原因(可多选)：</string>
     <string name="complain_success">举报成功</string>
 
+    <string name="audio_and_video_notification">音视频通话通知</string>
+    <string name="message_notification">消息通知</string>
 </resources>
