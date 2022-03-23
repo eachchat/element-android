@@ -3021,5 +3021,7 @@
     <string name="each_chat_privacy_policy_statement">亿洽隐私政策声明</string>
     <string name="disagree_and_exit">不同意并退出</string>
     <string name="agree">同意</string>
+    <string name="select_reason_to_complain">请选择投诉该群(成员)的原因(可多选)：</string>
+    <string name="complain_success">举报成功</string>
 
 </resources>

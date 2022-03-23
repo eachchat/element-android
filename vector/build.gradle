@@ -164,29 +164,29 @@ android {
 
         // Keep abiFilter for the universalApk
         ndk {
-            abiFilters "armeabi-v7a", "x86", 'arm64-v8a', 'x86_64'
+            abiFilters "armeabi", "armeabi-v7a", "arm64-v8a"
         }
 
         // Ref: https://developer.android.com/studio/build/configure-apk-splits.html
-        splits {
-            // Configures multiple APKs based on ABI.
-            abi {
-                // Enables building multiple APKs per ABI.
-                enable true
-
-                // By default all ABIs are included, so use reset() and include to specify that we only
-                // want APKs for armeabi-v7a, x86, arm64-v8a and x86_64.
-
-                // Resets the list of ABIs that Gradle should create APKs for to none.
-                reset()
-
-                // Specifies a list of ABIs that Gradle should create APKs for.
-                include "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
-
-                // Generate a universal APK that includes all ABIs, so user who install from CI tool can use this one by default.
-                universalApk true
-            }
-        }
+//        splits {
+//            // Configures multiple APKs based on ABI.
+//            abi {
+//                // Enables building multiple APKs per ABI.
+//                enable true
+//
+//                // By default all ABIs are included, so use reset() and include to specify that we only
+//                // want APKs for armeabi-v7a, x86, arm64-v8a and x86_64.
+//
+//                // Resets the list of ABIs that Gradle should create APKs for to none.
+//                reset()
+//
+//                // Specifies a list of ABIs that Gradle should create APKs for.
+//                include "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
+//
+//                // Generate a universal APK that includes all ABIs, so user who install from CI tool can use this one by default.
+//                universalApk true
+//            }
+//        }
 
         applicationVariants.all { variant ->
             // assign different version code for each output
@@ -299,12 +299,12 @@ android {
         }
     }
 
-    lintOptions {
-        lintConfig file("lint.xml")
-
-        checkDependencies true
-        abortOnError true
-    }
+//    lintOptions {
+//        lintConfig file("lint.xml")
+//
+//        checkDependencies true
+//        abortOnError true
+//    }
 
     compileOptions {
         sourceCompatibility versions.sourceCompat
@@ -370,6 +370,7 @@ dependencies {
     implementation "com.gabrielittner.threetenbp:lazythreetenbp:0.9.0"
 
     implementation libs.squareup.moshi
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     kapt libs.squareup.moshiKotlin
 
     // Lifecycle

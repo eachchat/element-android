@@ -129,7 +129,8 @@
                     android:id="@+id/acceptCheckBox"
                     style="@style/Widget.AppCompat.CompoundButton.CheckBox"
                     android:layout_width="28dp"
-                    android:layout_height="24dp" />
+                    android:layout_height="24dp"
+                    android:button="@drawable/check_style" />
 
                 <TextView
                     android:layout_width="wrap_content"

@@ -17,11 +17,9 @@
 package im.vector.app.features.roomdirectory.createroom
 
 import com.airbnb.epoxy.TypedEpoxyController
-import com.airbnb.mvrx.Fail
 import com.airbnb.mvrx.Loading
 import im.vector.app.R
 import im.vector.app.core.epoxy.dividerItem
-import im.vector.app.core.epoxy.profiles.buildProfileAction
 import im.vector.app.core.resources.StringProvider
 import im.vector.app.features.discovery.settingsSectionTitleItem
 import im.vector.app.features.form.formAdvancedToggleItem
@@ -29,9 +27,6 @@ import im.vector.app.features.form.formEditTextItem
 import im.vector.app.features.form.formEditableAvatarItem
 import im.vector.app.features.form.formSubmitButtonItem
 import im.vector.app.features.form.formSwitchItem
-import org.matrix.android.sdk.api.MatrixConstants
-import org.matrix.android.sdk.api.extensions.orFalse
-import org.matrix.android.sdk.api.session.room.failure.CreateRoomFailure
 import org.matrix.android.sdk.api.session.room.model.RoomJoinRules
 import javax.inject.Inject
 
@@ -51,7 +46,7 @@ class CreateRoomController @Inject constructor(
 
     private fun buildForm(viewState: CreateRoomViewState, enableFormElement: Boolean) {
         val host = this
-        host.listener?.setIsEncrypted(false)//屏蔽加密功能
+        host.listener?.setIsEncrypted(false)// 屏蔽加密功能
         formEditableAvatarItem {
             id("avatar")
             enabled(enableFormElement)
@@ -137,7 +132,7 @@ class CreateRoomController @Inject constructor(
 
         if (viewState.roomJoinRules == RoomJoinRules.PUBLIC) {
             // Room alias for public room
-            //屏蔽公共房间相关功能
+            // 屏蔽公共房间相关功能
 //            formEditTextItem {
 //                id("alias")
 //                enabled(enableFormElement)

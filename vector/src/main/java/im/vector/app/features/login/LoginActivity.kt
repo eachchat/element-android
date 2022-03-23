@@ -153,7 +153,7 @@ open class LoginActivity : VectorBaseActivity<ActivityLoginBinding>(), UnlockedA
 //                addFragmentToBackstack(views.loginFragmentContainer,
 //                        LoginSignUpSignInSelectionFragment::class.java,
 //                        option = commonOption)
-                //直接进入登录页面
+                // 直接进入登录页面
             {
                 loginViewModel.handle(LoginAction.UpdateSignMode(SignMode.SignIn))
                 addFragmentToBackstack(views.loginFragmentContainer,

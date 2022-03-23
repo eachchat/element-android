@@ -65,6 +65,7 @@ class RoomProfileController @Inject constructor(
         fun onUrlInTopicLongClicked(url: String)
         fun doMigrateToVersion(newVersion: String)
         fun restoreEncryptionState()
+        fun onComplainClicked()
     }
 
     override fun buildModels(data: RoomProfileViewState?) {
@@ -239,7 +240,7 @@ class RoomProfileController @Inject constructor(
                 id = "complain",
                 title = stringProvider.getString(R.string.complain),
                 icon = R.drawable.ic_complain_filled,
-                action = {  }
+                action = { callback?.onComplainClicked() }
         )
 //        if (shortcutCreator.canCreateShortcut()) {
 //            buildProfileAction(

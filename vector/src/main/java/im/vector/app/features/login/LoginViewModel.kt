@@ -35,6 +35,8 @@ import im.vector.app.core.extensions.exhaustive
 import im.vector.app.core.platform.VectorViewModel
 import im.vector.app.core.resources.StringProvider
 import im.vector.app.core.utils.ensureTrailingSlash
+import im.vector.app.yiqia.login.api.LoginApi
+import im.vector.app.yiqia.login.data.OrgSearchInput
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -52,8 +54,6 @@ import org.matrix.android.sdk.api.auth.wellknown.WellknownResult
 import org.matrix.android.sdk.api.failure.Failure
 import org.matrix.android.sdk.api.failure.MatrixIdFailure
 import org.matrix.android.sdk.api.session.Session
-import org.yiqia.net.api.LoginApi
-import org.yiqia.net.data.OrgSearchInput
 import timber.log.Timber
 import java.util.concurrent.CancellationException
 
@@ -790,7 +790,7 @@ class LoginViewModel @AssistedInject constructor(
                 val homeServerConnectionConfig =
                         homeServerConnectionConfigFactory.create(homeServerUrl)
 
-                //获取Ldap信息
+                // 获取Ldap信息
                 val isLdap = handleGetIsLdap(homeServerUrl)
                 if (homeServerConnectionConfig == null) {
                     // This is invalid
@@ -905,20 +905,20 @@ class LoginViewModel @AssistedInject constructor(
     }
 
     private suspend fun handleGetIsLdap(url: String): Boolean {
-            kotlin.runCatching {
-                val response = LoginApi.getInstance()
-                        .authSettings("$url/api/services/auth/v1/auth/setting")
-                if (response.isSuccess) {
-                    if (response.obj?.authType == "three" && response.obj?.threeAuthType == "ldap") {
-                        return true
-                    }
-                } else {
-                    return false
+        kotlin.runCatching {
+            val response = LoginApi.getInstance()
+                    .authSettings("$url/api/services/auth/v1/auth/setting")
+            if (response.isSuccess) {
+                if (response.obj?.authType == "three" && response.obj?.threeAuthType == "ldap") {
+                    return true
                 }
-            }.exceptionOrNull()?.let {
-                it.printStackTrace()
+            } else {
                 return false
             }
+        }.exceptionOrNull()?.let {
+            it.printStackTrace()
+            return false
+        }
         return false
     }
 }

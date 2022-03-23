@@ -1,4 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="toolbar_height">44dp</dimen>
+    <dimen name="dropdown_offset_y_fix_value">4.5dp</dimen>
+    <dimen name="dropdown_start_padding_increase">24dp</dimen>
+
+    <dimen name="common_margin_dz1">12dp</dimen>
+    <dimen name="common_margin_dz2">8dp</dimen>
+    <dimen name="common_margin_dz3">4dp</dimen>
+    <dimen name="common_margin_dz4">15dp</dimen>
+
+    <dimen name="common_font_fs1">18sp</dimen>
+    <dimen name="common_font_fs2">17sp</dimen>
+    <dimen name="common_font_fs3">16sp</dimen>
+    <dimen name="common_font_fs4">15sp</dimen>
+    <dimen name="common_font_fs5">14sp</dimen>
+    <dimen name="common_font_fs6">13sp</dimen>
+    <dimen name="common_font_fs7">12sp</dimen>
+    <dimen name="common_font_fs8">11sp</dimen>
+    <dimen name="common_font_fs9">10sp</dimen>
+
+    <dimen name="common_list_height">60dp</dimen>
+    <dimen name="avatar_size">46dp</dimen>
+    <dimen name="avatar_size_small">40dp</dimen>
+    <dimen name="group_members_avatar_size">36dp</dimen>
+    <dimen name="common_list_margin">12dp</dimen>
+    <dimen name="common_padding">16dp</dimen>
+    <dimen name="common_vertical_padding">16dp</dimen>
+    <dimen name="drawable_padding">4dp</dimen>
+    <dimen name="btn_corner_radius">4dp</dimen>
+    <dimen name="common_avatar_size">46dp</dimen>
+    <dimen name="avatar_right_padding">12dp</dimen>
+
+    <!--    通用尺寸-->
+    <dimen name="common_1dip">1dp</dimen>
+    <dimen name="common_2dip">2dp</dimen>
+    <dimen name="common_3dip">3dp</dimen>
+    <dimen name="common_4dip">4dp</dimen>
+    <dimen name="common_5dip">5dp</dimen>
+    <dimen name="common_6dip">6dp</dimen>
+    <dimen name="common_8dip">8dp</dimen>
+    <dimen name="common_9dip">9dp</dimen>
+    <dimen name="common_10dip">10dp</dimen>
+    <dimen name="common_11dip">11dp</dimen>
+    <dimen name="common_12dip">12dp</dimen>
+    <dimen name="common_13dip">13dp</dimen>
+    <dimen name="common_14dip">14dp</dimen>
+    <dimen name="common_15dip">15dp</dimen>
+    <dimen name="common_16dip">16dp</dimen>
+    <dimen name="common_18dip">18dp</dimen>
+    <dimen name="common_20dip">20dp</dimen>
+    <dimen name="common_22dip">22dp</dimen>
+    <dimen name="common_24dip">24dp</dimen>
+    <dimen name="common_26dip">26dp</dimen>
+    <dimen name="common_28dip">28dp</dimen>
+    <dimen name="common_32dip">32dp</dimen>
+    <dimen name="common_36dip">36dp</dimen>
+    <dimen name="common_37dip">37dp</dimen>
+    <dimen name="common_38dip">38dp</dimen>
+    <dimen name="common_40dip">40dp</dimen>
+    <dimen name="common_44dip">44dp</dimen>
+    <dimen name="common_48dip">48dp</dimen>
+    <dimen name="common_52dip">52dp</dimen>
+    <dimen name="common_58dip">58dp</dimen>
+    <dimen name="common_64dip">64dp</dimen>
+    <dimen name="common_80dip">80dp</dimen>
+    <dimen name="common_98dip">98dp</dimen>
+    <dimen name="common_100dip">100dp</dimen>
+    <dimen name="common_116dip">116dp</dimen>
+
+
+    <dimen name="item_emoticon_size_default">36dp</dimen>
+    <dimen name="actionBarHeight">45dp</dimen>
+    <dimen name="backPressIconSize">26dp</dimen>
+    <dimen name="iconMargin">12dp</dimen>
+    <dimen name="titleTextSize">18sp</dimen>
+    <dimen name="div_size">1dp</dimen>
+
+    <dimen name="fab_size_48">48dp</dimen>
+
+    <!-- 顶部按钮栏高度 -->
+    <dimen name="pickerview_topbar_height">44dp</dimen>
+
+    <!-- 顶部按钮padding -->
+    <dimen name="pickerview_topbar_padding">20dp</dimen>
+
+    <!-- 顶部按钮文字大小 -->
+    <dimen name="pickerview_topbar_btn_textsize">17sp</dimen>
+    <dimen name="pickerview_topbar_title_textsize">18sp</dimen>
+    <!-- 选项文字大小 -->
+    <dimen name="pickerview_textsize">16sp</dimen>
 </resources>

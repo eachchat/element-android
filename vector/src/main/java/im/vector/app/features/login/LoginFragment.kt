@@ -86,7 +86,7 @@ class LoginFragment @Inject constructor() : AbstractSSOLoginFragment<FragmentLog
             return@setOnEditorActionListener false
         }
         views.ivBack.setOnClickListener {
-            onBackPressed(false)
+            activity?.onBackPressed()
         }
     }
 
@@ -343,13 +343,13 @@ class LoginFragment @Inject constructor() : AbstractSSOLoginFragment<FragmentLog
     private fun spaceInPassword() = views.passwordField.text.toString().let { it.trim() != it }
 
     private fun setUpPolicyButton() {
-        //用户协议
+        // 用户协议
         views.tvUserAgreement.setOnClickListener {
             val intent = NormalWebViewActivity.getIntent(requireContext(), "file:///android_asset/user-agreements.html", getString(R.string.yiqia_user_policy))
             startActivity(intent)
         }
 
-        //隐私政策
+        // 隐私政策
         views.tvPrivacyPolicy.setOnClickListener {
             val intent = NormalWebViewActivity.getIntent(requireContext(), "file:///android_asset/privacy-policy.html", getString(R.string.yiqia_privacy_policy))
             startActivity(intent)

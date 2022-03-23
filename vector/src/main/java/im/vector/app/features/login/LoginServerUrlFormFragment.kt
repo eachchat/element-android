@@ -31,6 +31,8 @@ import im.vector.app.R
 import im.vector.app.core.extensions.hideKeyboard
 import im.vector.app.core.utils.openUrlInChromeCustomTab
 import im.vector.app.databinding.FragmentLoginServerUrlFormBinding
+import im.vector.app.yiqia.cache.AppCache
+import im.vector.app.yiqia.dialog.PrivacyPolicyDialog
 import im.vector.app.yiqia.utils.ToastUtil
 import im.vector.app.yiqia.utils.string.StringUtils.highlightKeyword
 import kotlinx.coroutines.Dispatchers
@@ -62,13 +64,16 @@ class LoginServerUrlFormFragment @Inject constructor() :
 
         setupViews()
         setupHomeServerField()
+        if (AppCache.isShowPrivacyPolicy()) {
+            showPrivacyPolicyDialog()
+        }
     }
 
     private fun setupViews() {
         views.loginServerUrlFormLearnMore.debouncedClicks { learnMore() }
         views.loginServerUrlFormClearHistory.debouncedClicks { clearHistory() }
         views.loginServerUrlFormSubmit.debouncedClicks { submit() }
-        //选择组织名后不会再次弹出选择框
+        // 选择组织名后不会再次弹出选择框
         views.loginServerUrlFormHomeServerUrl.setOnItemClickListener { _, _, _, _ ->
             isSelectOrg = true
         }
@@ -99,7 +104,7 @@ class LoginServerUrlFormFragment @Inject constructor() :
     private fun setupHomeServerField() {
         views.loginServerUrlFormHomeServerUrl.textChanges()
             .onEach {
-                //views.loginServerUrlFormHomeServerUrlTil.error = null
+                // views.loginServerUrlFormHomeServerUrlTil.error = null
                 views.loginServerUrlFormSubmit.isEnabled = it.isNotBlank()
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
@@ -118,7 +123,7 @@ class LoginServerUrlFormFragment @Inject constructor() :
         when (state.serverType) {
             ServerType.EMS -> {
                 views.loginServerUrlFormIcon.isVisible = true
-                //views.loginServerUrlFormTitle.text = getString(R.string.login_connect_to_modular)
+                // views.loginServerUrlFormTitle.text = getString(R.string.login_connect_to_modular)
                 views.loginServerUrlFormText.text =
                     getString(R.string.login_server_url_form_modular_text)
                 views.loginServerUrlFormLearnMore.isVisible = true
@@ -171,7 +176,7 @@ class LoginServerUrlFormFragment @Inject constructor() :
 
         when {
             serverUrl.isBlank() -> {
-                //views.loginServerUrlFormHomeServerUrlTil.error =
+                // views.loginServerUrlFormHomeServerUrlTil.error =
                 ToastUtil.showError(context, getString(R.string.login_error_invalid_home_server))
             }
             else -> {
@@ -183,11 +188,11 @@ class LoginServerUrlFormFragment @Inject constructor() :
 
     private fun cleanupUi() {
         views.loginServerUrlFormSubmit.hideKeyboard()
-        //views.loginServerUrlFormHomeServerUrlTil.error = null
+        // views.loginServerUrlFormHomeServerUrlTil.error = null
     }
 
     override fun onError(throwable: Throwable) {
-        //views.loginServerUrlFormHomeServerUrlTil.error =
+        // views.loginServerUrlFormHomeServerUrlTil.error =
             if (throwable is Failure.NetworkConnection &&
                 throwable.ioException is UnknownHostException
             ) {
@@ -202,5 +207,16 @@ class LoginServerUrlFormFragment @Inject constructor() :
         setupUi(state)
 
 //        views.loginServerUrlFormClearHistory.isInvisible = state.knownCustomHomeServersUrls.isEmpty()
+    }
+
+    private fun showPrivacyPolicyDialog() {
+        val dialog = PrivacyPolicyDialog.newInstance()
+        dialog.setListener {
+            requireActivity().finish()
+        }
+        requireActivity().supportFragmentManager.beginTransaction().also {
+            it.add(dialog, PrivacyPolicyDialog::class.simpleName)
+            it.commitAllowingStateLoss()
+        }
     }
 }

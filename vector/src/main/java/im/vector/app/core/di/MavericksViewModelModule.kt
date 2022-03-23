@@ -115,6 +115,7 @@ import im.vector.app.features.widgets.WidgetViewModel
 import im.vector.app.features.widgets.permissions.RoomWidgetPermissionViewModel
 import im.vector.app.features.workers.signout.ServerBackupStatusViewModel
 import im.vector.app.features.workers.signout.SignoutCheckViewModel
+import im.vector.app.yiqia.complain.RoomComplainViewModel
 
 @InstallIn(MavericksViewModelComponent::class)
 @Module
@@ -389,6 +390,11 @@ interface MavericksViewModelModule {
     @IntoMap
     @MavericksViewModelKey(RoomMemberListViewModel::class)
     fun roomMemberListViewModelFactory(factory: RoomMemberListViewModel.Factory): MavericksAssistedViewModelFactory<*, *>
+
+    @Binds
+    @IntoMap
+    @MavericksViewModelKey(RoomComplainViewModel::class)
+    fun roomComplainFactory(factory: RoomComplainViewModel.Factory): MavericksAssistedViewModelFactory<*, *>
 
     @Binds
     @IntoMap
