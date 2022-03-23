@@ -41,7 +41,7 @@ public class MiPushReceiver extends PushMessageReceiver {
         super.onNotificationMessageArrived(context, miPushMessage);
         // 用来接收服务器发来的通知栏消息（消息到达客户端时触发，并且可以接收应用在前台时不弹出通知的通知消息）
 //        PushHelper.getInstance().syncMessage(context);
-//        PushHelper.getInstance().setBadge(context);
+        PushHelper.getInstance().setBadge(context);
         LogUtil.i("## mi onNotificationMessageArrived");
     }
 

@@ -32,12 +32,15 @@ import im.vector.app.eachchat.push.mipush.MiPush
 import im.vector.app.eachchat.push.oppoPush.OppoPush
 import im.vector.app.eachchat.service.ApiService
 import im.vector.app.eachchat.utils.AppCache
+import im.vector.app.eachchat.utils.YQBadgeUtils
 import im.vector.app.features.home.HomeActivity
 import im.vector.app.features.settings.VectorPreferences
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.matrix.android.sdk.api.session.pushers.PushersService
+import org.matrix.android.sdk.api.session.room.RoomSummaryQueryParams
+import org.matrix.android.sdk.api.session.room.model.Membership
 import kotlin.math.abs
 
 class PushHelper {
@@ -83,16 +86,15 @@ class PushHelper {
         if (pushClient != null) {
             return
         }
-            pushClient = when (type) {
-                TYPE_HMS -> HWPush(BaseModule.getContext())
-                TYPE_MIPUSH -> MiPush(BaseModule.getContext())
-                TYPE_OPPO_PUSH -> OppoPush(BaseModule.getContext())
-//                TYPE_FIREBASE -> FirebasePush(YQLApplication.getContext())
+        pushClient = when (type) {
+            TYPE_HMS       -> HWPush(BaseModule.getContext())
+            TYPE_MIPUSH    -> MiPush(BaseModule.getContext())
+            TYPE_OPPO_PUSH -> OppoPush(BaseModule.getContext())
 //                TYPE_VIVO_PUSH -> VivoPush(YQLApplication.getContext())
 //                TYPE_GETUI -> GetuiPush(YQLApplication.getContext())
 //                else -> JPush(YQLApplication.getContext())
-                else -> MiPush(BaseModule.getContext())
-            }
+            else           -> MiPush(BaseModule.getContext())
+        }
         try {
             pushClient?.init(BaseModule.getContext())
             pushClient?.startPush()
@@ -116,7 +118,6 @@ class PushHelper {
 //            if (!UserCache.isLogin()) {
 //                return
 //            }
-        // Log.e("device", Build.MODEL + " " + Build.BRAND + " " + Build.MANUFACTURER + " regId:" + regId);
         try {
             val session = activeSessionHolder.getSafeActiveSession() ?: return
             val pushGateWay = NetConstant.getPushHost()
@@ -238,44 +239,27 @@ class PushHelper {
         pushClient?.setBadgeCount(context, count)
     }
 
-//    fun syncMessage(context: Context?) {
-//        ComponentName componentName = new ComponentName(BaseModule.getApplicationId(), "ai.workly.yql.android.base.MQTTService");
-//        Intent intent = new Intent();
-//        intent.setComponent(componentName);
-//        context.startService(intent);
-//        EventBus.getDefault().post(new MQTTEvent(MessageConstant.CMD_NEW_MESSAGE, null, 0));
-//        EventBus.getDefault().post(new MQTTEvent(MessageConstant.CMD_NEW_ENCRYPTION_MESSAGE, null, 0));
-//    }
-
-//        fun setBadge(context: Context?) {
-//            val session = getInstance(context!!).getSession() ?: return
-//            Observable.create(ObservableOnSubscribe<Int?> { emitter ->
-//                val membershipList: MutableList<Membership> = ArrayList()
-//                membershipList.add(Membership.JOIN)
-//                val params = RoomSummaryQueryParams.Builder().apply {
-//                    memberships = membershipList
-//                }.build()
-//                val rooms = session.getRoomSummaries(params)
-//                if (rooms.isEmpty()) {
-//                    emitter.onNext(0)
-//                    return@ObservableOnSubscribe
-//                }
-//                var count = 0
-//                rooms.forEach {
-//                    count += it.notificationCount
-//                }
-//                emitter.onNext(count)
-//            }).observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(object : SimpleObserver<Int>() {
-//                    override fun onNext(count: Int) {
-//                        try {
-//                            BadgeUtils.setCount(count, context)
-//                        } catch (e: Exception) {
-//                            e.printStackTrace()
-//                        }
-//                    }
-//                })
-//        }
+    fun setBadge(context: Context?) {
+        val currentSession = activeSessionHolder.getSafeActiveSession() ?: return
+        scope.launch {
+            val roomSummaries = withContext(Dispatchers.IO) {
+                val membershipList: MutableList<Membership> = ArrayList()
+                membershipList.add(Membership.JOIN)
+                val params = RoomSummaryQueryParams.Builder().apply {
+                    memberships = membershipList
+                }.build()
+                currentSession.getRoomSummaries(params)
+            }
+            if (roomSummaries.isEmpty()) {
+                YQBadgeUtils.setCount(0, context)
+            }
+            var count = 0
+            roomSummaries.forEach {
+                count += it.notificationCount
+            }
+            YQBadgeUtils.setCount(count, context)
+        }
+    }
 
     fun clickNotification(context: Context) {
         val intent = Intent(context, HomeActivity::class.java)
@@ -288,20 +272,6 @@ class PushHelper {
             return
         }
         pushClient?.clearPush()
-    }
-
-    fun getPushType(): String {
-        var pushType = "JPUSH"
-        when (RomUtils.getName()) {
-            RomUtils.ROM_MIUI -> pushType = RomUtils.ROM_MIUI
-            RomUtils.ROM_EMUI -> pushType = RomUtils.ROM_EMUI
-            RomUtils.ROM_OPPO -> pushType = RomUtils.ROM_OPPO
-            RomUtils.ROM_VIVO -> pushType = RomUtils.ROM_VIVO
-        }
-        if (RomUtils.isOnePlus()) {
-            pushType = RomUtils.ROM_OPPO
-        }
-        return pushType
     }
 
     companion object {
