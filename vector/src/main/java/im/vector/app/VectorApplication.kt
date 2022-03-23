@@ -36,6 +36,7 @@ import com.airbnb.epoxy.EpoxyController
 import com.airbnb.mvrx.Mavericks
 import com.facebook.stetho.Stetho
 import com.gabrielittner.threetenbp.LazyThreeTen
+import com.heytap.msp.push.HeytapPushManager
 import com.mapbox.mapboxsdk.Mapbox
 import com.vanniktech.emoji.EmojiManager
 import com.vanniktech.emoji.google.GoogleEmojiProvider
@@ -123,6 +124,7 @@ class VectorApplication :
         invitesAcceptor.initialize()
         autoRageShaker.initialize()
         vectorUncaughtExceptionHandler.activate()
+        HeytapPushManager.init(this, true)
 
         // Remove Log handler statically added by Jitsi
         Timber.forest()

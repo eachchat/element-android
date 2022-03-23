@@ -246,6 +246,9 @@ android {
             resValue("string" , "mipush_appid","2882303761518807958")
             resValue("string" , "mipush_appkey","5501880794958")
             resValue("string" , "huawei_push_appid","103371193")
+            resValue("string" , "oppo_appid","30410173")
+            resValue("string" , "oppo_appkey","9ad17576990e47f5800f6c4963e92ff8")
+            resValue("string" , "oppo_secret","11a585618b6140f5afbc87a5582df028")
             buildConfigField "boolean", "LOW_PRIVACY_LOG_ENABLE", "false"
             // Set to true if you want to enable strict mode in debug
             buildConfigField "boolean", "ENABLE_STRICT_MODE_LOGS", "false"
@@ -260,6 +263,9 @@ android {
             resValue("string" , "mipush_appid","2882303761518807958")
             resValue("string" , "mipush_appkey","5501880794958")
             resValue("string" , "huawei_push_appid","103371193")
+            resValue("string" , "oppo_appid","30410173")
+            resValue("string" , "oppo_appkey","9ad17576990e47f5800f6c4963e92ff8")
+            resValue("string" , "oppo_secret","11a585618b6140f5afbc87a5582df028")
             buildConfigField "boolean", "LOW_PRIVACY_LOG_ENABLE", "false"
             buildConfigField "boolean", "ENABLE_STRICT_MODE_LOGS", "false"
 
@@ -570,4 +576,6 @@ dependencies {
     implementation files('libs/MiPush_SDK_Client_4_9_1.jar')
     // huawei push
     implementation 'com.huawei.hms:push:6.3.0.302'
+    // oppo push
+    implementation files('libs/oppo-push-3.0.0.aar')
 }

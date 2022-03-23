@@ -171,6 +171,27 @@
         </service>
         <!-- HMS end-->
 
+        <!-- OPPO -->
+        <service
+            android:name="im.vector.app.eachchat.push.oppoPush.OppoPushServiceQ"
+            android:permission="com.heytap.mcs.permission.SEND_PUSH_MESSAGE"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.heytap.mcs.action.RECEIVE_MCS_MESSAGE"/>
+                <action android:name="com.heytap.msp.push.RECEIVE_MCS_MESSAGE"/>
+            </intent-filter>
+        </service>
+
+        <service
+            android:name="im.vector.app.eachchat.push.oppoPush.OppoPushService"
+            android:permission="com.coloros.mcs.permission.SEND_MCS_MESSAGE"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.coloros.mcs.action.RECEIVE_MCS_MESSAGE"/>
+            </intent-filter>
+        </service>
+        <!-- OPPO end-->
+
         <!-- No limit for screen ratio: avoid black strips -->
         <meta-data
             android:name="android.max_aspect"

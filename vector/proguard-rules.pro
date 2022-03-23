@@ -78,7 +78,6 @@
 -dontwarn org.bouncycastle.**
 
 
--keep public class * extends android.app.Service
 -keep class im.vector.app.eachchat.bean.** { <fields>; }
 
 #jpush
@@ -99,9 +98,6 @@
 #可以防止一个误报的 warning 导致无法成功编译，如果编译使用的 Android 版本是 23。
 -keep class com.xiaomi.push.**{*; }
 -dontwarn com.xiaomi.push.**
--dontwarn com.vivo.push.**
--keep class com.vivo.push.**{*; }
--keep class com.vivo.vms.**{*; }
 
 # hw push
 -ignorewarnings
@@ -113,3 +109,12 @@
 -keep class com.huawei.hianalytics.**{*;}
 -keep class com.huawei.updatesdk.**{*;}
 -keep class com.huawei.hms.**{*;}
+
+# oppo push
+-keep public class * extends android.app.Service
+-keep class com.heytap.msp.** { *;}
+
+# vivo push
+-dontwarn com.vivo.push.**
+-keep class com.vivo.push.**{*; }
+-keep class com.vivo.vms.**{*; }
