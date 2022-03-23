@@ -14,14 +14,13 @@
  * limitations under the License.
  */
 
-package im.vector.app.yiqia.login.api
+package org.yiqia.net.api
 
-import im.vector.app.yiqia.login.data.AuthSettingResult
-import im.vector.app.yiqia.login.data.GMSResult
-import im.vector.app.yiqia.login.data.OrgSearchInput
-import im.vector.app.yiqia.net.data.Response
-import im.vector.app.yiqia.net.retrofit.RetrofitManager
-import org.matrix.android.sdk.api.session.Session
+import org.yiqia.net.data.AuthSettingResult
+import org.yiqia.net.data.GMSResult
+import org.yiqia.net.data.OrgSearchInput
+import org.yiqia.net.data.Response
+import org.yiqia.net.retrofit.RetrofitManager
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -30,7 +29,7 @@ import retrofit2.http.Url
 interface LoginApi {
 
     companion object {
-        const val GMS_URL = "https://gms.yiqia.com";
+        private const val GMS_URL = "https://gms.yiqia.com";
 
         fun getInstance(): LoginApi = RetrofitManager.instance.getMatrixRetrofit(GMS_URL).create(
             LoginApi::class.java)
