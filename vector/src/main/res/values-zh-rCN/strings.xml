@@ -1702,11 +1702,11 @@
 \n
 \n你想要通过网页客户端注册吗？</string>
     <string name="login_login_with_email_error">电子邮件未关联到任何账号。</string>
-    <string name="login_reset_password_on">在 %1$s 上重置密码</string>
-    <string name="login_reset_password_notice">验证邮件将发送到你的收件箱以确认设置你的新密码。</string>
+    <string name="login_reset_password_on">重置密码</string>
+    <string name="login_reset_password_notice">通过邮箱账号重置密码</string>
     <string name="login_reset_password_submit">下一个</string>
-    <string name="login_reset_password_email_hint">电子邮件</string>
-    <string name="login_reset_password_password_hint">新密码</string>
+    <string name="login_reset_password_email_hint">请输入您的邮箱</string>
+    <string name="login_reset_password_password_hint">请输入新密码</string>
     <string name="login_reset_password_warning_title">注意！</string>
     <string name="login_reset_password_warning_content">更改你的密码将重置所有会话上的端对端加密密钥，从而使加密聊天记录无法读取。在重设密码之前，请设置“密钥备份”或从另一个会话中导出群聊密钥。</string>
     <string name="login_reset_password_warning_submit">继续</string>
@@ -1886,7 +1886,7 @@
     <string name="room_member_power_level_users">群成员</string>
     <string name="room_member_power_level_admin_in">%1$s 管理员</string>
     <string name="room_member_power_level_moderator_in">%1$s 的群管理员</string>
-    <string name="room_member_power_level_default_in">%1$s 默认权限</string>
+    <string name="room_member_power_level_default_in">%1$s 的群成员</string>
     <string name="room_member_power_level_custom_in">%2$s 自定义权限 (%1$d)</string>
     <string name="template_rendering_event_error_type_of_event_not_handled">${app_name} 无法处理类型为 \'%1$s\' 的事件</string>
     <string name="template_rendering_event_error_type_of_message_not_handled">${app_name} 无法处理类型为 \'%1$s\' 的消息</string>
@@ -1921,10 +1921,10 @@
 \n密钥未信任</string>
     <string name="encryption_information_dg_xsigning_disabled">交叉签名未启用</string>
     <string name="settings_hs_admin_e2e_disabled">你的服务器管理员已默认禁用私有群聊和私聊消息端对端加密。</string>
-    <string name="settings_active_sessions_list">激活会话</string>
+    <string name="settings_active_sessions_list">活动会话</string>
     <string name="settings_active_sessions_show_all">显示全部会话</string>
-    <string name="settings_active_sessions_manage">管理会话</string>
-    <string name="settings_active_sessions_signout_device">退出此会话</string>
+    <string name="settings_active_sessions_manage">全部会话</string>
+    <string name="settings_active_sessions_signout_device">移除会话</string>
     <string name="settings_failed_to_get_crypto_device_info">加密信息不可用</string>
     <string name="settings_active_sessions_verified_device_desc">此会话对安全消息可信因为你已验证它：</string>
     <string name="settings_active_sessions_unverified_device_desc">验证此会话以将其标记为可信，并授予其访问加密消息的权限。如果你未登录此会话，则你的账号可能已被盗：</string>
@@ -3026,4 +3026,5 @@
 
     <string name="audio_and_video_notification">音视频通话通知</string>
     <string name="message_notification">消息通知</string>
+    <string name="reauth_confirm">确定</string>
 </resources>

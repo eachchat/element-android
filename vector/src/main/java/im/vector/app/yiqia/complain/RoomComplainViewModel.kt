@@ -25,10 +25,10 @@ import im.vector.app.core.di.MavericksAssistedViewModelFactory
 import im.vector.app.core.di.hiltMavericksViewModelFactory
 import im.vector.app.core.platform.EmptyViewEvents
 import im.vector.app.core.platform.VectorViewModel
+import im.vector.app.eachchat.service.LoginApi
 import im.vector.app.yiqia.complain.api.ComplainService
 import im.vector.app.yiqia.complain.data.ComplainInput
 import im.vector.app.yiqia.complain.data.ReportBean
-import im.vector.app.yiqia.login.api.LoginApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -78,8 +78,8 @@ class RoomComplainViewModel @AssistedInject constructor(@Assisted initialState: 
     }
 
     private fun getComplainFromServer() {
-        kotlin.runCatching {
-            viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
                 val complains = ArrayList<ReportBean>()
                 val response = withContext(Dispatchers.IO) {
                     ComplainService.getInstance(LoginApi.GMS_URL, session)?.getComplains("complainAnswer")

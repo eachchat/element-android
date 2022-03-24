@@ -25,7 +25,7 @@ import retrofit2.http.Url
 interface LoginApi {
 
     companion object {
-        private const val GMS_URL = "https://gms.yiqia.com";
+        const val GMS_URL = "https://gms.yiqia.com";
 
         fun getInstance(): LoginApi? = NetWorkManager.getInstance().getMatrixRetrofit(GMS_URL)?.create(LoginApi::class.java)
     }

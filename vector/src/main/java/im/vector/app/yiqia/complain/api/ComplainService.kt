@@ -16,8 +16,8 @@
 
 package im.vector.app.yiqia.complain.api
 
+import im.vector.app.eachchat.bean.Response
 import im.vector.app.yiqia.complain.data.ComplainInput
-import im.vector.app.yiqia.net.data.Response
 import im.vector.app.yiqia.net.retrofit.RetrofitManager
 import org.matrix.android.sdk.api.session.Session
 import retrofit2.http.Body

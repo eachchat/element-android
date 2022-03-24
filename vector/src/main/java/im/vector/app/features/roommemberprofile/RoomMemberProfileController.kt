@@ -19,6 +19,7 @@ package im.vector.app.features.roommemberprofile
 
 import com.airbnb.epoxy.TypedEpoxyController
 import im.vector.app.R
+import im.vector.app.core.epoxy.customHeightDividerItem
 import im.vector.app.core.epoxy.profiles.buildProfileAction
 import im.vector.app.core.epoxy.profiles.buildProfileSection
 import im.vector.app.core.resources.StringProvider
@@ -87,6 +88,10 @@ class RoomMemberProfileController @Inject constructor(
     }
 
     private fun buildRoomMemberActions(state: RoomMemberProfileViewState) {
+        customHeightDividerItem {
+            id("divider_room_member_profile")
+            customHeight(8)
+        }
         if (!state.isSpace) {
 //            buildSecuritySection(state)
         }

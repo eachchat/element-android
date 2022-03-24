@@ -55,6 +55,7 @@ class RoomComplainFragment @Inject constructor(
         setupToolbar(views.roomSettingsToolbar)
                 .allowBack()
         views.waitingView.waitingStatusText.text = getString(R.string.please_wait)
+        views.waitingView.waitingStatusText.visibility = View.VISIBLE
         setComplainCallback()
         views.roomSettingsRecyclerView.configureWith(roomComplainController, hasFixedSize = true)
         setConfirmComplainButton()

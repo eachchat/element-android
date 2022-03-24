@@ -20,6 +20,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
@@ -61,13 +62,13 @@ abstract class RoomDirectoryItem : VectorEpoxyModel<RoomDirectoryItem.Holder>() 
                 .load(directoryAvatarUrl)
                 .let {
                     if (!includeAllNetworks) {
-                        it.placeholder(R.drawable.network_matrix)
+                        it.placeholder(R.drawable.ic_home_server)
                     } else {
                         it
                     }
                 }
                 .into(holder.avatarView)
-//        holder.avatarView.isInvisible = directoryAvatarUrl.isNullOrBlank() && includeAllNetworks
+        holder.avatarView.isInvisible = directoryAvatarUrl.isNullOrBlank() && includeAllNetworks
 
 
         holder.nameView.text = directoryName

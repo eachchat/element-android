@@ -227,7 +227,7 @@ class RoomProfileController @Inject constructor(
                 action = { callback?.onUploadsClicked() }
         )
 
-        if (data.actionPermissions.canChangePowerLevels) {
+        if (data.actionPermissions.canChangePowerLevels && !roomSummary.isDirect) {
             buildProfileAction(
                     id = "permissions",
                     title = stringProvider.getString(R.string.room_manage),

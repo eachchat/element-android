@@ -3815,4 +3815,5 @@
     <string name="complain_success">Complain success</string>
     <string name="audio_and_video_notification">Audio And Video Notification</string>
     <string name="message_notification">Messages notification</string>
+    <string name="reauth_confirm">confirm</string>
 </resources>
