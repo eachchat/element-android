@@ -4,12 +4,16 @@ import android.os.Build;
 import android.text.TextUtils;
 
 import com.facebook.stetho.common.LogUtil;
+import com.heytap.msp.push.HeytapPushManager;
+import com.vivo.push.PushClient;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+
+import im.vector.app.eachchat.BaseModule;
 
 /**
  * Created by zhouguanjie on 2020/1/10.
@@ -80,16 +84,16 @@ public class RomUtils {
         return check(ROM_MIUI);
     }
 
-//    public static boolean isVivo() {
-//        return PushClient.getInstance(BaseModule.getContext()).isSupport() && check(ROM_VIVO);
-//    }
+    public static boolean isVivo() {
+        return PushClient.getInstance(BaseModule.getContext()).isSupport() && check(ROM_VIVO);
+    }
 
-//    public static boolean isOppo() {
-//        if (!PushManager.isSupportPush(BaseModule.getContext())) {
-//            return false;
-//        }
-//        return check(ROM_OPPO);
-//    }
+    public static boolean isOppo() {
+        if (!HeytapPushManager.isSupportPush(BaseModule.getContext())) {
+            return false;
+        }
+        return check(ROM_OPPO);
+    }
 
     public static boolean isFlyme() {
         return check(ROM_FLYME);
@@ -129,10 +133,10 @@ public class RomUtils {
             rom = ROM_FIREBASE;
             return ROM_FIREBASE;
         }
-//        if (isVivo()) {
-//            rom = ROM_VIVO;
-//            return ROM_VIVO;
-//        }
+        if (isVivo()) {
+            rom = ROM_VIVO;
+            return ROM_VIVO;
+        }
         if (isMiui()) {
             rom = ROM_MIUI;
             return ROM_MIUI;
@@ -141,10 +145,10 @@ public class RomUtils {
             rom = ROM_EMUI;
             return ROM_EMUI;
         }
-//        if (isOppo()) {
-//            rom = ROM_OPPO;
-//            return ROM_OPPO;
-//        }
+        if (isOppo()) {
+            rom = ROM_OPPO;
+            return ROM_OPPO;
+        }
 
         if (isOnePlus()) {
             rom = ROM_ONEPLUS;

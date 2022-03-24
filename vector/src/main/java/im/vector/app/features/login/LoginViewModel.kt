@@ -798,6 +798,10 @@ class LoginViewModel @AssistedInject constructor(
                     // This is invalid
                     _viewEvents.post(LoginViewEvents.Failure(Throwable("您的组织未开通服务")))
                 } else {
+                    val wellKnow = LoginApi.getInstance(homeServerConnectionConfig.homeServerUri.toString())?.wellknown()?.body()
+                    wellKnow?.pushServer?.url?.let {
+                        NetConstant.setPushHost(it)
+                    }
                     getLoginFlow(homeServerConnectionConfig, homeServerName = action.homeServerUrl, isLdap = isLdap)
                 }
             }

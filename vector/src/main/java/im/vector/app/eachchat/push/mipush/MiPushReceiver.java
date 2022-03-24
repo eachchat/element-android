@@ -17,7 +17,9 @@
 package im.vector.app.eachchat.push.mipush;
 
 import android.content.Context;
+import android.widget.Toast;
 
+import com.facebook.stetho.common.LogUtil;
 import com.xiaomi.mipush.sdk.ErrorCode;
 import com.xiaomi.mipush.sdk.MiPushClient;
 import com.xiaomi.mipush.sdk.MiPushCommandMessage;
@@ -39,7 +41,8 @@ public class MiPushReceiver extends PushMessageReceiver {
         super.onNotificationMessageArrived(context, miPushMessage);
         // 用来接收服务器发来的通知栏消息（消息到达客户端时触发，并且可以接收应用在前台时不弹出通知的通知消息）
 //        PushHelper.getInstance().syncMessage(context);
-//        PushHelper.getInstance().setBadge(context);
+        PushHelper.getInstance().setBadge(context);
+        LogUtil.i("## mi onNotificationMessageArrived");
     }
 
     @Override
@@ -47,18 +50,21 @@ public class MiPushReceiver extends PushMessageReceiver {
         super.onNotificationMessageClicked(context, miPushMessage);
         // 用来接收服务器发来的通知栏消息（用户点击通知栏时触发）
         PushHelper.getInstance().clickNotification(context);
+        LogUtil.i("## mi onNotificationMessageClicked");
     }
 
     @Override
     public void onCommandResult(Context context, MiPushCommandMessage miPushCommandMessage) {
         super.onCommandResult(context, miPushCommandMessage);
         // 用来接收客户端向服务器发送命令消息后返回的响应
+        LogUtil.i("## mi onCommandResult");
     }
 
     @Override
     public void onReceiveRegisterResult(Context context, MiPushCommandMessage message) {
         super.onReceiveRegisterResult(context, message);
         // 用来接受客户端向服务器发送注册命令消息后返回的响应
+        LogUtil.i("## mi onReceiveRegisterResult message = " + message);
         String command = message.getCommand();
         List<String> arguments = message.getCommandArguments();
         String cmdArg1 = ((arguments != null && arguments.size() > 0) ? arguments.get(0) : null);

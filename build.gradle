@@ -9,6 +9,8 @@ buildscript {
         maven {
             url "https://plugins.gradle.org/m2/"
         }
+        // 配置HMS Core SDK的Maven仓地址。
+        maven { url 'https://developer.huawei.com/repo/' }
     }
 
     dependencies {
@@ -21,6 +23,8 @@ buildscript {
         classpath 'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.3'
         classpath 'com.google.android.gms:oss-licenses-plugin:0.10.4'
         classpath "com.likethesalad.android:string-reference:1.2.2"
+        // 添加华为 agcp 插件配置。
+        classpath 'com.huawei.agconnect:agcp:1.6.0.300'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -49,6 +53,14 @@ allprojects {
                 groups.jitpack.regex.each { includeGroupByRegex it }
                 groups.jitpack.group.each { includeGroup it }
             }
+        }
+        // 配置HMS Core SDK的Maven仓地址。
+        maven {
+            url 'https://developer.huawei.com/repo/'
+        }
+        // 个推
+        maven {
+            url "https://mvn.getui.com/nexus/content/repositories/releases/"
         }
         // Jitsi repo
         maven {

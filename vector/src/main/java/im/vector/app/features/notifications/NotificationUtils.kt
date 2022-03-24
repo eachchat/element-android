@@ -146,7 +146,7 @@ class NotificationUtils @Inject constructor(private val context: Context,
             return
         }
 
-        val accentColor = ContextCompat.getColor(context, R.color.notification_accent_color)
+//        val accentColor = ContextCompat.getColor(context, R.color.notification_accent_color)
 
         // Migration - the noisy channel was deleted and recreated when sound preference was changed (id was DEFAULT_NOISY_NOTIFICATION_CHANNEL_ID_BASE
         // + currentTimeMillis).
@@ -177,7 +177,7 @@ class NotificationUtils @Inject constructor(private val context: Context,
                     description = stringProvider.getString(R.string.notification_noisy_notifications)
                     enableVibration(true)
                     enableLights(true)
-                    lightColor = accentColor
+//                    lightColor = accentColor
                 })
 
         /**
@@ -190,7 +190,7 @@ class NotificationUtils @Inject constructor(private val context: Context,
                     description = stringProvider.getString(R.string.notification_silent_notifications)
                     setSound(null, null)
                     enableLights(true)
-                    lightColor = accentColor
+//                    lightColor = accentColor
                 })
 
         notificationManager.createNotificationChannel(NotificationChannel(LISTENING_FOR_EVENTS_NOTIFICATION_CHANNEL_ID,
@@ -209,7 +209,7 @@ class NotificationUtils @Inject constructor(private val context: Context,
                     description = stringProvider.getString(R.string.call)
                     setSound(null, null)
                     enableLights(true)
-                    lightColor = accentColor
+//                    lightColor = accentColor
                 })
     }
 
@@ -230,13 +230,13 @@ class NotificationUtils @Inject constructor(private val context: Context,
         i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
         val pi = PendingIntent.getActivity(context, 0, i, PendingIntentCompat.FLAG_IMMUTABLE)
 
-        val accentColor = ContextCompat.getColor(context, R.color.notification_accent_color)
+//        val accentColor = ContextCompat.getColor(context, R.color.notification_accent_color)
 
         val builder = NotificationCompat.Builder(context, LISTENING_FOR_EVENTS_NOTIFICATION_CHANNEL_ID)
                 .setContentTitle(stringProvider.getString(subTitleResId))
-                .setSmallIcon(R.drawable.sync)
+                .setSmallIcon(R.drawable.push)
                 .setCategory(NotificationCompat.CATEGORY_SERVICE)
-                .setColor(accentColor)
+//                .setColor(accentColor)
                 .setContentIntent(pi)
                 .apply {
                     if (withProgress) {
@@ -295,7 +295,7 @@ class NotificationUtils @Inject constructor(private val context: Context,
     fun buildIncomingCallNotification(call: WebRtcCall,
                                       title: String,
                                       fromBg: Boolean): Notification {
-        val accentColor = ContextCompat.getColor(context, R.color.notification_accent_color)
+//        val accentColor = ContextCompat.getColor(context, R.color.notification_accent_color)
         val notificationChannel = if (fromBg) CALL_NOTIFICATION_CHANNEL_ID else SILENT_NOTIFICATION_CHANNEL_ID
         val builder = NotificationCompat.Builder(context, notificationChannel)
                 .setContentTitle(ensureTitleNotEmpty(title))
@@ -309,8 +309,8 @@ class NotificationUtils @Inject constructor(private val context: Context,
                     }
                 }
                 .setCategory(NotificationCompat.CATEGORY_CALL)
-                .setColor(ThemeUtils.getColor(context, android.R.attr.colorPrimary))
-                .setLights(accentColor, 500, 500)
+//                .setColor(ThemeUtils.getColor(context, android.R.attr.colorPrimary))
+//                .setLights(accentColor, 500, 500)
                 .setOngoing(true)
 
         val contentIntent = VectorCallActivity.newIntent(
@@ -367,7 +367,7 @@ class NotificationUtils @Inject constructor(private val context: Context,
 
     fun buildOutgoingRingingCallNotification(call: WebRtcCall,
                                              title: String): Notification {
-        val accentColor = ContextCompat.getColor(context, R.color.notification_accent_color)
+//        val accentColor = ContextCompat.getColor(context, R.color.notification_accent_color)
         val builder = NotificationCompat.Builder(context, SILENT_NOTIFICATION_CHANNEL_ID)
                 .setContentTitle(ensureTitleNotEmpty(title))
                 .apply {
@@ -379,7 +379,7 @@ class NotificationUtils @Inject constructor(private val context: Context,
                     }
                 }
                 .setCategory(NotificationCompat.CATEGORY_CALL)
-                .setLights(accentColor, 500, 500)
+//                .setLights(accentColor, 500, 500)
                 .setColor(ThemeUtils.getColor(context, android.R.attr.colorPrimary))
                 .setOngoing(true)
 
@@ -553,7 +553,7 @@ class NotificationUtils @Inject constructor(private val context: Context,
                                       lastMessageTimestamp: Long,
                                       senderDisplayNameForReplyCompat: String?,
                                       tickerText: String): Notification {
-        val accentColor = ContextCompat.getColor(context, R.color.notification_accent_color)
+//        val accentColor = ContextCompat.getColor(context, R.color.notification_accent_color)
         // Build the pending intent for when the notification is clicked
         val openRoomIntent = buildOpenRoomIntent(roomInfo.roomId)
         val smallIcon = R.drawable.push
@@ -584,7 +584,7 @@ class NotificationUtils @Inject constructor(private val context: Context,
                 .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_ALL)
                 .setSmallIcon(smallIcon)
                 // Set primary color (important for Wear 2.0 Notifications).
-                .setColor(accentColor)
+//                .setColor(accentColor)
                 // Sets priority for 25 and below. For 26 and above, 'priority' is deprecated for
                 // 'importance' which is set in the NotificationChannel. The integers representing
                 // 'priority' are different from 'importance', so make sure you don't mix them.
@@ -595,7 +595,7 @@ class NotificationUtils @Inject constructor(private val context: Context,
                         vectorPreferences.getNotificationRingTone()?.let {
                             setSound(it)
                         }
-                        setLights(accentColor, 500, 500)
+//                        setLights(accentColor, 500, 500)
                     } else {
                         priority = NotificationCompat.PRIORITY_LOW
                     }
@@ -661,7 +661,7 @@ class NotificationUtils @Inject constructor(private val context: Context,
 
     fun buildRoomInvitationNotification(inviteNotifiableEvent: InviteNotifiableEvent,
                                         matrixId: String): Notification {
-        val accentColor = ContextCompat.getColor(context, R.color.notification_accent_color)
+//        val accentColor = ContextCompat.getColor(context, R.color.notification_accent_color)
         // Build the pending intent for when the notification is clicked
         val smallIcon = R.drawable.push
 
@@ -674,7 +674,7 @@ class NotificationUtils @Inject constructor(private val context: Context,
                 .setGroup(stringProvider.getString(R.string.app_name))
                 .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_ALL)
                 .setSmallIcon(smallIcon)
-                .setColor(accentColor)
+//                .setColor(accentColor)
                 .apply {
                     val roomId = inviteNotifiableEvent.roomId
                     // offer to type a quick reject button
@@ -724,7 +724,7 @@ class NotificationUtils @Inject constructor(private val context: Context,
                         vectorPreferences.getNotificationRingTone()?.let {
                             setSound(it)
                         }
-                        setLights(accentColor, 500, 500)
+//                        setLights(accentColor, 500, 500)
                     } else {
                         priority = NotificationCompat.PRIORITY_LOW
                     }
@@ -735,7 +735,7 @@ class NotificationUtils @Inject constructor(private val context: Context,
 
     fun buildSimpleEventNotification(simpleNotifiableEvent: SimpleNotifiableEvent,
                                      matrixId: String): Notification {
-        val accentColor = ContextCompat.getColor(context, R.color.notification_accent_color)
+//        val accentColor = ContextCompat.getColor(context, R.color.notification_accent_color)
         // Build the pending intent for when the notification is clicked
         val smallIcon = R.drawable.push
 
@@ -748,7 +748,7 @@ class NotificationUtils @Inject constructor(private val context: Context,
                 .setGroup(stringProvider.getString(R.string.app_name))
                 .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_ALL)
                 .setSmallIcon(smallIcon)
-                .setColor(accentColor)
+//                .setColor(accentColor)
                 .setAutoCancel(true)
                 .apply {
                     val contentIntent = HomeActivity.newIntent(context)
@@ -763,7 +763,7 @@ class NotificationUtils @Inject constructor(private val context: Context,
                         vectorPreferences.getNotificationRingTone()?.let {
                             setSound(it)
                         }
-                        setLights(accentColor, 500, 500)
+//                        setLights(accentColor, 500, 500)
                     } else {
                         priority = NotificationCompat.PRIORITY_LOW
                     }
@@ -848,7 +848,7 @@ class NotificationUtils @Inject constructor(private val context: Context,
                                      compatSummary: String,
                                      noisy: Boolean,
                                      lastMessageTimestamp: Long): Notification {
-        val accentColor = ContextCompat.getColor(context, R.color.notification_accent_color)
+//        val accentColor = ContextCompat.getColor(context, R.color.notification_accent_color)
         val smallIcon = R.drawable.push
 
         return NotificationCompat.Builder(context, if (noisy) NOISY_NOTIFICATION_CHANNEL_ID else SILENT_NOTIFICATION_CHANNEL_ID)
@@ -864,7 +864,7 @@ class NotificationUtils @Inject constructor(private val context: Context,
                 .setGroup(stringProvider.getString(R.string.app_name))
                 // set this notification as the summary for the group
                 .setGroupSummary(true)
-                .setColor(accentColor)
+//                .setColor(accentColor)
                 .apply {
                     if (noisy) {
                         // Compat
@@ -872,7 +872,7 @@ class NotificationUtils @Inject constructor(private val context: Context,
                         vectorPreferences.getNotificationRingTone()?.let {
                             setSound(it)
                         }
-                        setLights(accentColor, 500, 500)
+//                        setLights(accentColor, 500, 500)
                     } else {
                         // compat
                         priority = NotificationCompat.PRIORITY_LOW
@@ -940,7 +940,7 @@ class NotificationUtils @Inject constructor(private val context: Context,
                         .setContentText(stringProvider.getString(R.string.settings_troubleshoot_test_push_notification_content))
                         .setSmallIcon(R.drawable.push)
                         .setLargeIcon(getBitmap(context, R.drawable.ic_launcher))
-                        .setColor(ContextCompat.getColor(context, R.color.notification_accent_color))
+//                        .setColor(ContextCompat.getColor(context, R.color.notification_accent_color))
                         .setPriority(NotificationCompat.PRIORITY_MAX)
                         .setCategory(NotificationCompat.CATEGORY_STATUS)
                         .setAutoCancel(true)

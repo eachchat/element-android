@@ -186,7 +186,7 @@ class HomeActivity :
         super.onCreate(savedInstanceState)
         analyticsScreenName = Screen.ScreenName.Home
         supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentLifecycleCallbacks, false)
-        PushHelper.getInstance().startPush()
+        PushHelper.getInstance().startPush(activeSessionHolder)
 //        FcmHelper.ensureFcmTokenIsRetrieved(this, pushManager, vectorPreferences.areNotificationEnabledForDevice())
         sharedActionViewModel = viewModelProvider.get(HomeSharedActionViewModel::class.java)
         views.drawerLayout.addDrawerListener(drawerListener)
@@ -451,6 +451,7 @@ class HomeActivity :
     override fun onDestroy() {
         views.drawerLayout.removeDrawerListener(drawerListener)
         supportFragmentManager.unregisterFragmentLifecycleCallbacks(fragmentLifecycleCallbacks)
+        PushHelper.getInstance().stopPush()
         super.onDestroy()
     }
 
