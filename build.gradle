@@ -57,6 +57,10 @@ allprojects {
         maven {
             url 'https://developer.huawei.com/repo/'
         }
+        // 个推
+        maven {
+            url "https://mvn.getui.com/nexus/content/repositories/releases/"
+        }
         // Jitsi repo
         maven {
             url "https://github.com/vector-im/jitsi_libre_maven/raw/main/android-sdk-3.10.0"

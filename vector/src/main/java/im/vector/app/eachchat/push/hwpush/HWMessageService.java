@@ -31,8 +31,7 @@ public class HWMessageService extends HmsMessageService {
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
         try {
-//            PushUtils.syncMessage(getApplicationContext());
-//            PushUtils.setBadge(getApplicationContext());
+            PushHelper.getInstance().setBadge(getApplicationContext());
             LogUtil.i("## hw onMessageReceived remoteMessage = " + remoteMessage.getNotification().getNotifyId());
         } catch (Throwable e) {
             e.printStackTrace();
