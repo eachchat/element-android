@@ -30,6 +30,7 @@ import im.vector.app.eachchat.net.NetConstant
 import im.vector.app.eachchat.push.hwpush.HWPush
 import im.vector.app.eachchat.push.mipush.MiPush
 import im.vector.app.eachchat.push.oppoPush.OppoPush
+import im.vector.app.eachchat.push.vivo.VivoPush
 import im.vector.app.eachchat.service.ApiService
 import im.vector.app.eachchat.utils.AppCache
 import im.vector.app.eachchat.utils.YQBadgeUtils
@@ -90,7 +91,7 @@ class PushHelper {
             TYPE_HMS       -> HWPush(BaseModule.getContext())
             TYPE_MIPUSH    -> MiPush(BaseModule.getContext())
             TYPE_OPPO_PUSH -> OppoPush(BaseModule.getContext())
-//                TYPE_VIVO_PUSH -> VivoPush(YQLApplication.getContext())
+            TYPE_VIVO_PUSH -> VivoPush(BaseModule.getContext())
 //                TYPE_GETUI -> GetuiPush(YQLApplication.getContext())
 //                else -> JPush(YQLApplication.getContext())
             else           -> MiPush(BaseModule.getContext())

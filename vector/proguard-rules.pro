@@ -118,3 +118,4 @@
 -dontwarn com.vivo.push.**
 -keep class com.vivo.push.**{*; }
 -keep class com.vivo.vms.**{*; }
+-keep class im.vector.app.eachchat.push.vivo.PushMessageReceiverImpl{*;}

@@ -5,6 +5,7 @@ import android.text.TextUtils;
 
 import com.facebook.stetho.common.LogUtil;
 import com.heytap.msp.push.HeytapPushManager;
+import com.vivo.push.PushClient;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -83,9 +84,9 @@ public class RomUtils {
         return check(ROM_MIUI);
     }
 
-//    public static boolean isVivo() {
-//        return PushClient.getInstance(BaseModule.getContext()).isSupport() && check(ROM_VIVO);
-//    }
+    public static boolean isVivo() {
+        return PushClient.getInstance(BaseModule.getContext()).isSupport() && check(ROM_VIVO);
+    }
 
     public static boolean isOppo() {
         if (!HeytapPushManager.isSupportPush(BaseModule.getContext())) {
@@ -132,10 +133,10 @@ public class RomUtils {
             rom = ROM_FIREBASE;
             return ROM_FIREBASE;
         }
-//        if (isVivo()) {
-//            rom = ROM_VIVO;
-//            return ROM_VIVO;
-//        }
+        if (isVivo()) {
+            rom = ROM_VIVO;
+            return ROM_VIVO;
+        }
         if (isMiui()) {
             rom = ROM_MIUI;
             return ROM_MIUI;
