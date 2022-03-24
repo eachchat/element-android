@@ -16,6 +16,7 @@
 
 package im.vector.app
 
+import android.app.ActivityManager
 import android.app.Application
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -24,7 +25,9 @@ import android.content.IntentFilter
 import android.content.res.Configuration
 import android.os.Handler
 import android.os.HandlerThread
+import android.os.Process
 import android.os.StrictMode
+import android.text.TextUtils
 import androidx.core.provider.FontRequest
 import androidx.core.provider.FontsContractCompat
 import androidx.lifecycle.DefaultLifecycleObserver
@@ -37,6 +40,7 @@ import com.airbnb.mvrx.Mavericks
 import com.facebook.stetho.Stetho
 import com.gabrielittner.threetenbp.LazyThreeTen
 import com.heytap.msp.push.HeytapPushManager
+import com.igexin.sdk.PushManager
 import com.mapbox.mapboxsdk.Mapbox
 import com.vanniktech.emoji.EmojiManager
 import com.vanniktech.emoji.google.GoogleEmojiProvider
@@ -124,7 +128,10 @@ class VectorApplication :
         invitesAcceptor.initialize()
         autoRageShaker.initialize()
         vectorUncaughtExceptionHandler.activate()
-        HeytapPushManager.init(this, true)
+        if (isMainProcess()) {
+            HeytapPushManager.init(this, true)
+            PushManager.getInstance().initialize(this)
+        }
 
         // Remove Log handler statically added by Jitsi
         Timber.forest()
@@ -144,7 +151,7 @@ class VectorApplication :
         Mavericks.initialize(debugMode = false)
         EpoxyController.defaultDiffingHandler = EpoxyAsyncUtil.getAsyncBackgroundHandler()
         EpoxyController.defaultModelBuildingHandler = EpoxyAsyncUtil.getAsyncBackgroundHandler()
-        registerActivityLifecycleCallbacks(VectorActivityLifecycleCallbacks(popupAlertManager))
+        registerActivityLifecycleCallbacks(VectorActivityLifecycleCallbacks(popupAlertManager, activeSessionHolder))
         val fontRequest = FontRequest(
                 "com.google.android.gms.fonts",
                 "com.google.android.gms",
@@ -250,6 +257,22 @@ class VectorApplication :
         Timber.v(" Local time: $date")
         Timber.v("----------------------------------------------------------------")
         Timber.v("----------------------------------------------------------------\n\n\n\n")
+    }
+
+    private fun isMainProcess(): Boolean {
+        return TextUtils.equals(applicationContext.packageName, getCurrentProcessName())
+    }
+
+    private fun getCurrentProcessName(): String {
+        val pid = Process.myPid()
+        var processName = ""
+        val manager = applicationContext.getSystemService(ACTIVITY_SERVICE) as ActivityManager
+        for (process in manager.runningAppProcesses) {
+            if (process.pid == pid) {
+                processName = process.processName
+            }
+        }
+        return processName
     }
 
     override fun attachBaseContext(base: Context) {

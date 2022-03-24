@@ -81,12 +81,20 @@
         </intent>
     </queries>
 
+    <!-- GeTui Need -->
+    <queries>
+        <intent>
+            <action android:name="com.getui.sdk.action" />
+        </intent>
+    </queries>
+
     <application
         android:name=".VectorApplication"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:networkSecurityConfig="@xml/network_security_config"
+        android:usesCleartextTraffic="true"
         android:resizeableActivity="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
@@ -216,6 +224,18 @@
             </intent-filter>
         </receiver>
         <!-- vivo push end -->
+
+        <!-- GeTui Start-->
+        <service
+            android:name="im.vector.app.eachchat.push.getui.GeTuiPushService"
+            android:exported="false"
+            android:label="PushService"
+            android:process=":pushservice"/>
+
+        <service
+            android:name="im.vector.app.eachchat.push.getui.GeTuiIntentService"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
+        <!-- GeTui End-->
 
         <!-- No limit for screen ratio: avoid black strips -->
         <meta-data

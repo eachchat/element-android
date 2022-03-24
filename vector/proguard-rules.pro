@@ -80,18 +80,9 @@
 
 -keep class im.vector.app.eachchat.bean.** { <fields>; }
 
-#jpush
--dontoptimize
--dontpreverify
--dontwarn cn.jpush.**
--keep class cn.jpush.** { *; }
-#-keep class * extends cn.jpush.android.helpers.JPushMessageReceiver { *; }
--dontwarn cn.jiguang.**
--keep class cn.jiguang.** { *; }
 -dontwarn com.google.**
 -keep class com.google.gson.** {*;}
 -keep class com.google.protobuf.** {*;}
-#-keep class ai.workly.eachchat.android.push.jpush.YQLPushMessageReceiver {*;}
 
 # mi push
 -keep class im.vector.app.eachchat.push.mipush.MiPushReceiver {*;}
@@ -119,3 +110,10 @@
 -keep class com.vivo.push.**{*; }
 -keep class com.vivo.vms.**{*; }
 -keep class im.vector.app.eachchat.push.vivo.PushMessageReceiverImpl{*;}
+
+# GeTui push
+-dontwarn com.igexin.**
+-keep class com.igexin.** { *; }
+-keep class org.json.** { *; }
+-dontwarn com.getui.**
+-keep class com.getui.** { *; }

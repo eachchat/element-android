@@ -27,6 +27,7 @@ import im.vector.app.eachchat.BaseModule
 import im.vector.app.eachchat.bean.PNSInput
 import im.vector.app.eachchat.net.CloseableCoroutineScope
 import im.vector.app.eachchat.net.NetConstant
+import im.vector.app.eachchat.push.getui.GeTuiPush
 import im.vector.app.eachchat.push.hwpush.HWPush
 import im.vector.app.eachchat.push.mipush.MiPush
 import im.vector.app.eachchat.push.oppoPush.OppoPush
@@ -92,9 +93,8 @@ class PushHelper {
             TYPE_MIPUSH    -> MiPush(BaseModule.getContext())
             TYPE_OPPO_PUSH -> OppoPush(BaseModule.getContext())
             TYPE_VIVO_PUSH -> VivoPush(BaseModule.getContext())
-//                TYPE_GETUI -> GetuiPush(YQLApplication.getContext())
-//                else -> JPush(YQLApplication.getContext())
-            else           -> MiPush(BaseModule.getContext())
+            TYPE_GETUI     -> GeTuiPush(BaseModule.getContext())
+            else           -> GeTuiPush(BaseModule.getContext())
         }
         try {
             pushClient?.init(BaseModule.getContext())

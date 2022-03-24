@@ -19,13 +19,27 @@ package im.vector.app.features.lifecycle
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
+import com.facebook.stetho.common.LogUtil
+import im.vector.app.core.di.ActiveSessionHolder
+import im.vector.app.eachchat.push.PushHelper
 import im.vector.app.features.popup.PopupAlertManager
+import io.reactivex.Observable
+import io.reactivex.Observer
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
+import java.util.concurrent.TimeUnit
 
-class VectorActivityLifecycleCallbacks constructor(private val popupAlertManager: PopupAlertManager) : Application.ActivityLifecycleCallbacks {
+class VectorActivityLifecycleCallbacks(private val popupAlertManager: PopupAlertManager, private val activeSessionHolder: ActiveSessionHolder) : Application.ActivityLifecycleCallbacks {
+    private var count = 0
+
     override fun onActivityPaused(activity: Activity) {
+        count--
+        operationPush(true, activeSessionHolder)
     }
 
     override fun onActivityResumed(activity: Activity) {
+        count++
+        operationPush(false, activeSessionHolder)
         popupAlertManager.onNewActivityDisplayed(activity)
     }
 
@@ -42,5 +56,28 @@ class VectorActivityLifecycleCallbacks constructor(private val popupAlertManager
     }
 
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
+    }
+
+    private fun operationPush(start: Boolean, activeSessionHolder: ActiveSessionHolder) {
+        Observable.timer(500, TimeUnit.MILLISECONDS)
+                .subscribeOn(Schedulers.newThread())
+                .subscribe(object : Observer<Long?> {
+                    override fun onSubscribe(d: Disposable) {}
+                    override fun onError(e: Throwable) {}
+                    override fun onNext(value: Long?) {}
+                    override fun onComplete() {
+                        try {
+                            if (start && count == 0) {
+                                LogUtil.i("## Push Application startPush")
+                                PushHelper.getInstance().startPush(activeSessionHolder)
+                            } else if (!start && count > 0) {
+                                LogUtil.i("## Push Application stopPush")
+                                PushHelper.getInstance().stopPush()
+                            }
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }
+                })
     }
 }
