@@ -92,10 +92,11 @@ class PrivacyPolicyDialog : GravityDialogFragment() {
     }
 
     private fun navigationToWebView() {
-        NormalWebViewActivity.getIntent(
+        val intent = NormalWebViewActivity.getIntent(
             requireContext(),
             "file:///android_asset/privacy-policy.html",
             getString(R.string.privacy_policy)
         )
+        startActivity(intent)
     }
 }
