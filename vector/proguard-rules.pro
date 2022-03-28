@@ -117,3 +117,7 @@
 -keep class org.json.** { *; }
 -dontwarn com.getui.**
 -keep class com.getui.** { *; }
+
+# bugly
+-dontwarn com.tencent.bugly.**
+-keep public class com.tencent.bugly.**{*;}

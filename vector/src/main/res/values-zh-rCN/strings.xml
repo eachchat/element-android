@@ -2862,6 +2862,7 @@
     <string name="audio_call_with_participant">与 %s 音频通话</string>
     <string name="video_call_with_participant">和 %s 视频通话</string>
     <string name="call_ringing">来电响铃中…</string>
+    <string name="out_call_ringing">呼叫中…</string>
     <string name="spaces">空间</string>
     <string name="learn_more">了解更多</string>
     <string name="space_add_space_to_any_space_you_manage">将一个空间添加到您管理的任何空间。</string>
