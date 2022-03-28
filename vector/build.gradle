@@ -593,4 +593,7 @@ dependencies {
     // GeTui
     implementation 'com.getui:gtsdk:3.2.9.0'  // 个推SDK
     implementation 'com.getui:gtc:3.1.7.0'  // 个推核心组件
+
+    // bugly
+    implementation 'com.tencent.bugly:crashreport:latest.release'
 }
