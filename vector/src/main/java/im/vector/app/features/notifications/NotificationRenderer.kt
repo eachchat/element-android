@@ -62,7 +62,7 @@ class NotificationRenderer @Inject constructor(private val notificationDisplayer
                     }
                     is RoomNotification.Message -> if (useCompleteNotificationFormat) {
                         Timber.d("Updating room messages notification ${wrapper.meta.roomId}")
-                        notificationDisplayer.showNotificationMessage(wrapper.meta.roomId, ROOM_MESSAGES_NOTIFICATION_ID, wrapper.notification)
+//                        notificationDisplayer.showNotificationMessage(wrapper.meta.roomId, ROOM_MESSAGES_NOTIFICATION_ID, wrapper.notification)
                     }
                 }
             }
@@ -75,7 +75,7 @@ class NotificationRenderer @Inject constructor(private val notificationDisplayer
                     }
                     is OneShotNotification.Append  -> if (useCompleteNotificationFormat) {
                         Timber.d("Updating invitation notification ${wrapper.meta.key}")
-                        notificationDisplayer.showNotificationMessage(wrapper.meta.key, ROOM_INVITATION_NOTIFICATION_ID, wrapper.notification)
+//                        notificationDisplayer.showNotificationMessage(wrapper.meta.key, ROOM_INVITATION_NOTIFICATION_ID, wrapper.notification)
                     }
                 }
             }
@@ -88,7 +88,7 @@ class NotificationRenderer @Inject constructor(private val notificationDisplayer
                     }
                     is OneShotNotification.Append  -> if (useCompleteNotificationFormat) {
                         Timber.d("Updating simple notification ${wrapper.meta.key}")
-                        notificationDisplayer.showNotificationMessage(wrapper.meta.key, ROOM_EVENT_NOTIFICATION_ID, wrapper.notification)
+//                        notificationDisplayer.showNotificationMessage(wrapper.meta.key, ROOM_EVENT_NOTIFICATION_ID, wrapper.notification)
                     }
                 }
             }
@@ -97,7 +97,7 @@ class NotificationRenderer @Inject constructor(private val notificationDisplayer
             when (summaryNotification) {
                 is SummaryNotification.Update -> {
                     Timber.d("Updating summary notification")
-                    notificationDisplayer.showNotificationMessage(null, SUMMARY_NOTIFICATION_ID, summaryNotification.notification)
+//                    notificationDisplayer.showNotificationMessage(null, SUMMARY_NOTIFICATION_ID, summaryNotification.notification)
                 }
             }
         }

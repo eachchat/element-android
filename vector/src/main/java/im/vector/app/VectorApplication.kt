@@ -130,7 +130,6 @@ class VectorApplication :
         vectorUncaughtExceptionHandler.activate()
         if (isMainProcess()) {
             HeytapPushManager.init(this, true)
-            PushManager.getInstance().initialize(this)
         }
 
         // Remove Log handler statically added by Jitsi

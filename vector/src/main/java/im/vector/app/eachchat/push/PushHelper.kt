@@ -77,8 +77,6 @@ class PushHelper {
             } else {
                 if (!TextUtils.isEmpty(AppCache.getPNS())) {
                     initClient(AppCache.getPNS())
-                } else {
-                    initClient(TYPE_JIGUNAG_PUSH)
                 }
             }
         }
@@ -263,8 +261,8 @@ class PushHelper {
     }
 
     fun clickNotification(context: Context) {
-        val intent = Intent(context, HomeActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+        val intent = HomeActivity.newIntent(context)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
         context.startActivity(intent)
     }
 
