@@ -9,15 +9,11 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import im.vector.app.core.di.MavericksAssistedViewModelFactory
 import im.vector.app.core.di.hiltMavericksViewModelFactory
-import im.vector.app.core.extensions.singletonEntryPoint
 import im.vector.app.core.platform.EmptyViewEvents
 import im.vector.app.core.platform.VectorViewModel
 import im.vector.app.eachchat.BaseModule
 import im.vector.app.eachchat.bean.OrgSearchInput
 import im.vector.app.eachchat.service.LoginApi
-import im.vector.app.features.home.HomeDetailViewModel
-import im.vector.app.features.home.HomeDetailViewState
-import im.vector.app.features.home.HomeTab
 import im.vector.app.yiqia.EmptyAction
 import im.vector.app.yiqia.EmptyViewState
 import im.vector.app.yiqia.cache.AppCache
@@ -28,6 +24,7 @@ import im.vector.app.yiqia.database.AppDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import org.matrix.android.sdk.api.query.RoomCategoryFilter
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
@@ -60,6 +57,7 @@ class RealContactsViewModel @AssistedInject constructor(
     fun loadCloseContacts(owner: LifecycleOwner) {
         val queryParams = roomSummaryQueryParams {
             memberships = listOf(Membership.JOIN)
+            roomCategoryFilter = RoomCategoryFilter.ONLY_DM
         }
         session.getRoomSummariesLive(queryParams).observe(owner) {
             if (it.isNullOrEmpty()) return@observe

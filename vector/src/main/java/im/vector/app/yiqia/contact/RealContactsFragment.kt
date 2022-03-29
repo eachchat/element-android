@@ -8,16 +8,29 @@ import android.widget.LinearLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.airbnb.mvrx.Success
 import com.airbnb.mvrx.fragmentViewModel
 import im.vector.app.R
+import im.vector.app.core.di.ActiveSessionHolder
 import im.vector.app.core.platform.VectorBaseFragment
 import im.vector.app.databinding.FragmentRealContactsLayoutBinding
 import im.vector.app.databinding.FragmentRoomMemberListBinding
 import im.vector.app.yiqia.contact.data.User
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import org.matrix.android.sdk.api.query.RoomCategoryFilter
+import org.matrix.android.sdk.api.session.room.model.Membership
+import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 import javax.inject.Inject
 
 class RealContactsFragment @Inject constructor()  : VectorBaseFragment<FragmentRealContactsLayoutBinding>() {
+    @Inject lateinit var activeSessionHolder: ActiveSessionHolder
+
+    private val session by lazy {
+        activeSessionHolder.getActiveSession()
+    }
 
     override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentRealContactsLayoutBinding {
         return FragmentRealContactsLayoutBinding.inflate(inflater, container, false)
@@ -77,7 +90,18 @@ class RealContactsFragment @Inject constructor()  : VectorBaseFragment<FragmentR
     private fun initListener() {
         adapter.setOnItemClickListener { adapter, _, position ->
             val user: User = adapter.getItem(position) as User
-            realContactsViewModel.startDirectChat(user.matrixId)
+            kotlin.runCatching {
+                lifecycleScope.launch (Dispatchers.IO) {
+                    val existingRoomId = user.matrixId?.let { userId ->
+                        session.getExistingDirectRoomWithUser(userId)
+                    }
+                    if (existingRoomId != null) {
+                        lifecycleScope.launch (Dispatchers.Main) {
+                            navigator.openRoom(requireContext(), existingRoomId)
+                        }
+                    }
+                }
+            }
         }
 //        header.invite_ll.setOnClickListener {
 //            navigationTo(Contact.RoomInviteActivity)
