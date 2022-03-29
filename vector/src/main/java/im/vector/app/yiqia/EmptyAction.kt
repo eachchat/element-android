@@ -14,22 +14,9 @@
  * limitations under the License.
  */
 
-package im.vector.app.yiqia.cache
+package im.vector.app.yiqia
 
-import org.matrix.android.sdk.api.session.Session
+import im.vector.app.core.platform.VectorViewModelAction
 
-object TokenStore {
-    /**
-     * Get access token, by matrix session
-     * @return matrix access token
-     */
-    @JvmStatic
-    fun getAccessToken(session: Session): String {
-        return session.sessionParams.credentials.accessToken
-    }
-
-    @JvmStatic
-    fun getRefreshToken(session: Session): String? {
-        return session.sessionParams.credentials.refreshToken
-    }
+class EmptyAction : VectorViewModelAction {
 }

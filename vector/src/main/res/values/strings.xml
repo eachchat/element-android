@@ -3816,4 +3816,9 @@
     <string name="audio_and_video_notification">Audio And Video Notification</string>
     <string name="message_notification">Messages notification</string>
     <string name="reauth_confirm">confirm</string>
+    <string name="invite">邀请</string>
+    <string name="my_contacts">我的联系人</string>
+    <string name="organization_framework">组织架构</string>
+    <string name="most_frequently_contacted">最近联系</string>
+    <string name="group_chat">群聊</string>
 </resources>

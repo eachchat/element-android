@@ -125,6 +125,18 @@ android {
         renderscriptTargetApi 24
         renderscriptSupportModeEnabled true
 
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }
+
+        kapt {
+            arguments {
+                arg("room.schemaLocation", "$projectDir/schemas")
+            }
+        }
+
         // `develop` branch will have version code from timestamp, to ensure each build from CI has a incremented versionCode.
         // Other branches (main, features, etc.) will have version code based on application version.
         versionCode project.getVersionCode()
@@ -327,8 +339,8 @@ android {
 //    lintOptions {
 //        lintConfig file("lint.xml")
 //
-//        checkDependencies true
-//        abortOnError true
+//        checkDependencies false
+//        abortOnError false
 //    }
 
     compileOptions {
@@ -601,4 +613,19 @@ dependencies {
     // GeTui
     implementation 'com.getui:gtsdk:3.2.9.0'  // 个推SDK
     implementation 'com.getui:gtc:3.1.7.0'  // 个推核心组件
+
+    // https://mvnrepository.com/artifact/com.github.promeg/tinypinyin
+    implementation 'com.github.promeg:tinypinyin:3.0.0'
+
+    // Room
+    api "androidx.room:room-runtime:2.5.0-alpha01"
+    kapt "androidx.room:room-compiler:2.5.0-alpha01"
+
+    // https://mvnrepository.com/artifact/com.wj/BaseRecyclerViewAdapterHelper
+    implementation("com.wj:BaseRecyclerViewAdapterHelper:1.0.1")
+
+    // Glide
+    api "com.github.bumptech.glide:glide:4.12.0"
+    kapt "com.github.bumptech.glide:compiler:4.12.0"
+    api "com.github.bumptech.glide:okhttp3-integration:4.12.0"
 }

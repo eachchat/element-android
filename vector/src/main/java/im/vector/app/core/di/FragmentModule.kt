@@ -179,6 +179,7 @@ import im.vector.app.features.usercode.ShowUserCodeFragment
 import im.vector.app.features.userdirectory.UserListFragment
 import im.vector.app.features.widgets.WidgetFragment
 import im.vector.app.yiqia.complain.RoomComplainFragment
+import im.vector.app.yiqia.contact.RealContactsFragment
 
 @InstallIn(ActivityComponent::class)
 @Module
@@ -193,6 +194,11 @@ interface FragmentModule {
     @IntoMap
     @FragmentKey(RoomListFragment::class)
     fun bindRoomListFragment(fragment: RoomListFragment): Fragment
+
+    @Binds
+    @IntoMap
+    @FragmentKey(RealContactsFragment::class)
+    fun bindRealContactFragment(fragment: RealContactsFragment): Fragment
 
     @Binds
     @IntoMap

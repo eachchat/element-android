@@ -55,6 +55,7 @@ import im.vector.app.features.settings.VectorSettingsActivity.Companion.EXTRA_DI
 import im.vector.app.features.themes.ThemeUtils
 import im.vector.app.features.workers.signout.BannerState
 import im.vector.app.features.workers.signout.ServerBackupStatusViewModel
+import im.vector.app.yiqia.contact.RealContactsFragment
 import org.matrix.android.sdk.api.session.group.model.GroupSummary
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import org.matrix.android.sdk.internal.crypto.model.rest.DeviceInfo
@@ -377,23 +378,28 @@ class HomeDetailFragment @Inject constructor(
             childFragmentManager.fragments
                     .filter { it != fragmentToShow }
                     .forEach {
-                        detach(it)
+                        hide(it)
                     }
             if (fragmentToShow == null) {
                 when (tab) {
                     is HomeTab.RoomList -> {
                         val params = RoomListParams(tab.displayMode)
-                        add(R.id.roomListContainer, RoomListFragment::class.java, params.toMvRxBundle(), fragmentTag)
+                        if (tab.displayMode == RoomListDisplayMode.PEOPLE) {
+                            add(R.id.roomListContainer, RoomListFragment::class.java, params.toMvRxBundle(), fragmentTag)
+                        } else {
+                            add(R.id.roomListContainer, RealContactsFragment::class.java, params.toMvRxBundle(), fragmentTag)
+                        }
                     }
                     is HomeTab.DialPad  -> {
                         add(R.id.roomListContainer, createDialPadFragment(), fragmentTag)
                     }
                 }
-            } else {
+            }
+            else {
                 if (tab is HomeTab.DialPad) {
                     (fragmentToShow as? DialPadFragment)?.applyCallback()
                 }
-                attach(fragmentToShow)
+                show(fragmentToShow)
             }
         }
     }

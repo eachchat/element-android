@@ -14,22 +14,13 @@
  * limitations under the License.
  */
 
-package im.vector.app.yiqia.cache
+package im.vector.app.yiqia.contact.data
 
-import org.matrix.android.sdk.api.session.Session
+import androidx.room.Dao
+import androidx.room.Query
 
-object TokenStore {
-    /**
-     * Get access token, by matrix session
-     * @return matrix access token
-     */
-    @JvmStatic
-    fun getAccessToken(session: Session): String {
-        return session.sessionParams.credentials.accessToken
-    }
-
-    @JvmStatic
-    fun getRefreshToken(session: Session): String? {
-        return session.sessionParams.credentials.refreshToken
-    }
+@Dao
+interface UserDao {
+    @Query("SELECT * FROM UserInfoStore WHERE id = :id AND del!=1")
+    fun getBriefUserByMatrixId(id: String?): User?
 }

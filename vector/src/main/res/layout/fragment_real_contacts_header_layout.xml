@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/fff3f4f7"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/invite_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingTop="12dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="12dp">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/invite_iv"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@mipmap/icon_invite" />
+
+            <TextView
+                android:id="@+id/invite_count_tv"
+                android:layout_width="@dimen/common_padding"
+                android:layout_height="@dimen/common_padding"
+                android:layout_gravity="right"
+                android:background="@drawable/red_circle_bg"
+                android:gravity="center"
+                android:lines="1"
+                android:singleLine="true"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:visibility="gone"
+                tools:text="55"
+                tools:visibility="visible" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/invite_tv"
+            style="@style/_16_000000_Regular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@mipmap/array_right_grey"
+            android:drawablePadding="16dp"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:paddingStart="12dp"
+            android:singleLine="true"
+            android:text="@string/invite" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/my_contact_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingTop="12dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="12dp">
+
+        <ImageView
+            android:id="@+id/my_contact_iv"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@mipmap/icon_contacts_my_contact" />
+
+        <TextView
+            android:id="@+id/my_contact_tv"
+            style="@style/_16_000000_Regular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@mipmap/array_right_grey"
+            android:drawablePadding="16dp"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:paddingStart="12dp"
+            android:singleLine="true"
+            android:text="@string/my_contacts" />
+    </LinearLayout>
+
+    <View
+        style="@style/dividerHorizontal"
+        android:layout_marginStart="68dp" />
+
+    <LinearLayout
+        android:id="@+id/group_chat_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingTop="12dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="12dp">
+
+        <ImageView
+            android:id="@+id/group_chat_iv"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@mipmap/icon_contacts_group_chat" />
+
+        <TextView
+            android:id="@+id/group_chat_tv"
+            style="@style/_16_000000_Regular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@mipmap/array_right_grey"
+            android:drawablePadding="16dp"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:paddingStart="12dp"
+            android:singleLine="true"
+            android:text="@string/group_chat" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/org_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingTop="12dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="12dp">
+
+        <ImageView
+            android:id="@+id/org_iv"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@mipmap/icon_contacts_org" />
+
+        <TextView
+            android:id="@+id/org_tv"
+            style="@style/_16_000000_Regular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@mipmap/array_right_grey"
+            android:drawablePadding="16dp"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:paddingStart="12dp"
+            android:singleLine="true"
+            android:text="@string/organization_framework" />
+    </LinearLayout>
+
+    <TextView
+        style="@style/_14_999999_Regular"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center_vertical"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="@string/most_frequently_contacted" />
+
+</LinearLayout>

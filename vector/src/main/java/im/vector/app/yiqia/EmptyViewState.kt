@@ -14,19 +14,9 @@
  * limitations under the License.
  */
 
-package im.vector.app.yiqia.cache
+package im.vector.app.yiqia
 
-import com.blankj.utilcode.util.SPUtils
+import com.airbnb.mvrx.MavericksState
 
-object AppCache {
-    private const val SP_NAME_CACHE_NOT_CLEAR = "cache_not_clear"
-    private const val KEY_IS_SHOW_PRIVACY_POLICY = "key_is_privacy_policy_show"
-
-    fun isShowPrivacyPolicy(): Boolean {
-        return SPUtils.getInstance(SP_NAME_CACHE_NOT_CLEAR).getBoolean(KEY_IS_SHOW_PRIVACY_POLICY, true)
-    }
-
-    fun setShowPrivacyPolicy(isShow: Boolean) {
-        SPUtils.getInstance(SP_NAME_CACHE_NOT_CLEAR).put(KEY_IS_SHOW_PRIVACY_POLICY, isShow)
-    }
+class EmptyViewState : MavericksState {
 }

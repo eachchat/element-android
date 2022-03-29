@@ -2,6 +2,8 @@ package im.vector.app.eachchat;
 
 import android.content.Context;
 
+import im.vector.app.core.di.ActiveSessionHolder;
+
 /**
  * Created by zhouguanjie on 2019/8/23.
  */
@@ -17,5 +19,4 @@ public class BaseModule {
     public static Context getContext() {
         return mContext;
     }
-
 }
