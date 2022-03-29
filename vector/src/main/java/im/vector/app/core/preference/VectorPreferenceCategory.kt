@@ -21,6 +21,7 @@ import android.graphics.Typeface
 import android.util.AttributeSet
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceViewHolder
 import im.vector.app.R
@@ -30,6 +31,12 @@ import im.vector.app.features.themes.ThemeUtils
  * Customize PreferenceCategory class to redefine some attributes.
  */
 class VectorPreferenceCategory : PreferenceCategory {
+
+    var colorResource: Int? = null
+        set(value) {
+            field = value
+            notifyChanged()
+        }
 
     constructor(context: Context) : super(context)
 
@@ -49,6 +56,10 @@ class VectorPreferenceCategory : PreferenceCategory {
 
         titleTextView?.setTypeface(null, Typeface.BOLD)
         titleTextView?.setTextColor(ThemeUtils.getColor(context, R.attr.vctr_content_primary))
+
+        colorResource?.let {
+            titleTextView?.setTextColor(ContextCompat.getColor(holder.itemView.context, it))
+        }
 
         // "isIconSpaceReserved = false" does not work for preference category, so remove the padding
         if (!isIconSpaceReserved) {

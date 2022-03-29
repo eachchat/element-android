@@ -126,7 +126,7 @@ class RoomPermissionsController @Inject constructor(
     }
 
     private fun buildPermissions(data: RoomPermissionsViewState, content: PowerLevelsContent) {
-        val host = this
+        // val host = this
         val editable = data.actionPermissions.canChangePowerLevels
         val isSpace = data.roomSummary.invoke()?.roomType == RoomType.SPACE
 
@@ -148,12 +148,12 @@ class RoomPermissionsController @Inject constructor(
         }
 
         // Toggle
-        formAdvancedToggleItem {
-            id("showAdvanced")
-            title(host.stringProvider.getString(if (data.showAdvancedPermissions) R.string.hide_advanced else R.string.show_advanced))
-            expanded(!data.showAdvancedPermissions)
-            listener { host.callback?.toggleShowAllPermissions() }
-        }
+//        formAdvancedToggleItem {
+//            id("showAdvanced")
+//            title(host.stringProvider.getString(if (data.showAdvancedPermissions) R.string.hide_advanced else R.string.show_advanced))
+//            expanded(!data.showAdvancedPermissions)
+//            listener { host.callback?.toggleShowAllPermissions() }
+//        }
 
         // Advanced permissions
         if (data.showAdvancedPermissions) {
