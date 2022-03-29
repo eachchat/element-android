@@ -53,13 +53,13 @@ class RoomNotificationSettingsController @Inject constructor() : TypedEpoxyContr
                 }
             }
         }
-        notificationSettingsFooterItem {
-            id("roomNotificationSettingsFooter")
-            encrypted(data.roomSummary()?.isEncrypted == true)
-            clickListener {
-                host.callback?.didSelectAccountSettingsLink()
-            }
-        }
+//        notificationSettingsFooterItem {
+//            id("roomNotificationSettingsFooter")
+//            encrypted(data.roomSummary()?.isEncrypted == true)
+//            clickListener {
+//                host.callback?.didSelectAccountSettingsLink()
+//            }
+//        }
     }
 
     @StringRes
