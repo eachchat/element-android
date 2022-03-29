@@ -3803,6 +3803,18 @@
     <string name="and">and</string>
     <string name="login_privacy_policy">privacy policy</string>
     <string name="please_check_user_agreement_and_privacy">Please check user agreement and privacy</string>
+    <string name="room_manage">room manage</string>
+    <string name="only_room_owner">only room owner</string>
+    <string name="room_owner_and_moderator">room owner and moderator</string>
+    <string name="all_room_member">all room member</string>
+    <string name="each_chat_privacy_policy_statement">EachChat Privacy Policy Statement</string>
+    <string name="disagree_and_exit">Disagree and exit</string>
+    <string name="agree">Agree</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="select_reason_to_complain">Please select the reason for your complaint against the group (member) (multiple choices):</string>
+    <string name="complain_success">Complain success</string>
     <string name="audio_and_video_notification">Audio And Video Notification</string>
     <string name="message_notification">Messages notification</string>
+    <string name="reauth_confirm">confirm</string>
 </resources>

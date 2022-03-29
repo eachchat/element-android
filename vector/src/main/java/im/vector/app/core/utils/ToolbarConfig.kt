@@ -71,6 +71,10 @@ class ToolbarConfig(val activity: AppCompatActivity, val toolbar: MaterialToolba
      */
     fun setSubtitle(@StringRes subtitleRes: Int) = apply { activity.supportActionBar?.setSubtitle(subtitleRes) }
 
+//    fun addStringMenu(title: String) = apply {
+//        val tv = TextView(activity)
+//    }
+
     /**
      * Enables/disables navigate back button
      *

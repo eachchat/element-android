@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--由下向上动画-->
+    <style name="AnimBottom2Top">
+        <item name="android:windowEnterAnimation">@anim/dialog_slid_up</item>
+        <item name="android:windowExitAnimation">@anim/dialog_slid_down</item>
+    </style>
+    <!--由右向左动画-->
+    <style name="AnimRight2Left">
+        <item name="android:windowEnterAnimation">@anim/enter_from_right</item>
+        <item name="android:windowExitAnimation">@anim/exit_to_right</item>
+    </style>
+</resources>

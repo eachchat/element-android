@@ -5,14 +5,26 @@
     android:id="@+id/login_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="81dp"
+    android:layout_marginBottom="8dp"
     android:background="?android:colorBackground">
 
     <androidx.core.widget.NestedScrollView style="@style/LoginFormScrollView">
 
-        <LinearLayout style="@style/LoginFormContainer">
+        <LinearLayout
+            android:id="@+id/loginFormContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="24dp"
+            android:paddingRight="24dp" >
 
             <ImageView
-                style="@style/LoginLogo"
+                android:layout_width="60dp"
+                android:layout_height="64dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="8dp"
+                app:srcCompat="@drawable/ic_launcher_login"
                 tools:ignore="ContentDescription" />
 
             <!-- Displayed only for EMS -->
@@ -32,7 +44,7 @@
                 style="@style/Widget.Vector.TextView.Title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="27dp"
+                android:layout_marginBottom="24dp"
                 android:gravity="center"
                 android:text="@string/yiqia"
                 android:textColor="?vctr_content_primary"
@@ -43,10 +55,10 @@
                 style="@style/Widget.Vector.TextView.Body"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/layout_vertical_margin"
+                android:layout_marginBottom="12dp"
                 android:gravity="start"
-                android:textColor="?vctr_content_secondary"
                 android:text="@string/organization_name"
+                android:textColor="?vctr_content_secondary"
                 tools:text="@string/organization_name" />
 
             <TextView
@@ -63,8 +75,8 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="26dp"
-                app:errorEnabled="true"
+                android:layout_marginBottom="24dp"
+                app:errorEnabled="false"
                 tools:hint="@string/login_server_url_form_modular_hint">
 
                 <AutoCompleteTextView
@@ -100,14 +112,17 @@
                 android:visibility="gone"
                 tools:text="@string/login_server_url_form_common_notice" />
 
-            <Button
+            <TextView
                 android:id="@+id/loginServerUrlFormSubmit"
-                style="@style/Widget.Vector.Button.Login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:layout_marginTop="22dp"
-                android:text="@string/login_continue" />
+                android:background="@drawable/bg_btn_green"
+                android:gravity="center"
+                android:paddingTop="13dp"
+                android:paddingBottom="13dp"
+                android:text="@string/login_continue"
+                android:textColor="@android:color/white" />
 
         </LinearLayout>
 

@@ -64,7 +64,7 @@ class LoginServerUrlFormFragment2 @Inject constructor() : AbstractLoginFragment2
     private fun setupHomeServerField() {
         views.loginServerUrlFormHomeServerUrl.textChanges()
                 .onEach {
-                    views.loginServerUrlFormHomeServerUrlTil.error = null
+                    // views.loginServerUrlFormHomeServerUrlTil.error = null
                     views.loginServerUrlFormSubmit.isEnabled = it.isNotBlank()
                 }
                 .launchIn(viewLifecycleOwner.lifecycleScope)

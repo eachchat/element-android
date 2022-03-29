@@ -39,7 +39,7 @@ import javax.inject.Inject
 
 class RoomPermissionsController @Inject constructor(
         private val stringProvider: StringProvider,
-        private val roleFormatter: RoleFormatter
+        private val roleFormatter: RoomPermissionRoleFormatter
 ) : TypedEpoxyController<RoomPermissionsViewState>() {
 
     interface Callback {
@@ -66,25 +66,25 @@ class RoomPermissionsController @Inject constructor(
     )
 
     private val advancedEditablePermissions = listOf(
-            EditablePermission.ChangeMainAddressForTheRoom(),
+            // EditablePermission.ChangeMainAddressForTheRoom(),
 
-            EditablePermission.DefaultRole(),
+            // EditablePermission.DefaultRole(),
             EditablePermission.InviteUsers(),
             EditablePermission.KickUsers(),
-            EditablePermission.BanUsers(),
+            // EditablePermission.BanUsers(),
 
             EditablePermission.SendMessages(),
 
-            EditablePermission.RemoveMessagesSentByOthers(),
+            // EditablePermission.RemoveMessagesSentByOthers(),
             EditablePermission.NotifyEveryone(),
 
-            EditablePermission.ChangeSettings(),
-            EditablePermission.ModifyWidgets(),
-            EditablePermission.ChangeHistoryVisibility(),
-            EditablePermission.ChangePermissions(),
-            EditablePermission.SendRoomServerAclEvents(),
+            // EditablePermission.ChangeSettings(),
+            // EditablePermission.ModifyWidgets(),
+            // EditablePermission.ChangeHistoryVisibility(),
+            // EditablePermission.ChangePermissions(),
+            // EditablePermission.SendRoomServerAclEvents(),
 //            EditablePermission.EnableRoomEncryption(),
-            EditablePermission.UpgradeTheRoom()
+            // EditablePermission.UpgradeTheRoom()
     )
 
     private val advancedEditablePermissionsForSpace = listOf(
@@ -130,15 +130,15 @@ class RoomPermissionsController @Inject constructor(
         val editable = data.actionPermissions.canChangePowerLevels
         val isSpace = data.roomSummary.invoke()?.roomType == RoomType.SPACE
 
-        settingsInfoItem {
-            id("notice")
-            helperText(host.stringProvider.getString(
-                    if (editable) {
-                        if (isSpace) R.string.space_permissions_notice else R.string.room_permissions_notice
-                    } else {
-                        if (isSpace) R.string.space_permissions_notice_read_only else R.string.room_permissions_notice_read_only
-                    }))
-        }
+//        settingsInfoItem {
+//            id("notice")
+//            helperText(host.stringProvider.getString(
+//                    if (editable) {
+//                        if (isSpace) R.string.space_permissions_notice else R.string.room_permissions_notice
+//                    } else {
+//                        if (isSpace) R.string.space_permissions_notice_read_only else R.string.room_permissions_notice_read_only
+//                    }))
+//        }
 
         // Useful permissions
         if (isSpace) {

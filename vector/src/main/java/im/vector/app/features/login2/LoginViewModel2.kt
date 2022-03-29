@@ -719,7 +719,7 @@ class LoginViewModel2 @AssistedInject constructor(
         val homeServerConnectionConfig = homeServerConnectionConfigFactory.create(action.homeServerUrl)
         if (homeServerConnectionConfig == null) {
             // This is invalid
-            _viewEvents.post(LoginViewEvents2.Failure(Throwable("Unable to create a HomeServerConnectionConfig")))
+            _viewEvents.post(LoginViewEvents2.Failure(Throwable("您的组织未开通服务")))
         } else {
             getLoginFlow(homeServerConnectionConfig)
         }

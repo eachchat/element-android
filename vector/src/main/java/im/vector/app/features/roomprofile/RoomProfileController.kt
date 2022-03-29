@@ -20,6 +20,7 @@ package im.vector.app.features.roomprofile
 import com.airbnb.epoxy.TypedEpoxyController
 import im.vector.app.R
 import im.vector.app.core.epoxy.expandableTextItem
+import im.vector.app.core.epoxy.profiles.buildDivider
 import im.vector.app.core.epoxy.profiles.buildProfileAction
 import im.vector.app.core.epoxy.profiles.buildProfileSection
 import im.vector.app.core.resources.ColorProvider
@@ -27,6 +28,7 @@ import im.vector.app.core.resources.DrawableProvider
 import im.vector.app.core.resources.StringProvider
 import im.vector.app.core.ui.list.genericFooterItem
 import im.vector.app.core.ui.list.genericPositiveButtonItem
+import im.vector.app.core.utils.DimensionConverter
 import im.vector.app.features.home.ShortcutCreator
 import im.vector.app.features.home.room.detail.timeline.TimelineEventController
 import im.vector.app.features.home.room.detail.timeline.tools.createLinkMovementMethod
@@ -63,6 +65,7 @@ class RoomProfileController @Inject constructor(
         fun onUrlInTopicLongClicked(url: String)
         fun doMigrateToVersion(newVersion: String)
         fun restoreEncryptionState()
+        fun onComplainClicked()
     }
 
     override fun buildModels(data: RoomProfileViewState?) {
@@ -173,8 +176,12 @@ class RoomProfileController @Inject constructor(
 //        buildEncryptionAction(data.actionPermissions, roomSummary)
 
         // More
-        buildProfileSection(stringProvider.getString(R.string.room_profile_section_more))
+        if (roomSummary.isDirect) {
+            buildDivider("direct", 8)
+        }
+
         if (!roomSummary.isDirect) {
+            buildProfileSection(stringProvider.getString(R.string.room_profile_section_more))
             buildProfileAction(
                     id = "settings",
                     title = stringProvider.getString(if (roomSummary.isDirect) {
@@ -204,25 +211,36 @@ class RoomProfileController @Inject constructor(
             )
         }
 
-        if (data.bannedMembership.invoke()?.isNotEmpty() == true) {
-            buildProfileAction(
-                    id = "banned_list",
-                    title = stringProvider.getString(R.string.room_settings_banned_users_title),
-                    icon = R.drawable.ic_settings_root_labs,
-                    action = { callback?.onBannedMemberListClicked() }
-            )
-        }
+//        if (data.bannedMembership.invoke()?.isNotEmpty() == true) {
+//            buildProfileAction(
+//                    id = "banned_list",
+//                    title = stringProvider.getString(R.string.room_settings_banned_users_title),
+//                    icon = R.drawable.ic_settings_root_labs,
+//                    action = { callback?.onBannedMemberListClicked() }
+//            )
+//        }
+
         buildProfileAction(
                 id = "uploads",
                 title = stringProvider.getString(R.string.file),
                 icon = R.drawable.ic_file_filled,
                 action = { callback?.onUploadsClicked() }
         )
+
+        if (data.actionPermissions.canChangePowerLevels && !roomSummary.isDirect) {
+            buildProfileAction(
+                    id = "permissions",
+                    title = stringProvider.getString(R.string.room_manage),
+                    icon = R.drawable.ic_room_profile_permission,
+                    action = { callback?.onRoomPermissionsClicked() }
+            )
+        }
+
         buildProfileAction(
                 id = "complain",
                 title = stringProvider.getString(R.string.complain),
                 icon = R.drawable.ic_complain_filled,
-                action = {  }
+                action = { callback?.onComplainClicked() }
         )
 //        if (shortcutCreator.canCreateShortcut()) {
 //            buildProfileAction(

@@ -58,12 +58,14 @@ class LoginResetPasswordFragment @Inject constructor() : AbstractLoginFragment<F
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        views.ivBack.setOnClickListener {
+            activity?.onBackPressed()
+        }
         setupSubmitButton()
     }
 
-    private fun setupUi(state: LoginViewState) {
-        views.resetPasswordTitle.text = getString(R.string.login_reset_password_on, state.homeServerUrlFromUser.toReducedUrl())
+    private fun setupUi() {
+        views.resetPasswordTitle.text = getString(R.string.login_reset_password_on)
     }
 
     private fun setupSubmitButton() {
@@ -119,7 +121,7 @@ class LoginResetPasswordFragment @Inject constructor() : AbstractLoginFragment<F
     }
 
     override fun updateWithState(state: LoginViewState) {
-        setupUi(state)
+        setupUi()
 
         when (state.asyncResetPassword) {
             is Loading -> {

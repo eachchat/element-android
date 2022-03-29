@@ -178,6 +178,7 @@ import im.vector.app.features.terms.ReviewTermsFragment
 import im.vector.app.features.usercode.ShowUserCodeFragment
 import im.vector.app.features.userdirectory.UserListFragment
 import im.vector.app.features.widgets.WidgetFragment
+import im.vector.app.yiqia.complain.RoomComplainFragment
 
 @InstallIn(ActivityComponent::class)
 @Module
@@ -602,6 +603,11 @@ interface FragmentModule {
     @IntoMap
     @FragmentKey(RoomMemberProfileFragment::class)
     fun bindRoomMemberProfileFragment(fragment: RoomMemberProfileFragment): Fragment
+
+    @Binds
+    @IntoMap
+    @FragmentKey(RoomComplainFragment::class)
+    fun bindRoomComplainFragment(fragment: RoomComplainFragment): Fragment
 
     @Binds
     @IntoMap

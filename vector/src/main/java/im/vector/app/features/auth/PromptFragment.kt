@@ -71,7 +71,7 @@ class PromptFragment : VectorBaseFragment<FragmentReauthConfirmBinding>() {
             }
             LoginFlowTypes.PASSWORD -> {
                 views.passwordFieldTil.isVisible = true
-                views.reAuthConfirmButton.text = getString(R.string._continue)
+                views.reAuthConfirmButton.text = getString(R.string.reauth_confirm)
             }
             else                    -> {
                 // This login flow is not supported, you should use web?

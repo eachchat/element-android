@@ -307,6 +307,10 @@ class RoomProfileFragment @Inject constructor(
         roomProfileViewModel.handle(RoomProfileAction.RestoreEncryptionState)
     }
 
+    override fun onComplainClicked() {
+        roomProfileSharedActionViewModel.post(RoomProfileSharedAction.OpenRoomComplain)
+    }
+
     override fun onRoomIdClicked() {
         copyToClipboard(requireContext(), roomProfileArgs.roomId)
     }

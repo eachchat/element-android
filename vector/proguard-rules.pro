@@ -103,6 +103,9 @@
 
 # oppo push
 -keep public class * extends android.app.Service
+-keep class im.vector.app.eachchat.bean.** { <fields>; }
+
+-keep class im.vector.app.yiqia.net.data.** { *; }
 -keep class com.heytap.msp.** { *;}
 
 # vivo push

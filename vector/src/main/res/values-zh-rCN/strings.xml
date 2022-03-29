@@ -154,7 +154,7 @@
     <string name="notice_widget_modified_by_you">你修改了 %1$s 挂件</string>
     <string name="power_level_admin">群主</string>
     <string name="power_level_moderator">群管理员</string>
-    <string name="power_level_default">默认</string>
+    <string name="power_level_default">群成员</string>
     <string name="power_level_custom">自定义（%1$d）</string>
     <string name="power_level_custom_no_value">自定义</string>
     <string name="notice_power_level_changed_by_you">你更改了%1$s 的权力等级。</string>
@@ -284,7 +284,7 @@
     <string name="auth_phone_number_placeholder">手机号码</string>
     <string name="auth_opt_phone_number_placeholder">手机号码（可选）</string>
     <string name="auth_repeat_new_password_placeholder">确认你的新密码</string>
-    <string name="auth_invalid_login_param">用户名和/或密码错误</string>
+    <string name="auth_invalid_login_param">用户名或密码错误</string>
     <string name="auth_invalid_user_name">用户名仅可由字母、数字、点、连字符与下划线组成</string>
     <string name="auth_invalid_password">密码太短（至少 6 位）</string>
     <string name="auth_missing_password">缺少密码</string>
@@ -1361,7 +1361,7 @@
     <string name="auth_add_email_phone_message_2">设定电子邮件以供恢复账号。然后就可以让认识你的人用电子邮件或电话选择性探索到你。</string>
     <string name="auth_add_email_and_phone_message_2">设定电子邮件以供恢复账号。然后就可以让认识你的人用电子邮件或电话选择性探索到你。</string>
     <string name="login_error_no_homeserver_found">这不是有效的 Matrix 服务器位置</string>
-    <string name="login_error_homeserver_not_found">无法在此 URL 找到主服务器，请检查</string>
+    <string name="login_error_homeserver_not_found">您的组织未开通服务</string>
     <string name="settings_call_ringtone_use_default_stun">允许后备呼叫协助服务器</string>
     <string name="action_play">播放</string>
     <string name="action_pause">暂停</string>
@@ -1400,7 +1400,7 @@
     <string name="room_participants_action_unignore_prompt_msg">取消忽略此用户将重新显示来自他们的全部消息。</string>
     <string name="room_participants_action_cancel_invite_title">取消邀请</string>
     <string name="room_participants_action_cancel_invite_prompt_msg">你确定想要取消邀请此用户吗？</string>
-    <string name="room_participants_remove_title">踢掉用户</string>
+    <string name="room_participants_remove_title">移除用户</string>
     <string name="room_participants_remove_reason">踢掉理由</string>
     <string name="room_participants_remove_prompt_msg">踢掉用户将从此群聊移除他们。
 \n
@@ -1702,11 +1702,11 @@
 \n
 \n你想要通过网页客户端注册吗？</string>
     <string name="login_login_with_email_error">电子邮件未关联到任何账号。</string>
-    <string name="login_reset_password_on">在 %1$s 上重置密码</string>
-    <string name="login_reset_password_notice">验证邮件将发送到你的收件箱以确认设置你的新密码。</string>
+    <string name="login_reset_password_on">重置密码</string>
+    <string name="login_reset_password_notice">通过邮箱账号重置密码</string>
     <string name="login_reset_password_submit">下一个</string>
-    <string name="login_reset_password_email_hint">电子邮件</string>
-    <string name="login_reset_password_password_hint">新密码</string>
+    <string name="login_reset_password_email_hint">请输入您的邮箱</string>
+    <string name="login_reset_password_password_hint">请输入新密码</string>
     <string name="login_reset_password_warning_title">注意！</string>
     <string name="login_reset_password_warning_content">更改你的密码将重置所有会话上的端对端加密密钥，从而使加密聊天记录无法读取。在重设密码之前，请设置“密钥备份”或从另一个会话中导出群聊密钥。</string>
     <string name="login_reset_password_warning_submit">继续</string>
@@ -1886,7 +1886,7 @@
     <string name="room_member_power_level_users">群成员</string>
     <string name="room_member_power_level_admin_in">%1$s 管理员</string>
     <string name="room_member_power_level_moderator_in">%1$s 的群管理员</string>
-    <string name="room_member_power_level_default_in">%1$s 默认权限</string>
+    <string name="room_member_power_level_default_in">%1$s 的群成员</string>
     <string name="room_member_power_level_custom_in">%2$s 自定义权限 (%1$d)</string>
     <string name="template_rendering_event_error_type_of_event_not_handled">${app_name} 无法处理类型为 \'%1$s\' 的事件</string>
     <string name="template_rendering_event_error_type_of_message_not_handled">${app_name} 无法处理类型为 \'%1$s\' 的消息</string>
@@ -1921,10 +1921,10 @@
 \n密钥未信任</string>
     <string name="encryption_information_dg_xsigning_disabled">交叉签名未启用</string>
     <string name="settings_hs_admin_e2e_disabled">你的服务器管理员已默认禁用私有群聊和私聊消息端对端加密。</string>
-    <string name="settings_active_sessions_list">激活会话</string>
+    <string name="settings_active_sessions_list">活动会话</string>
     <string name="settings_active_sessions_show_all">显示全部会话</string>
-    <string name="settings_active_sessions_manage">管理会话</string>
-    <string name="settings_active_sessions_signout_device">退出此会话</string>
+    <string name="settings_active_sessions_manage">全部会话</string>
+    <string name="settings_active_sessions_signout_device">移除会话</string>
     <string name="settings_failed_to_get_crypto_device_info">加密信息不可用</string>
     <string name="settings_active_sessions_verified_device_desc">此会话对安全消息可信因为你已验证它：</string>
     <string name="settings_active_sessions_unverified_device_desc">验证此会话以将其标记为可信，并授予其访问加密消息的权限。如果你未登录此会话，则你的账号可能已被盗：</string>
@@ -2420,17 +2420,17 @@
     <string name="room_permissions_change_main_address_for_the_room">更改群聊主要地址</string>
     <string name="room_permissions_change_room_avatar">更改群聊头像</string>
     <string name="room_permissions_modify_widgets">修改挂件</string>
-    <string name="room_permissions_notify_everyone">通知每个人</string>
+    <string name="room_permissions_notify_everyone">通知所有人</string>
     <string name="room_permissions_remove_messages_sent_by_others">移除其他人发送的消息</string>
     <string name="room_permissions_ban_users">封禁用户</string>
-    <string name="room_permissions_remove_users">踢掉用户</string>
+    <string name="room_permissions_remove_users">移除用户</string>
     <string name="room_permissions_change_settings">更改设置</string>
     <string name="room_permissions_invite_users">邀请用户</string>
     <string name="room_permissions_send_messages">发送消息</string>
     <string name="room_permissions_default_role">默认角色</string>
     <string name="room_permissions_notice_read_only">你没有权限更新更改群聊多个部分所需角色</string>
     <string name="room_permissions_notice">选择更改群聊各个部分所需的角色</string>
-    <string name="room_permissions_title">权限</string>
+    <string name="room_permissions_title">权限管理</string>
     <string name="room_settings_permissions_subtitle">需要查看和更新角色以更改群聊多个部分。</string>
     <string name="room_settings_permissions_title">群聊权限</string>
     <string name="room_participants_leave_private_warning">此群聊不公开。你没有邀请将无法重新加入。</string>
@@ -3015,6 +3015,17 @@
     <string name="and">和</string>
     <string name="login_privacy_policy"> 《隐私政策》 </string>
     <string name="please_check_user_agreement_and_privacy">请勾选同意《用户协议》和《隐私条款》</string>
+    <string name="room_manage">群管理</string>
+    <string name="only_room_owner">仅群主</string>
+    <string name="room_owner_and_moderator">仅群主和群管理员</string>
+    <string name="all_room_member">所有群成员</string>
+    <string name="each_chat_privacy_policy_statement">亿洽隐私政策声明</string>
+    <string name="disagree_and_exit">不同意并退出</string>
+    <string name="agree">同意</string>
+    <string name="select_reason_to_complain">请选择投诉该群(成员)的原因(可多选)：</string>
+    <string name="complain_success">举报成功</string>
+
     <string name="audio_and_video_notification">音视频通话通知</string>
     <string name="message_notification">消息通知</string>
+    <string name="reauth_confirm">确定</string>
 </resources>

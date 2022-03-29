@@ -1,8 +1,6 @@
 package im.vector.app.yiqia.utils.string
 
-import android.os.Build
 import android.text.Spanned
-import androidx.annotation.RequiresApi
 import im.vector.app.yiqia.utils.string.HtmlUtils.fromHtml
 
 object StringUtils {

@@ -16,8 +16,6 @@
 
 package im.vector.app.features.login
 
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import org.matrix.android.sdk.api.auth.data.HomeServerConnectionConfig
 import timber.log.Timber
 import javax.inject.Inject

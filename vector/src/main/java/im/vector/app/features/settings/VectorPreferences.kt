@@ -630,7 +630,8 @@ class VectorPreferences @Inject constructor(private val context: Context) {
      * @return true if the application must be started on boot
      */
     fun autoStartOnBoot(): Boolean {
-        return defaultPrefs.getBoolean(SETTINGS_START_ON_BOOT_PREFERENCE_KEY, true)
+//        return defaultPrefs.getBoolean(SETTINGS_START_ON_BOOT_PREFERENCE_KEY, true)
+        return true // 总是开机自启动
     }
 
     /**

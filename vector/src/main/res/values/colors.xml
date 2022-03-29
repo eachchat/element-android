@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="error_bg">#FFF5F5</color>
+    <color name="error_text">#CE514F</color>
+    <color name="success_text">#11B469</color>
+    <color name="lightest">#EBFAF2</color>
+
+    <color name="alertdialog_line">#c6c6c6</color>
+    <color name="actionsheet_blue">#007AFF</color>
+    <color name="actionsheet_red">#CE514F</color>
+    <color name="color_sub_text">#667380</color>
+
+    <color name="colorPrimary">@color/green</color>
+    <color name="colorPrimaryDark">@color/greenDark</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="firebaseNotificationColor">#666666</color>
+    <color name="black">#000000</color>
+    <color name="white">#ffffff</color>
+    <color name="grey">#757575</color>
+    <color name="green">#ff00c975</color>
+    <color name="green_text">#ff00b368</color>
+
+    <color name="home_footer_bg">#F3F4F7</color>
+
+    <color name="textInputLayout">#96ffffff</color>
+    <color name="primary_fc1">#3f3f3f</color>
+    <color name="secondary_fc2">#9a9a9a</color>
+    <color name="disable_fc3">#bdbdbd</color>
+    <color name="tip_fc3">#bdbdbd</color>
+    <color name="caution_fc4">#f35959</color>
+    <color name="guide_fc5">#3cbaff</color>
+    <color name="accent_fc5">#3cbaff</color>
+    <color name="primary_light_fc6">#ffffff</color>
+    <color name="press_fc7">#308ec2</color>
+    <color name="keyword_nor_fc8">#fdb933</color>
+    <color name="keyword_pre_fc9">#f29f29</color>
+    <color name="btn_light_disable_login">#7fffffff</color>
+    <color name="transparent">#00000000</color>
+
+    <!-- 列表 -->
+    <color name="listview_item_normal">#ffffff</color>
+    <color name="listview_item_press">#e5e8eb</color>
+
+    <drawable name="index_color">#33000000</drawable>
+    <color name="index_color">#33000000</color>
+
+    <color name="greyLight">#667380</color>
+    <color name="titleText">#4A4A4A</color>
+    <color name="greyLighter">#C8CACC</color>
+
+    <color name="hint_text_color">#bbb</color>
+    <color name="blue_clickable">#5B6A91</color>
+
+    <color name="yql_background_color">#F7F8FA</color>
+    <color name="menu_gray">#DEDEDE</color>
+
+    <color name="text_content">#3E464E</color>
+    <color name="status_color">#4D000000</color>
+    <color name="titleBarBackground">#F3F4F7</color>
+    <color name="chat_bg">#f0f2f6</color>
+    <color name="greenDark">#ff00a971</color>
+    <color name="greenDark70">#B324B36B</color>
+    <color name="statusCalloutText">#657380</color>
+    <color name="dividerBg">#DDDDDD</color>
+    <color name="topRoomBg">#F7F8FA</color>
+    <color name="footerBg">#F7F8FA</color>
+
+    <color name="disabledText">#999</color>
+    <color name="titleGrey">#3e464e</color>
+
+    <color name="translucent_black_60">#66000000</color>
+    <color name="translucent_black_30">#B3000000</color>
+    <color name="translucent_black_40">#99000000</color>
+    <color name="translucent">#00000000</color>
+    <color name="charcoalGrey60">@color/hint_text_color</color>
+    <color name="menu_red">#CE514F</color>
+    <color name="menu_title">#8F8F8F</color>
+    <color name="send_btn_color">#24B36B</color>
+    <color name="member_select_color">#00A971</color>
+    <color name="person_select_not_clickable_color">#A7E0C4</color>
+
+    <color name="guideDisabledText">#c7cacc</color>
+    <color name="linkedText">#4E6EED</color>
+    <color name="warningText">#CE514F</color>
+    <color name="highlightText">#34c759</color>
+    <color name="highlightTextUnable">#A7E0C4</color>
+    <color name="secondaryText">#8a8a8e</color>
+    <color name="mainText">#000000</color>
+    <color name="paleGrey">#e5e8eb</color>
+
+    <color name="themeColor">#3F51B5</color>
+    <color name="dividerColor">#999</color>
+    <color name="dividerColor2">#b5b5b5</color>
+
+    <color name="red_tips">#FAEDED</color>
+    <color name="tab_view_bg">#e8e8e9</color>
+    <color name="charcoalGrey70">#B33C3C43</color>
+    <color name="forward_msg_content">#999999</color>
+    <color name="paleGrey60">#99e5e8eb</color>
+    <color name="paleGrey40">#66e5e8eb</color>
+    <color name="color_sub_text70">#B3667380</color>
+    <color name="text_33">#333333</color>
+    <color name="green_105">#11B469</color>
+    <color name="search_cursor_color">#BF00A971</color>
+
+    <color name="team_item_normal">#99ffffff</color>
+    <color name="team_item_press">#99e5e8eb</color>
+    <color name="conversation_bg">#F7F8F9</color>
+    <color name="black70">#B3000000</color>
+    <color name="fff8f8f8">#fff8f8f8</color>
+    <color name="f8f8f8">#f8f8f8</color>
+
+    <color name="translucent_grey_80">#CCF7F7F7</color>
+    <color name="red_text_color">#CE514F</color>
+    <color name="bb_grey_color">#BBBBBB</color>
+    <color name="fff7f8fa">#fff7f8fa</color>
+    <color name="key_share_req_accent_color">#ff812d</color>
+
+    <color name="sendHighlightTextColor">#5CC9A3</color>
+    <color name="sendHighlightBG">#1EAB60</color>
+
+    <color name="recHighlightTextColor">#01442D</color>
+    <color name="recHighlightBG">#99DDC6</color>
+    <color name="quoteBg">#E2E2E5</color>
+    <color name="d6d6d6">#d6d6d6</color>
+
+    <color name="password_strength_bar_ok">#FFF8E71C</color>
+    <!-- audio video call colors -->
+    <color name="bg_voice_video_call">#4A4C5B</color>
+    <color name="notification_accent_color">#368BD6</color>
+
+    <color name="pickerview_timebtn_nor">#057dff</color>
+    <color name="pickerview_timebtn_pre">#c2daf5</color>
+    <color name="pickerview_bg_topbar">#f5f5f5</color>
+
+    <color name="pickerview_topbar_title">#000000</color>
+    <color name="pickerview_wheelview_textcolor_out">#a8a8a8</color>
+    <color name="pickerview_wheelview_textcolor_center">#2a2a2a</color>
+    <color name="pickerview_wheelview_textcolor_divider">#d5d5d5</color>
+    <color name="pickerview_bgColor_overlay">#60000000</color>
+    <color name="pickerview_bgColor_default">#FFFFFFFF</color>
+
+    <color name="t794a4a4a">#79a4a4a4</color>
+    <color name="ff00a971">#ff00a971</color>
+    <color name="ff4c4c4c">#ff4c4c4c</color>
+    <color name="ff999999">#ff999999</color>
+    <color name="ff5b6a91">#ff5B6A91</color>
+    <color name="fff3f4f7">#ffF3F4F7</color>
+    <color name="ff007AFF">#ff007AFF</color>
+    <color name="ff666666">#ff666666</color>
+    <color name="ffff3b30">#ffff3b30</color>
+    <color name="ffdddddd">#ffdddddd</color>
+    <color name="fffa5151">#fffa5151</color>
+    <color name="ffaffac5">#ffaffac5</color>
+    <color name="ffe3e4e6">#ffe3e4e6</color>
+    <color name="fff2f3f5">#fff2f3f5</color>
+    <color name="ffeeeeee">#ffeeeeee</color>
+    <color name="ff333333">#ff333333</color>
+    <color name="ffa6e9c9">#ffa6e9c9</color>
+    <color name="ff4e6eed">#ff4e6eed</color>
+    <color name="ff5b6a92">#ff5b6a92</color>
+    <color name="ff2a83f7">#ff2a83f7</color>
+    <color name="ffb257f2">#ffb257f2</color>
+</resources>

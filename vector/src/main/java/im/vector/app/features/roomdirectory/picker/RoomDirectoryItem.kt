@@ -62,13 +62,13 @@ abstract class RoomDirectoryItem : VectorEpoxyModel<RoomDirectoryItem.Holder>() 
                 .load(directoryAvatarUrl)
                 .let {
                     if (!includeAllNetworks) {
-                        it.placeholder(R.drawable.network_matrix)
+                        it.placeholder(R.drawable.ic_home_server)
                     } else {
                         it
                     }
                 }
                 .into(holder.avatarView)
-//        holder.avatarView.isInvisible = directoryAvatarUrl.isNullOrBlank() && includeAllNetworks
+        holder.avatarView.isInvisible = directoryAvatarUrl.isNullOrBlank() && includeAllNetworks
 
 
         holder.nameView.text = directoryName
