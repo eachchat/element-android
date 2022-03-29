@@ -62,7 +62,11 @@ class RoomDirectoryPickerController @Inject constructor(
         when (val asyncThirdPartyProtocol = data.asyncThirdPartyRequest) {
             is Success    -> {
                 data.directories.join(
-                        each = { _, roomDirectoryServer -> buildDirectory(roomDirectoryServer) },
+                        each = { _, roomDirectoryServer ->
+                            if (roomDirectoryServer.isUserServer) {
+                                buildDirectory(roomDirectoryServer)
+                            }
+                        },
                         between = { idx, _ -> buildDivider(idx) }
                 )
                 buildForm(data)

@@ -16,7 +16,6 @@
 
 package im.vector.app.yiqia.cache
 
-import im.vector.app.VectorApplication
 import org.matrix.android.sdk.api.session.Session
 
 object TokenStore {
