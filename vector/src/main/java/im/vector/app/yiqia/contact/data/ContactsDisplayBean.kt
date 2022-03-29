@@ -285,10 +285,10 @@ fun getNamePy(name: String?): String {
     else "#"
 }
 
-fun String?.resolveMxc() =
-        when {
-            isNullOrEmpty() -> this
-            startsWith("mxc://") -> VectorApplication().activeSessionHolder.getActiveSession().contentUrlResolver()
-                    .resolveThumbnail(this, 250, 250, ContentUrlResolver.ThumbnailMethod.SCALE) ?: this
-            else -> this
-        }
+fun String?.resolveMxc() = this
+//        when {
+//            isNullOrEmpty() -> this
+//            startsWith("mxc://") -> VectorApplication().activeSessionHolder.getActiveSession().contentUrlResolver()
+//                    .resolveThumbnail(this, 250, 250, ContentUrlResolver.ThumbnailMethod.SCALE) ?: this
+//            else -> this
+//        }
