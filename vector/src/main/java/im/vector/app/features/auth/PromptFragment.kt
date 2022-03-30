@@ -21,6 +21,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import com.airbnb.mvrx.Mavericks
 import com.airbnb.mvrx.activityViewModel
 import com.airbnb.mvrx.withState
 import im.vector.app.R
@@ -39,6 +40,13 @@ class PromptFragment : VectorBaseFragment<FragmentReauthConfirmBinding>() {
         super.onViewCreated(view, savedInstanceState)
         views.reAuthConfirmButton.debouncedClicks {
             onButtonClicked()
+        }
+        observeTitle()
+    }
+
+    private fun observeTitle() {
+        viewModel.titleLiveData.observe(viewLifecycleOwner) {
+            views.reAuthConfirmText.text = it
         }
     }
 

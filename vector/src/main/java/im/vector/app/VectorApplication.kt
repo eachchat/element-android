@@ -123,15 +123,16 @@ class VectorApplication :
         enableStrictModeIfNeeded()
         super.onCreate()
         appContext = this
+        if (!isMainProcess()) {
+            return
+        }
         BaseModule.init(this)
         vectorAnalytics.init()
         invitesAcceptor.initialize()
         autoRageShaker.initialize()
         vectorUncaughtExceptionHandler.activate()
-        if (isMainProcess()) {
-            HeytapPushManager.init(this, true)
-            PushManager.getInstance().initialize(this)
-        }
+        HeytapPushManager.init(this, true)
+        PushManager.getInstance().initialize(this)
 
         // Remove Log handler statically added by Jitsi
         Timber.forest()

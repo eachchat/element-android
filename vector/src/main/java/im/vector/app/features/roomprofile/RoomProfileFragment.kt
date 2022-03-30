@@ -147,7 +147,7 @@ class RoomProfileFragment @Inject constructor(
                 views.matrixProfileToolbarTitleView
         ).forEach {
             it.debouncedClicks {
-                roomProfileSharedActionViewModel.post(RoomProfileSharedAction.OpenRoomSettings)
+//                roomProfileSharedActionViewModel.post(RoomProfileSharedAction.OpenRoomSettings)
             }
         }
         // Shortcut to room alias

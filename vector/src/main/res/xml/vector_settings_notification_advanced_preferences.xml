@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <im.vector.app.core.preference.VectorPreferenceCategory
         android:key="SETTINGS_NOTIFICATION_LEVEL"
@@ -12,8 +13,10 @@
 
         <im.vector.app.core.preference.PushRulePreference
             android:key="SETTINGS_PUSH_RULE_CONTAINING_MY_USER_NAME_PREFERENCE_KEY"
+            android:defaultValue="false"
             android:persistent="false"
-            android:title="@string/settings_containing_my_user_name" />
+            android:title="@string/settings_containing_my_user_name"
+            app:isPreferenceVisible="false" />
 
         <im.vector.app.core.preference.PushRulePreference
             android:key="SETTINGS_PUSH_RULE_MESSAGES_CONTAINING_AT_ROOM_PREFERENCE_KEY"

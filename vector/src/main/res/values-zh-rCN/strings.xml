@@ -2,24 +2,24 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="summary_user_sent_image">%1$s 发送了一张图片。</string>
     <string name="notice_room_invite_no_invitee">%s 的邀请</string>
-    <string name="notice_room_invite">%1$s 邀请了 %2$s</string>
+    <string name="notice_room_invite">%2$s 被邀请</string>
     <string name="notice_room_invite_you">%1$s 邀请了你</string>
-    <string name="notice_room_join">%1$s 加入了群聊</string>
-    <string name="notice_room_leave">%1$s 离开了群聊</string>
+    <string name="notice_room_join">%1$s 已加入</string>
+    <string name="notice_room_leave">%1$s 已离开聊天室</string>
     <string name="notice_room_reject">%1$s 拒绝了邀请</string>
     <string name="notice_room_remove">%1$s 移除了 %2$s</string>
     <string name="notice_room_unban">%1$s 解封了 %2$s</string>
     <string name="notice_room_ban">%1$s 封禁了 %2$s</string>
-    <string name="notice_avatar_url_changed">%1$s 更换了他们的头像</string>
-    <string name="notice_display_name_set">%1$s 将他们的昵称设置为 %2$s</string>
-    <string name="notice_display_name_changed_from">%1$s 把他们的昵称从 %2$s 改为 %3$s</string>
-    <string name="notice_display_name_removed">%1$s 移除了他们的昵称 (%2$s)</string>
+    <string name="notice_avatar_url_changed">%1$s 更换了自己的头像</string>
+    <string name="notice_display_name_set">%1$s 将昵称更改为 %2$s</string>
+    <string name="notice_display_name_changed_from">%1$s 把昵称从 %2$s 改为 %3$s</string>
+    <string name="notice_display_name_removed">%1$s 移除了昵称</string>
     <string name="notice_room_topic_changed">%1$s 把主题改为： %2$s</string>
     <string name="notice_room_name_changed">%1$s 把群聊名称改为： %2$s</string>
-    <string name="notice_placed_video_call">%s 发起了一次视频通话。</string>
-    <string name="notice_placed_voice_call">%s 发起了一次语音通话。</string>
-    <string name="notice_answered_call">%s 已接听通话。</string>
-    <string name="notice_ended_call">%s 已结束通话。</string>
+    <string name="notice_placed_video_call">%s 发起了一次视频通话</string>
+    <string name="notice_placed_voice_call">%s 发起了一次语音通话</string>
+    <string name="notice_answered_call">%s 已接听通话</string>
+    <string name="notice_ended_call">%s 已结束通话</string>
     <string name="notice_room_visibility_invited">所有群聊成员，从他们被邀请开始。</string>
     <string name="notice_room_visibility_joined">所有群聊成员，从他们加入开始。</string>
     <string name="notice_room_visibility_shared">所有群聊成员。</string>
@@ -198,7 +198,7 @@
     <string name="notice_made_future_direct_room_visibility_by_you">你使未来的消息对 %1$s 可见</string>
     <string name="notice_made_future_direct_room_visibility">%1$s 使未来的消息对 %2$s 可见</string>
     <string name="notice_direct_room_leave_by_you">你离开了群聊</string>
-    <string name="notice_direct_room_leave">%1$s 离开了群聊</string>
+    <string name="notice_direct_room_leave">%1$s 已退出</string>
     <string name="notice_direct_room_join_by_you">你已加入</string>
     <string name="notice_direct_room_join">%1$s 已加入</string>
     <string name="notice_direct_room_created_by_you">你创建了讨论</string>
@@ -450,7 +450,7 @@
     <string name="settings_phone_number">手机号码</string>
     <string name="settings_app_info_link_title">应用信息</string>
     <string name="settings_enable_all_notif">启用这个账号的通知</string>
-    <string name="settings_enable_this_device">启用这个设备的通知</string>
+    <string name="settings_enable_this_device">打开设备通知</string>
     <string name="settings_messages_in_one_to_one">来自私聊的消息</string>
     <string name="settings_messages_in_group_chat">来自群聊的消息</string>
     <string name="settings_invited_to_room">当我被邀请加入群聊时</string>
@@ -793,7 +793,7 @@
     <string name="room_settings_add_homescreen_shortcut">添加到主屏幕</string>
     <string name="settings_inline_url_preview">启用链接预览</string>
     <string name="settings_vibrate_on_mention">使用 @ 时震动</string>
-    <string name="room_settings_room_notifications_title">通知</string>
+    <string name="room_settings_room_notifications_title">通知事项</string>
     <string name="create">创建</string>
     <string name="community_name_hint">样例名称</string>
     <plurals name="room_new_messages_notification">
@@ -1437,7 +1437,7 @@
     <string name="reset_secure_backup_title">为你已有的备份生成新的安全密钥或设置新的安全口令。</string>
     <string name="reset_secure_backup_warning">这将替换你的当前密钥或短语。</string>
     <string name="settings_discovery_category">发现</string>
-    <string name="settings_discovery_manage">管理你的发现设置。</string>
+    <string name="settings_discovery_manage">管理添加我的方式。</string>
     <string name="settings_integration_allow">允许集成</string>
     <string name="settings_integration_manager">集成管理器</string>
     <string name="disabled_integration_dialog_title">集成已禁用</string>
@@ -1519,7 +1519,7 @@
     <string name="last_edited_info_message">最后由 %1$s 编辑于 %2$s</string>
     <string name="malformed_message">格式错误事件，无法显示</string>
     <string name="error_no_network">无网络。请检查你的网络连接。</string>
-    <string name="change_room_directory_network">更改网络</string>
+    <string name="change_room_directory_network">更改服务器</string>
     <string name="template_room_preview_world_readable_room_not_supported_yet">${app_name} 尚不支持公开群聊预览</string>
     <string name="fab_menu_create_chat">开始私聊</string>
     <string name="create_room_title">新群聊</string>
@@ -1707,9 +1707,9 @@
     <string name="login_reset_password_submit">下一个</string>
     <string name="login_reset_password_email_hint">请输入您的邮箱</string>
     <string name="login_reset_password_password_hint">请输入新密码</string>
-    <string name="login_reset_password_warning_title">注意！</string>
-    <string name="login_reset_password_warning_content">更改你的密码将重置所有会话上的端对端加密密钥，从而使加密聊天记录无法读取。在重设密码之前，请设置“密钥备份”或从另一个会话中导出群聊密钥。</string>
-    <string name="login_reset_password_warning_submit">继续</string>
+    <string name="login_reset_password_warning_title">发送成功 ！</string>
+    <string name="login_reset_password_warning_content">邮件已发送至 %1$s，请查收邮件并点击链接进行密码修改验证。</string>
+    <string name="login_reset_password_warning_submit">确定</string>
     <string name="login_reset_password_error_not_found">电子邮件未链接到任何账号</string>
     <string name="login_reset_password_mail_confirmation_title">检查你的收件箱</string>
     <string name="login_reset_password_mail_confirmation_notice">验证电子邮件已发送到 %1$s。</string>
@@ -1834,8 +1834,8 @@
 \n - 你验证的用户连接到的主服务器
 \n - 你或其它用户的网络连接
 \n - 你或其他用户的设备</string>
-    <string name="sent_a_video">视频。</string>
-    <string name="sent_an_image">图片。</string>
+    <string name="sent_a_video">视频</string>
+    <string name="sent_an_image">图片</string>
     <string name="sent_an_audio_file">音频</string>
     <string name="sent_a_file">文件</string>
     <string name="send_a_sticker">贴纸</string>
@@ -2088,7 +2088,7 @@
     <string name="media_file_added_to_gallery">媒体文件已添加到相册</string>
     <string name="error_adding_media_file_to_gallery">无法添加媒体文件到相册</string>
     <string name="error_saving_media_file">无法保存媒体文件</string>
-    <string name="change_password_summary">选择新的账号密码…</string>
+    <string name="change_password_summary">设置您的登录密码</string>
     <string name="template_use_other_session_content_description">在你的其他设备上使用最新的${app_name} 网页版、${app_name} 桌面版、${app_name} iOS 版、${app_name} 安卓版，或其他能够交叉签名的 Matrix 客户端</string>
     <string name="template_app_desktop_web">${app_name} Web
 \n${app_name} Desktop</string>
@@ -2800,17 +2800,17 @@
     <string name="denied_permission_voice_message">要发送语音消息，请授予麦克风权限。</string>
     <string name="settings_room_upgrades">群聊升级</string>
     <string name="settings_messages_by_bot">机器人消息</string>
-    <string name="settings_room_invitations">群聊邀请</string>
+    <string name="settings_room_invitations">聊天邀请</string>
     <string name="settings_encrypted_group_messages">加密的群组消息</string>
-    <string name="settings_group_messages">群组消息</string>
+    <string name="settings_group_messages">群聊消息</string>
     <string name="settings_encrypted_direct_messages">加密的私聊</string>
-    <string name="settings_messages_direct_messages">私聊消息</string>
+    <string name="settings_messages_direct_messages">私信消息</string>
     <string name="settings_messages_containing_username">我的用户名</string>
-    <string name="settings_messages_containing_display_name">我的显示名称</string>
-    <string name="settings_notification_notify_me_for">通知</string>
-    <string name="settings_notification_other">其他</string>
-    <string name="settings_notification_mentions_and_keywords">提及</string>
-    <string name="settings_notification_default">默认通知</string>
+    <string name="settings_messages_containing_display_name">包含@我的消息</string>
+    <string name="settings_notification_notify_me_for">通知事项</string>
+    <string name="settings_notification_other">其他通知</string>
+    <string name="settings_notification_mentions_and_keywords">提及通知</string>
+    <string name="settings_notification_default">消息通知</string>
     <string name="call_tile_video_active">活跃视频通话</string>
     <string name="call_tile_voice_active">活跃语音通话</string>
     <string name="link_this_email_with_your_account">在 Element 中直接接收邀请的设置 %s。</string>
@@ -2848,7 +2848,7 @@
     <string name="room_settings_room_notifications_notify_me">通知</string>
     <string name="settings_mentions_and_keywords_encryption_notice">在移动端的加密房间里，你不会收到提及和关键字的通知。</string>
     <string name="settings_messages_containing_keywords">关键词</string>
-    <string name="settings_mentions_at_room">\@所有人</string>
+    <string name="settings_mentions_at_room">包含@所有人的消息</string>
     <string name="settings_notification_keyword_contains_invalid_character">关键词不能包含 \'%s\'</string>
     <string name="settings_notification_keyword_contains_dot">关键词不能以 \'.\' 开头</string>
     <string name="settings_notification_new_keyword">添加新关键词</string>
@@ -3032,4 +3032,6 @@
     <string name="organization_framework">组织架构</string>
     <string name="most_frequently_contacted">最近联系</string>
     <string name="group_chat">群聊</string>
+    <string name="add_email_title">添加邮箱需要确认您的登录密码</string>
+    <string name="settings_add_msisdn">添加电话号码需要确认您的登录密码</string>
 </resources>

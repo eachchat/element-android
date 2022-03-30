@@ -28,9 +28,13 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.animation.doOnEnd
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.allViews
 import androidx.core.widget.ImageViewCompat
 import androidx.preference.Preference
 import androidx.preference.PreferenceViewHolder
+import com.google.android.material.textview.MaterialTextView
 import im.vector.app.R
 import im.vector.app.features.themes.ThemeUtils
 import timber.log.Timber
@@ -79,6 +83,13 @@ open class VectorPreference : Preference {
             notifyChanged()
         }
 
+    //用于自定义文字颜色
+    var colorResource: Int? = null
+        set(value) {
+            field = value
+            notifyChanged()
+        }
+
     var tintIcon = false
         set(value) {
             field = value
@@ -114,6 +125,9 @@ open class VectorPreference : Preference {
 
             // cancel existing animation (find a way to resume if happens during anim?)
             currentHighlightAnimator?.cancel()
+            colorResource?.let {
+                title?.setTextColor(ContextCompat.getColor(itemView.context, it))
+            }
             if (isHighlighted) {
                 val colorFrom = Color.TRANSPARENT
                 val colorTo = ThemeUtils.getColor(itemView.context, R.attr.colorPrimary)

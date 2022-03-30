@@ -100,7 +100,9 @@
 
     </im.vector.app.core.preference.VectorPreferenceCategory>
 
-    <im.vector.app.core.preference.VectorPreferenceCategory android:title="@string/action_sign_out">
+    <im.vector.app.core.preference.VectorPreferenceCategory
+        android:key="SETTINGS_SIGN_OUT_KEY_CATEGORY"
+        android:title="@string/action_sign_out" >
 
         <im.vector.app.core.preference.VectorPreference
             android:key="SETTINGS_SIGN_OUT_KEY"

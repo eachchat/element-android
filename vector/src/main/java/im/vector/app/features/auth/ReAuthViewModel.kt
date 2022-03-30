@@ -16,6 +16,8 @@
 
 package im.vector.app.features.auth
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.airbnb.mvrx.MavericksViewModelFactory
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -32,6 +34,8 @@ class ReAuthViewModel @AssistedInject constructor(
         @Assisted val initialState: ReAuthState,
         private val session: Session
 ) : VectorViewModel<ReAuthState, ReAuthActions, ReAuthEvents>(initialState) {
+
+    val titleLiveData = MutableLiveData<String?>()
 
     @AssistedFactory
     interface Factory : MavericksAssistedViewModelFactory<ReAuthViewModel, ReAuthState> {
