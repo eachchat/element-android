@@ -68,8 +68,14 @@ class ReAuthActivity : SimpleFragmentActivity() {
     override fun initUiAndData() {
         super.initUiAndData()
 
-        val title = intent.extras?.getString(EXTRA_REASON_TITLE) ?: getString(R.string.re_authentication_activity_title)
-        supportActionBar?.setTitle(title) ?: run { setTitle(title) }
+        val args = intent.extras?.getParcelable<Args>(Mavericks.KEY_ARG) // ?: getString(R.string.re_authentication_activity_title)
+        supportActionBar?.setTitle(getString(R.string.re_authentication_activity_title)) ?: run { title = getString(R.string.re_authentication_activity_title) }
+        args?.title.let {
+            when(it) {
+                getString(R.string.settings_add_email_address) -> sharedViewModel.titleLiveData.postValue(getString(R.string.add_email_title))
+                getString(R.string.settings_add_msisdn) -> sharedViewModel.titleLiveData.postValue(getString(R.string.settings_add_msisdn))
+            }
+        }
 
 //        val authArgs = intent.getParcelableExtra<Args>(Mavericks.KEY_ARG)
 

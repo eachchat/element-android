@@ -189,14 +189,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:text="@string/auth_login"
-                    tools:enabled="false"
-                    tools:ignore="RelativeOverlap"
                     android:background="@drawable/bg_btn_green"
+                    android:enabled="false"
                     android:gravity="center"
                     android:paddingTop="13dp"
                     android:paddingBottom="13dp"
-                    android:textColor="@android:color/white" />
+                    android:text="@string/auth_login"
+                    android:textColor="@android:color/white"
+                    tools:enabled="false"
+                    tools:ignore="RelativeOverlap" />
 
             </FrameLayout>
 

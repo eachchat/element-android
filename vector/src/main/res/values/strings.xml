@@ -2625,7 +2625,7 @@
     <string name="login_reset_password_password_hint">New password</string>
 
     <string name="login_reset_password_warning_title">Warning!</string>
-    <string name="login_reset_password_warning_content">Changing your password will reset any end-to-end encryption keys on all of your sessions, making encrypted chat history unreadable. Set up Key Backup or export your room keys from another session before resetting your password.</string>
+    <string name="login_reset_password_warning_content">A verification email was sent to %1$s.</string>
     <string name="login_reset_password_warning_submit">Continue</string>
 
     <string name="login_reset_password_error_not_found">This email is not linked to any account</string>
@@ -3816,4 +3816,6 @@
     <string name="audio_and_video_notification">Audio And Video Notification</string>
     <string name="message_notification">Messages notification</string>
     <string name="reauth_confirm">confirm</string>
+    <string name="add_email_title">添加邮箱需要确认您的登录密码</string>
+    <string name="settings_add_msisdn">添加电话号码需要确认您的登录密码</string>
 </resources>

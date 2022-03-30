@@ -89,7 +89,7 @@ class AutoCompleter @AssistedInject constructor(
         setupCommands(backgroundDrawable, editText)
         setupMembers(backgroundDrawable, editText)
         setupGroups(backgroundDrawable, editText)
-        setupEmojis(backgroundDrawable, editText)
+        // setupEmojis(backgroundDrawable, editText)
         setupRooms(backgroundDrawable, editText)
     }
 

@@ -16,10 +16,10 @@
     <string name="notice_display_name_removed">%1$s 移除了他们的昵称 (%2$s)</string>
     <string name="notice_room_topic_changed">%1$s 把主题改为： %2$s</string>
     <string name="notice_room_name_changed">%1$s 把群聊名称改为： %2$s</string>
-    <string name="notice_placed_video_call">%s 发起了一次视频通话。</string>
-    <string name="notice_placed_voice_call">%s 发起了一次语音通话。</string>
-    <string name="notice_answered_call">%s 已接听通话。</string>
-    <string name="notice_ended_call">%s 已结束通话。</string>
+    <string name="notice_placed_video_call">%s 发起了一次视频通话</string>
+    <string name="notice_placed_voice_call">%s 发起了一次语音通话</string>
+    <string name="notice_answered_call">%s 已接听通话</string>
+    <string name="notice_ended_call">%s 已结束通话</string>
     <string name="notice_room_visibility_invited">所有群聊成员，从他们被邀请开始。</string>
     <string name="notice_room_visibility_joined">所有群聊成员，从他们加入开始。</string>
     <string name="notice_room_visibility_shared">所有群聊成员。</string>
@@ -1519,7 +1519,7 @@
     <string name="last_edited_info_message">最后由 %1$s 编辑于 %2$s</string>
     <string name="malformed_message">格式错误事件，无法显示</string>
     <string name="error_no_network">无网络。请检查你的网络连接。</string>
-    <string name="change_room_directory_network">更改网络</string>
+    <string name="change_room_directory_network">更改服务器</string>
     <string name="template_room_preview_world_readable_room_not_supported_yet">${app_name} 尚不支持公开群聊预览</string>
     <string name="fab_menu_create_chat">开始私聊</string>
     <string name="create_room_title">新群聊</string>
@@ -1707,9 +1707,9 @@
     <string name="login_reset_password_submit">下一个</string>
     <string name="login_reset_password_email_hint">请输入您的邮箱</string>
     <string name="login_reset_password_password_hint">请输入新密码</string>
-    <string name="login_reset_password_warning_title">注意！</string>
-    <string name="login_reset_password_warning_content">更改你的密码将重置所有会话上的端对端加密密钥，从而使加密聊天记录无法读取。在重设密码之前，请设置“密钥备份”或从另一个会话中导出群聊密钥。</string>
-    <string name="login_reset_password_warning_submit">继续</string>
+    <string name="login_reset_password_warning_title">发送成功 ！</string>
+    <string name="login_reset_password_warning_content">邮件已发送至 %1$s，请查收邮件并点击链接进行密码修改验证。</string>
+    <string name="login_reset_password_warning_submit">确定</string>
     <string name="login_reset_password_error_not_found">电子邮件未链接到任何账号</string>
     <string name="login_reset_password_mail_confirmation_title">检查你的收件箱</string>
     <string name="login_reset_password_mail_confirmation_notice">验证电子邮件已发送到 %1$s。</string>
@@ -1834,8 +1834,8 @@
 \n - 你验证的用户连接到的主服务器
 \n - 你或其它用户的网络连接
 \n - 你或其他用户的设备</string>
-    <string name="sent_a_video">视频。</string>
-    <string name="sent_an_image">图片。</string>
+    <string name="sent_a_video">视频</string>
+    <string name="sent_an_image">图片</string>
     <string name="sent_an_audio_file">音频</string>
     <string name="sent_a_file">文件</string>
     <string name="send_a_sticker">贴纸</string>
@@ -3027,4 +3027,6 @@
     <string name="audio_and_video_notification">音视频通话通知</string>
     <string name="message_notification">消息通知</string>
     <string name="reauth_confirm">确定</string>
+    <string name="add_email_title">添加邮箱需要确认您的登录密码</string>
+    <string name="settings_add_msisdn">添加电话号码需要确认您的登录密码</string>
 </resources>

@@ -25,6 +25,7 @@ import android.view.inputmethod.EditorInfo
 import androidx.autofill.HintConstants
 import androidx.core.text.isDigitsOnly
 import androidx.core.view.isVisible
+import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
 import com.airbnb.mvrx.Fail
 import com.airbnb.mvrx.Loading
@@ -252,18 +253,28 @@ class LoginFragment @Inject constructor() : AbstractSSOLoginFragment<FragmentLog
 
     private fun setupSubmitButton() {
         views.loginSubmit.debouncedClicks { submit() }
-        combine(
-                views.loginField.textChanges().map { it.trim().isNotEmpty() },
-                views.passwordField.textChanges().map { it.isNotEmpty() }
-        ) { isLoginNotEmpty, isPasswordNotEmpty ->
-            isLoginNotEmpty && isPasswordNotEmpty
+//        combine(
+//                views.loginField.textChanges().map { it.trim().isNotEmpty() },
+//                views.passwordField.textChanges().map { it.isNotEmpty() }
+//        ) { isLoginNotEmpty, isPasswordNotEmpty ->
+//            isLoginNotEmpty && isPasswordNotEmpty
+//        }
+//                .onEach {
+////                    views.loginFieldTil.error = null
+////                    views.passwordFieldTil.error = null
+//                    views.loginSubmit.isEnabled = it
+//                }
+//                .launchIn(viewLifecycleOwner.lifecycleScope)
+        views.loginField.doAfterTextChanged {
+            checkSubmitEnable()
         }
-                .onEach {
-//                    views.loginFieldTil.error = null
-//                    views.passwordFieldTil.error = null
-                    views.loginSubmit.isEnabled = it
-                }
-                .launchIn(viewLifecycleOwner.lifecycleScope)
+        views.passwordField.doAfterTextChanged {
+            checkSubmitEnable()
+        }
+    }
+
+    private fun checkSubmitEnable() {
+        views.loginSubmit.isEnabled = views.loginField.text?.isNotEmpty() == true && views.passwordField.text?.isNotEmpty() == true
     }
 
     private fun forgetPasswordClicked() {
