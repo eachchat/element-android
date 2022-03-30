@@ -2,18 +2,18 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="summary_user_sent_image">%1$s 发送了一张图片。</string>
     <string name="notice_room_invite_no_invitee">%s 的邀请</string>
-    <string name="notice_room_invite">%1$s 邀请了 %2$s</string>
+    <string name="notice_room_invite">%2$s 被邀请</string>
     <string name="notice_room_invite_you">%1$s 邀请了你</string>
-    <string name="notice_room_join">%1$s 加入了群聊</string>
-    <string name="notice_room_leave">%1$s 离开了群聊</string>
+    <string name="notice_room_join">%1$s 已加入</string>
+    <string name="notice_room_leave">%1$s 已离开聊天室</string>
     <string name="notice_room_reject">%1$s 拒绝了邀请</string>
     <string name="notice_room_remove">%1$s 移除了 %2$s</string>
     <string name="notice_room_unban">%1$s 解封了 %2$s</string>
     <string name="notice_room_ban">%1$s 封禁了 %2$s</string>
-    <string name="notice_avatar_url_changed">%1$s 更换了他们的头像</string>
-    <string name="notice_display_name_set">%1$s 将他们的昵称设置为 %2$s</string>
-    <string name="notice_display_name_changed_from">%1$s 把他们的昵称从 %2$s 改为 %3$s</string>
-    <string name="notice_display_name_removed">%1$s 移除了他们的昵称 (%2$s)</string>
+    <string name="notice_avatar_url_changed">%1$s 更换了自己的头像</string>
+    <string name="notice_display_name_set">%1$s 将昵称更改为 %2$s</string>
+    <string name="notice_display_name_changed_from">%1$s 把昵称从 %2$s 改为 %3$s</string>
+    <string name="notice_display_name_removed">%1$s 移除了昵称</string>
     <string name="notice_room_topic_changed">%1$s 把主题改为： %2$s</string>
     <string name="notice_room_name_changed">%1$s 把群聊名称改为： %2$s</string>
     <string name="notice_placed_video_call">%s 发起了一次视频通话</string>
@@ -198,7 +198,7 @@
     <string name="notice_made_future_direct_room_visibility_by_you">你使未来的消息对 %1$s 可见</string>
     <string name="notice_made_future_direct_room_visibility">%1$s 使未来的消息对 %2$s 可见</string>
     <string name="notice_direct_room_leave_by_you">你离开了群聊</string>
-    <string name="notice_direct_room_leave">%1$s 离开了群聊</string>
+    <string name="notice_direct_room_leave">%1$s 已退出</string>
     <string name="notice_direct_room_join_by_you">你已加入</string>
     <string name="notice_direct_room_join">%1$s 已加入</string>
     <string name="notice_direct_room_created_by_you">你创建了讨论</string>
@@ -1437,7 +1437,7 @@
     <string name="reset_secure_backup_title">为你已有的备份生成新的安全密钥或设置新的安全口令。</string>
     <string name="reset_secure_backup_warning">这将替换你的当前密钥或短语。</string>
     <string name="settings_discovery_category">发现</string>
-    <string name="settings_discovery_manage">管理你的发现设置。</string>
+    <string name="settings_discovery_manage">管理添加我的方式。</string>
     <string name="settings_integration_allow">允许集成</string>
     <string name="settings_integration_manager">集成管理器</string>
     <string name="disabled_integration_dialog_title">集成已禁用</string>
@@ -2088,7 +2088,7 @@
     <string name="media_file_added_to_gallery">媒体文件已添加到相册</string>
     <string name="error_adding_media_file_to_gallery">无法添加媒体文件到相册</string>
     <string name="error_saving_media_file">无法保存媒体文件</string>
-    <string name="change_password_summary">选择新的账号密码…</string>
+    <string name="change_password_summary">设置您的登录密码</string>
     <string name="template_use_other_session_content_description">在你的其他设备上使用最新的${app_name} 网页版、${app_name} 桌面版、${app_name} iOS 版、${app_name} 安卓版，或其他能够交叉签名的 Matrix 客户端</string>
     <string name="template_app_desktop_web">${app_name} Web
 \n${app_name} Desktop</string>
