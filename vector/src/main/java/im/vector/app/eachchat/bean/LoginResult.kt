@@ -32,7 +32,7 @@ data class Identity(val identityType: String?)
 
 data class Matrix(val homeServer: String)
 
-data class IMConfig(val videoSwitch: Boolean, val audioSwitch: Boolean)
+data class IMConfig(val videoSwitch: Boolean, val audioSwitch: Boolean, val videoLimit: Long, val uploadLimit: Long, val audioLimit: Long)
 
 data class FavoriteConfig(val favSwitch: Boolean)
 
@@ -41,8 +41,8 @@ data class BookConfig(val contactSwitch: Boolean, val groupSwitch: Boolean, val 
 data class Entry(val host: String, val port: String, val tls: Boolean) {
     val cooperationUrl: String
         get() = "${if (tls) "https" else "http"}://$host:$port"
-//    val mqttUrl: String
-//        get() = "tcp://$host:$port"
+    val mqttUrl: String
+        get() = "tcp://$host:$port"
 }
 
 data class AuthSettingResult(

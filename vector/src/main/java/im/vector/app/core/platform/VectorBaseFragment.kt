@@ -296,4 +296,8 @@ abstract class VectorBaseFragment<VB : ViewBinding> : Fragment(), MavericksView 
                 .setPositiveButton(R.string.ok, null)
                 .show()
     }
+
+    open fun isFinishing(): Boolean {
+        return activity == null || requireActivity().isFinishing
+    }
 }

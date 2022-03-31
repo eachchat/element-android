@@ -1,10 +1,16 @@
 package im.vector.app.eachchat.net;
 
 
+import android.text.TextUtils;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import im.vector.app.eachchat.BaseModule;
+import im.vector.app.yiqia.cache.TokenStore;
+import im.vector.app.yiqia.net.data.NetConstant;
+import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -28,6 +34,18 @@ public class HeaderInterceptor implements Interceptor {
                 requestBuilder.addHeader(entry.getKey(), entry.getValue().toString());
             }
         }
+        HttpUrl url = requestBuilder.build().url();
+        String requestPath = url.encodedPath();
+        if (BaseModule.getSession() != null && TextUtils.equals(requestPath, "/api/services/auth/v1/logout") || TextUtils.equals(requestPath, "/api/services/auth/v1/token/refresh")) {
+            if (!TextUtils.isEmpty(TokenStore.getRefreshToken(BaseModule.getSession()))) {
+                requestBuilder.addHeader(im.vector.app.yiqia.net.data.NetConstant.AUTHORIZATION, String.format("%s %s", im.vector.app.yiqia.net.data.NetConstant.BEARER, TokenStore.getRefreshToken(BaseModule.getSession())));
+            }
+        } else if (!TextUtils.equals(requestPath, "/api/services/auth/v1/login")) {
+            if (BaseModule.getSession() != null && !TextUtils.isEmpty(TokenStore.getAccessToken(BaseModule.getSession()))) {
+                requestBuilder.addHeader(im.vector.app.yiqia.net.data.NetConstant.AUTHORIZATION, String.format("%s %s", NetConstant.BEARER, TokenStore.getAccessToken(BaseModule.getSession())));
+            }
+        }
+
         Request request = requestBuilder.build();
         Response.Builder responseBuilder = chain.proceed(request).newBuilder();
         return responseBuilder.build();

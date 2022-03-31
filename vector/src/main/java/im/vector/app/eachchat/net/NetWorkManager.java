@@ -32,8 +32,9 @@ public class NetWorkManager {
 
     @Inject ActiveSessionHolder activeSessionHolder;
 
-
-    private Retrofit retrofit, serverRetrofit, retrofitMoshi;
+    private int mTimeOut;
+    private Retrofit retrofit, serverRetrofit, retrofitMoshi, customTimeoutRetrofit;
+    private static final int COMMON_TIMEOUT = 15;
 
     private NetWorkManager() {
     }
@@ -240,6 +241,48 @@ public class NetWorkManager {
                 .build();
     }
 
+    public Retrofit getCustomTimeoutRetrofit(int timeOut) {
+        if (customTimeoutRetrofit == null || mTimeOut != timeOut) {
+            synchronized (NetWorkManager.class) {
+                if (customTimeoutRetrofit == null|| mTimeOut != timeOut) {
+                    mTimeOut = timeOut;
+                    MyLoggingInterceptor httpLoggingInterceptor = new MyLoggingInterceptor("yql-request");
+                    httpLoggingInterceptor.setPrintLevel(BuildConfig.DEBUG ? MyLoggingInterceptor.Level.BODY
+                            : MyLoggingInterceptor.Level.NONE);
+                    httpLoggingInterceptor.setColorLevel(Level.INFO);
+
+                    OkHttpClient client = new OkHttpClient
+                            .Builder()
+                            .addInterceptor(new HeaderInterceptor(getRequestHeader())) // token
+                            .addInterceptor(httpLoggingInterceptor)
+//                            .addNetworkInterceptor(new StethoInterceptor())
+//                            .addInterceptor(new RefreshTokenInterceptor())
+                            .connectTimeout(timeOut, TimeUnit.SECONDS)
+                            .readTimeout(timeOut, TimeUnit.SECONDS)
+                            .writeTimeout(timeOut, TimeUnit.SECONDS)
+                            .retryOnConnectionFailure(true)
+                            .build();
+                    client.dispatcher().setMaxRequestsPerHost(8);
+                    // retrofit
+                    String baseUrl = NetConstant.getServerHostWithProtocol();
+                    Retrofit.Builder builder = new Retrofit
+                            .Builder()
+                            .client(client)
+                            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                            .addConverterFactory(GsonConverterFactory.create());
+                    try {
+                        builder.baseUrl(baseUrl);  //baseUrl
+                    } catch (Exception e) {
+                        LogUtil.e("retrofit", e.getLocalizedMessage());
+                        builder.baseUrl("http://no_app_url");
+                    }
+                    customTimeoutRetrofit = builder.build();
+                }
+            }
+        }
+        return customTimeoutRetrofit;
+    }
+
     public void update() {
         retrofit = null;
         getRetrofit();
@@ -247,6 +290,8 @@ public class NetWorkManager {
         getServerRetrofit();
         retrofitMoshi = null;
         getMoshiRetrofit();
+        customTimeoutRetrofit = null;
+        getCustomTimeoutRetrofit(COMMON_TIMEOUT);
     }
 
     private static class NetWorkManagerHolder {

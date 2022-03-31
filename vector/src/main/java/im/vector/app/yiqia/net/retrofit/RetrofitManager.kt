@@ -30,7 +30,6 @@ import java.net.URLDecoder
 
 class RetrofitManager {
     fun getMatrixRetrofit(url: String, session: Session): Retrofit {
-
         val httpLoggingInterceptor = HttpLoggingInterceptor { message ->
             try {
                 val text: String = URLDecoder.decode(message, "utf-8")

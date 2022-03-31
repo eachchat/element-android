@@ -7,18 +7,14 @@ import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.github.promeg.pinyinhelper.Pinyin
 import com.google.gson.annotations.SerializedName
-import im.vector.app.VectorApplication
-import im.vector.app.core.di.ActiveSessionHolder
 import im.vector.app.eachchat.BaseModule
+import im.vector.app.yiqia.contact.database.ContactDaoHelper
 import kotlinx.parcelize.IgnoredOnParcel
-import org.matrix.android.sdk.internal.session.DaggerSessionComponent
 
 import kotlinx.parcelize.Parcelize
-import org.matrix.android.sdk.api.session.Session
 
 import org.matrix.android.sdk.api.session.content.ContentUrlResolver
 import java.util.regex.Pattern
-import javax.inject.Inject
 
 /**
  * Created by chengww on 2020/10/27
@@ -165,8 +161,8 @@ data class ContactsDisplayBean(
 
 @WorkerThread
 fun List<org.matrix.android.sdk.api.session.user.model.User>?.toContactList(
-    local: ContactDaoHelper,
-    afterBlock: ((contact: ContactsDisplayBean) -> Unit)? = null
+        local: ContactDaoHelper,
+        afterBlock: ((contact: ContactsDisplayBean) -> Unit)? = null
 ): List<ContactsDisplayBean>? {
     if (this == null) return null
     val userList = ArrayList<ContactsDisplayBean>()

@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import im.vector.app.eachchat.BaseModule;
 import im.vector.app.yiqia.cache.TokenStore;
 import im.vector.app.yiqia.net.data.NetConstant;
 import okhttp3.HttpUrl;

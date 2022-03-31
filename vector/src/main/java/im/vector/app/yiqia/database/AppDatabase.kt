@@ -7,10 +7,21 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import im.vector.app.yiqia.contact.data.ContactDaoV2
+import im.vector.app.yiqia.contact.api.bean.Department
+import im.vector.app.yiqia.contact.data.ContactsDisplayBean
 import im.vector.app.yiqia.contact.data.ContactsDisplayBeanV2
+import im.vector.app.yiqia.contact.data.ContactsMatrixUser
+import im.vector.app.yiqia.contact.data.ContactsRoom
+import im.vector.app.yiqia.contact.data.RoomInviteDisplay
+import im.vector.app.yiqia.contact.data.UpdateTime
 import im.vector.app.yiqia.contact.data.User
-import im.vector.app.yiqia.contact.data.UserDao
+import im.vector.app.yiqia.contact.database.ContactDaoV2
+import im.vector.app.yiqia.contact.database.ContactMatrixUserDao
+import im.vector.app.yiqia.contact.database.ContactRoomDao
+import im.vector.app.yiqia.contact.database.DepartmentDao
+import im.vector.app.yiqia.contact.database.RoomInviteDao
+import im.vector.app.yiqia.contact.database.UpdateTimeDao
+import im.vector.app.yiqia.contact.database.UserDao
 
 /**
  * Created by chengww on 2020/11/3
@@ -18,13 +29,29 @@ import im.vector.app.yiqia.contact.data.UserDao
  */
 @Database(entities = [
     User::class,
-    ContactsDisplayBeanV2::class
-], version = 30)
+    ContactsDisplayBeanV2::class,
+    ContactsDisplayBean::class,
+    ContactsRoom::class,
+    UpdateTime::class,
+    ContactsMatrixUser::class,
+    RoomInviteDisplay::class,
+    Department::class
+], version = 32)
 abstract class AppDatabase : RoomDatabase() {
     //    abstract fun contactDao(): ContactDao
     abstract fun contactDaoV2(): ContactDaoV2
 
     abstract fun UserDao(): UserDao
+
+    abstract fun contactRoomDao(): ContactRoomDao
+
+    abstract fun updateTimeDao(): UpdateTimeDao
+
+    abstract fun contactMatrixUserDao(): ContactMatrixUserDao
+
+    abstract fun roomInviteDao(): RoomInviteDao
+
+    abstract fun departmentDao(): DepartmentDao
 
     companion object {
         private var INSTANCE: AppDatabase? = null

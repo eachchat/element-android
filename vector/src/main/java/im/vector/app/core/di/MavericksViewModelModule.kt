@@ -116,8 +116,7 @@ import im.vector.app.features.widgets.permissions.RoomWidgetPermissionViewModel
 import im.vector.app.features.workers.signout.ServerBackupStatusViewModel
 import im.vector.app.features.workers.signout.SignoutCheckViewModel
 import im.vector.app.yiqia.complain.RoomComplainViewModel
-import im.vector.app.yiqia.contact.RealContactsFragment
-import im.vector.app.yiqia.contact.RealContactsViewModel
+import im.vector.app.yiqia.contact.real.RealContactsViewModel
 
 @InstallIn(MavericksViewModelComponent::class)
 @Module

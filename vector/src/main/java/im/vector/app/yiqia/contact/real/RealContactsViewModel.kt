@@ -1,4 +1,20 @@
-package im.vector.app.yiqia.contact
+/*
+ * Copyright (c) 2022 New Vector Ltd
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package im.vector.app.yiqia.contact.real
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
@@ -17,7 +33,8 @@ import im.vector.app.eachchat.service.LoginApi
 import im.vector.app.yiqia.EmptyAction
 import im.vector.app.yiqia.EmptyViewState
 import im.vector.app.yiqia.cache.AppCache
-import im.vector.app.yiqia.contact.data.ContactDaoHelper
+import im.vector.app.yiqia.contact.RoomComparator
+import im.vector.app.yiqia.contact.database.ContactDaoHelper
 import im.vector.app.yiqia.contact.data.ContactsDisplayBean
 import im.vector.app.yiqia.contact.data.User
 import im.vector.app.yiqia.database.AppDatabase
@@ -29,6 +46,7 @@ import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
+import timber.log.Timber
 
 class RealContactsViewModel @AssistedInject constructor(
         @Assisted initialState: EmptyViewState,
@@ -61,7 +79,7 @@ class RealContactsViewModel @AssistedInject constructor(
         }
         session.getRoomSummariesLive(queryParams).observe(owner) {
             if (it.isNullOrEmpty()) return@observe
-            val users = mutableListOf<User>()
+            var users = mutableListOf<User>()
             val joinRooms = mutableListOf<RoomSummary>()
             viewModelScope.launch(Dispatchers.IO) {
                 runCatching {
@@ -71,7 +89,7 @@ class RealContactsViewModel @AssistedInject constructor(
                         }
                     }
                     val processedJoinRooms =
-                            joinRooms.distinctBy { roomSummary -> roomSummary.otherMemberIds }
+                            joinRooms // .distinctBy { roomSummary -> roomSummary.otherMemberIds }
                                     .sortedWith(RoomComparator())
                     processedJoinRooms.forEach { roomSummary2 ->
                         var user: User?
@@ -93,7 +111,11 @@ class RealContactsViewModel @AssistedInject constructor(
                         }
                         users.add(user)
                     }
-                }.exceptionOrNull()?.printStackTrace()
+                }.exceptionOrNull()?.let {
+                    it.printStackTrace()
+                    Timber.e("通讯录异常")
+                }
+                users = users.distinctBy { user -> user.matrixId  }.toMutableList()
                 closeContactData.postValue(users)
             }
         }

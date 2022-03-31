@@ -14,13 +14,23 @@
  * limitations under the License.
  */
 
-package im.vector.app.yiqia.contact.data
+package im.vector.app.yiqia.mqtt.cmd;
 
-import androidx.room.Dao
-import androidx.room.Query
+import androidx.annotation.NonNull;
 
-@Dao
-interface UserDao {
-    @Query("SELECT * FROM UserInfoStore WHERE id = :id AND del!=1")
-    fun getBriefUserByMatrixId(id: String?): User?
+import im.vector.app.yiqia.mqtt.data.MQTTMsgBean;
+
+
+/**
+ * Created by zhouguanjie on 2019/9/6.
+ */
+public abstract class AbstractCMD {
+
+    public boolean isCanExecute() {
+        return true;
+    }
+
+    public abstract void execute(MQTTMsgBean bean);
+
+    public abstract @NonNull String getCMD();
 }
