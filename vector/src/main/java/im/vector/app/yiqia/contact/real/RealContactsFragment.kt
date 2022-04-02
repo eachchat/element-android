@@ -29,6 +29,7 @@ import im.vector.app.core.di.ActiveSessionHolder
 import im.vector.app.core.platform.VectorBaseFragment
 import im.vector.app.databinding.FragmentRealContactsLayoutBinding
 import im.vector.app.yiqia.contact.data.User
+import im.vector.app.yiqia.department.DepartmentActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -120,14 +121,14 @@ class RealContactsFragment @Inject constructor()  : VectorBaseFragment<FragmentR
 //        header.group_chat_ll.setOnClickListener {
 //            navigationTo(Contact.ContactsGroupChatActivity)
 //        }
-//        header.org_ll.setOnClickListener {
-//            DepartmentActivity.start(
-//                requireContext(),
-//                getString(R.string.organization_framework),
-//                null,
-//                true
-//            )
-//        }
+        header.findViewById<LinearLayout>(R.id.org_ll).setOnClickListener {
+            DepartmentActivity.start(
+                requireContext(),
+                getString(R.string.organization_framework),
+                null,
+                true
+            )
+        }
     }
 
     private fun observeData() {

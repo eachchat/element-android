@@ -17,8 +17,8 @@
 package im.vector.app.yiqia.complain.api
 
 import im.vector.app.eachchat.bean.Response
+import im.vector.app.eachchat.net.NetWorkManager
 import im.vector.app.yiqia.complain.data.ComplainInput
-import im.vector.app.yiqia.net.retrofit.RetrofitManager
 import org.matrix.android.sdk.api.session.Session
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -37,8 +37,8 @@ interface ComplainService {
     suspend fun complain(@Body input: ComplainInput): Response<Any?, Any?>
 
     companion object {
-        fun getInstance(homeServerUrl: String, session: Session): ComplainService? =
-                RetrofitManager.instance.getMatrixRetrofit(homeServerUrl, session).create(ComplainService::class.java)
+        fun getInstance(homeServerUrl: String): ComplainService? =
+                NetWorkManager.getInstance().getMatrixRetrofit(homeServerUrl)?.create(ComplainService::class.java)
     }
 
 }

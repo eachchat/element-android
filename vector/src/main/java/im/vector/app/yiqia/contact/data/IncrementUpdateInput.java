@@ -13,6 +13,16 @@ public class IncrementUpdateInput implements Serializable {
 
     private int sequenceId;
 
+    public int getPerPage() {
+        return perPage;
+    }
+
+    public void setPerPage(int perPage) {
+        this.perPage = perPage;
+    }
+
+    private int perPage;
+
     public String getName() {
         return name;
     }

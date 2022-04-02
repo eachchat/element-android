@@ -33,10 +33,10 @@ import im.vector.app.eachchat.push.mipush.MiPush
 import im.vector.app.eachchat.push.oppoPush.OppoPush
 import im.vector.app.eachchat.push.vivo.VivoPush
 import im.vector.app.eachchat.service.ApiService
-import im.vector.app.eachchat.utils.AppCache
 import im.vector.app.eachchat.utils.YQBadgeUtils
 import im.vector.app.features.home.HomeActivity
 import im.vector.app.features.settings.VectorPreferences
+import im.vector.app.eachchat.utils.AppCache
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

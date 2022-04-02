@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/fff3f4f7"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <im.vector.app.yiqia.ui.breadcrumbs.BreadcrumbsView
+        android:id="@+id/breadcrumbs_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title_bar"
+        android:background="@color/white"
+        android:paddingStart="@dimen/common_padding"
+        android:paddingEnd="@dimen/common_padding"
+        app:CustomTextSize="15sp"
+        app:SelectedTextColor="@color/forward_msg_content"
+        app:UnSelectedTextColor="@color/green_text" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/breadcrumbs_view" />
+
+    <LinearLayout
+        android:id="@+id/department_no_member_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <!--<ImageView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:src="@mipmap/no_department" />-->
+
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="12dp"-->
+        <!--android:text="@string/department_no_member"-->
+        <!--android:textColor="@color/black"-->
+        <!--android:textSize="@dimen/common_font_fs2" />-->
+    </LinearLayout>
+
+    <im.vector.app.yiqia.ui.index.IndexView
+        android:id="@+id/index_view"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:visibility="gone"
+        app:charTextColor="@color/forward_msg_content"
+        app:indexTextColor="@color/white"
+        app:indexTextSize="11sp" />
+
+    <TextView
+        android:id="@+id/index_tv"
+        style="@style/_20_FFFFFF_Regular"
+        android:textSize="20sp"
+        android:layout_width="37dp"
+        android:layout_height="32dp"
+        android:layout_toStartOf="@id/index_view"
+        android:background="@mipmap/index_select_bg"
+        android:gravity="center_vertical"
+        android:layout_marginStart="7dp"
+        android:visibility="invisible" />
+
+<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--        android:id="@+id/btn_add_contacts"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:layout_alignParentEnd="true"-->
+<!--        android:visibility="gone"-->
+<!--        android:contentDescription="@string/add_contacts"-->
+<!--        app:fab_colorNormal="@color/greenDark"-->
+<!--        app:fab_colorPressed="@color/greenDark70"-->
+<!--        app:fab_size="normal"-->
+<!--        app:fab_icon="@drawable/ic_add_contacts"/>-->
+
+</RelativeLayout>

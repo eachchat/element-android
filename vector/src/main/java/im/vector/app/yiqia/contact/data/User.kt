@@ -6,6 +6,7 @@ import android.os.Parcelable
 import android.text.TextUtils
 import android.widget.ImageView
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
 import androidx.room.TypeConverters
@@ -24,41 +25,43 @@ import java.util.Locale
 /**
  * Created by zhouguanjie on 2019/8/15.
  */
-@Entity(tableName = "UserInfoStore")
+@Entity(tableName = "UserInfoStore",
+       indices = [Index(value = ["id"], unique = true)]
+)
 @Parcelize
 @TypeConverters(UserInfoConverter::class)
-class User(@PrimaryKey(autoGenerate = true)
+open class User(@PrimaryKey(autoGenerate = true)
            var primaryKey: Int = 0,//数据库中的id
-           var id: String? = null,
-           var contactId: String? = null,
-           var departmentId: String? = null,
-           var userName: String? = null,
-           var displayName: String? = null,
-           var nickName: String? = null,
-           var profileUrl: String? = null,
-           var userType: String? = null,
-           @SerializedName("title") var userTitle: String? = null,
-           @SerializedName("preferredLanguage") var userPreferredLanguage: String? = null,
-           @SerializedName("locale") var userLocale: String? = null,
-           @SerializedName("timezone") var userTimezone: String? = null,
-           var displayNamePy: String? = null,
-           var remarkName: String? = null,
-           var remarkNamePy: String? = null,
-           var avatarOUrl: String? = null,
-           var avatarTUrl: String? = null,
-           var isActive: Boolean = false,
-           var emails: MutableList<Email>? = null,
-           var addresses: MutableList<Address>? = null,
-           var ims: MutableList<IMS>? = null,
-           var phoneNumbers: MutableList<Phone>? = null,
-           var workDescription: String? = null,
-           var statusDescription: String? = null,
-           var managerId: String? = null,
-           var del: Int = 0,
-           var matrixId: String? = null,
-           var contactUrlAvatar: String? = null,
-           var contactBase64Avatar: String? = null,
-           var searchType: Int = 0) : Parcelable, Comparable<User> {
+                var id: String? = null,
+                var contactId: String? = null,
+                open var departmentId: String? = null,
+                var userName: String? = null,
+                var displayName: String? = null,
+                var nickName: String? = null,
+                var profileUrl: String? = null,
+                var userType: String? = null,
+                @SerializedName("title") var userTitle: String? = null,
+                @SerializedName("preferredLanguage") var userPreferredLanguage: String? = null,
+                @SerializedName("locale") var userLocale: String? = null,
+                @SerializedName("timezone") var userTimezone: String? = null,
+                var displayNamePy: String? = null,
+                var remarkName: String? = null,
+                var remarkNamePy: String? = null,
+                var avatarOUrl: String? = null,
+                var avatarTUrl: String? = null,
+                var isActive: Boolean = false,
+                var emails: MutableList<Email>? = null,
+                var addresses: MutableList<Address>? = null,
+                var ims: MutableList<IMS>? = null,
+                var phoneNumbers: MutableList<Phone>? = null,
+                var workDescription: String? = null,
+                var statusDescription: String? = null,
+                var managerId: String? = null,
+                var del: Int = 0,
+                var matrixId: String? = null,
+                var contactUrlAvatar: String? = null,
+                var contactBase64Avatar: String? = null,
+                var searchType: Int = 0) : Parcelable, Comparable<User> {
 
     protected constructor(`in`: Parcel) : this() {
         id = `in`.readString()

@@ -82,7 +82,7 @@ class RoomComplainViewModel @AssistedInject constructor(@Assisted initialState: 
             kotlin.runCatching {
                 val complains = ArrayList<ReportBean>()
                 val response = withContext(Dispatchers.IO) {
-                    ComplainService.getInstance(LoginApi.GMS_URL, session)?.getComplains("complainAnswer")
+                    ComplainService.getInstance(LoginApi.GMS_URL)?.getComplains("complainAnswer")
                 }
                 if (response == null || !response.isSuccess) {
                     return@launch
@@ -110,7 +110,7 @@ class RoomComplainViewModel @AssistedInject constructor(@Assisted initialState: 
             kotlin.runCatching {
                 val response = withContext(Dispatchers.IO) {
                     val input = ComplainInput(complainStrs, session.myUserId, room.roomId)
-                    ComplainService.getInstance(LoginApi.GMS_URL, session)?.complain(input)
+                    ComplainService.getInstance(LoginApi.GMS_URL)?.complain(input)
                 }
                 if (response == null || !response.isSuccess) {
                     setState { copy(isLoading = false) }

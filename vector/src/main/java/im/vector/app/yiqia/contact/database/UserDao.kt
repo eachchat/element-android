@@ -28,6 +28,9 @@ interface UserDao {
     @Query("SELECT * FROM UserInfoStore WHERE id = :id AND del!=1")
     fun getBriefUserByMatrixId(id: String?): User?
 
+    @Query("SELECT * FROM UserInfoStore WHERE departmentId = :departmentId and del != 1")
+    fun getSelectUsersByDepartmentId(departmentId: String?): List<User>?
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun bulkInsert(users: List<User>)
+    fun bulkInsert(users: List<User?>?)
 }

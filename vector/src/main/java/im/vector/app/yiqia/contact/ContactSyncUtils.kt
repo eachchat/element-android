@@ -10,7 +10,7 @@ import im.vector.app.eachchat.bean.OrgSearchInput
 import im.vector.app.eachchat.net.CloseableCoroutineScope
 import im.vector.app.eachchat.net.NetConstant
 import im.vector.app.eachchat.service.LoginApi
-import im.vector.app.yiqia.cache.AppCache
+import im.vector.app.eachchat.utils.AppCache
 import im.vector.app.yiqia.contact.api.BaseConstant
 import im.vector.app.yiqia.contact.api.ContactService
 import im.vector.app.yiqia.contact.api.ContactServiceV2
@@ -260,7 +260,7 @@ class ContactSyncUtils {
                         SyncType.CONTACT -> {
                             if (contacts != null) {
                                 syncContactEndV2(contacts)
-                                if (increment.isHasNext) {
+                                if (increment.hasNext) {
                                     getNextContactsIncrement(contactsUpdateTime, contacts.size)
                                 }
                             }
@@ -288,7 +288,7 @@ class ContactSyncUtils {
             val contacts = increment.results
             if (contacts != null) {
                 syncContactEndV2(contacts)
-                if (increment.isHasNext) {
+                if (increment.hasNext) {
                     getNextContactsIncrement(contactsUpdateTime, sequence + contacts.size)
                 } else {
                     increment.obj?.updateTime?.let { updateTimeDao?.updateContactsTimeV2(it) }

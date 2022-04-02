@@ -133,7 +133,7 @@ abstract class VectorBaseFragment<VB : ViewBinding> : Fragment(), MavericksView 
         }
     }
 
-    final override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    open override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         Timber.i("onCreateView Fragment ${javaClass.simpleName}")
         Timber.v("创建Fragment ${javaClass.simpleName}")
         _binding = getBinding(inflater, container)
@@ -299,5 +299,14 @@ abstract class VectorBaseFragment<VB : ViewBinding> : Fragment(), MavericksView 
 
     open fun isFinishing(): Boolean {
         return activity == null || requireActivity().isFinishing
+    }
+
+    /**
+     * 返回按键处理，用于提供给 Activity 处理其内部 fragment 的返回事件
+     * 如 Fragment 需要拦截 Activity 返回按键事件，重写此方法返回 true，否则返回 false
+     * @return true 拦截返回事件，false 不拦截
+     */
+    open fun backHandler(): Boolean {
+        return false
     }
 }

@@ -3,7 +3,8 @@ package im.vector.app.yiqia.contact.api.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import androidx.room.Entity;
+import androidx.annotation.NonNull;
+import androidx.room.*;
 import androidx.room.PrimaryKey;
 
 import kotlinx.parcelize.Parcelize;
@@ -15,17 +16,8 @@ import kotlinx.parcelize.Parcelize;
 @Parcelize
 public class Department implements Parcelable {
 
-    public Integer getIdInDatabase() {
-        return idInDatabase;
-    }
-
-    public void setIdInDatabase(Integer idInDatabase) {
-        this.idInDatabase = idInDatabase;
-    }
-
-    @PrimaryKey(autoGenerate = true)
-    private Integer idInDatabase;
-
+    @PrimaryKey
+    @NonNull
     private String id;
 
     private String displayName;

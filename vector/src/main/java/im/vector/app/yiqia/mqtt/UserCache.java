@@ -7,7 +7,7 @@ import org.matrix.android.sdk.api.session.Session;
 
 import im.vector.app.eachchat.BaseModule;
 import im.vector.app.eachchat.utils.SPUtils;
-import im.vector.app.yiqia.cache.AppCache;
+import im.vector.app.eachchat.utils.AppCache;
 import im.vector.app.yiqia.contact.data.User;
 import im.vector.app.yiqia.contact.data.UserEnterpriseBean;
 

@@ -46,6 +46,10 @@ data class ContactsDisplayBean(
     var del: Int = 0,
 ) : Parcelable {
 
+    companion object {
+        const val CONTACTS_DEPARTMENT_ID = "-0x10086"
+    }
+
 
     @IgnoredOnParcel var avatarUrl: String? = null
         set(value) {

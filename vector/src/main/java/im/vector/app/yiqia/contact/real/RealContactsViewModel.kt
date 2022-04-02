@@ -32,7 +32,7 @@ import im.vector.app.eachchat.bean.OrgSearchInput
 import im.vector.app.eachchat.service.LoginApi
 import im.vector.app.yiqia.EmptyAction
 import im.vector.app.yiqia.EmptyViewState
-import im.vector.app.yiqia.cache.AppCache
+import im.vector.app.eachchat.utils.AppCache
 import im.vector.app.yiqia.contact.RoomComparator
 import im.vector.app.yiqia.contact.database.ContactDaoHelper
 import im.vector.app.yiqia.contact.data.ContactsDisplayBean

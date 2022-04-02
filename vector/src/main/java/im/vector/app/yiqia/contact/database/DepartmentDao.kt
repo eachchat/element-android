@@ -21,13 +21,21 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import im.vector.app.yiqia.contact.api.bean.Department
-import im.vector.app.yiqia.contact.data.User
 
 @Dao
 interface DepartmentDao {
-    @Query("SELECT * FROM UserInfoStore WHERE id = :id AND del!=1")
-    fun getBriefUserByMatrixId(id: String?): User?
+    @Query("SELECT * FROM DepartmentStoreHelper WHERE parentId is null and del != 1")
+    fun getRootDepartments(): List<Department>?
+
+    @Query("SELECT * FROM DepartmentStoreHelper WHERE parentId = :parentId and del != 1")
+    fun getDepartmentsByParentId(parentId: String): List<Department>?
+
+    @Query("SELECT * FROM DepartmentStoreHelper WHERE id = :id")
+    fun getDepartmentById(id: String): Department?
+
+    @Query("SELECT * FROM DepartmentStoreHelper")
+    fun getAllDepartments(): List<Department>?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun bulkInsert(users: List<Department>)
+    fun bulkInsert(departments: List<Department?>?)
 }
