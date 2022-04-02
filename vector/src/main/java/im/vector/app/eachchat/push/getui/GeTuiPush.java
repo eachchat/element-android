@@ -6,7 +6,7 @@ import android.content.Context;
 import com.facebook.stetho.common.LogUtil;
 import com.igexin.sdk.PushManager;
 
-import im.vector.app.eachchat.BaseModule;
+import im.vector.app.eachchat.base.BaseModule;
 import im.vector.app.eachchat.push.AbsPush;
 
 

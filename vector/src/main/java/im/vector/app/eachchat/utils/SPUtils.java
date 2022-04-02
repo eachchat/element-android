@@ -10,7 +10,7 @@ import com.google.gson.Gson;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-import im.vector.app.eachchat.BaseModule;
+import im.vector.app.eachchat.base.BaseModule;
 
 
 /**

@@ -20,7 +20,7 @@ import java.security.spec.PKCS8EncodedKeySpec;
 
 import javax.crypto.Cipher;
 
-import im.vector.app.eachchat.BaseModule;
+import im.vector.app.eachchat.base.BaseModule;
 
 /**
  * Created by chengww on 2019-12-27

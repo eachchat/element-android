@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
-import im.vector.app.eachchat.BaseModule;
+import im.vector.app.eachchat.base.BaseModule;
 import timber.log.Timber;
 
 /**

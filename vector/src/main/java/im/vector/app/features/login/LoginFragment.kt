@@ -26,7 +26,6 @@ import androidx.autofill.HintConstants
 import androidx.core.text.isDigitsOnly
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
-import androidx.lifecycle.lifecycleScope
 import com.airbnb.mvrx.Fail
 import com.airbnb.mvrx.Loading
 import com.airbnb.mvrx.Success
@@ -37,15 +36,10 @@ import im.vector.app.core.extensions.hidePassword
 import im.vector.app.core.extensions.toReducedUrl
 import im.vector.app.databinding.FragmentLoginBinding
 import im.vector.app.features.webview.NormalWebViewActivity
-import im.vector.app.yiqia.utils.ToastUtil
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
+import im.vector.app.eachchat.utils.ToastUtil
 import org.matrix.android.sdk.api.failure.Failure
 import org.matrix.android.sdk.api.failure.MatrixError
 import org.matrix.android.sdk.api.failure.isInvalidPassword
-import reactivecircus.flowbinding.android.widget.textChanges
 import javax.inject.Inject
 
 /**

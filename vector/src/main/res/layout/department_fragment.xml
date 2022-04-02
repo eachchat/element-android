@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <im.vector.app.yiqia.ui.breadcrumbs.BreadcrumbsView
+    <im.vector.app.eachchat.ui.breadcrumbs.BreadcrumbsView
         android:id="@+id/breadcrumbs_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -52,7 +52,7 @@
         <!--android:textSize="@dimen/common_font_fs2" />-->
     </LinearLayout>
 
-    <im.vector.app.yiqia.ui.index.IndexView
+    <im.vector.app.eachchat.ui.index.IndexView
         android:id="@+id/index_view"
         android:layout_width="20dp"
         android:layout_height="wrap_content"

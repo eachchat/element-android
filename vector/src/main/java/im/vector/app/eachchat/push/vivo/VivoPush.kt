@@ -4,7 +4,7 @@ import android.app.NotificationManager
 import android.content.Context
 import com.facebook.stetho.common.LogUtil
 import com.vivo.push.PushClient
-import im.vector.app.eachchat.BaseModule
+import im.vector.app.eachchat.base.BaseModule
 import im.vector.app.eachchat.push.AbsPush
 import im.vector.app.eachchat.push.PushHelper
 

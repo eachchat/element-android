@@ -18,7 +18,6 @@ import javax.inject.Inject;
 
 import im.vector.app.BuildConfig;
 import im.vector.app.core.di.ActiveSessionHolder;
-import im.vector.app.eachchat.BaseModule;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;

@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import im.vector.app.eachchat.BaseModule;
+import im.vector.app.eachchat.base.BaseModule;
 import im.vector.app.eachchat.utils.TokenStore;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;

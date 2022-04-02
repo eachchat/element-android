@@ -23,7 +23,7 @@ import android.text.TextUtils
 import im.vector.app.R
 import im.vector.app.core.di.ActiveSessionHolder
 import im.vector.app.core.di.DefaultSharedPreferences
-import im.vector.app.eachchat.BaseModule
+import im.vector.app.eachchat.base.BaseModule
 import im.vector.app.eachchat.bean.PNSInput
 import im.vector.app.eachchat.net.CloseableCoroutineScope
 import im.vector.app.eachchat.net.NetConstant

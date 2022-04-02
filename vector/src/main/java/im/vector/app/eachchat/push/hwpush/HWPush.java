@@ -9,7 +9,7 @@ import com.huawei.hms.common.ApiException;
 import com.huawei.hms.push.HmsMessaging;
 
 import im.vector.app.R;
-import im.vector.app.eachchat.BaseModule;
+import im.vector.app.eachchat.base.BaseModule;
 import im.vector.app.eachchat.push.AbsPush;
 import im.vector.app.eachchat.push.PushHelper;
 import io.reactivex.Observable;

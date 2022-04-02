@@ -45,7 +45,7 @@ import im.vector.app.core.extensions.replaceFragment
 import im.vector.app.core.platform.VectorBaseActivity
 import im.vector.app.core.pushers.PushersManager
 import im.vector.app.databinding.ActivityHomeBinding
-import im.vector.app.eachchat.BaseModule
+import im.vector.app.eachchat.base.BaseModule
 import im.vector.app.eachchat.push.PushHelper
 import im.vector.app.features.MainActivity
 import im.vector.app.features.MainActivityArgs
@@ -75,7 +75,7 @@ import im.vector.app.features.spaces.invite.SpaceInviteBottomSheet
 import im.vector.app.features.spaces.share.ShareSpaceBottomSheet
 import im.vector.app.features.themes.ThemeUtils
 import im.vector.app.features.workers.signout.ServerBackupStatusViewModel
-import im.vector.app.yiqia.contact.ContactSyncUtils
+import im.vector.app.eachchat.contact.ContactSyncUtils
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch

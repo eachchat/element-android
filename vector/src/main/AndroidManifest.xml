@@ -102,7 +102,7 @@
         tools:replace="android:allowBackup">
 
         <service android:name="org.eclipse.paho.android.service.MqttService" />
-        <service android:name=".yiqia.mqtt.MQTTService" />
+        <service android:name="im.vector.app.eachchat.mqtt.MQTTService" />
 
         <!-- MiPush Start -->
         <activity
@@ -330,7 +330,7 @@
         <activity android:name=".features.roomdirectory.roompreview.RoomPreviewActivity" />
         <activity android:name=".features.home.room.filtered.FilteredRoomsActivity" />
         <activity android:name=".features.home.room.threads.ThreadsActivity" />
-        <activity android:name=".yiqia.department.DepartmentActivity" />
+        <activity android:name="im.vector.app.eachchat.department.DepartmentActivity" />
 
         <activity
             android:name=".features.home.room.detail.RoomDetailActivity"

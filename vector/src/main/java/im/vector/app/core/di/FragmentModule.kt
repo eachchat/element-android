@@ -178,8 +178,8 @@ import im.vector.app.features.terms.ReviewTermsFragment
 import im.vector.app.features.usercode.ShowUserCodeFragment
 import im.vector.app.features.userdirectory.UserListFragment
 import im.vector.app.features.widgets.WidgetFragment
-import im.vector.app.yiqia.complain.RoomComplainFragment
-import im.vector.app.yiqia.contact.real.RealContactsFragment
+import im.vector.app.eachchat.complain.RoomComplainFragment
+import im.vector.app.eachchat.contact.real.RealContactsFragment
 
 @InstallIn(ActivityComponent::class)
 @Module
