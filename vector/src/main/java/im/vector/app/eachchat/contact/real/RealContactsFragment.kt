@@ -29,8 +29,12 @@ import im.vector.app.core.di.ActiveSessionHolder
 import im.vector.app.core.platform.VectorBaseFragment
 import im.vector.app.databinding.FragmentRealContactsLayoutBinding
 import im.vector.app.eachchat.contact.data.User
+import im.vector.app.eachchat.contact.event.MQTTEvent
 import im.vector.app.eachchat.contact.invite.InviteActivity
 import im.vector.app.eachchat.department.DepartmentActivity
+import im.vector.app.eachchat.mqtt.MQTTService
+import im.vector.app.eachchat.mqtt.MessageConstant
+import im.vector.app.eachchat.mqtt.UserCache
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -59,6 +63,8 @@ class RealContactsFragment @Inject constructor()  : VectorBaseFragment<FragmentR
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        MQTTService.sendMQTTEvent(MQTTEvent(MessageConstant.CMD_UPDATE_DEPARTMENT, UserCache.getUpdateDepartmentTime(), 0))
+        MQTTService.sendMQTTEvent(MQTTEvent(MessageConstant.CMD_UPDATE_USER, UserCache.getUpdateDepartmentTime(), 0))
 //        views.titleBar.setLeftVisible(false)
                 // .set(R.string.footer_menu_contact)
 //        views.titleBar.setLeftClickListener {

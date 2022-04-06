@@ -1590,7 +1590,7 @@
     <string name="settings_discovery_no_terms_title">身份服务器无服务条款</string>
     <string name="settings_discovery_no_terms">你选择的身份服务器无任何服务条款。仅在你信任服务所有者时继续</string>
     <string name="settings_text_message_sent">已向 %s 发送文字消息。请输入它包含的验证码。</string>
-    <string name="settings_text_message_sent_wrong_code">验证码不正确。</string>
+    <string name="settings_text_message_sent_wrong_code">验证码错误，请重新输入。</string>
     <string name="settings_discovery_disconnect_with_bound_pid">你当前在身份服务器 %1$s 上分享电子邮件地址或电话号码。你需要重连接 %2$s 已停止分享。</string>
     <string name="settings_agree_to_terms">同意身份服务器 (%s) 服务条款使你可以通过电子邮件地址或电话号码被发现。</string>
     <string name="labs_allow_extended_logging">启用详细日志。</string>
@@ -3064,4 +3064,5 @@
     <string name="staff">成员</string>
     <string name="add_contacts">添加联系人</string>
     <string name="footer_menu_contact">通讯录</string>
+    <string name="please_enter_correct_msisdn">请输入正确的手机号</string>
 </resources>

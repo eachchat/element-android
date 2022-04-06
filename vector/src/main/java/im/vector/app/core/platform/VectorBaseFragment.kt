@@ -50,6 +50,7 @@ import im.vector.app.features.navigation.Navigator
 import im.vector.lib.ui.styles.dialogs.MaterialProgressDialog
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import org.matrix.android.sdk.api.failure.Failure
 import reactivecircus.flowbinding.android.view.clicks
 import timber.log.Timber
 
@@ -167,7 +168,7 @@ abstract class VectorBaseFragment<VB : ViewBinding> : Fragment(), MavericksView 
     }
 
     open fun showFailure(throwable: Throwable) {
-        displayErrorDialog(throwable)
+        // displayErrorDialog(throwable)
     }
 
     @CallSuper
@@ -290,11 +291,19 @@ abstract class VectorBaseFragment<VB : ViewBinding> : Fragment(), MavericksView 
      * ========================================================================================== */
 
     protected fun displayErrorDialog(throwable: Throwable) {
-        MaterialAlertDialogBuilder(requireActivity())
-                .setTitle(R.string.dialog_title_error)
-                .setMessage(errorFormatter.toHumanReadable(throwable))
-                .setPositiveButton(R.string.ok, null)
-                .show()
+        if (throwable is Failure.ServerError) {
+            MaterialAlertDialogBuilder(requireActivity())
+                    .setTitle(R.string.dialog_title_error)
+                    .setMessage(R.string.please_enter_correct_msisdn)
+                    .setPositiveButton(R.string.ok, null)
+                    .show()
+        } else {
+            MaterialAlertDialogBuilder(requireActivity())
+                    .setTitle(R.string.dialog_title_error)
+                    .setMessage(errorFormatter.toHumanReadable(throwable))
+                    .setPositiveButton(R.string.ok, null)
+                    .show()
+        }
     }
 
     open fun isFinishing(): Boolean {

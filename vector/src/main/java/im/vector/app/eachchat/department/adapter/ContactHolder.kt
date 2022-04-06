@@ -9,7 +9,13 @@ import androidx.recyclerview.widget.RecyclerView
 import im.vector.app.R
 import im.vector.app.eachchat.contact.data.ContactsDisplayBean
 import im.vector.app.eachchat.contact.data.User
+import im.vector.app.eachchat.contact.data.resolveMxc
+import im.vector.app.eachchat.department.data.DepartmentUserBean
 import im.vector.app.eachchat.department.data.IDisplayBean
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 /**
  * Created by zhouguanjie on 2019/8/22.
@@ -27,6 +33,7 @@ class ContactHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     private var mCheckView: ImageView? = null
 
+    @OptIn(DelicateCoroutinesApi::class)
     fun bindView(user: IDisplayBean, showHeader: Boolean) {
         mAvatar = mRoot.findViewById(R.id.iv_header)
         mName = mRoot.findViewById(R.id.tv_name)

@@ -16,16 +16,21 @@
 
 package im.vector.app.eachchat.contact.database
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import im.vector.app.eachchat.contact.api.bean.Department
+import im.vector.app.eachchat.contact.data.ContactsDisplayBeanV2
 
 @Dao
 interface DepartmentDao {
     @Query("SELECT * FROM DepartmentStoreHelper WHERE parentId is null and del != 1")
     fun getRootDepartments(): List<Department>?
+
+    @Query("SELECT * FROM DepartmentStoreHelper WHERE parentId is null and del != 1")
+    fun getRootDepartmentsLiveData(): LiveData<List<Department?>?>?
 
     @Query("SELECT * FROM DepartmentStoreHelper WHERE parentId = :parentId and del != 1")
     fun getDepartmentsByParentId(parentId: String): List<Department>?

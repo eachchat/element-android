@@ -5,6 +5,10 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import im.vector.app.R
 import im.vector.app.core.glide.GlideApp
 import im.vector.app.eachchat.contact.data.resolveMxc
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 object GlideUtils {
     /**
@@ -15,17 +19,20 @@ object GlideUtils {
      * @param url      图片地址
      * @param emptyImg 默认展位图
      */
+    @OptIn(DelicateCoroutinesApi::class)
     @JvmStatic
     fun loadCircleImage(iv: ImageView?, url: String?, emptyImg: Int = R.drawable.default_person_icon) {
-        val context = iv?.context
-        if (context is Activity && context.isDestroyed && context.isFinishing)
-            return
-        kotlin.runCatching {
-            GlideApp.with(iv?.context!!)
-                    .load(url.resolveMxc())
-                    .error(emptyImg)
-                    .placeholder(emptyImg)
-                    .transform(CircleCrop()).into(iv)
+        GlobalScope.launch (Dispatchers.Main) {
+            val context = iv?.context
+            if (context is Activity && context.isDestroyed && context.isFinishing)
+                return@launch
+            kotlin.runCatching {
+                GlideApp.with(iv?.context!!)
+                        .load(url.resolveMxc())
+                        .error(emptyImg)
+                        .placeholder(emptyImg)
+                        .transform(CircleCrop()).into(iv)
+            }
         }
     }
 

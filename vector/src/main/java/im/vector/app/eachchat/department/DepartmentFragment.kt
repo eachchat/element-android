@@ -15,18 +15,18 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import im.vector.app.R
 import im.vector.app.core.utils.DimensionConverter
 import im.vector.app.databinding.DepartmentFragmentBinding
-import im.vector.app.features.home.HomeActivity
 import im.vector.app.eachchat.contact.api.bean.Department
 import im.vector.app.eachchat.department.adapter.DepartmentAdapter
 import im.vector.app.eachchat.department.data.DepartmentUserBean
 import im.vector.app.eachchat.department.data.IDisplayBean
 import im.vector.app.eachchat.rx.SimpleObserver
 import im.vector.app.eachchat.ui.LineDecoration
-import im.vector.app.eachchat.ui.stickyHeader.StickyHeaderDecoration
 import im.vector.app.eachchat.ui.breadcrumbs.BreadDepartmentItem
 import im.vector.app.eachchat.ui.breadcrumbs.BreadcrumbsView
 import im.vector.app.eachchat.ui.breadcrumbs.DefaultBreadcrumbsCallback
 import im.vector.app.eachchat.ui.index.IndexView
+import im.vector.app.eachchat.ui.stickyHeader.StickyHeaderDecoration
+import im.vector.app.features.home.HomeActivity
 import io.reactivex.Observable
 import io.reactivex.ObservableEmitter
 import io.reactivex.ObservableOnSubscribe
@@ -60,7 +60,7 @@ class DepartmentFragment @Inject constructor(
     var mIndexTV: TextView? = null
     var btnAddContacts: FloatingActionButton? = null
     private var mManager: LinearLayoutManager? = null
-    // private val observer: ContactAvatarObserver = ContactAvatarObserver()
+     private val observer: ContactAvatarObserver = ContactAvatarObserver()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view: View = inflater.inflate(R.layout.department_fragment, container, false)
         // Fix click the bottom empty place will be clicked of
@@ -358,17 +358,18 @@ class DepartmentFragment @Inject constructor(
                 emitter.onNext(users)
             }).subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(object : SimpleObserver<List<DepartmentUserBean?>?>() {
-                        override fun onNext(results: List<DepartmentUserBean?>?) {
+                    .subscribe(object : SimpleObserver<List<DepartmentUserBean>?>() {
+                        override fun onNext(results: List<DepartmentUserBean>?) {
                             if (nullableCheck()) {
                                 return
                             }
                             mIndexView?.setCHARSAsyncEx(results)
                             mIndexView?.setVisibility(View.VISIBLE)
-                            // observer.clearObserver(this@DepartmentFragment)
+                            observer.clearObserver(this@DepartmentFragment)
                             if (results != null) {
+                                val users: List<IDisplayBean> = ArrayList(results)
                                 mAdapter?.setDepartments(results)
-                                // observer.observer(viewLifecycleOwner, mAdapter, users, TextUtils.equals(departmentId, ROOT_ID))
+                                mAdapter?.let { observer.observer(viewLifecycleOwner, it, users, TextUtils.equals(departmentId, ROOT_ID)) }
                             }
                             mAdapter?.setAllUser(true)
                         }
@@ -389,9 +390,9 @@ class DepartmentFragment @Inject constructor(
         mIndexView?.setCHARSAsyncEx(departments)
         mIndexView?.setVisibility(View.VISIBLE)
         mAdapter?.setShowMembersTagPos(showMembersTagPos)
-        // observer.clearObserver(this@DepartmentFragment)
+        observer.clearObserver(this@DepartmentFragment)
         mAdapter?.setDepartments(departments)
-        // observer.observer(viewLifecycleOwner, mAdapter, departments, TextUtils.equals(departmentId, ROOT_ID))
+        mAdapter?.let { observer.observer(viewLifecycleOwner, it, departments, TextUtils.equals(departmentId, ROOT_ID)) }
     }
 
 //    fun addContacts() {
