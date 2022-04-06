@@ -18,6 +18,7 @@ import com.google.gson.reflect.TypeToken
 import im.vector.app.R
 import im.vector.app.core.glide.GlideApp
 import jp.wasabeef.glide.transformations.BlurTransformation
+import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import org.json.JSONException
 import java.util.Locale
@@ -91,6 +92,8 @@ open class User(@PrimaryKey(autoGenerate = true)
         del = `in`.readInt()
         matrixId = `in`.readString()
     }
+
+    @IgnoredOnParcel var roomId: String? = null
 
     val name: String?
         get() {

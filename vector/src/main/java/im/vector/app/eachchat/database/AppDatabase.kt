@@ -36,7 +36,7 @@ import im.vector.app.eachchat.contact.database.UserDao
     ContactsMatrixUser::class,
     RoomInviteDisplay::class,
     Department::class
-], version = 1)
+], version = 2)
 abstract class AppDatabase : RoomDatabase() {
     //    abstract fun contactDao(): ContactDao
     abstract fun contactDaoV2(): ContactDaoV2

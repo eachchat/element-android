@@ -30,6 +30,8 @@ import im.vector.app.R
 import im.vector.app.core.extensions.hideKeyboard
 import im.vector.app.core.utils.openUrlInChromeCustomTab
 import im.vector.app.databinding.FragmentLoginServerUrlFormBinding
+import im.vector.app.eachchat.database.AppDatabase
+import im.vector.app.eachchat.database.AppDatabase_Impl
 import im.vector.app.eachchat.utils.AppCache
 import im.vector.app.eachchat.ui.dialog.PrivacyPolicyDialog
 import im.vector.app.eachchat.utils.ToastUtil

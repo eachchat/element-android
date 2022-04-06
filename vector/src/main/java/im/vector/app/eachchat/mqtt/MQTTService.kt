@@ -56,11 +56,11 @@ class MQTTService : Service() {
         EventBus.getDefault().unregister(this)
     }
 
-    override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         try {
-            val cmd = intent.getStringExtra(KEY_CMD)
+            val cmd = intent?.getStringExtra(KEY_CMD)
             // long noticeId = intent.getLongExtra(KEY_NOTICE_ID, 0);
-            val updateTime = intent.getStringExtra(KEY_UPDATE_TIME)
+            val updateTime = intent?.getStringExtra(KEY_UPDATE_TIME)
             onEvent(cmd, updateTime)
         } catch (e: Exception) {
             e.printStackTrace()

@@ -179,6 +179,7 @@ import im.vector.app.features.usercode.ShowUserCodeFragment
 import im.vector.app.features.userdirectory.UserListFragment
 import im.vector.app.features.widgets.WidgetFragment
 import im.vector.app.eachchat.complain.RoomComplainFragment
+import im.vector.app.eachchat.contact.invite.InviteFragment
 import im.vector.app.eachchat.contact.real.RealContactsFragment
 
 @InstallIn(ActivityComponent::class)
@@ -199,6 +200,11 @@ interface FragmentModule {
     @IntoMap
     @FragmentKey(RealContactsFragment::class)
     fun bindRealContactFragment(fragment: RealContactsFragment): Fragment
+
+    @Binds
+    @IntoMap
+    @FragmentKey(InviteFragment::class)
+    fun bindInviteFragment(fragment: InviteFragment): Fragment
 
     @Binds
     @IntoMap

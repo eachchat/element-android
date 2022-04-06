@@ -29,6 +29,7 @@ import im.vector.app.core.di.ActiveSessionHolder
 import im.vector.app.core.platform.VectorBaseFragment
 import im.vector.app.databinding.FragmentRealContactsLayoutBinding
 import im.vector.app.eachchat.contact.data.User
+import im.vector.app.eachchat.contact.invite.InviteActivity
 import im.vector.app.eachchat.department.DepartmentActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -101,20 +102,24 @@ class RealContactsFragment @Inject constructor()  : VectorBaseFragment<FragmentR
             val user: User = adapter.getItem(position) as User
             kotlin.runCatching {
                 lifecycleScope.launch (Dispatchers.IO) {
-                    val existingRoomId = user.matrixId?.let { userId ->
-                        session.getExistingDirectRoomWithUser(userId)
-                    }
-                    if (existingRoomId != null) {
-                        lifecycleScope.launch (Dispatchers.Main) {
-                            navigator.openRoom(requireContext(), existingRoomId)
+                    if (user.roomId != null) {
+                        navigator.openRoom(requireContext(), user.roomId!!)
+                    } else {
+                        val existingRoomId = user.matrixId?.let { userId ->
+                            session.getExistingDirectRoomWithUser(userId)
+                        }
+                        if (existingRoomId != null) {
+                            lifecycleScope.launch(Dispatchers.Main) {
+                                navigator.openRoom(requireContext(), existingRoomId)
+                            }
                         }
                     }
                 }
             }
         }
-//        header.invite_ll.setOnClickListener {
-//            navigationTo(Contact.RoomInviteActivity)
-//        }
+        header.findViewById<LinearLayout>(R.id.invite_ll).setOnClickListener {
+            InviteActivity.start(requireContext())
+        }
 //        header.my_contact_ll.setOnClickListener {
 //            navigationTo(Contact.MyContactsActivity)
 //        }

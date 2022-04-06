@@ -77,7 +77,7 @@ class RealContactsViewModel @AssistedInject constructor(
             memberships = listOf(Membership.JOIN)
             roomCategoryFilter = RoomCategoryFilter.ONLY_DM
         }
-        session.getRoomSummariesLive(queryParams).observe(owner) {
+        session.getFilteredPagedRoomSummariesLive(queryParams).livePagedList.observe(owner) {
             if (it.isNullOrEmpty()) return@observe
             var users = mutableListOf<User>()
             val joinRooms = mutableListOf<RoomSummary>()
@@ -109,6 +109,7 @@ class RealContactsViewModel @AssistedInject constructor(
                             user.avatarOUrl = matrixUser.avatarUrl
                             user.matrixId = matrixUser.userId
                         }
+                        user.roomId = roomSummary2.roomId
                         users.add(user)
                     }
                 }.exceptionOrNull()?.let {

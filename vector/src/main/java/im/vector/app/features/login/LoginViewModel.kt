@@ -35,6 +35,7 @@ import im.vector.app.core.extensions.exhaustive
 import im.vector.app.core.platform.VectorViewModel
 import im.vector.app.core.resources.StringProvider
 import im.vector.app.core.utils.ensureTrailingSlash
+import im.vector.app.eachchat.base.BaseModule
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -54,6 +55,7 @@ import org.matrix.android.sdk.api.failure.MatrixIdFailure
 import org.matrix.android.sdk.api.session.Session
 import im.vector.app.eachchat.service.LoginApi
 import im.vector.app.eachchat.bean.OrgSearchInput
+import im.vector.app.eachchat.database.AppDatabase
 import im.vector.app.eachchat.net.NetConstant
 import timber.log.Timber
 import java.util.concurrent.CancellationException
@@ -782,6 +784,7 @@ class LoginViewModel @AssistedInject constructor(
     private fun handleUpdateHomeserver(action: LoginAction.UpdateHomeServer) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
+                AppDatabase.getInstance(BaseModule.getContext()).clearAllTables()
                 var homeServerUrl = action.homeServerUrl
                 val response = LoginApi.getInstance()?.gms(OrgSearchInput(action.homeServerUrl)) ?: return@launch
                 if (response.isSuccess) {
