@@ -86,7 +86,7 @@ class AutoCompleter @AssistedInject constructor(
         this.editText = editText
         glideRequests = GlideApp.with(editText)
         val backgroundDrawable = ColorDrawable(ThemeUtils.getColor(editText.context, android.R.attr.colorBackground))
-        setupCommands(backgroundDrawable, editText)
+        // setupCommands(backgroundDrawable, editText)
         setupMembers(backgroundDrawable, editText)
         setupGroups(backgroundDrawable, editText)
         // setupEmojis(backgroundDrawable, editText)

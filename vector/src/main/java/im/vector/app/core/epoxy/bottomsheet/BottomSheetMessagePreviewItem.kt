@@ -102,7 +102,7 @@ abstract class BottomSheetMessagePreviewItem : VectorEpoxyModel<BottomSheetMessa
         holder.timestamp.setTextOrHide(time)
 
         if (locationUrl == null) {
-            holder.body.isVisible = true
+            holder.body.isVisible = false
             holder.mapViewContainer.isVisible = false
         } else {
             holder.body.isVisible = false

@@ -82,8 +82,9 @@
         <im.vector.app.core.preference.VectorPreference
             android:key="SETTINGS_HOME_SERVER_PREFERENCE_KEY"
             android:title="@string/settings_home_server"
-            app:fragment="im.vector.app.features.settings.homeserver.HomeserverSettingsFragment"
             tools:summary="https://homeserver.org" />
+
+<!--        app:fragment="im.vector.app.features.settings.homeserver.HomeserverSettingsFragment"-->
 
         <im.vector.app.core.preference.VectorPreference
             android:key="SETTINGS_IDENTITY_SERVER_PREFERENCE_KEY"

@@ -659,7 +659,7 @@
     <string name="settings_home_server">主服务器</string>
     <string name="settings_identity_server">身份服务器</string>
     <string name="account_email_validation_title">正在等待验证</string>
-    <string name="settings_phone_number_code">代码</string>
+    <string name="settings_phone_number_code">验证码</string>
     <string name="room_settings_category_access_visibility_title">访问和可见性</string>
     <string name="room_settings_room_access_rules_pref_title">群聊访问权限</string>
     <string name="room_settings_labs_pref_title">实验室</string>
@@ -1963,7 +1963,7 @@
     <string name="enter_secret_storage_passphrase">输入秘密存储密语</string>
     <string name="enter_secret_storage_passphrase_warning">警告：</string>
     <string name="enter_secret_storage_passphrase_warning_text">你应仅在可信任的设备上访问秘密存储</string>
-    <string name="message_action_item_redact">移除…</string>
+    <string name="message_action_item_redact">删除</string>
     <string name="share_confirm_room">你想要发送此附件到 %1$s 吗？</string>
     <plurals name="send_images_with_original_size">
         <item quantity="other">发送原始尺寸图片</item>
@@ -2246,7 +2246,7 @@
     <string name="error_threepid_auth_failed">请确认你已点击我们向你发送的电子邮件中的链接。</string>
     <string name="settings_emails_and_phone_numbers_title">电子邮件和电话号码</string>
     <string name="settings_emails_and_phone_numbers_summary">管理你的电子邮件和手机号登录账号</string>
-    <string name="settings_text_message_sent_hint">代码</string>
+    <string name="settings_text_message_sent_hint">验证码</string>
     <string name="login_msisdn_notice">请使用国际格式（电话号码必须以 ‘+’ 开始）</string>
     <string name="confirm_your_identity_quad_s">通过验证此登录确认你的身份，授权它访问加密信息。</string>
     <string name="error_opening_banned_room">无法打开你被封禁的群聊。</string>
