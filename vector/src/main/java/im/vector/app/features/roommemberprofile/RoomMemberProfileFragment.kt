@@ -136,7 +136,6 @@ class RoomMemberProfileFragment @Inject constructor(
         }
         setupLongClicks()
 
-        headerViews.memberProfileIdView.visibility = View.GONE
         headerViews.memberProfilePowerLevelView.visibility = View.GONE
     }
 

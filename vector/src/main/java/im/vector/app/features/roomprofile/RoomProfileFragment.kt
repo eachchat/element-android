@@ -217,6 +217,9 @@ class RoomProfileFragment @Inject constructor(
                 headerViews.roomProfileNameView.text = it.displayName
                 views.matrixProfileToolbarTitleView.text = it.displayName
                 headerViews.roomProfileAliasView.setTextOrHide(it.canonicalAlias)
+                if (it.isDirect && it.otherMemberIds.isNotEmpty()) {
+                    headerViews.roomProfileAliasView.setTextOrHide(it.otherMemberIds[0])
+                }
                 val matrixItem = it.toMatrixItem()
                 avatarRenderer.render(matrixItem, headerViews.roomProfileAvatarView)
                 avatarRenderer.render(matrixItem, views.matrixProfileToolbarAvatarImageView)
