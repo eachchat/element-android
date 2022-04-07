@@ -25,6 +25,7 @@ import android.widget.RelativeLayout
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.mvrx.fragmentViewModel
+import im.vector.app.core.epoxy.onClick
 import im.vector.app.core.platform.VectorBaseBottomSheetDialogFragment.ResultListener.Companion.RESULT_OK
 import im.vector.app.core.platform.VectorBaseFragment
 import im.vector.app.databinding.FragmentMyContactsBinding
@@ -53,6 +54,7 @@ class MyContactsFragment @Inject constructor(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupToolbar()
         initRecyclerView()
         initIndex()
         initListener()
@@ -66,7 +68,14 @@ class MyContactsFragment @Inject constructor(
         }
     }
 
+    private fun setupToolbar() {
+        setupToolbar(views.groupToolbar)
+    }
+
     private fun initListener() {
+        views.backLayout.onClick {
+            requireActivity().onBackPressed()
+        }
 //        adapter.setOnItemClickListener { adapter, _, position ->
 //            val user: User = adapter.getItem(position) as User
 //            // 是联系人跳联系人详情; 不是联系人跳成员详情

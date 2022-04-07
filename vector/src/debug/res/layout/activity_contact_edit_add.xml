@@ -70,8 +70,7 @@
                         android:maxLines="1"
                         android:text="@string/new_contact"
                         android:textAppearance="@style/TextAppearance.Vector.Widget.ActionBarTitle"
-                        android:textColor="?vctr_content_primary"
-                        android:textStyle="bold" />
+                        android:textColor="?vctr_content_primary" />
 
                     <TextView
                         android:id="@+id/confirmTv"
@@ -84,7 +83,10 @@
                         android:textAppearance="@style/TextAppearance.Vector.Widget.ActionBarTitle"
                         android:textColor="?vctr_content_primary"
                         android:textStyle="bold"
-                        android:layout_alignParentEnd="true" />
+                        android:layout_alignParentEnd="true"
+                        android:textSize="16sp"
+                        android:paddingStart="@dimen/common_16dip"
+                        android:paddingEnd="@dimen/common_16dip" />
 
                 </RelativeLayout>
 
@@ -163,7 +165,6 @@
                 android:id="@+id/layout_nick_name"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/common_52dip"
-                android:visibility="gone"
                 app:editHint="@string/nick_name_hint"
                 app:leftTitle="@string/nick_name"
                 tools:visibility="visible" />
@@ -174,7 +175,8 @@
                 android:layout_height="@dimen/common_52dip"
                 android:layout_marginTop="@dimen/common_8dip"
                 app:editHint="@string/company_hint"
-                app:leftTitle="@string/company" />
+                app:leftTitle="@string/company"
+                android:visibility="gone" />
 
             <im.vector.app.eachchat.contact.addcontact.ContactEditAddLayout
                 android:id="@+id/layout_department"
@@ -202,15 +204,8 @@
                 android:animateLayoutChanges="true"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
-                android:orientation="vertical">
-
-                <!--                    <im.vector.app.eachchat.contact.addcontact.ContactEditAddLayout-->
-                <!--                        android:id="@+id/layout_phone_number"-->
-                <!--                        android:layout_width="match_parent"-->
-                <!--                        android:layout_height="@dimen/common_52dip"-->
-                <!--                        app:editHint="@string/phone_number_hint"-->
-                <!--                        app:leftTitle="@string/phone_number" -->
-                <!--                        android:visibility="gone"/>-->
+                android:orientation="vertical"
+                android:visibility="gone" >
 
             </LinearLayout>
 
@@ -222,7 +217,8 @@
                 android:animateLayoutChanges="true"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone" >
 
             </LinearLayout>
 

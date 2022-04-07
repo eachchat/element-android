@@ -64,7 +64,7 @@
                         android:ellipsize="end"
                         android:gravity="start"
                         android:maxLines="1"
-                        android:text="@string/contacts_book"
+                        android:text="@string/add_contacts"
                         android:textAppearance="@style/TextAppearance.Vector.Widget.ActionBarTitle"
                         android:textColor="?vctr_content_primary"
                         android:textStyle="bold" />

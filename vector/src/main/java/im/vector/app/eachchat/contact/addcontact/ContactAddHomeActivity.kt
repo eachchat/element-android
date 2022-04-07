@@ -20,6 +20,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import dagger.hilt.android.AndroidEntryPoint
+import im.vector.app.core.epoxy.onClick
 import im.vector.app.core.platform.VectorBaseActivity
 import im.vector.app.databinding.ActivityContactAddHomeBinding
 
@@ -35,6 +36,9 @@ class ContactAddHomeActivity : VectorBaseActivity<ActivityContactAddHomeBinding>
     }
 
     private fun initClickListener() {
+        views.backLayout.onClick {
+            onBackPressed()
+        }
         views.tvNewContact.setOnClickListener {
             ContactEditAddActivity.start(this)
         }

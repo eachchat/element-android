@@ -574,7 +574,9 @@ class ContactEditAddActivity: VectorBaseActivity<ActivityContactEditAddBinding>(
         views.layoutFamilyNamePinyin.visibility = View.VISIBLE
         views.layoutMiddleNamePinyin.visibility = View.VISIBLE
         views.layoutNamePinyin.visibility = View.VISIBLE
-        views.layoutNickName.visibility = View.VISIBLE
+        views.layoutCompany.visibility = View.VISIBLE
+        views.llPhoneNumberList.visibility = View.VISIBLE
+        views.llEmailList.visibility = View.VISIBLE
         views.layoutDepartment.visibility = View.VISIBLE
         views.layoutUserTitle.visibility = View.VISIBLE
         views.llAddress.visibility = View.VISIBLE
@@ -798,6 +800,9 @@ class ContactEditAddActivity: VectorBaseActivity<ActivityContactEditAddBinding>(
     }
 
     private fun initClickListener() {
+        views.backLayout.onClick {
+            onBackPressed()
+        }
         views.tvMoreProperty.onClick {
             showMore()
         }
