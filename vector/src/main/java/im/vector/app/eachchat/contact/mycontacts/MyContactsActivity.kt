@@ -31,6 +31,7 @@ import im.vector.app.R
 import im.vector.app.core.extensions.replaceFragment
 import im.vector.app.core.platform.VectorBaseActivity
 import im.vector.app.databinding.ActivityFragmentContainerBinding
+import im.vector.app.eachchat.contact.addcontact.ContactAddHomeActivity
 import im.vector.app.eachchat.contact.invite.InviteActivity
 import im.vector.app.eachchat.contact.invite.InviteFragment
 import im.vector.app.features.home.RoomListDisplayMode
@@ -59,7 +60,7 @@ class MyContactsActivity: VectorBaseActivity<ActivityFragmentContainerBinding>()
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_contact_add_contact -> {
-                bugReporter.openBugReportScreen(this, ReportType.SUGGESTION)
+                ContactAddHomeActivity.start(this)
                 return true
             }
             R.id.menu_contact_manage_contact      -> {

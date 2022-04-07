@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/tv_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/common_20dip"
+        android:paddingTop="@dimen/common_14dip"
+        android:paddingEnd="@dimen/common_20dip"
+        android:paddingBottom="@dimen/common_14dip"
+        android:text="@string/cancel"
+        android:textColor="@color/ff999999"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/tv_confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:paddingStart="@dimen/common_20dip"
+        android:paddingTop="@dimen/common_14dip"
+        android:paddingEnd="@dimen/common_20dip"
+        android:paddingBottom="@dimen/common_14dip"
+        android:text="@string/confirm"
+        android:textColor="@color/ff5b6a92"
+        android:textSize="15sp" />
+
+</RelativeLayout>

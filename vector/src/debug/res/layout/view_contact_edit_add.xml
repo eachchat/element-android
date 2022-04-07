@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:paddingStart="@dimen/common_16dip"
+    android:paddingEnd="@dimen/common_16dip">
+
+    <LinearLayout
+        android:id="@+id/layout_title"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/et_edit"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.33">
+
+        <ImageView
+            android:id="@+id/iv_reduce"
+            android:layout_width="@dimen/common_20dip"
+            android:layout_height="@dimen/common_20dip"
+            android:paddingEnd="@dimen/common_4dip"
+            android:src="@drawable/icon_reduce"
+            android:visibility="gone"
+            tools:ignore="ContentDescription,RtlSymmetry" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_title"
+                style="@style/_16_000000_Regular"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:lines="1"
+                android:singleLine="true"
+                tools:text="ID" />
+
+            <TextView
+                android:id="@+id/tv_required"
+                style="@style/_15_EF403A_Regular"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_weight="1"
+                android:text="@string/star"
+                android:textColor="@color/fffa5151"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/tv_title"
+                app:layout_constraintEnd_toStartOf="@id/et_edit"
+                app:layout_constraintStart_toEndOf="@id/tv_title"
+                app:layout_constraintTop_toTopOf="@id/tv_title"
+                tools:visibility="invisible" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:src="@drawable/arrow_right_icon"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:paddingEnd="@dimen/common_8dip"
+            tools:ignore="ContentDescription,RtlSymmetry" />
+
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/et_edit"
+        style="@style/_16_000000_Regular"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@null"
+        android:gravity="center|start"
+        android:lines="1"
+        android:singleLine="true"
+        android:textColor="@color/contact_edit_add"
+        android:textColorHint="@color/hint_text_color"
+        app:layout_constraintBottom_toBottomOf="@id/layout_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/layout_title"
+        app:layout_constraintTop_toTopOf="@id/layout_title"
+        tools:text="@tools:sample/full_names" />
+
+    <TextView
+        android:id="@+id/tv_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
+        android:gravity="center|start"
+        android:paddingTop="@dimen/common_6dip"
+        android:singleLine="true"
+        android:textColor="@color/fffa5151"
+        android:textSize="12sp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@id/et_edit"
+        app:layout_constraintTop_toBottomOf="@id/et_edit"
+        tools:text="@string/invalid_matrix_id"
+        tools:visibility="visible" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/common_15dip"
+        app:layout_constraintTop_toBottomOf="@+id/tv_error" />
+
+    <LinearLayout
+        android:id="@+id/view_line"
+        style="@style/dividerHorizontal"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

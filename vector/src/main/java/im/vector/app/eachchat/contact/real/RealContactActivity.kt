@@ -25,6 +25,7 @@ import im.vector.app.R
 import im.vector.app.core.extensions.replaceFragment
 import im.vector.app.core.platform.VectorBaseActivity
 import im.vector.app.databinding.ActivityFragmentContainerBinding
+import im.vector.app.eachchat.contact.addcontact.ContactAddHomeActivity
 import im.vector.app.features.home.RoomListDisplayMode
 import im.vector.app.features.home.room.list.RoomListParams
 import im.vector.app.features.rageshake.ReportType
@@ -47,7 +48,7 @@ class RealContactActivity: VectorBaseActivity<ActivityFragmentContainerBinding>(
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_real_add_contact          -> {
-                bugReporter.openBugReportScreen(this, ReportType.SUGGESTION)
+                ContactAddHomeActivity.start(this)
                 return true
             }
             R.id.menu_home_filter              -> {

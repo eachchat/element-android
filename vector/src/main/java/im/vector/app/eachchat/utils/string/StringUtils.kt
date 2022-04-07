@@ -29,4 +29,26 @@ object StringUtils {
 
         return this.replace(str, "<font color='#00B368'>$str</font>", false)
     }
+
+    @JvmStatic
+    //calculate Chinese char number
+    fun calcChineseChar(charSequence: CharSequence?): Int {
+        if (charSequence.isNullOrEmpty()) {
+            return 0
+        }
+
+        var sum = 0
+        for (c in charSequence) {
+            sum += getCharTextCount(c)
+        }
+        return sum
+    }
+
+    @JvmStatic
+    private fun getCharTextCount(c: Char) = if (isChinese(c)) 1 else 0
+
+    @JvmStatic
+    fun isChinese(c: Char): Boolean {
+        return c.code in 0x4E00..0x9FA5
+    }
 }

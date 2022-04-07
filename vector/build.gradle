@@ -411,6 +411,8 @@ dependencies {
 
     implementation libs.squareup.moshi
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.databinding:databinding-common:4.2.2'
+    implementation 'androidx.databinding:databinding-adapters:4.2.2'
     kapt libs.squareup.moshiKotlin
 
     // Lifecycle

@@ -499,6 +499,8 @@
         <activity android:name=".eachchat.contact.invite.InviteActivity" />
         <activity android:name=".eachchat.contact.real.RealContactActivity" />
         <activity android:name=".eachchat.contact.mycontacts.MyContactsActivity" />
+        <activity android:name=".eachchat.contact.addcontact.ContactAddHomeActivity" />
+        <activity android:name=".eachchat.contact.addcontact.ContactEditAddActivity" />
         <!-- Services -->
 
         <service

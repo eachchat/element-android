@@ -58,5 +58,13 @@
         <attr name="showMagnifier" format="boolean"/>
     </declare-styleable>
 
+    <declare-styleable name="ContactEditAddLayout">
+        <attr name="leftTitle" format="string" localization="suggested" />
+        <attr name="editHint" format="string" localization="suggested" />
+    </declare-styleable>
 
+    <declare-styleable name="ContactInfoLayout">
+        <attr name="title" format="string" localization="suggested" />
+        <attr name="value" format="string" localization="suggested" />
+    </declare-styleable>
 </resources>

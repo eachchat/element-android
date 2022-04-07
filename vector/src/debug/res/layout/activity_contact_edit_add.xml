@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/fff3f4f7"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/contactAddHomeToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:baselineAligned="false"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:id="@+id/backLayout"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:contentDescription="@string/a11y_open_drawer"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        tools:ignore="MissingPrefix"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="4dp"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/ic_back_24dp"
+                        app:tint="?vctr_content_secondary" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/realContactToolbarContent"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp">
+
+                    <TextView
+                        android:id="@+id/groupToolbarTitleView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:ellipsize="end"
+                        android:gravity="start"
+                        android:maxLines="1"
+                        android:text="@string/new_contact"
+                        android:textAppearance="@style/TextAppearance.Vector.Widget.ActionBarTitle"
+                        android:textColor="?vctr_content_primary"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/confirmTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:gravity="end"
+                        android:maxLines="1"
+                        android:text="@string/confirm"
+                        android:textAppearance="@style/TextAppearance.Vector.Widget.ActionBarTitle"
+                        android:textColor="?vctr_content_primary"
+                        android:textStyle="bold"
+                        android:layout_alignParentEnd="true" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <View
+        style="@style/dividerHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="1px" />
+
+    <im.vector.app.eachchat.contact.addcontact.RequestFocusNestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/linear_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:animateLayoutChanges="true"
+            android:orientation="vertical">
+
+            <im.vector.app.eachchat.contact.addcontact.ContactEditAddLayout
+                android:id="@+id/layout_matrix_id"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/common_8dip"
+                app:editHint="@string/matrix_id_hint"
+                app:leftTitle="@string/matrix_id" />
+
+            <im.vector.app.eachchat.contact.addcontact.ContactEditAddLayout
+                android:id="@+id/layout_family_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:editHint="@string/family_name_hint"
+                app:leftTitle="@string/family_name" />
+
+            <im.vector.app.eachchat.contact.addcontact.ContactEditAddLayout
+                android:id="@+id/layout_given_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:editHint="@string/given_name_hint"
+                app:leftTitle="@string/given_name" />
+
+            <im.vector.app.eachchat.contact.addcontact.ContactEditAddLayout
+                android:id="@+id/layout_family_name_pinyin"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/common_52dip"
+                android:visibility="gone"
+                app:editHint="@string/family_name_hint_pinyin"
+                app:leftTitle="@string/family_name_pinyin"
+                tools:visibility="visible" />
+
+            <im.vector.app.eachchat.contact.addcontact.ContactEditAddLayout
+                android:id="@+id/layout_middle_name_pinyin"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/common_52dip"
+                android:visibility="gone"
+                app:editHint="@string/middle_name_hint_pinyin"
+                app:leftTitle="@string/middle_name_pinyin"
+                tools:visibility="visible" />
+
+            <im.vector.app.eachchat.contact.addcontact.ContactEditAddLayout
+                android:id="@+id/layout_name_pinyin"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/common_52dip"
+                android:visibility="gone"
+                app:editHint="@string/name_hint_pinyin"
+                app:leftTitle="@string/name_pinyin"
+                tools:visibility="visible" />
+
+            <im.vector.app.eachchat.contact.addcontact.ContactEditAddLayout
+                android:id="@+id/layout_nick_name"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/common_52dip"
+                android:visibility="gone"
+                app:editHint="@string/nick_name_hint"
+                app:leftTitle="@string/nick_name"
+                tools:visibility="visible" />
+
+            <im.vector.app.eachchat.contact.addcontact.ContactEditAddLayout
+                android:id="@+id/layout_company"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/common_52dip"
+                android:layout_marginTop="@dimen/common_8dip"
+                app:editHint="@string/company_hint"
+                app:leftTitle="@string/company" />
+
+            <im.vector.app.eachchat.contact.addcontact.ContactEditAddLayout
+                android:id="@+id/layout_department"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/common_52dip"
+                android:visibility="gone"
+                app:editHint="@string/department_hint"
+                app:leftTitle="@string/department"
+                tools:visibility="visible" />
+
+            <im.vector.app.eachchat.contact.addcontact.ContactEditAddLayout
+                android:id="@+id/layout_user_title"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/common_52dip"
+                android:visibility="gone"
+                app:editHint="@string/position_title_hint"
+                app:leftTitle="@string/position_title"
+                tools:visibility="visible" />
+
+            <LinearLayout
+                android:id="@+id/ll_phone_number_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/common_8dip"
+                android:animateLayoutChanges="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:orientation="vertical">
+
+                <!--                    <im.vector.app.eachchat.contact.addcontact.ContactEditAddLayout-->
+                <!--                        android:id="@+id/layout_phone_number"-->
+                <!--                        android:layout_width="match_parent"-->
+                <!--                        android:layout_height="@dimen/common_52dip"-->
+                <!--                        app:editHint="@string/phone_number_hint"-->
+                <!--                        app:leftTitle="@string/phone_number" -->
+                <!--                        android:visibility="gone"/>-->
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_email_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/common_8dip"
+                android:animateLayoutChanges="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/common_8dip"
+                android:animateLayoutChanges="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:orientation="vertical"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_website_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/common_8dip"
+                android:animateLayoutChanges="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:orientation="vertical"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <!--                    <im.vector.app.eachchat.contact.addcontact.ContactEditAddLayout-->
+                <!--                        android:id="@+id/layout_website"-->
+                <!--                        android:layout_width="match_parent"-->
+                <!--                        android:layout_height="@dimen/common_52dip"-->
+                <!--                        app:editHint="@string/please_enter"-->
+                <!--                        app:leftTitle="@string/website" />-->
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_communication_tool_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/common_8dip"
+                android:animateLayoutChanges="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:orientation="vertical"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <!--                    <im.vector.app.eachchat.contact.addcontact.ContactEditAddLayout-->
+                <!--                        android:id="@+id/layout_communication_tool"-->
+                <!--                        android:layout_width="match_parent"-->
+                <!--                        android:layout_height="@dimen/common_52dip"-->
+                <!--                        app:editHint="@string/please_enter"-->
+                <!--                        app:leftTitle="@string/communication_tool" />-->
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_key_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/common_8dip"
+                android:animateLayoutChanges="true"
+                android:orientation="vertical"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+            </LinearLayout>
+
+            <im.vector.app.eachchat.contact.addcontact.ContactEditAddLayout
+                android:id="@+id/layout_remark"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/common_52dip"
+                android:layout_marginTop="@dimen/common_8dip"
+                android:visibility="gone"
+                app:editHint="@string/please_enter"
+                app:leftTitle="@string/remark"
+                tools:visibility="visible" />
+
+            <im.vector.app.eachchat.contact.addcontact.ContactEditAddLayout
+                android:id="@+id/layout_label"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/common_52dip"
+                android:layout_marginTop="@dimen/common_8dip"
+                android:visibility="gone"
+                app:editHint="@string/please_enter"
+                app:leftTitle="@string/label"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/tv_more_property"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/common_52dip"
+                android:layout_marginTop="@dimen/common_8dip"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:paddingStart="@dimen/common_16dip"
+                android:text="@string/more_property"
+                android:textColor="@color/ff5b6a92"
+                android:textSize="15sp"
+                tools:ignore="RtlSymmetry" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/common_38dip" />
+
+        </LinearLayout>
+    </im.vector.app.eachchat.contact.addcontact.RequestFocusNestedScrollView>
+</LinearLayout>

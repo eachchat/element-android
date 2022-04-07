@@ -110,6 +110,9 @@ class RealContactsViewModel @AssistedInject constructor(
                             user.matrixId = matrixUser.userId
                         }
                         user.roomId = roomSummary2.roomId
+                        if (user.displayName.isNullOrBlank()) {
+                            user.displayName = user.matrixId
+                        }
                         users.add(user)
                     }
                 }.exceptionOrNull()?.let {
