@@ -31,6 +31,7 @@ import im.vector.app.databinding.FragmentRealContactsLayoutBinding
 import im.vector.app.eachchat.contact.data.User
 import im.vector.app.eachchat.contact.event.MQTTEvent
 import im.vector.app.eachchat.contact.invite.InviteActivity
+import im.vector.app.eachchat.contact.mycontacts.MyContactsActivity
 import im.vector.app.eachchat.department.DepartmentActivity
 import im.vector.app.eachchat.mqtt.MQTTService
 import im.vector.app.eachchat.mqtt.MessageConstant
@@ -65,38 +66,6 @@ class RealContactsFragment @Inject constructor()  : VectorBaseFragment<FragmentR
         super.onViewCreated(view, savedInstanceState)
         MQTTService.sendMQTTEvent(MQTTEvent(MessageConstant.CMD_UPDATE_DEPARTMENT, UserCache.getUpdateDepartmentTime(), 0))
         MQTTService.sendMQTTEvent(MQTTEvent(MessageConstant.CMD_UPDATE_USER, UserCache.getUpdateDepartmentTime(), 0))
-//        views.titleBar.setLeftVisible(false)
-                // .set(R.string.footer_menu_contact)
-//        views.titleBar.setLeftClickListener {
-//                activity?.onBackPressed()
-//            }.apply {
-//                addAction(object : TitleBar.ImageAction(R.mipmap.ic_search) {
-//                    override fun performAction(view: View?) {
-//                        if (nullableCheck()) return
-//                        navigationTo(App.ContactsSearchActivity)
-//                    }
-//                })
-//                contactActionView = addAction(object :
-//                    TitleBar.ImageAction(R.mipmap.m_base_home_more_add_contact_icon) {
-//                    override fun performAction(view: View?) {
-//                        Contact.addContactHomeActivity()
-//                    }
-//
-//                })
-
-//                contactActionView = addAction(object :
-//                    TitleBar.ImageAction(ai.workly.eachchat.android.chat.R.mipmap.m_base_home_more_icon) {
-//                    override fun performAction(view: View?) {
-//                        view?.let {
-//                            ContactMoreFunctionPopup(
-//                                requireActivity(),
-//                                requireContext(),
-//                                it
-//                            ).show()
-//                        }
-//                    }
-//                })
-           // }
         initRecyclerView()
         initListener()
         observeData()
@@ -126,9 +95,9 @@ class RealContactsFragment @Inject constructor()  : VectorBaseFragment<FragmentR
         header.findViewById<LinearLayout>(R.id.invite_ll).setOnClickListener {
             InviteActivity.start(requireContext())
         }
-//        header.my_contact_ll.setOnClickListener {
-//            navigationTo(Contact.MyContactsActivity)
-//        }
+        header.findViewById<LinearLayout>(R.id.my_contact_ll).setOnClickListener {
+            MyContactsActivity.start(requireContext())
+        }
 //        header.group_chat_ll.setOnClickListener {
 //            navigationTo(Contact.ContactsGroupChatActivity)
 //        }
@@ -139,6 +108,9 @@ class RealContactsFragment @Inject constructor()  : VectorBaseFragment<FragmentR
                 null,
                 true
             )
+        }
+        views.backLayout.setOnClickListener {
+            requireActivity().onBackPressed()
         }
     }
 
@@ -152,7 +124,7 @@ class RealContactsFragment @Inject constructor()  : VectorBaseFragment<FragmentR
 //        }
         val orgLayout = header.findViewById<LinearLayout>(R.id.org_ll)
         val myContactsLayout = header.findViewById<LinearLayout>(R.id.my_contact_ll)
-        val groupChatLayout = header.findViewById<LinearLayout>(R.id.group_chat_ll)
+        // val groupChatLayout = header.findViewById<LinearLayout>(R.id.group_chat_ll)
         realContactsViewModel.isOpenOrgLiveData.observe(viewLifecycleOwner) {
             if (it == true) {
                 orgLayout.visibility = View.VISIBLE
@@ -169,13 +141,13 @@ class RealContactsFragment @Inject constructor()  : VectorBaseFragment<FragmentR
                 contactActionView?.visibility = View.GONE
             }
         }
-        realContactsViewModel.isOpenGroupLiveData.observe(viewLifecycleOwner) {
-            if (it == true) {
-                groupChatLayout.visibility = View.VISIBLE
-            } else {
-                groupChatLayout.visibility = View.GONE
-            }
-        }
+//        realContactsViewModel.isOpenGroupLiveData.observe(viewLifecycleOwner) {
+//            if (it == true) {
+//                groupChatLayout.visibility = View.VISIBLE
+//            } else {
+//                groupChatLayout.visibility = View.GONE
+//            }
+//        }
     }
 
     private fun initRecyclerView() {

@@ -14,20 +14,31 @@
  * limitations under the License.
  */
 
-package im.vector.app.eachchat.contact.invite
+package im.vector.app.eachchat.contact.mycontacts
 
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.text.TextUtils
+import android.view.View
+import android.widget.RelativeLayout
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import im.vector.app.core.extensions.replaceFragment
 import im.vector.app.core.platform.VectorBaseActivity
 import im.vector.app.databinding.ActivityFragmentContainerBinding
+import im.vector.app.eachchat.contact.invite.InviteActivity
+import im.vector.app.eachchat.contact.invite.InviteFragment
 import im.vector.app.features.home.RoomListDisplayMode
 import im.vector.app.features.home.room.list.RoomListParams
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class InviteActivity: VectorBaseActivity<ActivityFragmentContainerBinding>() {
+class MyContactsActivity: VectorBaseActivity<ActivityFragmentContainerBinding>() {
     override fun getBinding(): ActivityFragmentContainerBinding {
         return ActivityFragmentContainerBinding.inflate(layoutInflater)
     }
@@ -35,13 +46,13 @@ class InviteActivity: VectorBaseActivity<ActivityFragmentContainerBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val params = RoomListParams(RoomListDisplayMode.INVITE)
-        replaceFragment(views.fragmentContainer, InviteFragment::class.java, params)
+        replaceFragment(views.fragmentContainer, MyContactsFragment::class.java, params)
     }
 
     companion object {
         fun start(context: Context,
         ) {
-            val intent = Intent(context, InviteActivity::class.java)
+            val intent = Intent(context, MyContactsActivity::class.java)
             context.startActivity(intent)
         }
     }

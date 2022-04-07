@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package im.vector.app.eachchat.contact.invite
+package im.vector.app.eachchat.contact.real
 
 import android.content.Context
 import android.content.Intent
@@ -27,7 +27,7 @@ import im.vector.app.features.home.RoomListDisplayMode
 import im.vector.app.features.home.room.list.RoomListParams
 
 @AndroidEntryPoint
-class InviteActivity: VectorBaseActivity<ActivityFragmentContainerBinding>() {
+class RealContactActivity: VectorBaseActivity<ActivityFragmentContainerBinding>() {
     override fun getBinding(): ActivityFragmentContainerBinding {
         return ActivityFragmentContainerBinding.inflate(layoutInflater)
     }
@@ -35,13 +35,13 @@ class InviteActivity: VectorBaseActivity<ActivityFragmentContainerBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val params = RoomListParams(RoomListDisplayMode.INVITE)
-        replaceFragment(views.fragmentContainer, InviteFragment::class.java, params)
+        replaceFragment(views.fragmentContainer, RealContactsFragment::class.java, params)
     }
 
     companion object {
         fun start(context: Context,
         ) {
-            val intent = Intent(context, InviteActivity::class.java)
+            val intent = Intent(context, RealContactActivity::class.java)
             context.startActivity(intent)
         }
     }

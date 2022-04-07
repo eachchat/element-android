@@ -19,4 +19,7 @@ public class ContactsHeaderHolder extends RecyclerView.ViewHolder {
         mHeaderTV = view.findViewById(R.id.tv_header);
     }
 
+    public static int getLayout(){
+        return R.layout.item_contacts_header;
+    }
 }

@@ -138,6 +138,20 @@ public class IndexView extends View {
                 });
     }
 
+    public void setCHARS(List<Character> characters) {
+        CHARS = new char[characters.size()];
+        for (int index = 0; index < characters.size(); index++) {
+            CHARS[index] = characters.get(index);
+        }
+        ViewGroup.LayoutParams Params = getLayoutParams();
+        Params.height = 0;
+        if (characters.size() > 0) {
+            Params.height = (int) ((characters.size() + 1) * itemHeight);
+        }
+        setLayoutParams(Params);
+        postInvalidate();
+    }
+
     public void setCHARSAsyncEx(List<? extends IDisplayBean> contacts) {
         Observable.create((ObservableOnSubscribe<List<Character>>) emitter -> {
             List<Character> characters = new ArrayList<>();

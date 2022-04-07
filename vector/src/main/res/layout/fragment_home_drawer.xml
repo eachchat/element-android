@@ -120,6 +120,14 @@
         android:background="?vctr_list_separator"
         app:layout_constraintTop_toBottomOf="@id/homeDrawerHeader" />
 
+    <TextView
+        android:id="@+id/tv_contacts_book"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:text="@string/contacts_book"
+        app:layout_constraintTop_toBottomOf="@id/homeDrawerHeaderSeparator"/>
+
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/homeDrawerGroupListContainer"
         android:layout_width="0dp"
@@ -128,7 +136,7 @@
         app:layout_constraintBottom_toTopOf="@id/homeDrawerBottomSeparator"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/homeDrawerHeaderSeparator" />
+        app:layout_constraintTop_toBottomOf="@id/tv_contacts_book" />
 
     <View
         android:id="@+id/homeDrawerBottomSeparator"

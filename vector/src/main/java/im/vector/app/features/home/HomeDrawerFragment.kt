@@ -23,10 +23,12 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import im.vector.app.BuildConfig
 import im.vector.app.R
+import im.vector.app.core.epoxy.onClick
 import im.vector.app.core.extensions.observeK
 import im.vector.app.core.extensions.replaceChildFragment
 import im.vector.app.core.platform.VectorBaseFragment
 import im.vector.app.databinding.FragmentHomeDrawerBinding
+import im.vector.app.eachchat.contact.real.RealContactActivity
 import im.vector.app.features.settings.VectorPreferences
 import im.vector.app.features.settings.VectorSettingsActivity
 import im.vector.app.features.spaces.SpaceListFragment
@@ -49,6 +51,10 @@ class HomeDrawerFragment @Inject constructor(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        views.tvContactsBook.onClick {
+            RealContactActivity.start(requireContext())
+        }
 
         sharedActionViewModel = activityViewModelProvider.get(HomeSharedActionViewModel::class.java)
 

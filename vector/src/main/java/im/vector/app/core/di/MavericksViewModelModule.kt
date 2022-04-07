@@ -116,6 +116,7 @@ import im.vector.app.features.widgets.permissions.RoomWidgetPermissionViewModel
 import im.vector.app.features.workers.signout.ServerBackupStatusViewModel
 import im.vector.app.features.workers.signout.SignoutCheckViewModel
 import im.vector.app.eachchat.complain.RoomComplainViewModel
+import im.vector.app.eachchat.contact.mycontacts.MyContactViewModel
 import im.vector.app.eachchat.contact.real.RealContactsViewModel
 
 @InstallIn(MavericksViewModelComponent::class)
@@ -126,6 +127,11 @@ interface MavericksViewModelModule {
     @IntoMap
     @MavericksViewModelKey(RoomListViewModel::class)
     fun roomListViewModelFactory(factory: RoomListViewModel.Factory): MavericksAssistedViewModelFactory<*, *>
+
+    @Binds
+    @IntoMap
+    @MavericksViewModelKey(MyContactViewModel::class)
+    fun myContactsViewModelFactory(factory: MyContactViewModel.Factory): MavericksAssistedViewModelFactory<*, *>
 
     @Binds
     @IntoMap
