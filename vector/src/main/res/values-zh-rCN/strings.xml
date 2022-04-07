@@ -1538,8 +1538,8 @@
     <string name="send_suggestion_sent">谢谢，建议已成功发送</string>
     <string name="send_suggestion_failed">建议发送失败 (%s)</string>
     <string name="settings_labs_show_hidden_events_in_timeline">在时间线上显示隐藏事件</string>
-    <string name="title_action_people_x">私聊</string>
-    <string name="bottom_action_people_x">私聊</string>
+    <string name="title_action_people_x">聊天</string>
+    <string name="bottom_action_people_x">聊天</string>
     <string name="send_file_step_idle">正在等待…</string>
     <string name="send_file_step_encrypting_thumbnail">正在加密缩略图…</string>
     <string name="send_file_step_sending_thumbnail">正在发送缩略图 (%1$s / %2$s)</string>
