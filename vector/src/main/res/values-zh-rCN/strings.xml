@@ -2928,7 +2928,7 @@
     <string name="a11y_presence_online">在线</string>
     <string name="login_error_homeserver_from_url_not_found_enter_manual">选择主服务器</string>
     <string name="login_error_homeserver_from_url_not_found">无法访问 URL %s 上的主服务器。请检查您的链接或手动选择一个主服务器。</string>
-    <string name="notification_listening_for_notifications">侦听通知</string>
+    <string name="notification_listening_for_notifications">接收通知</string>
     <plurals name="create_poll_not_enough_options_error">
         <item quantity="other">需要至少 %1$s 个选项</item>
     </plurals>
