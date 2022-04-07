@@ -3065,4 +3065,7 @@
     <string name="add_contacts">添加联系人</string>
     <string name="footer_menu_contact">通讯录</string>
     <string name="please_enter_correct_msisdn">请输入正确的手机号</string>
+    <string name="team">团队</string>
+    <string name="manage_contacts">管理联系人</string>
+    <string name="search_name_id">搜索姓名或ID</string>
 </resources>

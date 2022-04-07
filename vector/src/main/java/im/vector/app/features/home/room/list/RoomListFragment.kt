@@ -196,7 +196,7 @@ open class RoomListFragment @Inject constructor(
             RoomListDisplayMode.NOTIFICATIONS -> views.createChatFabMenu.isVisible = true
             RoomListDisplayMode.PEOPLE        -> views.createChatFabMenu.isVisible = true
             RoomListDisplayMode.ROOMS         -> views.createGroupRoomButton.isVisible = true
-            else                              -> Unit // No button in this mode
+            else                              -> views.createChatFabMenu.isVisible = false // No button in this mode
         }
 
         views.createChatRoomButton.debouncedClicks {

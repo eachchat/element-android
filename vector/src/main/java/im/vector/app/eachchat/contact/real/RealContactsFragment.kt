@@ -21,6 +21,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.mvrx.fragmentViewModel
@@ -36,6 +37,7 @@ import im.vector.app.eachchat.department.DepartmentActivity
 import im.vector.app.eachchat.mqtt.MQTTService
 import im.vector.app.eachchat.mqtt.MessageConstant
 import im.vector.app.eachchat.mqtt.UserCache
+import im.vector.app.eachchat.utils.AppCache
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -68,8 +70,20 @@ class RealContactsFragment @Inject constructor()  : VectorBaseFragment<FragmentR
         MQTTService.sendMQTTEvent(MQTTEvent(MessageConstant.CMD_UPDATE_USER, UserCache.getUpdateDepartmentTime(), 0))
         initRecyclerView()
         initListener()
+        setupToolbar()
         observeData()
+        checkBookSwitch()
         realContactsViewModel.loadCloseContacts(this)
+    }
+
+    private fun setupToolbar() {
+        setupToolbar(views.groupToolbar)
+    }
+
+    private fun initOrg() {
+        if (!AppCache.getIsOpenOrg()) {
+            header.findViewById<TextView>(R.id.org_tv).text = getString(R.string.team)
+        }
     }
 
     private fun initListener() {

@@ -19,12 +19,15 @@ package im.vector.app.eachchat.contact.real
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
 import dagger.hilt.android.AndroidEntryPoint
+import im.vector.app.R
 import im.vector.app.core.extensions.replaceFragment
 import im.vector.app.core.platform.VectorBaseActivity
 import im.vector.app.databinding.ActivityFragmentContainerBinding
 import im.vector.app.features.home.RoomListDisplayMode
 import im.vector.app.features.home.room.list.RoomListParams
+import im.vector.app.features.rageshake.ReportType
 
 @AndroidEntryPoint
 class RealContactActivity: VectorBaseActivity<ActivityFragmentContainerBinding>() {
@@ -36,6 +39,24 @@ class RealContactActivity: VectorBaseActivity<ActivityFragmentContainerBinding>(
         super.onCreate(savedInstanceState)
         val params = RoomListParams(RoomListDisplayMode.INVITE)
         replaceFragment(views.fragmentContainer, RealContactsFragment::class.java, params)
+    }
+
+    // menu
+    override fun getMenuRes() = R.menu.real_contact
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.menu_real_add_contact          -> {
+                bugReporter.openBugReportScreen(this, ReportType.SUGGESTION)
+                return true
+            }
+            R.id.menu_home_filter              -> {
+                navigator.openRoomsFiltering(this)
+                return true
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
     companion object {
