@@ -751,6 +751,7 @@
     <string name="call_connected">Call connected</string>
     <string name="call_connecting">Call connecting…</string>
     <string name="call_ringing">Call ringing…</string>
+    <string name="out_call_ringing">Call ringing…</string>
     <string name="call_ended">Call ended</string>
     <plurals name="missed_audio_call">
         <item quantity="one">Missed audio call</item>

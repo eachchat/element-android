@@ -235,7 +235,7 @@ class NotificationUtils @Inject constructor(private val context: Context,
         val builder = NotificationCompat.Builder(context, LISTENING_FOR_EVENTS_NOTIFICATION_CHANNEL_ID)
                 .setContentTitle(stringProvider.getString(subTitleResId))
                 .setSmallIcon(R.drawable.push)
-                .setCategory(NotificationCompat.CATEGORY_SERVICE)
+//                .setCategory(NotificationCompat.CATEGORY_SERVICE)
 //                .setColor(accentColor)
                 .setContentIntent(pi)
                 .apply {
@@ -252,7 +252,7 @@ class NotificationUtils @Inject constructor(private val context: Context,
 
         val notification = builder.build()
 
-        notification.flags = notification.flags or Notification.FLAG_NO_CLEAR
+//        notification.flags = notification.flags or Notification.FLAG_NO_CLEAR
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             // some devices crash if this field is not set

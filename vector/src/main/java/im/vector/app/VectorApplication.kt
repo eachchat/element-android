@@ -40,8 +40,8 @@ import com.airbnb.mvrx.Mavericks
 import com.facebook.stetho.Stetho
 import com.gabrielittner.threetenbp.LazyThreeTen
 import com.heytap.msp.push.HeytapPushManager
-import com.igexin.sdk.PushManager
 import com.mapbox.mapboxsdk.Mapbox
+import com.tencent.bugly.crashreport.CrashReport
 import com.vanniktech.emoji.EmojiManager
 import com.vanniktech.emoji.google.GoogleEmojiProvider
 import dagger.hilt.android.HiltAndroidApp
@@ -131,6 +131,9 @@ class VectorApplication :
         invitesAcceptor.initialize()
         autoRageShaker.initialize()
         vectorUncaughtExceptionHandler.activate()
+        HeytapPushManager.init(this, true)
+        //初始化bugly崩溃报告
+        CrashReport.initCrashReport(applicationContext, getBuglyID(), false)
         HeytapPushManager.init(this, true)
         PushManager.getInstance().initialize(this)
 
@@ -276,6 +279,8 @@ class VectorApplication :
         return processName
     }
 
+    private fun getBuglyID() = if (BuildConfig.DEBUG) DEBUG_BUGLY_ID else RELEASE_BUGLY_ID
+
     override fun attachBaseContext(base: Context) {
         super.attachBaseContext(base)
         MultiDex.install(this)
@@ -296,5 +301,10 @@ class VectorApplication :
         val handlerThread = HandlerThread("fonts")
         handlerThread.start()
         return Handler(handlerThread.looper)
+    }
+
+    companion object {
+        const val DEBUG_BUGLY_ID = "1039b29a21"
+        const val RELEASE_BUGLY_ID = "0d9ae0e2e4"
     }
 }
