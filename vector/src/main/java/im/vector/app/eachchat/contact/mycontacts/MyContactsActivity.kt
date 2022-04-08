@@ -34,6 +34,7 @@ import im.vector.app.databinding.ActivityFragmentContainerBinding
 import im.vector.app.eachchat.contact.addcontact.ContactAddHomeActivity
 import im.vector.app.eachchat.contact.invite.InviteActivity
 import im.vector.app.eachchat.contact.invite.InviteFragment
+import im.vector.app.eachchat.contact.manage.ContactManageActivity
 import im.vector.app.features.home.RoomListDisplayMode
 import im.vector.app.features.home.room.list.RoomListParams
 import im.vector.app.features.rageshake.ReportType
@@ -64,7 +65,7 @@ class MyContactsActivity: VectorBaseActivity<ActivityFragmentContainerBinding>()
                 return true
             }
             R.id.menu_contact_manage_contact      -> {
-                navigator.openRoomsFiltering(this)
+                ContactManageActivity.start(this)
                 return true
             }
             R.id.menu_my_contact_filter      -> {

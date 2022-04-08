@@ -180,6 +180,7 @@ import im.vector.app.features.userdirectory.UserListFragment
 import im.vector.app.features.widgets.WidgetFragment
 import im.vector.app.eachchat.complain.RoomComplainFragment
 import im.vector.app.eachchat.contact.invite.InviteFragment
+import im.vector.app.eachchat.contact.manage.ContactManageFragment
 import im.vector.app.eachchat.contact.mycontacts.MyContactsFragment
 import im.vector.app.eachchat.contact.real.RealContactsFragment
 
@@ -196,6 +197,11 @@ interface FragmentModule {
     @IntoMap
     @FragmentKey(RoomListFragment::class)
     fun bindRoomListFragment(fragment: RoomListFragment): Fragment
+
+    @Binds
+    @IntoMap
+    @FragmentKey(ContactManageFragment::class)
+    fun bindContactManageFragment(fragment: ContactManageFragment): Fragment
 
     @Binds
     @IntoMap

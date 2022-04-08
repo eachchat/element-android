@@ -120,3 +120,4 @@
 -keep class org.json.** { *; }
 -dontwarn com.getui.**
 -keep class com.getui.** { *; }
+

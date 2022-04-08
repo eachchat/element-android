@@ -151,9 +151,9 @@ class RoomProfileFragment @Inject constructor(
             }
         }
         // Shortcut to room alias
-        headerViews.roomProfileAliasView.debouncedClicks {
-            roomProfileSharedActionViewModel.post(RoomProfileSharedAction.OpenRoomAliasesSettings)
-        }
+//        headerViews.roomProfileAliasView.debouncedClicks {
+//            roomProfileSharedActionViewModel.post(RoomProfileSharedAction.OpenRoomAliasesSettings)
+//        }
         // Open Avatar
         setOf(
                 headerViews.roomProfileAvatarView,

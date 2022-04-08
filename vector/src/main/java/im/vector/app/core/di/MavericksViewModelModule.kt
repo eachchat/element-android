@@ -117,6 +117,7 @@ import im.vector.app.features.workers.signout.ServerBackupStatusViewModel
 import im.vector.app.features.workers.signout.SignoutCheckViewModel
 import im.vector.app.eachchat.complain.RoomComplainViewModel
 import im.vector.app.eachchat.contact.addcontact.ContactEditAddViewModel
+import im.vector.app.eachchat.contact.manage.ContactManageViewModel
 import im.vector.app.eachchat.contact.mycontacts.MyContactViewModel
 import im.vector.app.eachchat.contact.real.RealContactsViewModel
 
@@ -138,6 +139,11 @@ interface MavericksViewModelModule {
     @IntoMap
     @MavericksViewModelKey(ContactEditAddViewModel::class)
     fun contactEditAddViewModelFactory(factory: ContactEditAddViewModel.Factory): MavericksAssistedViewModelFactory<*, *>
+
+    @Binds
+    @IntoMap
+    @MavericksViewModelKey(ContactManageViewModel::class)
+    fun contactManageViewModelFactory(factory: ContactManageViewModel.Factory): MavericksAssistedViewModelFactory<*, *>
 
     @Binds
     @IntoMap

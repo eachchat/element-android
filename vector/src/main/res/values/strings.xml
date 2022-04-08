@@ -3918,4 +3918,8 @@
     <string name="cancel">取消</string>
     <string name="custom">自定义</string>
     <string name="please_select">请选择</string>
+    <string name="import_vcf">导入联系人</string>
+    <string name="export_vcf">导出联系人</string>
+    <string name="exporting">正在导出联系人</string>
+    <string name="importing">正在导入联系人</string>
 </resources>

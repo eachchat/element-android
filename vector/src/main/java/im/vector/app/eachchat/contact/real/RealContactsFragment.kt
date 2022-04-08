@@ -68,6 +68,7 @@ class RealContactsFragment @Inject constructor()  : VectorBaseFragment<FragmentR
         super.onViewCreated(view, savedInstanceState)
         MQTTService.sendMQTTEvent(MQTTEvent(MessageConstant.CMD_UPDATE_DEPARTMENT, UserCache.getUpdateDepartmentTime(), 0))
         MQTTService.sendMQTTEvent(MQTTEvent(MessageConstant.CMD_UPDATE_USER, UserCache.getUpdateDepartmentTime(), 0))
+        MQTTService.sendMQTTEvent(MQTTEvent(MessageConstant.CMD_UPDATE_CONTACT, "0", 0))
         initRecyclerView()
         initListener()
         setupToolbar()

@@ -82,7 +82,6 @@
                         android:text="@string/confirm"
                         android:textAppearance="@style/TextAppearance.Vector.Widget.ActionBarTitle"
                         android:textColor="?vctr_content_primary"
-                        android:textStyle="bold"
                         android:layout_alignParentEnd="true"
                         android:textSize="16sp"
                         android:paddingStart="@dimen/common_16dip"
