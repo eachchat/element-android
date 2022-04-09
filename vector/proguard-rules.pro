@@ -124,3 +124,43 @@
 # bugly
 -dontwarn com.tencent.bugly.**
 -keep public class com.tencent.bugly.**{*;}
+
+#  ====== Glide Start ======
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep public class * extends com.bumptech.glide.module.AppGlideModule
+-keep public enum com.bumptech.glide.load.ImageHeaderParser$** {
+  **[] $VALUES;
+  public *;
+}
+
+#  ====== Glide End ======
+
+#  ====== Eventbus Start ======
+-keepattributes *Annotation*
+-keepclassmembers class ** {
+    @org.greenrobot.eventbus.Subscribe <methods>;
+}
+-keep enum org.greenrobot.eventbus.ThreadMode { *; }
+
+# Only required if you use AsyncExecutor
+-keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
+    <init>(java.lang.Throwable);
+}
+#  ====== Eventbus End ======
+
+-keep public class * extends com.chad.library.adapter.base.BaseQuickAdapter
+-keep public class * extends com.chad.library.adapter.base.BaseViewHolder
+-keepclassmembers  class **$** extends com.chad.library.adapter.base.BaseViewHolder {
+     <init>(...);
+}
+
+-keep class * implements java.io.Serializable
+-keep class * implements android.os.Parcelable
+
+-dontwarn javax.annotation.**
+
+-dontwarn okhttp3.internal.platform.ConscryptPlatform
+
+#-keep class im.vector.app.eachchat.contact.data.** { *; }
+#-keep class im.vector.app.eachchat.contact.api.bean.** { *; }
+-keep class im.vector.app.eachchat.contact.** { *; }

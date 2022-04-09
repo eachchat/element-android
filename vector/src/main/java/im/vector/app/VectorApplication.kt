@@ -40,6 +40,7 @@ import com.airbnb.mvrx.Mavericks
 import com.facebook.stetho.Stetho
 import com.gabrielittner.threetenbp.LazyThreeTen
 import com.heytap.msp.push.HeytapPushManager
+import com.igexin.sdk.PushManager
 import com.mapbox.mapboxsdk.Mapbox
 import com.tencent.bugly.crashreport.CrashReport
 import com.vanniktech.emoji.EmojiManager

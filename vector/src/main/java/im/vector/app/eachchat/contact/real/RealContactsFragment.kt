@@ -26,9 +26,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.mvrx.fragmentViewModel
 import im.vector.app.R
-import im.vector.app.core.di.ActiveSessionHolder
 import im.vector.app.core.platform.VectorBaseFragment
 import im.vector.app.databinding.FragmentRealContactsLayoutBinding
+import im.vector.app.eachchat.base.BaseModule
 import im.vector.app.eachchat.contact.data.User
 import im.vector.app.eachchat.contact.event.MQTTEvent
 import im.vector.app.eachchat.contact.invite.InviteActivity
@@ -43,11 +43,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class RealContactsFragment @Inject constructor()  : VectorBaseFragment<FragmentRealContactsLayoutBinding>() {
-    @Inject lateinit var activeSessionHolder: ActiveSessionHolder
 
-    private val session by lazy {
-        activeSessionHolder.getActiveSession()
-    }
+    private val session = BaseModule.getSession()
 
     override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentRealContactsLayoutBinding {
         return FragmentRealContactsLayoutBinding.inflate(inflater, container, false)
