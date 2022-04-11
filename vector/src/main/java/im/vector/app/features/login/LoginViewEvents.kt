@@ -29,7 +29,7 @@ sealed class LoginViewEvents : VectorViewEvents {
 
     data class RegistrationFlowResult(val flowResult: FlowResult, val isRegistrationStarted: Boolean) : LoginViewEvents()
     object OutdatedHomeserver : LoginViewEvents()
-
+    object SyncContact : LoginViewEvents()
     // Navigation event
 
     object OpenServerSelection : LoginViewEvents()

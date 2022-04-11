@@ -38,6 +38,7 @@ import im.vector.app.core.extensions.addFragmentToBackstack
 import im.vector.app.core.extensions.exhaustive
 import im.vector.app.core.platform.VectorBaseActivity
 import im.vector.app.databinding.ActivityLoginBinding
+import im.vector.app.eachchat.contact.ContactSyncUtils
 import im.vector.app.features.analytics.plan.Screen
 import im.vector.app.features.home.HomeActivity
 import im.vector.app.features.login.terms.LoginTermsFragment
@@ -200,6 +201,9 @@ open class LoginActivity : VectorBaseActivity<ActivityLoginBinding>(), UnlockedA
                         LoginGenericTextInputFormFragmentArgument(TextInputFormFragmentMode.ConfirmMsisdn, true, loginViewEvents.msisdn),
                         tag = FRAGMENT_REGISTRATION_STAGE_TAG,
                         option = commonOption)
+            }
+            is LoginViewEvents.SyncContact -> {
+                ContactSyncUtils.getInstance().init(this, application)
             }
             is LoginViewEvents.Failure,
             is LoginViewEvents.Loading                                    ->

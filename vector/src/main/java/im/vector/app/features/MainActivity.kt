@@ -33,6 +33,8 @@ import im.vector.app.core.extensions.vectorStore
 import im.vector.app.core.platform.VectorBaseActivity
 import im.vector.app.core.utils.deleteAllFiles
 import im.vector.app.databinding.ActivityMainBinding
+import im.vector.app.eachchat.base.BaseModule
+import im.vector.app.eachchat.contact.ContactSyncUtils
 import im.vector.app.eachchat.push.PushHelper
 import im.vector.app.features.analytics.VectorAnalytics
 import im.vector.app.features.home.HomeActivity
@@ -149,6 +151,9 @@ class MainActivity : VectorBaseActivity<ActivityMainBinding>(), UnlockedActivity
             startNextActivityAndFinish()
             return
         }
+
+        BaseModule.setSession(session)
+        ContactSyncUtils.getInstance().init(this, application)
 
         val onboardingStore = session.vectorStore(this)
         when {

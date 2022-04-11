@@ -55,6 +55,7 @@ import org.matrix.android.sdk.api.failure.MatrixIdFailure
 import org.matrix.android.sdk.api.session.Session
 import im.vector.app.eachchat.service.LoginApi
 import im.vector.app.eachchat.bean.OrgSearchInput
+import im.vector.app.eachchat.contact.ContactSyncUtils
 import im.vector.app.eachchat.database.AppDatabase
 import im.vector.app.eachchat.net.NetConstant
 import timber.log.Timber
@@ -746,6 +747,11 @@ class LoginViewModel @AssistedInject constructor(
 
     private suspend fun onSessionCreated(session: Session) {
         activeSessionHolder.setActiveSession(session)
+
+        BaseModule.setSession(session)
+        _viewEvents.post(
+                LoginViewEvents.SyncContact
+        )
 
         authenticationService.reset()
         session.configureAndStart(applicationContext)

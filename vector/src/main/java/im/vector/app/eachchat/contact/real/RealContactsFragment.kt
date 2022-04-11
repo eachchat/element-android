@@ -29,6 +29,7 @@ import im.vector.app.R
 import im.vector.app.core.platform.VectorBaseFragment
 import im.vector.app.databinding.FragmentRealContactsLayoutBinding
 import im.vector.app.eachchat.base.BaseModule
+import im.vector.app.eachchat.contact.ContactSyncUtils
 import im.vector.app.eachchat.contact.data.User
 import im.vector.app.eachchat.contact.event.MQTTEvent
 import im.vector.app.eachchat.contact.invite.InviteActivity
@@ -63,9 +64,7 @@ class RealContactsFragment @Inject constructor()  : VectorBaseFragment<FragmentR
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        MQTTService.sendMQTTEvent(MQTTEvent(MessageConstant.CMD_UPDATE_DEPARTMENT, UserCache.getUpdateDepartmentTime(), 0))
-        MQTTService.sendMQTTEvent(MQTTEvent(MessageConstant.CMD_UPDATE_USER, UserCache.getUpdateDepartmentTime(), 0))
-        MQTTService.sendMQTTEvent(MQTTEvent(MessageConstant.CMD_UPDATE_CONTACT, "0", 0))
+        activity?.application?.let { ContactSyncUtils.getInstance().init(requireContext(), it) }
         initRecyclerView()
         initListener()
         setupToolbar()
