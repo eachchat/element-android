@@ -64,6 +64,7 @@ import im.vector.app.core.extensions.singletonEntryPoint
 import im.vector.app.core.extensions.toMvRxBundle
 import im.vector.app.core.utils.ToolbarConfig
 import im.vector.app.core.utils.toast
+import im.vector.app.eachchat.utils.permission.PermissionUtil
 import im.vector.app.features.MainActivity
 import im.vector.app.features.MainActivityArgs
 import im.vector.app.features.analytics.AnalyticsTracker
@@ -629,5 +630,16 @@ abstract class VectorBaseActivity<VB : ViewBinding> : AppCompatActivity(), Maver
      * */
     fun setupToolbar(toolbar: MaterialToolbar) = ToolbarConfig(this, toolbar).also {
         this.toolbar = it.setup()
+    }
+
+    private var mPermissionRequestObject: PermissionUtil.PermissionRequestObject? = null
+
+    open fun setPermissionRequestObject(permissionRequestObject: PermissionUtil.PermissionRequestObject) {
+        mPermissionRequestObject = permissionRequestObject
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        mPermissionRequestObject!!.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 }

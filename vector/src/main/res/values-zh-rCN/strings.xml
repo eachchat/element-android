@@ -1322,7 +1322,7 @@
     <string name="please_wait">请稍候…</string>
     <string name="group_all_communities">所有社群</string>
     <string name="room_preview_no_preview">无法预览此群聊</string>
-    <string name="fab_menu_create_room">群聊</string>
+    <string name="fab_menu_create_room">发起群聊</string>
     <string name="create_room_action_create">创建</string>
     <string name="create_room_name_hint">群聊名称</string>
     <string name="create_room_directory_title">群聊目录</string>
@@ -1437,7 +1437,7 @@
     <string name="reset_secure_backup_title">为你已有的备份生成新的安全密钥或设置新的安全口令。</string>
     <string name="reset_secure_backup_warning">这将替换你的当前密钥或短语。</string>
     <string name="settings_discovery_category">发现</string>
-    <string name="settings_discovery_manage">管理添加我的方式。</string>
+    <string name="settings_discovery_manage">管理添加我的方式</string>
     <string name="settings_integration_allow">允许集成</string>
     <string name="settings_integration_manager">集成管理器</string>
     <string name="disabled_integration_dialog_title">集成已禁用</string>
@@ -3134,4 +3134,10 @@
     <string name="export_vcf">导出</string>
     <string name="exporting">正在导出联系人</string>
     <string name="importing">正在导入联系人</string>
+    <string name="export_success">导出成功</string>
+    <string name="export_fail">导出失败</string>
+    <string name="import_success">导入成功</string>
+    <string name="import_fail">导入失败</string>
+    <string name="permission_defined">权限拒绝</string>
+    <string name="export_permission_denied">导出联系人需要开启文件访问权限</string>
 </resources>

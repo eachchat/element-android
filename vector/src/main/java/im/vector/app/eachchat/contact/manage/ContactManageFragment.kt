@@ -16,6 +16,7 @@
 
 package im.vector.app.eachchat.contact.manage
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
@@ -23,9 +24,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import com.airbnb.mvrx.fragmentViewModel
-import com.airbnb.mvrx.viewModel
+import com.blankj.utilcode.util.UriUtils
 import im.vector.app.R
 import im.vector.app.core.dialogs.GalleryOrCameraDialogHelper
 import im.vector.app.core.epoxy.onClick
@@ -34,7 +37,11 @@ import im.vector.app.core.platform.VectorBaseActivity
 import im.vector.app.core.platform.VectorBaseFragment
 import im.vector.app.core.resources.ColorProvider
 import im.vector.app.databinding.FragmentContactManageBinding
+import im.vector.app.eachchat.base.BaseModule
 import im.vector.app.eachchat.utils.FileUtils
+import im.vector.app.eachchat.utils.ToastUtil
+import im.vector.app.eachchat.utils.permission.Func
+import im.vector.app.eachchat.utils.permission.PermissionUtil
 import im.vector.lib.multipicker.MultiPicker
 import java.io.File
 import javax.inject.Inject
@@ -44,12 +51,12 @@ class ContactManageFragment @Inject constructor(
 ) : VectorBaseFragment<FragmentContactManageBinding>(), GalleryOrCameraDialogHelper.Listener {
     private val viewModel: ContactManageViewModel by fragmentViewModel()
 
-    private val dirRequest = registerForActivityResult(ActivityResultContracts.OpenDocumentTree()) { uri ->
+    private var dirRequest = registerForActivityResult(ActivityResultContracts.CreateDocument()) { uri ->
         uri?.let {
             // call this to persist permission across decice reboots
             requireActivity().contentResolver.takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
             // do your stuff
-            viewModel.exportVcard(FileUtils.getFolderUri(requireContext(), uri))
+            viewModel.exportVcard(uri)
         }
     }
 
@@ -62,7 +69,7 @@ class ContactManageFragment @Inject constructor(
                     .getSelectedFiles(requireContext(), activityResult.data)
                     .firstOrNull()
                     ?.let {
-                        viewModel.loadVCards(File(FileUtils.getPath(requireContext(), it.contentUri)))
+                        viewModel.loadVCards(it.contentUri)
                     }
         }
     }
@@ -82,20 +89,29 @@ class ContactManageFragment @Inject constructor(
             val mActivity = requireActivity()
             if (mActivity is VectorBaseActivity<*>) {
                 if (it) {
-                    mActivity.showWaitingView(getKeyEvent(viewModel.keysEvents.value))
+                    mActivity.showWaitingView(getString(R.string.please_wait))
                 } else {
                     mActivity.hideWaitingView()
                 }
             }
         }
-    }
-
-    private fun getKeyEvent(event: VcardEvents?): String?{
-        when(event) {
-            is VcardEvents.ExportVcard -> return getString(R.string.exporting)
-            is VcardEvents.ImportVcard -> return getString(R.string.importing)
+        viewModel.keysEvents.observe(viewLifecycleOwner) {
+            when (it) {
+                is VcardEvents.ExportVcard -> {
+                    if (it.success) {
+                        ToastUtil.showSuccess(requireContext(), getString(R.string.export_success))
+                    } else {
+                        ToastUtil.showError(requireContext(), getString(R.string.export_fail))
+                    }
+                }
+                is VcardEvents.ImportVcard ->
+                    if (it.success) {
+                        ToastUtil.showSuccess(requireContext(), getString(R.string.import_success))
+                    } else {
+                        ToastUtil.showError(requireContext(), getString(R.string.import_fail))
+                    }
+            }
         }
-        return null
     }
 
     private fun initClickListener() {
@@ -103,15 +119,45 @@ class ContactManageFragment @Inject constructor(
             requireActivity().onBackPressed()
         }
         views.tvImportVcf.onClick {
-            MultiPicker.get(MultiPicker.FILE).startWith(pickImageActivityResultLauncher)
+            openFile()
         }
         views.tvExportVcf.onClick {
             createFolderIntent()
         }
     }
 
-    fun createFolderIntent(){
-        dirRequest.launch(null)
+    private fun openFile() {
+        val requestObject = PermissionUtil.with(activity).request(
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+        )
+                .onAllGranted(object : Func() {
+                    override fun call() {
+                        MultiPicker.get(MultiPicker.FILE).startWith(pickImageActivityResultLauncher)
+                    }
+                }).onAnyDenied(object : Func() {
+                    override fun call() {
+                        ToastUtil.showError(activity, R.string.permission_defined)
+                    }
+                }).ask(1)
+        (activity as VectorBaseActivity<*>).setPermissionRequestObject(requestObject)
+    }
+
+    private fun createFolderIntent() {
+        val requestObject = PermissionUtil.with(activity).request(
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+        )
+                .onAllGranted(object : Func() {
+                    override fun call() {
+                        dirRequest.launch("contact.vcf")
+                    }
+                }).onAnyDenied(object : Func() {
+                    override fun call() {
+                        ToastUtil.showError(activity, R.string.permission_defined)
+                    }
+                }).ask(1)
+        (activity as VectorBaseActivity<*>).setPermissionRequestObject(requestObject)
     }
 
     override fun onImageReady(uri: Uri?) {
