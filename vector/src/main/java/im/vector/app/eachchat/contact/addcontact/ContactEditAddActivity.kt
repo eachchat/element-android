@@ -30,6 +30,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.FrameLayout
 import android.widget.LinearLayout
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.core.view.isVisible
@@ -66,6 +67,7 @@ import im.vector.app.eachchat.ui.view.pickerview.builder.TimePickerBuilder
 import im.vector.app.eachchat.ui.view.pickerview.view.TimePickerView
 import im.vector.app.eachchat.utils.ScreenUtils
 import im.vector.app.eachchat.utils.ToastUtil
+import im.vector.lib.ui.styles.dialogs.MaterialProgressDialog
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -100,6 +102,8 @@ class ContactEditAddActivity: VectorBaseActivity<ActivityContactEditAddBinding>(
     var id: String? = null
     var contact: ContactsDisplayBean? = null
 
+    var dialog: AlertDialog? = null
+
     override fun getBinding(): ActivityContactEditAddBinding {
         return ActivityContactEditAddBinding.inflate(layoutInflater)
     }
@@ -113,6 +117,13 @@ class ContactEditAddActivity: VectorBaseActivity<ActivityContactEditAddBinding>(
             vm.getContact(id!!)
         }
 
+        vm.loading.observe(this) {
+            if (it) {
+                dialog = MaterialProgressDialog(this).show(getString(R.string.please_wait))
+            } else {
+                dialog?.dismiss()
+            }
+        }
 
 //        views.titleBar.setLeftClickListener { finish() }.setImmersive(false)
 //                .addAction(confirmAction)
