@@ -26,6 +26,7 @@ import im.vector.app.core.extensions.replaceFragment
 import im.vector.app.core.platform.VectorBaseActivity
 import im.vector.app.databinding.ActivityFragmentContainerBinding
 import im.vector.app.eachchat.contact.addcontact.ContactAddHomeActivity
+import im.vector.app.eachchat.search.contactsearch.ContactsSearchActivity
 import im.vector.app.features.home.RoomListDisplayMode
 import im.vector.app.features.home.room.list.RoomListParams
 import im.vector.app.features.rageshake.ReportType
@@ -52,7 +53,7 @@ class RealContactActivity: VectorBaseActivity<ActivityFragmentContainerBinding>(
                 return true
             }
             R.id.menu_home_filter              -> {
-                navigator.openRoomsFiltering(this)
+                ContactsSearchActivity.start(this)
                 return true
             }
         }

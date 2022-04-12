@@ -35,6 +35,7 @@ import im.vector.app.eachchat.contact.addcontact.ContactAddHomeActivity
 import im.vector.app.eachchat.contact.invite.InviteActivity
 import im.vector.app.eachchat.contact.invite.InviteFragment
 import im.vector.app.eachchat.contact.manage.ContactManageActivity
+import im.vector.app.eachchat.search.contactsearch.searchmore.SearchMoreActivity
 import im.vector.app.features.home.RoomListDisplayMode
 import im.vector.app.features.home.room.list.RoomListParams
 import im.vector.app.features.rageshake.ReportType
@@ -69,7 +70,7 @@ class MyContactsActivity: VectorBaseActivity<ActivityFragmentContainerBinding>()
                 return true
             }
             R.id.menu_my_contact_filter      -> {
-                navigator.openRoomsFiltering(this)
+                SearchMoreActivity.start(this, null, false, SearchMoreActivity.SEARCH_MORE_TYPE_CONTACT)
                 return true
             }
         }

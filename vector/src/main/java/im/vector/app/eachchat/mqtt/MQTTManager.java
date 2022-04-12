@@ -252,7 +252,7 @@ public class MQTTManager implements MqttCallback {
         public void onSuccess(IMqttToken asyncActionToken) {
             Timber.i(TAG, "onSuccess");
             try {
-                if (mClient != null) {
+                if (mClient != null && BaseModule.getSession() != null) {
                     mClient.subscribe(BaseModule.getSession().getMyUserId(), 2);
                 }
             } catch (MqttException e) {

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/fff3f4f7"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/search_title_bar"
+        layout="@layout/search_title_bar" />
+
+    <include
+        android:id="@+id/searching_layout"
+        android:visibility="gone"
+        layout="@layout/searching_layout" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/search_result_rv"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent" />
+
+</LinearLayout>

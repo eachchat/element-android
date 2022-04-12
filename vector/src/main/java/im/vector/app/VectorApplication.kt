@@ -182,6 +182,7 @@ class VectorApplication :
         if (authenticationService.hasAuthenticatedSessions() && !activeSessionHolder.hasActiveSession()) {
             val lastAuthenticatedSession = authenticationService.getLastAuthenticatedSession()!!
             activeSessionHolder.setActiveSession(lastAuthenticatedSession)
+            BaseModule.setSession(lastAuthenticatedSession)
             lastAuthenticatedSession.configureAndStart(applicationContext, startSyncing = false)
         }
 

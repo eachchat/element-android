@@ -36,6 +36,7 @@ import im.vector.app.core.extensions.vectorStore
 import im.vector.app.core.platform.VectorViewModel
 import im.vector.app.core.resources.StringProvider
 import im.vector.app.core.utils.ensureTrailingSlash
+import im.vector.app.eachchat.base.BaseModule
 import im.vector.app.features.VectorFeatures
 import im.vector.app.features.analytics.AnalyticsTracker
 import im.vector.app.features.analytics.extensions.toTrackingValue
@@ -756,6 +757,7 @@ class OnboardingViewModel @AssistedInject constructor(
         }
         activeSessionHolder.setActiveSession(session)
 
+        BaseModule.setSession(session)
         authenticationService.reset()
         session.configureAndStart(applicationContext)
         setState {

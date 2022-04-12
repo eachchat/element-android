@@ -51,4 +51,20 @@ object StringUtils {
     fun isChinese(c: Char): Boolean {
         return c.code in 0x4E00..0x9FA5
     }
+
+    fun getKeywordStr(oldStr: String?, keyword: String?, highlightColor: String = "#00B368"): String {
+        if (oldStr.isNullOrEmpty()) {
+            return ""
+        }
+        if (keyword.isNullOrEmpty()) {
+            return oldStr
+        }
+        val startIndex = oldStr.indexOf(keyword, 0, true)
+        if (startIndex < 0) {
+            return oldStr
+        }
+        val str = oldStr.substring(startIndex, startIndex + keyword.length)
+
+        return oldStr.replace(str, "<font color='$highlightColor'>$str</font>", false)
+    }
 }

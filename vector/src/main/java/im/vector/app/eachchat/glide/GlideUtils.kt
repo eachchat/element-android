@@ -1,6 +1,7 @@
 import android.app.Activity
 import android.content.Context
 import android.widget.ImageView
+import androidx.databinding.BindingAdapter
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import im.vector.app.R
 import im.vector.app.core.glide.GlideApp
@@ -54,5 +55,11 @@ object GlideUtils {
         GlideApp.with(iv.context)
                 .load(R.drawable.default_person_icon)
                 .transform(CircleCrop()).into(iv)
+    }
+
+    @BindingAdapter("circleRoom")
+    @JvmStatic
+    fun loadCircleRoomImage(iv: ImageView, url: String?) {
+        loadCircleImage(iv, url.resolveMxc())
     }
 }

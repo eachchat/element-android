@@ -60,8 +60,8 @@ open class User(@PrimaryKey(autoGenerate = true)
                 var managerId: String? = null,
                 var del: Int = 0,
                 var matrixId: String? = null,
-                var contactUrlAvatar: String? = null,
-                var contactBase64Avatar: String? = null,
+                open var contactUrlAvatar: String? = null,
+                open var contactBase64Avatar: String? = null,
                 var searchType: Int = 0) : Parcelable, Comparable<User> {
 
     protected constructor(`in`: Parcel) : this() {

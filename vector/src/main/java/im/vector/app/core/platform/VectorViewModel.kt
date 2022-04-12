@@ -29,6 +29,7 @@ abstract class VectorViewModel<S : MavericksState, VA : VectorViewModelAction, V
     protected val _viewEvents = PublishDataSource<VE>()
     val viewEvents: DataSource<VE> = _viewEvents
     val loading = MutableLiveData<Boolean>(false)
+    val error = MutableLiveData<Throwable>()
 
     abstract fun handle(action: VA)
 }

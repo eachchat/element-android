@@ -28,6 +28,21 @@ object UserStoreHelper {
         return AppDatabase.getInstance(BaseModule.getContext()).UserDao().getSelectUsersByDepartmentId(departmentId).toIDisplayBeanList()
     }
 
+    fun getBriefUserByMatrixId(matrixId: String?): IDisplayBean {
+        return DepartmentUserBean(AppDatabase.getInstance(BaseModule.getContext()).UserDao().getBriefUserByMatrixId(matrixId))
+    }
+
+    @JvmStatic
+    fun search(keyWord: String,
+               count: Int,
+               departId: String?): List<IDisplayBean> {
+        if (departId != null) {
+            return AppDatabase.getInstance(BaseModule.getContext()).UserDao().search(keyWord, count, departId).toIDisplayBeanList()
+        } else {
+            return AppDatabase.getInstance(BaseModule.getContext()).UserDao().search(keyWord, count).toIDisplayBeanList()
+        }
+    }
+
     fun List<User>?.toIDisplayBeanList(): List<IDisplayBean> {
         val iDisplayBeanList: MutableList<IDisplayBean> = ArrayList()
         this?.forEach {

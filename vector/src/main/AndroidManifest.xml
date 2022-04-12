@@ -508,6 +508,8 @@
         <activity android:name=".eachchat.contact.addcontact.ContactAddHomeActivity" />
         <activity android:name=".eachchat.contact.addcontact.ContactEditAddActivity" />
         <activity android:name=".eachchat.contact.manage.ContactManageActivity" />
+        <activity android:name=".eachchat.search.contactsearch.ContactsSearchActivity" />
+        <activity android:name=".eachchat.search.contactsearch.searchmore.SearchMoreActivity" />
         <!-- Services -->
 
         <service

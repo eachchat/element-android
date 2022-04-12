@@ -41,6 +41,12 @@ interface DepartmentDao {
     @Query("SELECT * FROM DepartmentStoreHelper")
     fun getAllDepartments(): List<Department>?
 
+    @Query("SELECT * FROM DepartmentStoreHelper WHERE displayName LIKE '%'||:keyword||'%' AND del != 1 LIMIT :count")
+    fun search(keyword: String, count: Int): List<Department>?
+
+    @Query("SELECT * FROM DepartmentStoreHelper WHERE displayName LIKE '%'||:keyword||'%' AND del != 1  AND parentId = :departmentId LIMIT :count")
+    fun search(keyword: String, count: Int, departmentId: String): List<Department>?
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun bulkInsert(departments: List<Department?>?)
 }

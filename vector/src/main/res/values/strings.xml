@@ -3929,4 +3929,26 @@
     <string name="import_fail">导入失败</string>
     <string name="permission_defined">权限拒绝</string>
     <string name="export_permission_denied">导出联系人需要开启文件访问权限</string>
+    <string name="searching_tips">搜索中…</string>
+    <string name="search_name_id_email_phone">搜索姓名或Id</string>
+    <string name="see_more">查看更多</string>
+    <string name="search_contact_online">网络查找联系人</string>
+    <string name="contacts">联系人</string>
+    <string name="message_record">[聊天记录]</string>
+    <string name="all">全部</string>
+    <string name="message">消息</string>
+    <string name="view_more">查看全部</string>
+    <string name="search_message_count">条聊天记录</string>
+    <string name="group_may_not_exist">群组不存在</string>
+    <string name="group_message_record">%1$s的聊天记录</string>
+    <string name="all_message_record">共%1$d条相关的聊天记录</string>
+    <string name="groups">群组</string>
+    <string name="hint">提示</string>
+    <string name="content">内容</string>
+    <string name="this_user_not_exist">该用户不存在</string>
+    <string name="user_not_found">无法找到该用户，请检查你填写的账号是否正确</string>
+    <string name="search_department">搜索部门</string>
+    <string name="search_contact">搜索我的联系人</string>
+    <string name="search_org">搜索部门</string>
+    <string name="search_real_contact">搜索最近联系</string>
 </resources>

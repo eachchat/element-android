@@ -34,6 +34,15 @@ object DepartmentStoreHelper {
     }
 
     @JvmStatic
+    fun search(keyword: String, count: Int, departmentId: String? = null): List<IDisplayBean> {
+        if (departmentId != null) {
+            return AppDatabase.getInstance(BaseModule.getContext()).departmentDao().search(keyword, count, departmentId).toIDisplayBeanList()
+        } else {
+            return AppDatabase.getInstance(BaseModule.getContext()).departmentDao().search(keyword, count).toIDisplayBeanList()
+        }
+    }
+
+    @JvmStatic
     fun getDepartmentsByParentId(parentId: String): List<IDisplayBean> {
         return AppDatabase.getInstance(BaseModule.getContext()).departmentDao().getDepartmentsByParentId(parentId).toIDisplayBeanList()
     }

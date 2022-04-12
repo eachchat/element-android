@@ -20,6 +20,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import im.vector.app.eachchat.contact.api.bean.Department
 import im.vector.app.eachchat.contact.data.User
 
 @Dao
@@ -29,6 +30,13 @@ interface UserDao {
 
     @Query("SELECT * FROM UserInfoStore WHERE departmentId = :departmentId and del != 1")
     fun getSelectUsersByDepartmentId(departmentId: String?): List<User>?
+
+    @Query("SELECT * FROM UserInfoStore WHERE displayName LIKE '%'||:keyword||'%' OR userName LIKE '%'||:keyword||'%' " +
+            "OR displayNamePy LIKE '%'||:keyword||'%' LIMIT :count")
+    fun search(keyword: String, count: Int): List<User>?
+
+    @Query("SELECT * FROM UserInfoStore WHERE displayName LIKE '%'||:keyword||'%' AND del != 1 AND departmentId = :departmentId LIMIT :count")
+    fun search(keyword: String, count: Int, departmentId: String): List<User>?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun bulkInsert(users: List<User?>?)

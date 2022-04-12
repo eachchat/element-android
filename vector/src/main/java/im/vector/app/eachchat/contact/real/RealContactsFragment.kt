@@ -31,13 +31,9 @@ import im.vector.app.databinding.FragmentRealContactsLayoutBinding
 import im.vector.app.eachchat.base.BaseModule
 import im.vector.app.eachchat.contact.ContactSyncUtils
 import im.vector.app.eachchat.contact.data.User
-import im.vector.app.eachchat.contact.event.MQTTEvent
 import im.vector.app.eachchat.contact.invite.InviteActivity
 import im.vector.app.eachchat.contact.mycontacts.MyContactsActivity
 import im.vector.app.eachchat.department.DepartmentActivity
-import im.vector.app.eachchat.mqtt.MQTTService
-import im.vector.app.eachchat.mqtt.MessageConstant
-import im.vector.app.eachchat.mqtt.UserCache
 import im.vector.app.eachchat.utils.AppCache
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
