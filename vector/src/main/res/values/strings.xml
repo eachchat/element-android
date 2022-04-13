@@ -3951,4 +3951,8 @@
     <string name="search_contact">搜索我的联系人</string>
     <string name="search_org">搜索部门</string>
     <string name="search_real_contact">搜索最近联系</string>
+    <string name="contacts_add_search_no_result">未搜索到任何联系人</string>
+    <string name="added_to_my_contacts">已添加到我的联系人</string>
+    <string name="contacts_added">已添加</string>
+    <string name="contacts_add">添加</string>
 </resources>

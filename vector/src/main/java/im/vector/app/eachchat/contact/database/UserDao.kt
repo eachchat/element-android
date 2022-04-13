@@ -35,6 +35,10 @@ interface UserDao {
             "OR displayNamePy LIKE '%'||:keyword||'%' LIMIT :count")
     fun search(keyword: String, count: Int): List<User>?
 
+    @Query("SELECT * FROM UserInfoStore WHERE displayName LIKE '%'||:keyword||'%' OR userName LIKE '%'||:keyword||'%' " +
+            "OR displayNamePy LIKE '%'||:keyword||'%' ")
+    fun search(keyword: String): List<User>?
+
     @Query("SELECT * FROM UserInfoStore WHERE displayName LIKE '%'||:keyword||'%' AND del != 1 AND departmentId = :departmentId LIMIT :count")
     fun search(keyword: String, count: Int, departmentId: String): List<User>?
 

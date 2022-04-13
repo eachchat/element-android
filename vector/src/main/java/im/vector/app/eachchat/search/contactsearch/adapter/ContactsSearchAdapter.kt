@@ -184,7 +184,7 @@ class ContactsSearchAdapter :
         if (helper.absoluteAdapterPosition == data.size - 1) {
             helper.setVisible(R.id.div_line, false)
         } else {
-            if (helper.absoluteAdapterPosition < data.size && data[helper.absoluteAdapterPosition + 1].itemType == TYPE_FOOTER || data[helper.absoluteAdapterPosition + 1].itemType == TYPE_GAP || data[helper.absoluteAdapterPosition + 1].itemType == TYPE_CONTENT || helper.absoluteAdapterPosition == data.size - 1) {
+            if (helper.absoluteAdapterPosition < data.size && data[helper.absoluteAdapterPosition].itemType == TYPE_FOOTER || data[helper.absoluteAdapterPosition].itemType == TYPE_GAP || data[helper.absoluteAdapterPosition + 1].itemType == TYPE_CONTENT || helper.absoluteAdapterPosition == data.size - 1) {
                 helper.setVisible(R.id.div_line, true)
             } else {
                 helper.setVisible(R.id.div_line, false)

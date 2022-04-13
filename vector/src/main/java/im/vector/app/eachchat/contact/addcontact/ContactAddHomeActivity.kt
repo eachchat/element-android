@@ -23,6 +23,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import im.vector.app.core.epoxy.onClick
 import im.vector.app.core.platform.VectorBaseActivity
 import im.vector.app.databinding.ActivityContactAddHomeBinding
+import im.vector.app.eachchat.search.contactadd.ContactAddSearchActivity
 
 @AndroidEntryPoint
 class ContactAddHomeActivity : VectorBaseActivity<ActivityContactAddHomeBinding>() {
@@ -43,7 +44,7 @@ class ContactAddHomeActivity : VectorBaseActivity<ActivityContactAddHomeBinding>
             ContactEditAddActivity.start(this)
         }
         views.tvSearch.setOnClickListener {
-
+            ContactAddSearchActivity.start(this)
         }
     }
 
