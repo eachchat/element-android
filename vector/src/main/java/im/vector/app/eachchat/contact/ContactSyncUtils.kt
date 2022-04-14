@@ -84,7 +84,7 @@ class ContactSyncUtils {
 
         orgSettings()
         requestEnterpriseSettings()
-        requestTenantName()
+        // requestTenantName()
         requestGMSConfig(application)
     }
 
