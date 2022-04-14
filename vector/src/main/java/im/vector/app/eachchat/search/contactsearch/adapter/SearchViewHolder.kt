@@ -25,6 +25,7 @@ import im.vector.app.eachchat.search.contactsearch.data.AppConstant
 import im.vector.app.eachchat.search.contactsearch.data.SearchGroupMessageBean
 import im.vector.app.eachchat.search.contactsearch.data.SearchParam
 import im.vector.app.eachchat.search.contactsearch.event.SearchDataEvent
+import im.vector.app.eachchat.utils.AppCache
 import im.vector.app.eachchat.utils.ToastUtil
 import im.vector.app.eachchat.utils.string.HtmlUtils.fromHtml
 import org.greenrobot.eventbus.EventBus
@@ -222,7 +223,11 @@ class SearchViewHolder(private val activity: Activity, view: View, private val i
         } else if (type == BaseConstant.SEARCH_CONTACT_TYPE) {
             mTitle.setText(R.string.contacts)
         } else if (type == BaseConstant.SEARCH_USER_TYPE) {
-            mTitle.setText(R.string.organization_framework)
+            if (AppCache.getIsOpenOrg()) {
+                mTitle.setText(R.string.organization_framework)
+            } else {
+                mTitle.setText(R.string.team)
+            }
         } else if (type == BaseConstant.SEARCH_CONTACT_GROUP_TYPE) {
             mTitle.setText(R.string.title_group_chat)
         } else if (type == AppConstant.SEARCH_GROUP_MESSAGE_TYPE) {

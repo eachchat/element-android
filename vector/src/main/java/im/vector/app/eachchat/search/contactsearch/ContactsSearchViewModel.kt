@@ -86,9 +86,9 @@ class ContactsSearchViewModel @AssistedInject constructor(
                 searchMyContacts(keyword)
             } else null
             // 3.组织
-            val job3 = if (AppCache.getIsOpenOrg()) async {
+            val job3 = async {
                 searchOrg(keyword)
-            } else null
+            }
             // 4.部门
             val job4 = if (AppCache.getIsOpenOrg()) async {
                 searchDepartment(keyword)
@@ -109,9 +109,7 @@ class ContactsSearchViewModel @AssistedInject constructor(
                         ContactsSearchAdapter.SUB_TYPE_MY_CONTACT
                 )
             }
-            if (job3 != null) {
-                parseItem(items, job3.await().toMutableList(), ContactsSearchAdapter.SUB_TYPE_ORG)
-            }
+            parseItem(items, job3.await().toMutableList(), ContactsSearchAdapter.SUB_TYPE_ORG)
             if (job4 != null) {
                 parseItem(
                         items,

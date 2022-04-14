@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -26,6 +27,7 @@ import im.vector.app.eachchat.ui.breadcrumbs.BreadcrumbsView
 import im.vector.app.eachchat.ui.breadcrumbs.DefaultBreadcrumbsCallback
 import im.vector.app.eachchat.ui.index.IndexView
 import im.vector.app.eachchat.ui.stickyHeader.StickyHeaderDecoration
+import im.vector.app.eachchat.utils.AppCache
 import im.vector.app.features.home.HomeActivity
 import io.reactivex.Observable
 import io.reactivex.ObservableEmitter
@@ -228,7 +230,11 @@ class DepartmentFragment @Inject constructor(
             breadcrumbsView?.addItem(BreadDepartmentItem.createItem(
                     Department(ROOT_ID, getString(R.string.contacts_book))))
         }
-        val departmentHome = Department(null, getString(R.string.organization_framework))
+        var departmentHome = Department(null, getString(R.string.organization_framework))
+        if(!AppCache.getIsOpenOrg()) {
+            departmentHome = Department(null, getString(R.string.team))
+        }
+
         departmentHome.setParentId(ROOT_ID)
         breadcrumbsView?.addItem(BreadDepartmentItem.createItem(departmentHome))
 
@@ -272,6 +278,9 @@ class DepartmentFragment @Inject constructor(
                             breadcrumbsView?.setVisibility(View.VISIBLE)
                             btnAddContacts?.setVisibility(View.GONE)
                         }
+//                        if (!AppCache.getIsOpenOrg()) {
+//                            breadcrumbsView?.isVisible = false
+//                        }
                     }
                 })
         breadcrumbsView?.setCallback(object : DefaultBreadcrumbsCallback<BreadDepartmentItem?>() {

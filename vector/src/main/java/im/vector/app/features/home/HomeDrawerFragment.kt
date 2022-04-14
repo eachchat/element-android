@@ -52,7 +52,7 @@ class HomeDrawerFragment @Inject constructor(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        views.tvContactsBook.onClick {
+        views.rlContactsBook.onClick {
             RealContactActivity.start(requireContext())
         }
 

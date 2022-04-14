@@ -12,6 +12,7 @@ import im.vector.app.eachchat.department.ContactUtils
 import im.vector.app.eachchat.department.data.IDisplayBean
 import im.vector.app.eachchat.search.contactsearch.data.SearchContactsBean
 import im.vector.app.eachchat.search.contactsearch.data.SearchUserBean
+import im.vector.app.eachchat.utils.AppCache
 import im.vector.app.eachchat.utils.AutoGenerateAvatarUtils
 import im.vector.app.eachchat.utils.string.HtmlUtils.fromHtml
 import im.vector.app.eachchat.utils.string.StringUtils.getKeywordStr
@@ -69,10 +70,19 @@ class ContactsSearchAdapter :
                 R.id.header_tv,
                 mContext.getString(R.string.my_contacts)
             )
-            SUB_TYPE_ORG -> helper.setText(
-                R.id.header_tv,
-                mContext.getString(R.string.organization_framework)
-            )
+            SUB_TYPE_ORG -> {
+                if (AppCache.getIsOpenOrg()) {
+                    helper.setText(
+                            R.id.header_tv,
+                            mContext.getString(R.string.organization_framework)
+                    )
+                } else {
+                    helper.setText(
+                            R.id.header_tv,
+                            mContext.getString(R.string.team)
+                    )
+                }
+            }
             SUB_TYPE_DEPARTMENT -> helper.setText(
                 R.id.header_tv,
                 mContext.getString(R.string.department)

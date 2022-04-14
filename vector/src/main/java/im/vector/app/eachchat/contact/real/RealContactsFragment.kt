@@ -16,10 +16,12 @@
 
 package im.vector.app.eachchat.contact.real
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
@@ -66,6 +68,7 @@ class RealContactsFragment @Inject constructor()  : VectorBaseFragment<FragmentR
         setupToolbar()
         observeData()
         checkBookSwitch()
+        initOrg()
         realContactsViewModel.loadCloseContacts(this)
     }
 
@@ -73,9 +76,11 @@ class RealContactsFragment @Inject constructor()  : VectorBaseFragment<FragmentR
         setupToolbar(views.groupToolbar)
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private fun initOrg() {
         if (!AppCache.getIsOpenOrg()) {
             header.findViewById<TextView>(R.id.org_tv).text = getString(R.string.team)
+            header.findViewById<ImageView>(R.id.org_iv).setImageDrawable(activity?.getDrawable(R.drawable.ic_team))
         }
     }
 
@@ -129,16 +134,16 @@ class RealContactsFragment @Inject constructor()  : VectorBaseFragment<FragmentR
 //            header.invite_count_tv.isVisible = it > 0
 //            header.invite_count_tv.text = it.toString()
 //        }
-        val orgLayout = header.findViewById<LinearLayout>(R.id.org_ll)
+        // val orgLayout = header.findViewById<LinearLayout>(R.id.org_ll)
         val myContactsLayout = header.findViewById<LinearLayout>(R.id.my_contact_ll)
         // val groupChatLayout = header.findViewById<LinearLayout>(R.id.group_chat_ll)
-        realContactsViewModel.isOpenOrgLiveData.observe(viewLifecycleOwner) {
-            if (it == true) {
-                orgLayout.visibility = View.VISIBLE
-            } else {
-                orgLayout.visibility = View.GONE
-            }
-        }
+//        realContactsViewModel.isOpenOrgLiveData.observe(viewLifecycleOwner) {
+//            if (it == true) {
+//                orgLayout.visibility = View.VISIBLE
+//            } else {
+//                orgLayout.visibility = View.GONE
+//            }
+//        }
         realContactsViewModel.isOpenContactLiveData.observe(viewLifecycleOwner) {
             if (it == true) {
                 myContactsLayout.visibility = View.VISIBLE
@@ -168,7 +173,7 @@ class RealContactsFragment @Inject constructor()  : VectorBaseFragment<FragmentR
         return isFinishing() || isDetached || activity == null
     }
 
-    fun checkBookSwitch() {
+    private fun checkBookSwitch() {
         realContactsViewModel.getGMSConfigCache()
         realContactsViewModel.getGMSConfig()
     }
