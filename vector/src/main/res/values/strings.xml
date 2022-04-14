@@ -3955,4 +3955,5 @@
     <string name="added_to_my_contacts">已添加到我的联系人</string>
     <string name="contacts_added">已添加</string>
     <string name="contacts_add">添加</string>
+    <string name="add_to_contact">保存到我的联系人</string>
 </resources>

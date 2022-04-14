@@ -20,6 +20,7 @@ package im.vector.app.features.roomprofile
 import com.airbnb.epoxy.TypedEpoxyController
 import im.vector.app.R
 import im.vector.app.core.epoxy.expandableTextItem
+import im.vector.app.core.epoxy.profiles.addContactSwitchItem
 import im.vector.app.core.epoxy.profiles.buildDivider
 import im.vector.app.core.epoxy.profiles.buildProfileAction
 import im.vector.app.core.epoxy.profiles.buildProfileSection
@@ -28,12 +29,14 @@ import im.vector.app.core.resources.DrawableProvider
 import im.vector.app.core.resources.StringProvider
 import im.vector.app.core.ui.list.genericFooterItem
 import im.vector.app.core.ui.list.genericPositiveButtonItem
-import im.vector.app.core.utils.DimensionConverter
+import im.vector.app.eachchat.contact.data.ContactsDisplayBeanV2
+import im.vector.app.eachchat.utils.AppCache
 import im.vector.app.features.home.ShortcutCreator
 import im.vector.app.features.home.room.detail.timeline.TimelineEventController
 import im.vector.app.features.home.room.detail.timeline.tools.createLinkMovementMethod
 import im.vector.app.features.settings.VectorPreferences
 import im.vector.lib.core.utils.epoxy.charsequence.toEpoxyCharSequence
+import kotlinx.coroutines.DelicateCoroutinesApi
 import org.matrix.android.sdk.api.crypto.RoomEncryptionTrustLevel
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import javax.inject.Inject
@@ -66,8 +69,16 @@ class RoomProfileController @Inject constructor(
         fun doMigrateToVersion(newVersion: String)
         fun restoreEncryptionState()
         fun onComplainClicked()
+        fun onContactAddCallBack(contactAddStatus: String)
     }
 
+    companion object {
+        const val CONTACT_ADD = "CONTACT_ADD"
+        const val START_LOADING = "START_LOADING"
+        const val END_LOADING = "END_LOADING"
+    }
+
+    @OptIn(DelicateCoroutinesApi::class)
     override fun buildModels(data: RoomProfileViewState?) {
         data ?: return
         val host = this
@@ -226,6 +237,17 @@ class RoomProfileController @Inject constructor(
                 icon = R.drawable.ic_file_filled,
                 action = { callback?.onUploadsClicked() }
         )
+
+        if (roomSummary.isDirect && AppCache.getIsOpenOrg()) {
+            roomSummary.directUserId?.let {
+                addContactSwitchItem(stringProvider.getString(R.string.add_to_contact),
+                        it,
+                        ContactsDisplayBeanV2(matrixId = it, nickName = roomSummary.displayName, photoUrl = roomSummary.avatarUrl)
+                ) { status ->
+                    callback?.onContactAddCallBack(status)
+                }
+            }
+        }
 
         if (data.actionPermissions.canChangePowerLevels && !roomSummary.isDirect) {
             buildProfileAction(

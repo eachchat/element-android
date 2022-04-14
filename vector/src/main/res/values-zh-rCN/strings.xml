@@ -434,7 +434,7 @@
     <string name="ssl_remain_offline">忽略</string>
     <string name="ssl_fingerprint_hash">指纹（%s）：</string>
     <string name="ssl_could_not_verify">无法验证远程服务器的身份。</string>
-    <string name="room_details_title">群聊详情</string>
+    <string name="room_details_title">聊天信息</string>
     <string name="room_details_settings">设置</string>
     <string name="room_details_people_invited_group_name">已邀请</string>
     <string name="room_details_people_present_group_name">已加入</string>
@@ -2993,10 +2993,10 @@
     <string name="analytics_opt_in_title">帮助改进 Element</string>
     <string name="action_enable">启用</string>
 
-    <string name="user_detail">用户详情</string>
+    <string name="user_detail">聊天信息</string>
     <string name="file">文件</string>
     <string name="complain">投诉</string>
-    <string name="group_chat_detail">群聊详情</string>
+    <string name="group_chat_detail">聊天信息</string>
     <string name="confirm">确认</string>
     <string name="law_info">法律信息</string>
     <string name="copyright_notice">版权声明</string>
@@ -3165,4 +3165,5 @@
     <string name="added_to_my_contacts">已添加到我的联系人</string>
     <string name="contacts_added">已添加</string>
     <string name="contacts_add">添加</string>
+    <string name="add_to_contact">保存到我的联系人</string>
 </resources>
