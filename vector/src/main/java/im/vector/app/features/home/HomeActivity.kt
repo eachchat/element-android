@@ -190,7 +190,7 @@ class HomeActivity :
         analyticsScreenName = Screen.ScreenName.Home
         supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentLifecycleCallbacks, false)
         PushHelper.getInstance().startPush(activeSessionHolder)
-        ContactSyncUtils.getInstance().init(this, application)
+        // ContactSyncUtils.getInstance().init(this, application)
 //        FcmHelper.ensureFcmTokenIsRetrieved(this, pushManager, vectorPreferences.areNotificationEnabledForDevice())
         sharedActionViewModel = viewModelProvider.get(HomeSharedActionViewModel::class.java)
         views.drawerLayout.addDrawerListener(drawerListener)

@@ -195,6 +195,7 @@ class ContactSyncUtils {
                             response.obj?.mqtt?.mqttUrl?.let {
                                 NetConstant.setMqttServiceHost(it)
                             }
+                            AppCache.setTenantName(homeServerUrl)
                             ModuleLoader.loadModule(application)
                             MQTTService.sendMQTTEvent(MQTTEvent(MessageConstant.CMD_UPDATE_USER, UserCache.getUpdateUserTime(), 0))
                             MQTTService.sendMQTTEvent(MQTTEvent(MessageConstant.CMD_UPDATE_CONTACT, "0", 0))

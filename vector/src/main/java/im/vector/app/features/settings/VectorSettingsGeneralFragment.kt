@@ -310,7 +310,7 @@ class VectorSettingsGeneralFragment @Inject constructor(
 
             false
         }
-        findPreference<VectorPreferenceCategory>("SETTINGS_SIGN_OUT_KEY_CATEGORY")!!.colorResource = R.color.caution_fc4
+        // findPreference<VectorPreferenceCategory>("SETTINGS_SIGN_OUT_KEY_CATEGORY")!!.colorResource = R.color.caution_fc4
         findPreference<VectorPreference>("SETTINGS_SIGN_OUT_KEY")!!.colorResource = R.color.caution_fc4
     }
 
