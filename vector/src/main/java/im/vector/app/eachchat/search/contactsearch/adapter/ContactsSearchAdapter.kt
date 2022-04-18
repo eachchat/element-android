@@ -34,6 +34,9 @@ class ContactsSearchAdapter :
         const val SUB_TYPE_GROUP_CHAT = 999
         const val TYPE_SEARCH_CONTACT_ONLINE = 1010
         const val SEARCH_MULTI_TYPE = 100
+
+        const val BODY: String = "body"
+        const val TYPE_CHAT_RECORD: Int = 1212
     }
 
     init {

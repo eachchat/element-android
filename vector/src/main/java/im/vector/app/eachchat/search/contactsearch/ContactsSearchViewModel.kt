@@ -1,14 +1,18 @@
 package im.vector.app.eachchat.search.contactsearch
 
 import ai.workly.eachchat.android.search.adapter.ContactsSearchAdapter
+import ai.workly.eachchat.android.search.adapter.ContactsSearchAdapter.Companion.BODY
+import ai.workly.eachchat.android.search.adapter.ContactsSearchAdapter.Companion.TYPE_CHAT_RECORD
+import android.content.Context
+import android.text.TextUtils
 import androidx.lifecycle.MutableLiveData
 import com.airbnb.mvrx.MavericksViewModelFactory
 import com.airbnb.mvrx.ViewModelContext
 import com.blankj.utilcode.util.RegexUtils.isEmail
-import com.blankj.utilcode.util.RegexUtils.isTel
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import im.vector.app.R
 import im.vector.app.core.di.MavericksAssistedViewModelFactory
 import im.vector.app.core.di.hiltMavericksViewModelFactory
 import im.vector.app.core.platform.EmptyViewEvents
@@ -23,22 +27,30 @@ import im.vector.app.eachchat.contact.database.ContactDaoHelper
 import im.vector.app.eachchat.database.AppDatabase
 import im.vector.app.eachchat.department.DepartmentStoreHelper
 import im.vector.app.eachchat.department.data.IDisplayBean
+import im.vector.app.eachchat.bean.Filter
+import im.vector.app.eachchat.bean.GroupFilter
 import im.vector.app.eachchat.search.contactsearch.data.SearchContactsBean
 import im.vector.app.eachchat.search.contactsearch.data.SearchGroupBean
+import im.vector.app.eachchat.bean.SearchGroupCountInput
+import im.vector.app.eachchat.department.UserStoreHelper
+import im.vector.app.eachchat.search.contactsearch.data.SearchData
 import im.vector.app.eachchat.search.contactsearch.data.SearchUserBean
+import im.vector.app.eachchat.service.SearchService
 import im.vector.app.eachchat.utils.AppCache
 import im.vector.app.eachchat.utils.getCloseContactTitle
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import org.matrix.android.sdk.api.MatrixPatterns
 import org.matrix.android.sdk.api.session.Session
+import org.matrix.android.sdk.api.session.events.model.Content
+import org.matrix.android.sdk.api.session.events.model.Event
 import org.matrix.android.sdk.api.session.identity.ThreePid
 import org.matrix.android.sdk.api.session.profile.ProfileService
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
+import timber.log.Timber
 
 class ContactsSearchViewModel @AssistedInject constructor(
         @Assisted initialState: EmptyViewState,
@@ -94,6 +106,9 @@ class ContactsSearchViewModel @AssistedInject constructor(
                 searchDepartment(keyword)
             } else null
             // 5.群聊
+            val job5 = async {
+                searchGroupChat(keyword)
+            }
 //            val job5 = if (AppCache.getIsOpenGroup()) async {
 //                searchGroupChat(keyword)
 //            } else null
@@ -117,6 +132,11 @@ class ContactsSearchViewModel @AssistedInject constructor(
                         ContactsSearchAdapter.SUB_TYPE_DEPARTMENT
                 )
             }
+            parseItem(
+                    items,
+                    job5.await().toMutableList(),
+                    ContactsSearchAdapter.SUB_TYPE_GROUP_CHAT
+            )
 //            if (job5 != null) {
 //                parseItem(
 //                        items,
@@ -233,12 +253,12 @@ class ContactsSearchViewModel @AssistedInject constructor(
         }
     }
 
-    fun searchContactGroupJob(keyword: String): Job {
+    fun searchGroupChatJob(keyword: String): Job {
         this.keyword = keyword
         return viewModelScope.launch(Dispatchers.IO) {
             val items = mutableListOf<ContactsSearchAdapter.BaseItem>()
 
-            // 通讯录里的群聊
+            // 部门
             val job = async {
                 searchGroupChat(keyword)
             }
@@ -257,7 +277,7 @@ class ContactsSearchViewModel @AssistedInject constructor(
         return departments
     }
 
-    private fun searchGroupChat(keyword: String): MutableList<IDisplayBean> {
+    fun searchGroupChat(keyword: String): MutableList<IDisplayBean> {
         val allRoomIds = AppDatabase.getInstance(BaseModule.getContext()).contactRoomDao().getContactRooms()
         val queryParams = roomSummaryQueryParams {
             memberships = listOf(Membership.JOIN)
@@ -523,6 +543,112 @@ class ContactsSearchViewModel @AssistedInject constructor(
         }
     }
 
+
+
+    private suspend fun searchChatRecord(keyword: String) {
+        closeContactUsers.clear()
+        val filters = mutableListOf<Filter>()
+        val filter = Filter(field = "body", value = keyword)
+        val indexFilter = Filter(field = "type", value = "CHAT")
+        filters.add(filter)
+        filters.add(indexFilter)
+        val groupFilter = listOf(GroupFilter(filters))
+        val input = SearchGroupCountInput(groups = groupFilter, limit = 0)
+
+        runCatching {
+            val response = SearchService.getInstance().searchGroupMessageCount(input)
+            if (!response.isSuccess || response.obj == null || response.obj!!.rooms == null) {
+                return
+            }
+            response.obj!!.rooms!!.results?.forEach {
+                val minor: String?
+                var mainTitle: String? = ""
+                var avatarUrl: String?
+                if (it.roomId.isNullOrEmpty()) {
+                    return@forEach
+                }
+
+                val room = session.getRoom(it.roomId) ?: return@forEach
+                val roomSummary = room.roomSummary() ?: return@forEach
+                avatarUrl = roomSummary.avatarUrl
+                var targetId: String? = null
+                if (roomSummary.isDirect && roomSummary.otherMemberIds.isNotEmpty()) {
+                    val user = session.getUser(roomSummary.otherMemberIds[0])
+                    if (user != null) {
+                        mainTitle = getUserDisplayName(user.displayName, user.userId)
+                        avatarUrl = user.avatarUrl
+                    }
+                } else {
+                    mainTitle = roomSummary.displayName
+                }
+                if (it.keywordCount == 1 && it.firstChat != null && it.firstChat.event != null) {
+                    minor = getText(BaseModule.getContext(), it.firstChat.event)
+                    targetId = it.firstChat.event.eventId
+                } else {
+                    minor = String.format(
+                            BaseModule.getContext()
+                                    .getString(R.string.search_message_record), it.keywordCount
+                    )
+                }
+                if (mainTitle.isNullOrEmpty()) {
+                    mainTitle = ""
+                }
+
+                var more = false
+                if (response.obj!!.rooms!!.more != null) {
+                    more = response.obj!!.rooms!!.more!!
+                }
+                val searchData = SearchData(
+                        mainTitle, minor, avatarUrl,
+                        TYPE_CHAT_RECORD, it.roomId,
+                        more, it.keywordCount, targetId
+                )
+                searchData.isDirect = roomSummary.isDirect
+                closeContactUsers.add(searchData)
+            }
+        }.exceptionOrNull()?.let {
+            error.postValue(it)
+        }
+    }
+
+    fun getText(context: Context, event: Event): String {
+        val content: Content? = event.getClearContent()
+        var str: String? = context.getString(R.string.unknown_message)
+        if (content != null) {
+            str = content[BODY] as String?
+        }
+        if (str == null) return  ""
+        return str
+    }
+
     override fun handle(action: EmptyAction) {
     }
+
+    fun getUserDisplayName(matrixDisplayName: String?, matrixId: String): String? {
+        if (TextUtils.isEmpty(matrixId)) {
+            return matrixDisplayName
+        }
+        // 先获取联系人的备注名
+        if (AppCache.getIsOpenContact()) {
+            val contact = ContactDaoHelper.getInstance().getContactByMatrixId(matrixId)
+            if (contact != null && contact.remarkName?.isNotEmpty() == true) {
+                return contact.remarkName
+            }
+        }
+
+        // 如果没有备注名, 再获取组织架构中的名字
+        val user = if (AppCache.getIsOpenOrg()) AppDatabase.getInstance(BaseModule.getContext()).UserDao().getBriefUserByMatrixId(matrixId) else null
+
+        // 如果组织架构中没有名字, 就使用 Matrix 中的名字
+        if (user == null || TextUtils.isEmpty(user.displayName)) {
+            return matrixDisplayName
+        }
+        // if don't have Matrix name，use MatrixId as name
+        if (TextUtils.isEmpty(user.displayName)) {
+            return matrixId
+        }
+        return user.displayName
+    }
 }
+
+

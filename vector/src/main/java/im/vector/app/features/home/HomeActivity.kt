@@ -76,6 +76,8 @@ import im.vector.app.features.spaces.share.ShareSpaceBottomSheet
 import im.vector.app.features.themes.ThemeUtils
 import im.vector.app.features.workers.signout.ServerBackupStatusViewModel
 import im.vector.app.eachchat.contact.ContactSyncUtils
+import im.vector.app.eachchat.contact.addcontact.ContactAddHomeActivity
+import im.vector.app.eachchat.search.contactsearch.ContactsSearchActivity
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -493,6 +495,10 @@ class HomeActivity :
                 bugReporter.openBugReportScreen(this, ReportType.SUGGESTION)
                 return true
             }
+            R.id.menu_home_add_contact       -> {
+                ContactAddHomeActivity.start(this)
+                return true
+            }
             R.id.menu_home_report_bug          -> {
                 bugReporter.openBugReportScreen(this, ReportType.BUG_REPORT)
                 return true
@@ -512,7 +518,7 @@ class HomeActivity :
                 return true
             }
             R.id.menu_home_filter              -> {
-                navigator.openRoomsFiltering(this)
+                ContactsSearchActivity.start(this)
                 return true
             }
             R.id.menu_home_setting             -> {

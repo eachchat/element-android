@@ -123,10 +123,10 @@ open class ContactsSearchActivity :
                                     SearchMoreActivity.SEARCH_MORE_TYPE_ORG_MEMBER)
                         }
                         ContactsSearchAdapter.SUB_TYPE_GROUP_CHAT    -> {
-//                            App.contactGroupSearchActivity(
-//                                    views.searchTitleBar.etSearch.text.toString(),
-//                                    true
-//                            )
+                            SearchMoreActivity.start(this,
+                                    views.searchTitleBar.etSearch.text.toString(),
+                                    true,
+                                    SearchMoreActivity.SEARCH_MORE_TYPE_GROUP_CHAT)
                         }
                         ContactsSearchAdapter.SUB_TYPE_CLOSE_CONTACT -> {
                             SearchMoreActivity.start(this,

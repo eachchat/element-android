@@ -3959,4 +3959,7 @@
     <string name="import_vcf_sub">从本地导入联系人</string>
     <string name="export_vcf_sub">导出联系人到本地文件</string>
     <string name="change_type">更改标签</string>
+    <string name="unknown_message">[不支持的消息类型，请升级客户端]</string>
+    <string name="search_message_record">包含 %d 条聊天记录</string>
+    <string name="search_group_chat">搜索群聊</string>
 </resources>

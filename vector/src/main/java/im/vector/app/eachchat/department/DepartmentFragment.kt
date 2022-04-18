@@ -93,6 +93,7 @@ class DepartmentFragment @Inject constructor(
         initRecyclerView()
         initBreadcrumbsView()
         initPresenter()
+        setupToolbar(views.groupToolbar)
     }
 
     private fun initData() {
