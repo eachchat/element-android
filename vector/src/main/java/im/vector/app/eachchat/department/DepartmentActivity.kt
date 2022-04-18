@@ -20,13 +20,17 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
+import android.view.MenuItem
 import com.blankj.utilcode.util.ObjectUtils
 import dagger.hilt.android.AndroidEntryPoint
 import im.vector.app.R
 import im.vector.app.core.platform.VectorBaseActivity
 import im.vector.app.core.platform.VectorBaseFragment
 import im.vector.app.databinding.ContactFragmentBinding
+import im.vector.app.eachchat.contact.addcontact.ContactAddHomeActivity
 import im.vector.app.eachchat.contact.api.bean.Department
+import im.vector.app.eachchat.contact.manage.ContactManageActivity
+import im.vector.app.eachchat.search.contactsearch.searchmore.SearchMoreActivity
 
 @AndroidEntryPoint
 open class DepartmentActivity: VectorBaseActivity<ContactFragmentBinding>() {
@@ -35,6 +39,19 @@ open class DepartmentActivity: VectorBaseActivity<ContactFragmentBinding>() {
 
     override fun getBinding(): ContactFragmentBinding {
         return ContactFragmentBinding.inflate(layoutInflater)
+    }
+
+    override fun getMenuRes() = R.menu.org
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.menu_org_filter      -> {
+                SearchMoreActivity.start(this, null, false, SearchMoreActivity.SEARCH_MORE_TYPE_IN_DEPARTMENT)
+                return true
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -6,9 +6,6 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.airbnb.mvrx.MavericksViewModelFactory
 import com.airbnb.mvrx.ViewModelContext
-import com.blankj.utilcode.util.RegexUtils.isEmail
-import com.blankj.utilcode.util.RegexUtils.isTel
-import com.chad.library.adapter.base.BaseQuickAdapter
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -38,7 +35,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.greenrobot.eventbus.EventBus
-import org.matrix.android.sdk.api.MatrixPatterns
 import org.matrix.android.sdk.api.extensions.orFalse
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.session.identity.ThreePid
@@ -96,20 +92,20 @@ class ContactAddSearchViewModel @AssistedInject constructor(
     }
     val showEmptyView = MediatorLiveData<Boolean>().also {
         it.addSource(_modeSearch) { _modeSearch ->
-            val keywordValid =
-                    isEmail(keyword.value?.trim()) || isTel(keyword.value?.trim()) || MatrixPatterns.isUserId(
-                            keyword.value.toString().trim()
-                    )
-            it.postValue(_modeSearch && userList.size < 1 && !keywordValid)
+//            val keywordValid =
+//                    isEmail(keyword.value?.trim()) || isTel(keyword.value?.trim()) || MatrixPatterns.isUserId(
+//                            keyword.value.toString().trim()
+//                    )
+            it.postValue(_modeSearch && userList.size < 1 ) // && !keywordValid)
         }
     }
     val showOnlineSearchLayout = MediatorLiveData<Boolean>().also {
         it.addSource(_modeSearch) { _modeSearch ->
-            val keywordValid =
-                    isEmail(keyword.value?.trim()) || isTel(keyword.value?.trim()) || MatrixPatterns.isUserId(
-                            keyword.value.toString().trim()
-                    )
-            it.postValue(_modeSearch && userList.size < 1 && keywordValid)
+//            val keywordValid =
+//                    isEmail(keyword.value?.trim()) || isTel(keyword.value?.trim()) || MatrixPatterns.isUserId(
+//                            keyword.value.toString().trim()
+//                    )
+            it.postValue(_modeSearch && userList.size < 1 )// && keywordValid)
         }
     }
 

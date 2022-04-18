@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import im.vector.app.R
+import im.vector.app.core.epoxy.onClick
 import im.vector.app.core.utils.DimensionConverter
 import im.vector.app.databinding.DepartmentFragmentBinding
 import im.vector.app.eachchat.contact.api.bean.Department
@@ -75,6 +76,12 @@ class DepartmentFragment @Inject constructor(
         breadcrumbsView = view.findViewById(R.id.breadcrumbs_view)
         mIndexView = view.findViewById(R.id.index_view)
         mIndexTV = view.findViewById(R.id.index_tv)
+        if (!AppCache.getIsOpenOrg()) {
+            view.findViewById<TextView>(R.id.groupToolbarTitleView).text = getString(R.string.team)
+            view.findViewById<RelativeLayout>(R.id.backLayout).onClick {
+                activity?.onBackPressed()
+            }
+        }
 //        btnAddContacts = view.findViewById(R.id.btn_add_contacts)
         // btnAddContacts.setOnClickListener(View.OnClickListener { v: View? -> addContacts() })
         return view
@@ -83,7 +90,6 @@ class DepartmentFragment @Inject constructor(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initData()
-        initTitleBar(view)
         initRecyclerView()
         initBreadcrumbsView()
         initPresenter()
@@ -104,60 +110,6 @@ class DepartmentFragment @Inject constructor(
             departmentId = departments[0].id
         }
         addContactBreadcrumbs = bundle.getBoolean(ADD_CONTACT_BREADCRUMBS, true)
-    }
-
-    private fun initTitleBar(view: View) {
-//        if (nullableCheck()) {
-//            return
-//        }
-//        mTitleBar = view.findViewById<View>(R.id.title_bar)
-//        if (!showTitle) {
-//            mTitleBar.setVisibility(View.GONE)
-//            return
-//        }
-//        if (activity is HomeActivity) {
-//            mTitleBar.setLeftVisible(false)
-//        } else {
-//            mTitleBar.setLeftVisible(true)
-//            mTitleBar.setLeftClickListener { v ->
-//                if (nullableCheck()) {
-//                    return@setLeftClickListener
-//                }
-//                activity!!.onBackPressed()
-//            }
-//        }
-        view.setOnClickListener {
-
-        }
-//        if (showSlideMenu) {
-//            FragmentActivity activity = getActivity();
-//            if (activity instanceof HomeActivity) {
-//                mTitleBar.setLeftText(null).setLeftVisible(true).setLeftImageResource(R.mipmap.ic_home_top_me);
-//                mTitleBar.setLeftClickListener(v -> {
-//                    HomeActivity homeActivity = (HomeActivity) activity;
-//                    homeActivity.showSlideMenu();
-//                });
-//            } else {
-//                mTitleBar.setLeftText(null).setLeftVisible(false);
-//            }
-//        }
-//        if (TextUtils.isEmpty(name)) {
-//            name = getString(R.string.footer_menu_contact)
-//        }
-//        if (TextUtils.isEmpty(title)) {
-//            title = getString(R.string.footer_menu_contact)
-//        }
-//        mTitleBar.setTitle(title)
-//        if (isShowSearch) {
-//            mTitleBar.addAction(object : ImageAction(R.mipmap.ic_search) {
-//                fun performAction(view: View?) {
-//                    if (nullableCheck()) {
-//                        return
-//                    }
-//                    Navigation.INSTANCE.navigationTo(App.OrganizationSearchActivity)
-//                }
-//            })
-//        }
     }
 
     private fun initRecyclerView() {

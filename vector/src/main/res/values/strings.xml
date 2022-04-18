@@ -3949,11 +3949,14 @@
     <string name="user_not_found">无法找到该用户，请检查你填写的账号是否正确</string>
     <string name="search_department">搜索部门</string>
     <string name="search_contact">搜索我的联系人</string>
-    <string name="search_org">搜索部门</string>
+    <string name="search_org">搜索组织架构</string>
     <string name="search_real_contact">搜索最近联系</string>
     <string name="contacts_add_search_no_result">未搜索到任何联系人</string>
     <string name="added_to_my_contacts">已添加到我的联系人</string>
     <string name="contacts_added">已添加</string>
     <string name="contacts_add">添加</string>
     <string name="add_to_contact">保存到我的联系人</string>
+    <string name="import_vcf_sub">从本地导入联系人</string>
+    <string name="export_vcf_sub">导出联系人到本地文件</string>
+    <string name="change_type">更改标签</string>
 </resources>

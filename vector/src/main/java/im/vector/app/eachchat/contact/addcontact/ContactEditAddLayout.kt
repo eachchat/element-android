@@ -13,6 +13,8 @@ import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
 import androidx.databinding.adapters.ListenerUtil
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import im.vector.app.R
 import im.vector.app.eachchat.utils.string.StringUtils
 
@@ -27,24 +29,26 @@ class ContactEditAddLayout(context: Context, attributeSet: AttributeSet?, defSty
     constructor(context: Context, attributeSet: AttributeSet?) : this(context, attributeSet, 0)
 
     var title: TextView
-    private var tvRequired: TextView
-    var etEdit: EditText
+    // private var tvRequired: TextView
+    var etEdit: TextInputEditText
     var ivReduce: ImageView
     var ivArrow: ImageView
     var divider: View
     var tvError: TextView
     var layoutTitle: LinearLayout
+    var etEditLayout: TextInputLayout
 
     init {
         inflate(context, R.layout.view_contact_edit_add, this)
         title = findViewById(R.id.tv_title)
-        tvRequired = findViewById(R.id.tv_required)
+        // tvRequired = findViewById(R.id.tv_required)
         etEdit = findViewById(R.id.et_edit)
         ivReduce = findViewById(R.id.iv_reduce)
         ivArrow = findViewById(R.id.iv_arrow)
         divider = findViewById(R.id.view_line)
         tvError = findViewById(R.id.tv_error)
         layoutTitle = findViewById(R.id.layout_title)
+        etEditLayout = findViewById(R.id.et_edit_layout)
         etEdit.addTextChangedListener { editable ->
             if (editable == null) return@addTextChangedListener
             while (editable.length + StringUtils.calcChineseChar(editable) > MAX_LENGTH) {
@@ -60,7 +64,7 @@ class ContactEditAddLayout(context: Context, attributeSet: AttributeSet?, defSty
                     }
 
                     attrs.getText(R.styleable.ContactEditAddLayout_editHint)?.also {
-                        etEdit.hint = it
+                        etEditLayout.hint = it
                     }
                 }
             a.recycle()
@@ -72,7 +76,7 @@ class ContactEditAddLayout(context: Context, attributeSet: AttributeSet?, defSty
     fun setText(text: String?) {
         if (!TextUtils.equals(text, getText())) {
             etEdit.setText(text)
-            etEdit.setSelection(etEdit.text.length)
+            etEdit.text?.let { etEdit.setSelection(it.length) }
         }
     }
 
@@ -120,17 +124,19 @@ class ContactEditAddLayout(context: Context, attributeSet: AttributeSet?, defSty
         }
     }
 
-    fun setRequired(required: Boolean) {
-        tvRequired.visibility = if (required) VISIBLE else INVISIBLE
-//        if (required) {
-//            title.setTextColor(ContextCompat.getColor(context, R.color.black))
-//        } else {
-//            title.setTextColor(ContextCompat.getColor(context, R.color.ff999999))
-//        }
-    }
+//    fun setRequired(required: Boolean) {
+//        tvRequired.visibility = if (required) VISIBLE else INVISIBLE
+//        tvRequired.visibility = GONE
+////        if (required) {
+////            title.setTextColor(ContextCompat.getColor(context, R.color.black))
+////        } else {
+////            title.setTextColor(ContextCompat.getColor(context, R.color.ff999999))
+////        }
+//    }
 
     fun setViewLineVisible(lineVisible: Boolean) {
         divider.visibility = if (lineVisible) View.VISIBLE else GONE
+        divider.visibility = GONE
     }
 
 
@@ -182,11 +188,11 @@ class ContactEditAddLayout(context: Context, attributeSet: AttributeSet?, defSty
             layout.setViewLineVisible(visible)
         }
 
-        @JvmStatic
-        @BindingAdapter("required")
-        fun required(layout: ContactEditAddLayout, required: Boolean) {
-            layout.setRequired(required)
-        }
+//        @JvmStatic
+//        @BindingAdapter("required")
+//        fun required(layout: ContactEditAddLayout, required: Boolean) {
+//            layout.setRequired(required)
+//        }
     }
 }
 

@@ -84,6 +84,7 @@ class AddressEditLayout(context: Context, attributeSet: AttributeSet?, defStyleA
     fun setTitle(title: String? = "") {
         tvCountry.title.text = title
         tvCountry.ivArrow.visibility = VISIBLE
+        tvCountry.layoutTitle.visibility = VISIBLE
     }
 
     fun setTitleClickListener(listener: OnClickListener?) {
@@ -110,12 +111,12 @@ class AddressEditLayout(context: Context, attributeSet: AttributeSet?, defStyleA
     }
 
     fun setHint() {
-        tvCountry.etEdit.hint = context.getString(R.string.country_or_region)
-        tvRegion.etEdit.hint = context.getString(R.string.province)
-        tvLocality.etEdit.hint = context.getString(R.string.city)
-        tvSubLocality.etEdit.hint = context.getString(R.string.district)
-        tvStreet.etEdit.hint = context.getString(R.string.street)
-        tvPostal.etEdit.hint = context.getString(R.string.mail_code)
+        tvCountry.etEditLayout.hint = context.getString(R.string.country_or_region)
+        tvRegion.etEditLayout.hint = context.getString(R.string.province)
+        tvLocality.etEditLayout.hint = context.getString(R.string.city)
+        tvSubLocality.etEditLayout.hint = context.getString(R.string.district)
+        tvStreet.etEditLayout.hint = context.getString(R.string.street)
+        tvPostal.etEditLayout.hint = context.getString(R.string.mail_code)
     }
 
     fun setTextWatch() {

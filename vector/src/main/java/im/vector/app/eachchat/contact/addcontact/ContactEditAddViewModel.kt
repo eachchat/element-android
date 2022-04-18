@@ -64,19 +64,25 @@ class ContactEditAddViewModel @AssistedInject constructor(
     }
 
     fun addContact(contact: ContactsDisplayBeanV2) {
+        loading.postValue(true)
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 contact.matrixId?.let { matrixId ->
-                    if (matrixId.isEmpty()) return@let
+                    if (matrixId.isEmpty()) {
+                        loading.postValue(false)
+                        return@let
+                    }
                     //check has same matrixId in local database
                     val contactFound = ContactDaoHelper.getInstance().getContactByMatrixId(matrixId)
                     if (contactFound != null) {
                         contactEditAddStatues.postValue(REPEAT_MATRIX_ID)
+                        loading.postValue(false)
                         return@runCatching
                     }
                     //is matrix Id formatted
                     if (!MatrixPatterns.isUserId(matrixId)) {
                         contactEditAddStatues.postValue(INVALID_MATRIX_ID)
+                        loading.postValue(false)
                         return@runCatching
                     }
                     //get matrix user
@@ -95,30 +101,39 @@ class ContactEditAddViewModel @AssistedInject constructor(
                     local.insertContact(response.obj)
 //                    Contact.contactInfoActivityV2(response.obj?.id)
                     contactEditAddStatues.postValue(ADD_SUCCESS)
-                } else
+                } else {
                     contactEditAddStatues.postValue(ADD_FAIL)
+                    loading.postValue(false)
+                }
             }.exceptionOrNull()?.let {
                 it.printStackTrace()
                 contactEditAddStatues.postValue(ADD_FAIL)
+                loading.postValue(false)
             }
         }
     }
 
     fun updateContact(contact: ContactsDisplayBeanV2, needCheckRepeatId: Boolean) {
+        loading.postValue(true)
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 contact.matrixId?.let { matrixId ->
-                    if (matrixId.isEmpty()) return@let
+                    if (matrixId.isEmpty()) {
+                        loading.postValue(false)
+                        return@let
+                    }
                     //check has same matrixId in local database
                     if (needCheckRepeatId) {
                         val contactFound =
                                 ContactDaoHelper.getInstance().getContactByMatrixId(matrixId)
                         if (contactFound != null) {
                             contactEditAddStatues.postValue(REPEAT_MATRIX_ID)
+                            loading.postValue(false)
                             return@runCatching
                         }
                         if (!MatrixPatterns.isUserId(matrixId)) {
                             contactEditAddStatues.postValue(INVALID_MATRIX_ID)
+                            loading.postValue(false)
                             return@runCatching
                         }
                         //check is the matrixId valid
@@ -138,12 +153,16 @@ class ContactEditAddViewModel @AssistedInject constructor(
                     response.obj?.let {
                         local.insertContact(contact)
                         contactEditAddStatues.postValue(EDIT_SUCCESS)
+                        loading.postValue(false)
                     }
-                } else
+                } else {
                     contactEditAddStatues.postValue(EDIT_FAIL)
+                    loading.postValue(false)
+                }
             }.exceptionOrNull()?.let {
                 it.printStackTrace()
                 contactEditAddStatues.postValue(EDIT_FAIL)
+                loading.postValue(false)
             }
         }
     }

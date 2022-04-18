@@ -118,10 +118,10 @@ class ContactManageFragment @Inject constructor(
         views.backLayout.onClick {
             requireActivity().onBackPressed()
         }
-        views.tvImportVcf.onClick {
+        views.llImportVcf.onClick {
             openFile()
         }
-        views.tvExportVcf.onClick {
+        views.llExportVcf.onClick {
             createFolderIntent()
         }
     }

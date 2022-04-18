@@ -76,7 +76,7 @@ class MyContactsAdapter(
         ) {
             holder.setVisible(R.id.divider_view, false)
         } else {
-            holder.setVisible(R.id.divider_view, true)
+            holder.setVisible(R.id.divider_view, false)
         }
     }
 

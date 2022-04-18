@@ -21,6 +21,7 @@ class SearchMoreActivity : ContactsSearchActivity() {
         const val SEARCH_MORE_TYPE_DEPARTMENT = "SEARCH_MORE_TYPE_ORG"
         const val SEARCH_MORE_TYPE_ORG_MEMBER = "SEARCH_MORE_TYPE_ORG_MEMBER"
         const val SEARCH_MORE_TYPE_REAL_CONTACT = "SEARCH_MORE_TYPE_REAL_CONTACT"
+        const val SEARCH_MORE_TYPE_IN_DEPARTMENT = "SEARCH_MORE_TYPE_IN_DEPARTMENT"
 
         fun start(context: Context, keyWord: String? = "", needShowBack: Boolean? = false, searchType: String? = null
         ) {
@@ -53,9 +54,10 @@ class SearchMoreActivity : ContactsSearchActivity() {
     private fun getHint(searchType: String?): String{
         return when(searchType) {
             SEARCH_MORE_TYPE_CONTACT    -> { getString(R.string.search_contact) }
-            SEARCH_MORE_TYPE_DEPARTMENT -> { getString(R.string.search_org) }
+            SEARCH_MORE_TYPE_DEPARTMENT -> { getString(R.string.search_department) }
             SEARCH_MORE_TYPE_ORG_MEMBER -> { getString(R.string.search_org) }
             SEARCH_MORE_TYPE_REAL_CONTACT -> { getString(R.string.search_real_contact) }
+            SEARCH_MORE_TYPE_IN_DEPARTMENT -> { getString(R.string.search_org) }
             else -> { getString(R.string.search) }
         }
     }
@@ -85,6 +87,7 @@ class SearchMoreActivity : ContactsSearchActivity() {
             SEARCH_MORE_TYPE_DEPARTMENT -> { vm.searchDepartmentJob(keyWord) }
             SEARCH_MORE_TYPE_ORG_MEMBER -> { vm.searchOrgJob(keyWord) }
             SEARCH_MORE_TYPE_REAL_CONTACT -> { vm.searchRealContactJob(keyWord) }
+            SEARCH_MORE_TYPE_IN_DEPARTMENT -> { vm.searchInOrganizationJob(keyWord) }
             else -> { vm.searchDepartmentJob(keyWord) }
         }
     }

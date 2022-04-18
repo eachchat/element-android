@@ -48,6 +48,7 @@ import im.vector.app.eachchat.contact.addcontact.ContactEditAddViewModel.Compani
 import im.vector.app.eachchat.contact.addcontact.ContactEditAddViewModel.Companion.INVALID_MATRIX_ID
 import im.vector.app.eachchat.contact.addcontact.ContactEditAddViewModel.Companion.REPEAT_MATRIX_ID
 import im.vector.app.eachchat.contact.addcontact.ContactEditAddViewModel.Companion.UNKNOWN_HOST_EXCEPTION
+import im.vector.app.eachchat.contact.addcontact.dialog.TypeSelectDialog
 import im.vector.app.eachchat.contact.data.AddressBean
 import im.vector.app.eachchat.contact.data.ContactsDisplayBean
 import im.vector.app.eachchat.contact.data.ContactsDisplayBeanV2
@@ -134,8 +135,8 @@ class ContactEditAddActivity: VectorBaseActivity<ActivityContactEditAddBinding>(
         views.layoutRemark.setViewLineVisible(false)
         views.layoutFamilyName.setViewLineVisible(false)
         //must fill in the family name and the given name
-        views.layoutFamilyName.setRequired(true)
-        views.layoutGivenName.setRequired(true)
+        // views.layoutFamilyName.setRequired(true)
+        //views.layoutGivenName.setRequired(true)
         //disable confirm when family name or given name is empty
         val confirmText = views.confirmTv
         confirmText.isEnabled = false
@@ -640,7 +641,7 @@ class ContactEditAddActivity: VectorBaseActivity<ActivityContactEditAddBinding>(
             value: String? = null
     ) {
         val newLayout = ContactEditAddLayout(this)
-        newLayout.etEdit.hint = getString(R.string.please_enter)
+        newLayout.etEditLayout.hint = type
         if (title != null) {
             newLayout.title.text = title
         } else {
@@ -652,8 +653,11 @@ class ContactEditAddActivity: VectorBaseActivity<ActivityContactEditAddBinding>(
         if (type == getString(R.string.tele_phone)) {
             newLayout.etEdit.inputType = EditorInfo.TYPE_CLASS_PHONE
         }
-        if (type != getString(R.string.website))
+        if (type != getString(R.string.website)) {
             newLayout.ivArrow.visibility = View.VISIBLE
+            newLayout.layoutTitle.visibility = View.VISIBLE
+        }
+
         layoutList.add(newLayout)
         layoutContainer.addView(newLayout)
         if (layoutContainer.indexOfChild(newLayout) == 0) newLayout.setViewLineVisible(false)
@@ -665,9 +669,9 @@ class ContactEditAddActivity: VectorBaseActivity<ActivityContactEditAddBinding>(
                 typeList =
                         typeList.plus(newLayout.title.text as String)
             }
-            TypeInputDialog(typeList, type) {
+            TypeSelectDialog.showChoice(this, type, newLayout.title.text.toString(), typeList) {
                 newLayout.title.text = it
-            }.show(supportFragmentManager, "typeInput")
+            }
         }
         newLayout.setReduceIcon {
 //            layoutContainer.requestFocus() //避免自动聚焦到其他的输入框，导致界面错乱
@@ -692,7 +696,7 @@ class ContactEditAddActivity: VectorBaseActivity<ActivityContactEditAddBinding>(
     private fun addDateLayout(title: String? = null, value: String? = null) {
         val newLayout = ContactEditAddLayout(this)
         newLayout.setFocusAble(false)
-        newLayout.etEdit.hint = getString(R.string.please_select)
+        newLayout.etEditLayout.hint = getString(R.string.key_date)
         if (title != null) {
             newLayout.title.text = title
         } else {
@@ -702,6 +706,7 @@ class ContactEditAddActivity: VectorBaseActivity<ActivityContactEditAddBinding>(
             newLayout.etEdit.setText(value)
         }
         newLayout.ivArrow.visibility = View.VISIBLE
+        newLayout.layoutTitle.visibility = View.VISIBLE
         mDateList.add(newLayout)
         views.llKeyDate.addView(newLayout)
         if (views.llKeyDate.indexOfChild(newLayout) == 0) newLayout.setViewLineVisible(false)
@@ -719,9 +724,9 @@ class ContactEditAddActivity: VectorBaseActivity<ActivityContactEditAddBinding>(
             ) {
                 dateTypes = dateTypes?.plus(newLayout.title.text as String)
             }
-            TypeInputDialog(dateTypes, getString(R.string.key_date)) {
+            TypeSelectDialog.showChoice(this,getString(R.string.key_date), newLayout.title.text.toString(), dateTypes) {
                 newLayout.title.text = it
-            }.show(supportFragmentManager, "typeInput")
+            }
         }
         newLayout.setReduceIcon {
             //views.llKeyDate.requestFocus() //避免自动聚焦到其他的输入框，导致界面错乱
@@ -755,9 +760,9 @@ class ContactEditAddActivity: VectorBaseActivity<ActivityContactEditAddBinding>(
             ) {
                 addressTypes = addressTypes?.plus(newLayout.tvCountry.title.text as String)
             }
-            TypeInputDialog(addressTypes, getString(R.string.address)) {
+            TypeSelectDialog.showChoice(this,getString(R.string.address), newLayout.tvCountry.title.text.toString() ,  addressTypes) {
                 newLayout.setTitle(it)
-            }.show(supportFragmentManager, "typeInput")
+            }
         }
         newLayout.setDeleteIcon {
             mAddressList.remove(newLayout)

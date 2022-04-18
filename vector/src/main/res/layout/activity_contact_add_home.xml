@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/titleBarBackground">
+    android:background="@color/white">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -33,17 +33,16 @@
                     android:contentDescription="@string/a11y_open_drawer"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toTopOf="parent" >
 
                     <ImageView
-                        tools:ignore="MissingPrefix"
                         android:layout_width="28dp"
                         android:layout_height="28dp"
                         android:layout_centerVertical="true"
-                        android:layout_marginStart="4dp"
                         android:importantForAccessibility="no"
-                        android:src="@drawable/ic_back_24dp"
-                        app:tint="?vctr_content_secondary" />
+                        android:src="@drawable/ic_close_24dp"
+                        app:tint="?vctr_content_secondary"
+                        tools:ignore="MissingPrefix" />
 
                 </RelativeLayout>
 
@@ -82,28 +81,33 @@
         style="@style/_16_000000_Regular"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/common_padding"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="@dimen/common_padding"
         android:background="@drawable/bg_search"
         android:drawablePadding="8dp"
         android:gravity="center_vertical"
         android:hint="@string/search_name_id"
-        android:paddingStart="12dp"
-        android:paddingTop="7dp"
+        android:paddingStart="16dp"
+        android:paddingTop="16dp"
         android:paddingEnd="12dp"
-        android:paddingBottom="7dp"
+        android:paddingBottom="16dp"
         android:textColorHint="@color/bb_grey_color"
-        app:drawableStartCompat="@drawable/ic_search"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/appBarLayout" />
+
+    <View
+        android:id="@+id/contactFilterDivider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="?vctr_list_separator"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_search" />
 
     <TextView
         android:id="@+id/tv_new_contact"
         style="@style/_16_000000_Regular"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
         android:background="@drawable/selector_listview_item"
         android:drawablePadding="12dp"
         android:ellipsize="end"
@@ -114,8 +118,7 @@
         android:paddingBottom="17dp"
         android:singleLine="true"
         android:text="@string/new_contact"
-        app:drawableEndCompat="@mipmap/array_right_grey"
-        app:drawableStartCompat="@drawable/icon_add_contacts_navigation"
-        app:layout_constraintTop_toBottomOf="@id/tv_search" />
+        app:drawableStartCompat="@drawable/icon_add_contacts"
+        app:layout_constraintTop_toBottomOf="@id/contactFilterDivider" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

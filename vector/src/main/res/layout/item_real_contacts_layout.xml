@@ -49,8 +49,9 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="@color/dividerBg"
+        android:layout_alignStart="@id/ll_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignStart="@id/ll_content"/>
+        android:background="@color/dividerBg"
+        android:visibility="gone" />
 
 </RelativeLayout>

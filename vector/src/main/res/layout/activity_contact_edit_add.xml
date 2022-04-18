@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/fff3f4f7"
+    android:background="@color/white"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
@@ -95,11 +95,6 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <View
-        style="@style/dividerHorizontal"
-        android:layout_width="match_parent"
-        android:layout_height="1px" />
-
     <im.vector.app.eachchat.contact.addcontact.RequestFocusNestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -115,7 +110,7 @@
                 android:id="@+id/layout_matrix_id"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/common_8dip"
+                android:layout_marginBottom="0dp"
                 app:editHint="@string/matrix_id_hint"
                 app:leftTitle="@string/matrix_id" />
 
@@ -136,7 +131,7 @@
             <im.vector.app.eachchat.contact.addcontact.ContactEditAddLayout
                 android:id="@+id/layout_family_name_pinyin"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/common_52dip"
+                android:layout_height="wrap_content"
                 android:visibility="gone"
                 app:editHint="@string/family_name_hint_pinyin"
                 app:leftTitle="@string/family_name_pinyin"
@@ -145,7 +140,7 @@
             <im.vector.app.eachchat.contact.addcontact.ContactEditAddLayout
                 android:id="@+id/layout_middle_name_pinyin"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/common_52dip"
+                android:layout_height="wrap_content"
                 android:visibility="gone"
                 app:editHint="@string/middle_name_hint_pinyin"
                 app:leftTitle="@string/middle_name_pinyin"
@@ -154,7 +149,7 @@
             <im.vector.app.eachchat.contact.addcontact.ContactEditAddLayout
                 android:id="@+id/layout_name_pinyin"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/common_52dip"
+                android:layout_height="wrap_content"
                 android:visibility="gone"
                 app:editHint="@string/name_hint_pinyin"
                 app:leftTitle="@string/name_pinyin"
@@ -163,7 +158,7 @@
             <im.vector.app.eachchat.contact.addcontact.ContactEditAddLayout
                 android:id="@+id/layout_nick_name"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/common_52dip"
+                android:layout_height="wrap_content"
                 app:editHint="@string/nick_name_hint"
                 app:leftTitle="@string/nick_name"
                 tools:visibility="visible" />
@@ -171,8 +166,8 @@
             <im.vector.app.eachchat.contact.addcontact.ContactEditAddLayout
                 android:id="@+id/layout_company"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/common_52dip"
-                android:layout_marginTop="@dimen/common_8dip"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
                 app:editHint="@string/company_hint"
                 app:leftTitle="@string/company"
                 android:visibility="gone" />
@@ -180,7 +175,7 @@
             <im.vector.app.eachchat.contact.addcontact.ContactEditAddLayout
                 android:id="@+id/layout_department"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/common_52dip"
+                android:layout_height="wrap_content"
                 android:visibility="gone"
                 app:editHint="@string/department_hint"
                 app:leftTitle="@string/department"
@@ -189,7 +184,7 @@
             <im.vector.app.eachchat.contact.addcontact.ContactEditAddLayout
                 android:id="@+id/layout_user_title"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/common_52dip"
+                android:layout_height="wrap_content"
                 android:visibility="gone"
                 app:editHint="@string/position_title_hint"
                 app:leftTitle="@string/position_title"
@@ -199,7 +194,7 @@
                 android:id="@+id/ll_phone_number_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/common_8dip"
+                android:layout_marginTop="0dp"
                 android:animateLayoutChanges="true"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
@@ -212,7 +207,7 @@
                 android:id="@+id/ll_email_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/common_8dip"
+                android:layout_marginTop="0dp"
                 android:animateLayoutChanges="true"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
@@ -225,7 +220,7 @@
                 android:id="@+id/ll_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/common_8dip"
+                android:layout_marginTop="0dp"
                 android:animateLayoutChanges="true"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
@@ -239,7 +234,7 @@
                 android:id="@+id/ll_website_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/common_8dip"
+                android:layout_marginTop="0dp"
                 android:animateLayoutChanges="true"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
@@ -250,7 +245,7 @@
                 <!--                    <im.vector.app.eachchat.contact.addcontact.ContactEditAddLayout-->
                 <!--                        android:id="@+id/layout_website"-->
                 <!--                        android:layout_width="match_parent"-->
-                <!--                        android:layout_height="@dimen/common_52dip"-->
+                <!--                        android:layout_height="wrap_content"-->
                 <!--                        app:editHint="@string/please_enter"-->
                 <!--                        app:leftTitle="@string/website" />-->
 
@@ -260,7 +255,7 @@
                 android:id="@+id/ll_communication_tool_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/common_8dip"
+                android:layout_marginTop="0dp"
                 android:animateLayoutChanges="true"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
@@ -271,7 +266,7 @@
                 <!--                    <im.vector.app.eachchat.contact.addcontact.ContactEditAddLayout-->
                 <!--                        android:id="@+id/layout_communication_tool"-->
                 <!--                        android:layout_width="match_parent"-->
-                <!--                        android:layout_height="@dimen/common_52dip"-->
+                <!--                        android:layout_height="wrap_content"-->
                 <!--                        app:editHint="@string/please_enter"-->
                 <!--                        app:leftTitle="@string/communication_tool" />-->
 
@@ -281,7 +276,7 @@
                 android:id="@+id/ll_key_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/common_8dip"
+                android:layout_marginTop="0dp"
                 android:animateLayoutChanges="true"
                 android:orientation="vertical"
                 android:visibility="gone"
@@ -292,33 +287,34 @@
             <im.vector.app.eachchat.contact.addcontact.ContactEditAddLayout
                 android:id="@+id/layout_remark"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/common_52dip"
-                android:layout_marginTop="@dimen/common_8dip"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
                 android:visibility="gone"
-                app:editHint="@string/please_enter"
+                app:editHint="@string/remark"
                 app:leftTitle="@string/remark"
                 tools:visibility="visible" />
 
             <im.vector.app.eachchat.contact.addcontact.ContactEditAddLayout
                 android:id="@+id/layout_label"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/common_52dip"
-                android:layout_marginTop="@dimen/common_8dip"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
                 android:visibility="gone"
-                app:editHint="@string/please_enter"
+                app:editHint="@string/label"
                 app:leftTitle="@string/label"
                 tools:visibility="visible" />
 
             <TextView
                 android:id="@+id/tv_more_property"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/common_52dip"
-                android:layout_marginTop="@dimen/common_8dip"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
                 android:background="@color/white"
-                android:gravity="center_vertical"
+                android:gravity="center_horizontal|center_vertical"
                 android:paddingStart="@dimen/common_16dip"
+                android:paddingTop="24dp"
                 android:text="@string/more_property"
-                android:textColor="@color/ff5b6a92"
+                android:textColor="@color/ff00b368"
                 android:textSize="15sp"
                 tools:ignore="RtlSymmetry" />
 

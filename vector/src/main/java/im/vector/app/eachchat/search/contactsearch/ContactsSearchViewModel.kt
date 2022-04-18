@@ -124,15 +124,15 @@ class ContactsSearchViewModel @AssistedInject constructor(
 //                        ContactsSearchAdapter.SUB_TYPE_GROUP_CHAT
 //                )
 //            }
-            val keywordValid = isEmail(keyword) || isTel(keyword) || MatrixPatterns.isUserId(keyword)
-            if (items.size == 0 && keywordValid) {
-                items.add(
-                        ContactsSearchAdapter.SearchContactOnlineItem(
-                                ContactsSearchAdapter.TYPE_SEARCH_CONTACT_ONLINE,
-                                keyword
-                        )
-                )
-            }
+//            val keywordValid = isEmail(keyword) || isTel(keyword) || MatrixPatterns.isUserId(keyword)
+//            if (items.size == 0 && keywordValid) {
+//                items.add(
+//                        ContactsSearchAdapter.SearchContactOnlineItem(
+//                                ContactsSearchAdapter.TYPE_SEARCH_CONTACT_ONLINE,
+//                                keyword
+//                        )
+//                )
+//            }
             searchResultsLiveData.postValue(items)
         }
     }
@@ -147,15 +147,17 @@ class ContactsSearchViewModel @AssistedInject constructor(
                 searchOrg(keyword)
             }
             // 2.部门
-            val job2 = async {
+            val job2 = if (AppCache.getIsOpenOrg()) async {
                 searchDepartment(keyword)
-            }
+            } else null
             parseItem(items, job1.await().toMutableList(), ContactsSearchAdapter.SUB_TYPE_ORG)
-            parseItem(
-                    items,
-                    job2.await().toMutableList(),
-                    ContactsSearchAdapter.SUB_TYPE_DEPARTMENT
-            )
+            job2?.await()?.toMutableList()?.let {
+                parseItem(
+                        items,
+                        it,
+                        ContactsSearchAdapter.SUB_TYPE_DEPARTMENT
+                )
+            }
             searchResultsLiveData.postValue(items)
         }
     }
@@ -508,8 +510,11 @@ class ContactsSearchViewModel @AssistedInject constructor(
                     val threePid = ThreePid.Msisdn(string)
                     threePids.add(threePid)
                 }
-                session.identityService()
+                val user = BaseModule.getSession().identityService()
                         .lookUp(threePids)
+                if (user.isNotEmpty()) {
+                    searchMatrixUser(user[0].matrixId)
+                }
             }.exceptionOrNull()?.let {
                 searchUserOnlineLiveData.postValue(null)
                 loading.postValue(false)
