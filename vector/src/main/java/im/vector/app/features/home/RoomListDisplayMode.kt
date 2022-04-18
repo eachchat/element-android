@@ -22,7 +22,7 @@ import im.vector.app.R
 enum class RoomListDisplayMode(@StringRes val titleRes: Int) {
     NOTIFICATIONS(R.string.bottom_action_notification),
     PEOPLE(R.string.title_action_people_x),
-    ROOMS(R.string.bottom_action_rooms),
+    ROOMS(R.string.contacts_book),
     INVITE(R.string.invite),
     FILTERED(/* Not used */ 0)
 }

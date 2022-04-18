@@ -580,4 +580,29 @@ class HomeActivity :
     override fun mxToBottomSheetSwitchToSpace(spaceId: String) {
         navigator.switchToSpace(this, spaceId, Navigator.PostSwitchSpaceAction.None)
     }
+
+    fun selectContactFragment() {
+        supportFragmentManager.fragments.forEach {
+            if (it is HomeDetailFragment) {
+                it.updateUIForTab(HomeTab.RoomList(RoomListDisplayMode.ROOMS))
+            }
+        }
+    }
+
+    fun selectHomeFragment() {
+        supportFragmentManager.fragments.forEach {
+            if (it is HomeDetailFragment) {
+                it.updateUIForTab(HomeTab.RoomList(RoomListDisplayMode.PEOPLE))
+            }
+        }
+    }
+
+    fun getSelectedTab(): Int {
+        supportFragmentManager.fragments.forEach {
+            if (it is HomeDetailFragment) {
+                return it.getSelectedTab()
+            }
+        }
+        return 0
+    }
 }

@@ -40,6 +40,7 @@ import im.vector.app.core.ui.views.CurrentCallsView
 import im.vector.app.core.ui.views.CurrentCallsViewPresenter
 import im.vector.app.core.ui.views.KeysBackupBanner
 import im.vector.app.databinding.FragmentHomeDetailBinding
+import im.vector.app.eachchat.contact.real.RealContactsFragment
 import im.vector.app.features.call.SharedKnownCallsViewModel
 import im.vector.app.features.call.VectorCallActivity
 import im.vector.app.features.call.dialpad.DialPadFragment
@@ -140,9 +141,10 @@ class HomeDetailFragment @Inject constructor(
             }
         }
 
-        viewModel.onEach(HomeDetailViewState::currentTab) { currentTab ->
-            updateUIForTab(currentTab)
-        }
+//        viewModel.onEach(HomeDetailViewState::currentTab) { currentTab ->
+//            updateUIForTab(currentTab)
+//        }
+        updateUIForTab(HomeTab.RoomList(RoomListDisplayMode.PEOPLE))
 
         viewModel.onEach(HomeDetailViewState::showDialPadTab) { showDialPadTab ->
             updateTabVisibilitySafely(R.id.bottom_action_dial_pad, showDialPadTab)
@@ -362,11 +364,19 @@ class HomeDetailFragment @Inject constructor(
 //        }
     }
 
-    private fun updateUIForTab(tab: HomeTab) {
+    fun updateUIForTab(tab: HomeTab) {
         views.bottomNavigationView.menu.findItem(tab.toMenuId()).isChecked = true
         views.groupToolbarTitleView.setText(tab.titleRes)
         updateSelectedFragment(tab)
         invalidateOptionsMenu()
+    }
+
+    fun getSelectedTab (): Int {
+        if (views.bottomNavigationView.menu.findItem(R.id.bottom_action_people).isChecked) {
+            return R.id.bottom_action_people
+        } else {
+            return R.id.bottom_action_rooms
+        }
     }
 
     private fun HomeTab.toFragmentTag() = "FRAGMENT_TAG_$this"
@@ -384,7 +394,11 @@ class HomeDetailFragment @Inject constructor(
                 when (tab) {
                     is HomeTab.RoomList -> {
                         val params = RoomListParams(tab.displayMode)
-                        add(R.id.roomListContainer, RoomListFragment::class.java, params.toMvRxBundle(), fragmentTag)
+                        if (tab.displayMode == RoomListDisplayMode.PEOPLE) {
+                            add(R.id.roomListContainer, RoomListFragment::class.java, params.toMvRxBundle(), fragmentTag)
+                        } else {
+                            add(R.id.roomListContainer, RealContactsFragment::class.java, null, fragmentTag)
+                        }
                     }
                     is HomeTab.DialPad  -> {
                         add(R.id.roomListContainer, createDialPadFragment(), fragmentTag)

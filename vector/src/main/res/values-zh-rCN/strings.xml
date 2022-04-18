@@ -842,7 +842,7 @@
     </plurals>
     <string name="community_name">社群名称</string>
     <string name="community_id">社群 ID</string>
-    <string name="group_details_home">主页</string>
+    <string name="group_details_home">首页</string>
     <string name="group_details_people">用户</string>
     <string name="group_details_rooms">群聊</string>
     <string name="rooms">群聊</string>

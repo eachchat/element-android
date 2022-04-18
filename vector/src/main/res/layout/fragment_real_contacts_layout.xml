@@ -8,76 +8,76 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent">
+<!--    <com.google.android.material.appbar.AppBarLayout-->
+<!--        android:id="@+id/appBarLayout"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintTop_toTopOf="parent">-->
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/groupToolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize">
+<!--        <com.google.android.material.appbar.MaterialToolbar-->
+<!--            android:id="@+id/groupToolbar"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="?attr/actionBarSize">-->
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:baselineAligned="false"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:baselineAligned="false"-->
+<!--                android:gravity="center_vertical"-->
+<!--                android:orientation="horizontal">-->
 
-                <RelativeLayout
-                    android:id="@+id/backLayout"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:contentDescription="@string/a11y_open_drawer"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+<!--                <RelativeLayout-->
+<!--                    android:id="@+id/backLayout"-->
+<!--                    android:layout_width="40dp"-->
+<!--                    android:layout_height="40dp"-->
+<!--                    android:layout_marginTop="8dp"-->
+<!--                    android:layout_marginBottom="8dp"-->
+<!--                    android:contentDescription="@string/a11y_open_drawer"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toTopOf="parent">-->
 
-                    <ImageView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="4dp"
-                        android:importantForAccessibility="no"
-                        android:src="@drawable/ic_back_24dp"
-                        app:tint="?vctr_content_secondary"
-                        tools:ignore="MissingPrefix" />
+<!--                    <ImageView-->
+<!--                        android:layout_width="28dp"-->
+<!--                        android:layout_height="28dp"-->
+<!--                        android:layout_centerVertical="true"-->
+<!--                        android:layout_marginStart="4dp"-->
+<!--                        android:importantForAccessibility="no"-->
+<!--                        android:src="@drawable/ic_back_24dp"-->
+<!--                        app:tint="?vctr_content_secondary"-->
+<!--                        tools:ignore="MissingPrefix" />-->
 
-                </RelativeLayout>
+<!--                </RelativeLayout>-->
 
-                <LinearLayout
-                    android:id="@+id/realContactToolbarContent"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="start"
-                    android:orientation="vertical"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp">
+<!--                <LinearLayout-->
+<!--                    android:id="@+id/realContactToolbarContent"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:gravity="start"-->
+<!--                    android:orientation="vertical"-->
+<!--                    android:paddingStart="8dp"-->
+<!--                    android:paddingEnd="8dp">-->
 
-                    <TextView
-                        android:id="@+id/groupToolbarTitleView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:gravity="start"
-                        android:maxLines="1"
-                        android:textAppearance="@style/TextAppearance.Vector.Widget.ActionBarTitle"
-                        android:textColor="?vctr_content_primary"
-                        android:textStyle="bold"
-                        android:text="@string/contacts_book" />
+<!--                    <TextView-->
+<!--                        android:id="@+id/groupToolbarTitleView"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:ellipsize="end"-->
+<!--                        android:gravity="start"-->
+<!--                        android:maxLines="1"-->
+<!--                        android:textAppearance="@style/TextAppearance.Vector.Widget.ActionBarTitle"-->
+<!--                        android:textColor="?vctr_content_primary"-->
+<!--                        android:textStyle="bold"-->
+<!--                        android:text="@string/contacts_book" />-->
 
-                </LinearLayout>
+<!--                </LinearLayout>-->
 
-            </LinearLayout>
+<!--            </LinearLayout>-->
 
-        </com.google.android.material.appbar.MaterialToolbar>
+<!--        </com.google.android.material.appbar.MaterialToolbar>-->
 
-    </com.google.android.material.appbar.AppBarLayout>
+<!--    </com.google.android.material.appbar.AppBarLayout>-->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/real_contact_rv"

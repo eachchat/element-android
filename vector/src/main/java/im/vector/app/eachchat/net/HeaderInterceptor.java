@@ -27,26 +27,31 @@ public class HeaderInterceptor implements Interceptor {
 
     @Override
     public Response intercept(Chain chain) throws IOException {
-        Request.Builder requestBuilder = chain.request().newBuilder();
-        if (headers != null) {
-            for (Map.Entry<String, Object> entry : headers.entrySet()) {
-                requestBuilder.addHeader(entry.getKey(), entry.getValue().toString());
+        try {
+            Request.Builder requestBuilder = chain.request().newBuilder();
+            if (headers != null) {
+                for (Map.Entry<String, Object> entry : headers.entrySet()) {
+                    requestBuilder.addHeader(entry.getKey(), entry.getValue().toString());
+                }
             }
-        }
-        HttpUrl url = requestBuilder.build().url();
-        String requestPath = url.encodedPath();
-        if (BaseModule.getSession() != null && TextUtils.equals(requestPath, "/api/services/auth/v1/logout") || TextUtils.equals(requestPath, "/api/services/auth/v1/token/refresh")) {
-            if (!TextUtils.isEmpty(TokenStore.getRefreshToken(BaseModule.getSession()))) {
-                requestBuilder.addHeader(NetConstant.AUTHORIZATION, String.format("%s %s", NetConstant.BEARER, TokenStore.getRefreshToken(BaseModule.getSession())));
+            HttpUrl url = requestBuilder.build().url();
+            String requestPath = url.encodedPath();
+            if (BaseModule.getSession() != null && TextUtils.equals(requestPath, "/api/services/auth/v1/logout") || TextUtils.equals(requestPath, "/api/services/auth/v1/token/refresh")) {
+                if (!TextUtils.isEmpty(TokenStore.getRefreshToken(BaseModule.getSession()))) {
+                    requestBuilder.addHeader(NetConstant.AUTHORIZATION, String.format("%s %s", NetConstant.BEARER, TokenStore.getRefreshToken(BaseModule.getSession())));
+                }
+            } else if (!TextUtils.equals(requestPath, "/api/services/auth/v1/login")) {
+                if (BaseModule.getSession() != null && !TextUtils.isEmpty(TokenStore.getAccessToken(BaseModule.getSession()))) {
+                    requestBuilder.addHeader(NetConstant.AUTHORIZATION, String.format("%s %s", NetConstant.BEARER, TokenStore.getAccessToken(BaseModule.getSession())));
+                }
             }
-        } else if (!TextUtils.equals(requestPath, "/api/services/auth/v1/login")) {
-            if (BaseModule.getSession() != null && !TextUtils.isEmpty(TokenStore.getAccessToken(BaseModule.getSession()))) {
-                requestBuilder.addHeader(NetConstant.AUTHORIZATION, String.format("%s %s", NetConstant.BEARER, TokenStore.getAccessToken(BaseModule.getSession())));
-            }
-        }
 
-        Request request = requestBuilder.build();
-        Response.Builder responseBuilder = chain.proceed(request).newBuilder();
-        return responseBuilder.build();
+            Request request = requestBuilder.build();
+            Response.Builder responseBuilder = chain.proceed(request).newBuilder();
+            return responseBuilder.build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new IOException();
+        }
     }
 }

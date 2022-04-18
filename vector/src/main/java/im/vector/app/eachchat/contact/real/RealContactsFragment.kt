@@ -73,7 +73,7 @@ class RealContactsFragment @Inject constructor()  : VectorBaseFragment<FragmentR
     }
 
     private fun setupToolbar() {
-        setupToolbar(views.groupToolbar)
+        // setupToolbar(views.groupToolbar)
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -121,9 +121,9 @@ class RealContactsFragment @Inject constructor()  : VectorBaseFragment<FragmentR
                 true
             )
         }
-        views.backLayout.setOnClickListener {
-            requireActivity().onBackPressed()
-        }
+//        views.backLayout.setOnClickListener {
+//            requireActivity().onBackPressed()
+//        }
     }
 
     private fun observeData() {

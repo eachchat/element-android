@@ -32,6 +32,7 @@ import im.vector.app.core.extensions.exhaustive
 import im.vector.app.core.platform.StateView
 import im.vector.app.core.platform.VectorBaseFragment
 import im.vector.app.databinding.FragmentGroupListBinding
+import im.vector.app.features.home.HomeActivity
 import im.vector.app.features.home.HomeActivitySharedAction
 import im.vector.app.features.home.HomeSharedActionViewModel
 import org.matrix.android.sdk.api.session.group.model.GroupSummary
@@ -54,7 +55,7 @@ class SpaceListFragment @Inject constructor(
         sharedActionViewModel = activityViewModelProvider.get(HomeSharedActionViewModel::class.java)
         spaceController.callback = this
         views.stateView.contentView = views.groupListView
-//        views.groupListView.configureWith(spaceController) 屏蔽空间功能
+        views.groupListView.configureWith(spaceController) // 屏蔽空间功能
         EpoxyTouchHelper.initDragging(spaceController)
                 .withRecyclerView(views.groupListView)
                 .forVerticalList()
@@ -128,6 +129,8 @@ class SpaceListFragment @Inject constructor(
     }
 
     override fun onSpaceSelected(spaceSummary: RoomSummary?) {
+        (activity as HomeActivity).selectHomeFragment()
+        viewModel.handle(SpaceListAction.SelectTab)
         viewModel.handle(SpaceListAction.SelectSpace(spaceSummary))
     }
 
@@ -153,5 +156,14 @@ class SpaceListFragment @Inject constructor(
 
     override fun sendFeedBack() {
         sharedActionViewModel.post(HomeActivitySharedAction.SendSpaceFeedBack)
+    }
+
+    override fun onContactSelected() {
+        (activity as HomeActivity).selectContactFragment()
+        viewModel.handle(SpaceListAction.SelectTab)
+    }
+
+    override fun getSelectTab(): Int {
+        return  (activity as HomeActivity).getSelectedTab()
     }
 }

@@ -121,6 +121,7 @@ class ContactEditAddActivity: VectorBaseActivity<ActivityContactEditAddBinding>(
         vm.loading.observe(this) {
             if (it) {
                 dialog = MaterialProgressDialog(this).show(getString(R.string.please_wait))
+                dialog?.show()
             } else {
                 dialog?.dismiss()
             }
