@@ -63,7 +63,7 @@ class SearchViewHolder(private val activity: Activity, view: View, private val i
             mMainTV.visibility = View.INVISIBLE
         } else {
             mMainTV.visibility = View.VISIBLE
-            mMainTV.text = mainContent.replace(keyWord, "<font color='#24B36B'>$keyWord</font>").fromHtml()
+            mMainTV.text = mainContent.replace(keyWord, "<font color='#000000'>$keyWord</font>").fromHtml()
         }
         var content = search.minorContent
         if (TextUtils.isEmpty(content)) {

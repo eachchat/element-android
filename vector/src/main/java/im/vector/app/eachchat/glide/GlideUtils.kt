@@ -54,6 +54,7 @@ object GlideUtils {
     fun loadDefaultCircleImage(iv: ImageView) {
         GlideApp.with(iv.context)
                 .load(R.drawable.default_person_icon)
+                .placeholder(R.drawable.default_person_icon)
                 .transform(CircleCrop()).into(iv)
     }
 

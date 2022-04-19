@@ -3871,7 +3871,7 @@
     <string name="given_and_family_pinyin">姓名拼音</string>
     <string name="name_hint_pinyin">请输入名字拼音</string>
     <string name="nick_name">昵称</string>
-    <string name="nick_name_hint">请输入昵称</string>
+    <string name="nick_name_hint">请输入</string>
     <string name="given_name">名字</string>
     <string name="given_name_hint">请输入名字</string>
     <string name="remark_name">备注名</string>

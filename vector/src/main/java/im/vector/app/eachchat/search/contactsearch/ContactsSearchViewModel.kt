@@ -20,6 +20,9 @@ import im.vector.app.core.platform.VectorViewModel
 import im.vector.app.eachchat.base.BaseModule
 import im.vector.app.eachchat.base.EmptyAction
 import im.vector.app.eachchat.base.EmptyViewState
+import im.vector.app.eachchat.bean.Filter
+import im.vector.app.eachchat.bean.GroupFilter
+import im.vector.app.eachchat.bean.SearchGroupCountInput
 import im.vector.app.eachchat.contact.RoomComparator
 import im.vector.app.eachchat.contact.data.ContactsDisplayBean
 import im.vector.app.eachchat.contact.data.resolveMxc
@@ -27,13 +30,9 @@ import im.vector.app.eachchat.contact.database.ContactDaoHelper
 import im.vector.app.eachchat.database.AppDatabase
 import im.vector.app.eachchat.department.DepartmentStoreHelper
 import im.vector.app.eachchat.department.data.IDisplayBean
-import im.vector.app.eachchat.bean.Filter
-import im.vector.app.eachchat.bean.GroupFilter
 import im.vector.app.eachchat.search.contactsearch.data.SearchContactsBean
-import im.vector.app.eachchat.search.contactsearch.data.SearchGroupBean
-import im.vector.app.eachchat.bean.SearchGroupCountInput
-import im.vector.app.eachchat.department.UserStoreHelper
 import im.vector.app.eachchat.search.contactsearch.data.SearchData
+import im.vector.app.eachchat.search.contactsearch.data.SearchGroupBean
 import im.vector.app.eachchat.search.contactsearch.data.SearchUserBean
 import im.vector.app.eachchat.service.SearchService
 import im.vector.app.eachchat.utils.AppCache
@@ -50,7 +49,6 @@ import org.matrix.android.sdk.api.session.profile.ProfileService
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
-import timber.log.Timber
 
 class ContactsSearchViewModel @AssistedInject constructor(
         @Assisted initialState: EmptyViewState,
@@ -278,7 +276,6 @@ class ContactsSearchViewModel @AssistedInject constructor(
     }
 
     fun searchGroupChat(keyword: String): MutableList<IDisplayBean> {
-        val allRoomIds = AppDatabase.getInstance(BaseModule.getContext()).contactRoomDao().getContactRooms()
         val queryParams = roomSummaryQueryParams {
             memberships = listOf(Membership.JOIN)
         }
@@ -292,15 +289,12 @@ class ContactsSearchViewModel @AssistedInject constructor(
             }
             joinRooms.sortWith(RoomComparator())
             joinRooms.forEach { roomSummary ->
-                val index = allRoomIds.indexOf(roomSummary.roomId)
-                if (index > -1) {
-                    if (!roomSummary.isDirect) {
-                        val searchData = SearchGroupBean(
-                                roomSummary.avatarUrl,
-                                roomSummary.displayName, roomSummary.roomId
-                        )
-                        groupChatRooms.add(searchData)
-                    }
+                if (!roomSummary.isDirect) {
+                    val searchData = SearchGroupBean(
+                            roomSummary.avatarUrl,
+                            roomSummary.displayName, roomSummary.roomId
+                    )
+                    groupChatRooms.add(searchData)
                 }
             }
         }
@@ -543,8 +537,6 @@ class ContactsSearchViewModel @AssistedInject constructor(
         }
     }
 
-
-
     private suspend fun searchChatRecord(keyword: String) {
         closeContactUsers.clear()
         val filters = mutableListOf<Filter>()
@@ -617,7 +609,7 @@ class ContactsSearchViewModel @AssistedInject constructor(
         if (content != null) {
             str = content[BODY] as String?
         }
-        if (str == null) return  ""
+        if (str == null) return ""
         return str
     }
 

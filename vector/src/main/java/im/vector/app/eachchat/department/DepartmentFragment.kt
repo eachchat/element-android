@@ -12,9 +12,11 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import im.vector.app.R
 import im.vector.app.core.epoxy.onClick
+import im.vector.app.core.platform.VectorBaseActivity
 import im.vector.app.core.utils.DimensionConverter
 import im.vector.app.databinding.DepartmentFragmentBinding
 import im.vector.app.eachchat.contact.api.bean.Department
@@ -90,10 +92,14 @@ class DepartmentFragment @Inject constructor(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initData()
+        setupToolbar(view.findViewById(R.id.groupToolbar)).allowBack(true)
         initRecyclerView()
         initBreadcrumbsView()
         initPresenter()
-        setupToolbar(views.groupToolbar)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
     }
 
     private fun initData() {

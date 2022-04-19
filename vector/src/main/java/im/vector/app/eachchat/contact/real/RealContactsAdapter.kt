@@ -1,5 +1,6 @@
 package im.vector.app.eachchat.contact.real
 
+import GlideUtils
 import android.widget.ImageView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
@@ -32,5 +33,9 @@ class RealContactsAdapter(
             helper.setText(R.id.title_tv, "")
             helper.setGone(R.id.title_tv, false)
         }
+    }
+
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
     }
 }

@@ -4,27 +4,20 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.view.WindowManager
 import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
 import android.view.animation.RotateAnimation
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
-import androidx.databinding.ObservableArrayList
-import androidx.databinding.ObservableList
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.mvrx.viewModel
-import com.chad.library.adapter.base.BaseQuickAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import im.vector.app.R
 import im.vector.app.core.epoxy.onClick
 import im.vector.app.core.platform.VectorBaseActivity
 import im.vector.app.databinding.ActivityContactAddSearchBinding
-import im.vector.app.eachchat.base.ItemChildClickListener
-import im.vector.app.eachchat.base.ItemClickListener
 import im.vector.app.eachchat.contact.data.ContactsDisplayBean
-import im.vector.app.eachchat.contact.mycontacts.MyContactsActivity
 import im.vector.app.eachchat.search.contactadd.adapter.ContactAddSearchAdapter
 import im.vector.app.eachchat.ui.LineDecoration
 import im.vector.app.eachchat.ui.dialog.AlertDialog
@@ -65,6 +58,7 @@ class ContactAddSearchActivity : VectorBaseActivity<ActivityContactAddSearchBind
     @SuppressLint("NotifyDataSetChanged")
     private fun initView() {
         setOnClick()
+        setupToolbar(views.groupToolbar).allowBack(true, true)
         vm.modeNormal.postValue(true)
         views.listUser.run {
             layoutManager = LinearLayoutManager(this@ContactAddSearchActivity)
@@ -80,7 +74,7 @@ class ContactAddSearchActivity : VectorBaseActivity<ActivityContactAddSearchBind
             }
 
             adapter = mAdapter
-            addItemDecoration(LineDecoration(marginStart = ScreenUtils.dip2px(context, 68f)))
+//            addItemDecoration(LineDecoration(marginStart = ScreenUtils.dip2px(context, 68f)))
         }
         // auto open the soft input
         views.etSearch.requestFocus()
@@ -138,9 +132,9 @@ class ContactAddSearchActivity : VectorBaseActivity<ActivityContactAddSearchBind
             it.interpolator = LinearInterpolator()
         }.also { it.start() }
 
-        vm.showOnlineSearchLayout.observe(this) {
-            views.layoutSearchUserOnline.myContactLl.isVisible = it
-        }
+//        vm.showOnlineSearchLayout.observe(this) {
+//            views.layoutSearchUserOnline.myContactLl.isVisible = it
+//        }
 
         vm.showContactList.observe(this) {
             views.listUser.isVisible = it
@@ -185,9 +179,9 @@ class ContactAddSearchActivity : VectorBaseActivity<ActivityContactAddSearchBind
     }
 
     private fun setOnClick() {
-        views.tvCancel.onClick {
-            finish()
-        }
+//        views.tvCancel.onClick {
+//            finish()
+//        }
         views.layoutSearchUserOnline.myContactLl.onClick {
             searchContactOnline(views.etSearch.text.toString().trim())
         }

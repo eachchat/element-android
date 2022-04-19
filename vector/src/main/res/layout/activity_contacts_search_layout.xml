@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/fff3f4f7"
+    android:background="@color/white"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:orientation="vertical" >
 
     <include
         android:id="@+id/search_title_bar"
-        layout="@layout/search_title_bar" />
+        layout="@layout/search_title_bar"
+        android:layout_height="68dp"
+        android:layout_width="match_parent" />
 
     <include
         android:id="@+id/searching_layout"

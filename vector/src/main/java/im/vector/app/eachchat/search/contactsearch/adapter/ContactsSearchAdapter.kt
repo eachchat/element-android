@@ -34,7 +34,6 @@ class ContactsSearchAdapter :
         const val SUB_TYPE_GROUP_CHAT = 999
         const val TYPE_SEARCH_CONTACT_ONLINE = 1010
         const val SEARCH_MULTI_TYPE = 100
-
         const val BODY: String = "body"
         const val TYPE_CHAT_RECORD: Int = 1212
     }
@@ -178,7 +177,7 @@ class ContactsSearchAdapter :
             helper.setVisible(R.id.name_tv, true)
             helper.setText(
                 R.id.name_tv,
-                getKeywordStr(item?.mainContent, keyword, "#00B368").fromHtml()
+                getKeywordStr(item?.mainContent, keyword, "#000000").fromHtml()
             )
         } else {
             helper.setVisible(R.id.name_tv, false)
@@ -194,15 +193,15 @@ class ContactsSearchAdapter :
             }
         }
 
-        if (helper.absoluteAdapterPosition == data.size - 1) {
-            helper.setVisible(R.id.div_line, false)
-        } else {
-            if (helper.absoluteAdapterPosition < data.size && data[helper.absoluteAdapterPosition].itemType == TYPE_FOOTER || data[helper.absoluteAdapterPosition].itemType == TYPE_GAP || data[helper.absoluteAdapterPosition + 1].itemType == TYPE_CONTENT || helper.absoluteAdapterPosition == data.size - 1) {
-                helper.setVisible(R.id.div_line, true)
-            } else {
-                helper.setVisible(R.id.div_line, false)
-            }
-        }
+//        if (helper.absoluteAdapterPosition == data.size - 1) {
+//            helper.setVisible(R.id.div_line, false)
+//        } else {
+//            if (helper.absoluteAdapterPosition < data.size && data[helper.absoluteAdapterPosition].itemType == TYPE_FOOTER || data[helper.absoluteAdapterPosition].itemType == TYPE_GAP || data[helper.absoluteAdapterPosition + 1].itemType == TYPE_CONTENT || helper.absoluteAdapterPosition == data.size - 1) {
+//                helper.setVisible(R.id.div_line, true)
+//            } else {
+//                helper.setVisible(R.id.div_line, false)
+//            }
+//        }
     }
 
     private fun bindGapItem() {

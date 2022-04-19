@@ -62,12 +62,13 @@
 
             <TextView
                 android:id="@+id/tv_name"
+                style="@style/_16_000000_Regular"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:layout_marginBottom="2dp"
-                style="@style/_16_000000_Regular" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tv_title"

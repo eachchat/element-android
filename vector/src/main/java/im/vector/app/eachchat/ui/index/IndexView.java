@@ -239,6 +239,11 @@ public class IndexView extends View {
         }
     }
 
+    public static int dip2px(Context context, float dpValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         int currentIndex = INDEX_NONE;

@@ -17,5 +17,4 @@
         android:textSize="14sp"
         tools:text="最常联系" />
 
-    <View style="@style/dividerHorizontal" />
 </LinearLayout>

@@ -50,6 +50,7 @@
             android:ellipsize="marquee"
             android:maxEms="20"
             android:singleLine="true"
+            android:textStyle="bold"
             tools:text="Peter" />
 
         <TextView
@@ -69,7 +70,8 @@
         android:id="@+id/div_line"
         style="@style/dividerHorizontal"
         android:layout_alignStart="@id/user_info_rl"
-        android:layout_alignParentBottom="true" />
+        android:layout_alignParentBottom="true"
+        android:visibility="gone" />
 
 
 </RelativeLayout>

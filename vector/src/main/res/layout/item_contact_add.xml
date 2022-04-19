@@ -5,16 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/selector_listview_item"
-    android:paddingStart="@dimen/common_padding"
-    android:paddingTop="10dp"
-    android:paddingEnd="@dimen/common_padding"
-    android:paddingBottom="10dp">
+    android:paddingStart="@dimen/common_padding" >
 
     <ImageView
         android:id="@+id/iv_avatar"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:contentDescription="@string/avatar"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@tools:sample/avatars" />
@@ -25,6 +23,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
         android:layout_marginEnd="12dp"
         android:ellipsize="end"
         android:lines="1"
@@ -55,13 +54,21 @@
         android:id="@+id/btn_add_contacts"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/bg_btn_contacts_add"
         android:gravity="center"
-        android:minWidth="52dp"
-        android:minHeight="28dp"
+        android:minWidth="94dp"
+        android:minHeight="36dp"
         android:textColor="@color/contacts_add_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:background="?vctr_list_separator"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tv_user_subtext" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

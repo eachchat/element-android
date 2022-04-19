@@ -164,6 +164,7 @@ class RealContactsFragment @Inject constructor()  : VectorBaseFragment<FragmentR
 
     private fun initRecyclerView() {
         views.realContactRv.layoutManager = LinearLayoutManager(requireContext())
+        adapter.setHasStableIds(true)
         views.realContactRv.adapter = adapter
         adapter.removeAllHeaderView()
         adapter.addHeaderView(header)

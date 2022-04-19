@@ -22,6 +22,8 @@ import im.vector.app.core.platform.VectorBaseActivity
 import im.vector.app.databinding.ActivityContactsSearchLayoutBinding
 import im.vector.app.eachchat.base.BaseModule
 import im.vector.app.eachchat.contact.data.User
+import im.vector.app.eachchat.department.DepartmentActivity
+import im.vector.app.eachchat.department.DepartmentFragment
 import im.vector.app.eachchat.search.contactsearch.searchmore.SearchMoreActivity
 import im.vector.app.eachchat.ui.dialog.AlertDialog
 import kotlinx.coroutines.Dispatchers
@@ -60,7 +62,7 @@ open class ContactsSearchActivity :
                 0,
                 SizeUtils.dp2px(10f)
         )
-        views.searchTitleBar.tvCancel.setOnClickListener { onBackPressed() }
+        // views.searchTitleBar.tvCancel.setOnClickListener { onBackPressed() }
         views.searchTitleBar.backIv.setOnClickListener { onBackPressed() }
         views.searchTitleBar.etSearch.doAfterTextChanged {
             if (it == null || it.isBlank()) {
@@ -183,16 +185,10 @@ open class ContactsSearchActivity :
                                 // start(displayBean.id)
                             }
                             ContactsSearchAdapter.SUB_TYPE_DEPARTMENT    -> {
-//                                DepartmentActivity.navigation(
-//                                    this,
-//                                    displayBean.mainContent,
-//                                    displayBean.id,
-//                                    false,
-//                                    false
-//                                )
+                                DepartmentActivity.start(this, it.mainContent, it.id)
                             }
                             ContactsSearchAdapter.SUB_TYPE_GROUP_CHAT    -> {
-                                // Chat.start(displayBean.id)
+                                navigator.openRoom(this, it.id)
                             }
                             else                                         -> {}
                         }
@@ -272,14 +268,14 @@ open class ContactsSearchActivity :
         inputManger.hideSoftInputFromWindow(views.searchTitleBar.etSearch.windowToken, 0)
     }
 
-    override fun onBackPressed() {
-        if (views.searchTitleBar.backIv.isVisible) {
-            isShowSeeMore = false
-            showSearchResults(vm.searchResultsLiveData.value)
-        } else {
-            super.onBackPressed()
-        }
-    }
+//    override fun onBackPressed() {
+//        if (views.searchTitleBar.backIv.isVisible) {
+//            isShowSeeMore = false
+//            showSearchResults(vm.searchResultsLiveData.value)
+//        } else {
+//            super.onBackPressed()
+//        }
+//    }
 
     companion object {
         fun start(
