@@ -324,15 +324,7 @@ class RoomProfileFragment @Inject constructor(
     var dialog: AlertDialog? = null
 
     override fun onContactAddCallBack() {
-        lifecycleScope.launch (Dispatchers.Main) {
-//            when(contactAddStatus) {
-//                START_LOADING -> {
-//                    dialog = MaterialProgressDialog(requireContext()).show(getString(R.string.please_wait))
-//                    dialog?.show()
-//                }
-//                END_LOADING -> { dialog?.dismiss() }
-//            }
-        }
+        roomProfileSharedActionViewModel.post(RoomProfileSharedAction.OpenRoomContact)
     }
 
     override fun onRoomIdClicked() {

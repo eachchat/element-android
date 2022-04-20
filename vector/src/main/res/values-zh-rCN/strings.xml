@@ -3173,4 +3173,5 @@
     <string name="search_message_record">包含 %d 条聊天记录</string>
     <string name="search_group_chat">搜索群聊</string>
     <string name="initial_sync_start_importing_contacts">正在同步联系人</string>
+    <string name="action_un_save">未保存</string>
 </resources>

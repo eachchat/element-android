@@ -118,13 +118,9 @@ class ContactEditAddActivity: VectorBaseActivity<ActivityContactEditAddBinding>(
             vm.getContact(id!!)
         }
 
+        views.waitingView.waitingStatusText.text = getString(R.string.please_wait)
         vm.loading.observe(this) {
-            if (it) {
-                dialog = MaterialProgressDialog(this).show(getString(R.string.please_wait))
-                dialog?.show()
-            } else {
-                dialog?.dismiss()
-            }
+            views.waitingView.waitingView.isVisible = it
         }
 
 //        views.titleBar.setLeftClickListener { finish() }.setImmersive(false)

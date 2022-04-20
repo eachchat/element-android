@@ -183,6 +183,7 @@ import im.vector.app.eachchat.contact.invite.InviteFragment
 import im.vector.app.eachchat.contact.manage.ContactManageFragment
 import im.vector.app.eachchat.contact.mycontacts.MyContactsFragment
 import im.vector.app.eachchat.contact.real.RealContactsFragment
+import im.vector.app.features.roomprofile.contact.RoomContactFragment
 
 @InstallIn(ActivityComponent::class)
 @Module
@@ -197,6 +198,11 @@ interface FragmentModule {
     @IntoMap
     @FragmentKey(RoomListFragment::class)
     fun bindRoomListFragment(fragment: RoomListFragment): Fragment
+
+    @Binds
+    @IntoMap
+    @FragmentKey(RoomContactFragment::class)
+    fun bindRoomContactFragment(fragment: RoomContactFragment): Fragment
 
     @Binds
     @IntoMap
