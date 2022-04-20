@@ -240,8 +240,9 @@ open class ContactsSearchActivity :
         if (isFinishing || isDestroyed) {
             return
         }
-        views.searchTitleBar.backIv.visibility = if (isShowSeeMore) View.VISIBLE else View.GONE
-        showSearingView(false)
+        // views.searchTitleBar.backIv.visibility = if (isShowSeeMore) View.VISIBLE else View.GONE
+        views.searchTitleBar.backIv.visibility = View.VISIBLE
+                showSearingView(false)
 //        observer.clearObserver(this)
         adapter.setNewData(results)
     }

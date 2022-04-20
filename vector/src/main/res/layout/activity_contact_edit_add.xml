@@ -40,14 +40,14 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <ImageView
-                        tools:ignore="MissingPrefix"
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
                         android:layout_centerVertical="true"
                         android:layout_marginStart="4dp"
                         android:importantForAccessibility="no"
-                        android:src="@drawable/ic_back_24dp"
-                        app:tint="?vctr_content_secondary" />
+                        android:src="@drawable/ic_x_18dp"
+                        app:tint="?vctr_content_secondary"
+                        tools:ignore="MissingPrefix" />
 
                 </RelativeLayout>
 
@@ -79,7 +79,7 @@
                         android:ellipsize="end"
                         android:gravity="end"
                         android:maxLines="1"
-                        android:text="@string/confirm"
+                        android:text="@string/pickerview_submit"
                         android:textAppearance="@style/TextAppearance.Vector.Widget.ActionBarTitle"
                         android:textColor="?vctr_content_primary"
                         android:layout_alignParentEnd="true"
@@ -169,8 +169,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="0dp"
                 app:editHint="@string/company_hint"
-                app:leftTitle="@string/company"
-                android:visibility="gone" />
+                app:leftTitle="@string/company" />
 
             <im.vector.app.eachchat.contact.addcontact.ContactEditAddLayout
                 android:id="@+id/layout_department"
@@ -198,8 +197,7 @@
                 android:animateLayoutChanges="true"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
-                android:orientation="vertical"
-                android:visibility="gone" >
+                android:orientation="vertical">
 
             </LinearLayout>
 
@@ -211,8 +209,7 @@
                 android:animateLayoutChanges="true"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
-                android:orientation="vertical"
-                android:visibility="gone" >
+                android:orientation="vertical">
 
             </LinearLayout>
 

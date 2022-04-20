@@ -4,6 +4,7 @@ package im.vector.app.eachchat.net;
 import android.text.TextUtils;
 
 import java.io.IOException;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,31 +28,26 @@ public class HeaderInterceptor implements Interceptor {
 
     @Override
     public Response intercept(Chain chain) throws IOException {
-        try {
-            Request.Builder requestBuilder = chain.request().newBuilder();
-            if (headers != null) {
-                for (Map.Entry<String, Object> entry : headers.entrySet()) {
-                    requestBuilder.addHeader(entry.getKey(), entry.getValue().toString());
-                }
+        Request.Builder requestBuilder = chain.request().newBuilder();
+        if (headers != null) {
+            for (Map.Entry<String, Object> entry : headers.entrySet()) {
+                requestBuilder.addHeader(entry.getKey(), entry.getValue().toString());
             }
-            HttpUrl url = requestBuilder.build().url();
-            String requestPath = url.encodedPath();
-            if (BaseModule.getSession() != null && TextUtils.equals(requestPath, "/api/services/auth/v1/logout") || TextUtils.equals(requestPath, "/api/services/auth/v1/token/refresh")) {
-                if (!TextUtils.isEmpty(TokenStore.getRefreshToken(BaseModule.getSession()))) {
-                    requestBuilder.addHeader(NetConstant.AUTHORIZATION, String.format("%s %s", NetConstant.BEARER, TokenStore.getRefreshToken(BaseModule.getSession())));
-                }
-            } else if (!TextUtils.equals(requestPath, "/api/services/auth/v1/login")) {
-                if (BaseModule.getSession() != null && !TextUtils.isEmpty(TokenStore.getAccessToken(BaseModule.getSession()))) {
-                    requestBuilder.addHeader(NetConstant.AUTHORIZATION, String.format("%s %s", NetConstant.BEARER, TokenStore.getAccessToken(BaseModule.getSession())));
-                }
-            }
-
-            Request request = requestBuilder.build();
-            Response.Builder responseBuilder = chain.proceed(request).newBuilder();
-            return responseBuilder.build();
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new IOException();
         }
+        HttpUrl url = requestBuilder.build().url();
+        String requestPath = url.encodedPath();
+        if (BaseModule.getSession() != null && TextUtils.equals(requestPath, "/api/services/auth/v1/logout") || TextUtils.equals(requestPath, "/api/services/auth/v1/token/refresh")) {
+            if (!TextUtils.isEmpty(TokenStore.getRefreshToken(BaseModule.getSession()))) {
+                requestBuilder.addHeader(NetConstant.AUTHORIZATION, String.format("%s %s", NetConstant.BEARER, TokenStore.getRefreshToken(BaseModule.getSession())));
+            }
+        } else if (!TextUtils.equals(requestPath, "/api/services/auth/v1/login")) {
+            if (BaseModule.getSession() != null && !TextUtils.isEmpty(TokenStore.getAccessToken(BaseModule.getSession()))) {
+                requestBuilder.addHeader(NetConstant.AUTHORIZATION, String.format("%s %s", NetConstant.BEARER, TokenStore.getAccessToken(BaseModule.getSession())));
+            }
+        }
+
+        Request request = requestBuilder.build();
+        Response.Builder responseBuilder = chain.proceed(request).newBuilder();
+        return responseBuilder.build();
     }
 }

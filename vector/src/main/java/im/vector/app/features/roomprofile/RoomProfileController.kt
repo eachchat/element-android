@@ -69,7 +69,7 @@ class RoomProfileController @Inject constructor(
         fun doMigrateToVersion(newVersion: String)
         fun restoreEncryptionState()
         fun onComplainClicked()
-        fun onContactAddCallBack(contactAddStatus: String)
+        fun onContactAddCallBack()
     }
 
     companion object {
@@ -240,12 +240,12 @@ class RoomProfileController @Inject constructor(
 
         if (roomSummary.isDirect && AppCache.getIsOpenOrg()) {
             roomSummary.directUserId?.let {
-                addContactSwitchItem(stringProvider.getString(R.string.add_to_contact),
-                        it,
-                        ContactsDisplayBeanV2(matrixId = it, nickName = roomSummary.displayName, photoUrl = roomSummary.avatarUrl)
-                ) { status ->
-                    callback?.onContactAddCallBack(status)
-                }
+                buildProfileAction(
+                        id = "add_to_contact",
+                        title = stringProvider.getString(R.string.add_to_contact),
+                        icon = R.drawable.icon_add_contacts,
+                        action = { callback?.onContactAddCallBack() }
+                )
             }
         }
 

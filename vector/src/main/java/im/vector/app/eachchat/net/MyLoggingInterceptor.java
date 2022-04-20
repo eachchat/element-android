@@ -2,6 +2,7 @@ package im.vector.app.eachchat.net;
 
 
 import java.io.IOException;
+import java.net.UnknownHostException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.TimeUnit;
@@ -56,6 +57,12 @@ public final class MyLoggingInterceptor implements Interceptor {
 
     @Override
     public Response intercept(Chain chain) throws IOException {
+        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+            @Override
+            public void uncaughtException(Thread t, Throwable e) {
+                // 这里就可以捕获到第三方库的异常了
+            }
+        });
         Request request = chain.request();
         if (printLevel == Level.NONE) {
             return chain.proceed(request);

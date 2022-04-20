@@ -10,6 +10,7 @@ import com.facebook.stetho.common.LogUtil;
 
 import org.matrix.android.sdk.api.session.Session;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -55,7 +56,7 @@ public class NetWorkManager {
     }
 
 
-    public Retrofit getRetrofit() {
+    public Retrofit getRetrofit() throws IOException {
         if (retrofit == null) {
             synchronized (NetWorkManager.class) {
                 if (retrofit == null) {
@@ -180,7 +181,7 @@ public class NetWorkManager {
      * @return instance of [Retrofit]
      */
     @Nullable
-    public Retrofit getMatrixRetrofit() {
+    public Retrofit getMatrixRetrofit() throws IOException {
         return getMatrixRetrofit(null);
     }
 
@@ -192,7 +193,7 @@ public class NetWorkManager {
      * @return instance of [Retrofit]
      */
     @Nullable
-    public Retrofit getMatrixRetrofit(@Nullable String homeServerUrl) {
+    public Retrofit getMatrixRetrofit(@Nullable String homeServerUrl) throws IOException {
         String baseUrl = homeServerUrl;
         if (TextUtils.isEmpty(homeServerUrl)) {
             Session session = activeSessionHolder.getSafeActiveSession();
@@ -282,7 +283,7 @@ public class NetWorkManager {
         return customTimeoutRetrofit;
     }
 
-    public void update() {
+    public void update() throws IOException {
         retrofit = null;
         getRetrofit();
         serverRetrofit = null;

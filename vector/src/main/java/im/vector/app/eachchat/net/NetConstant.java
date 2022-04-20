@@ -2,6 +2,8 @@ package im.vector.app.eachchat.net;
 
 import android.text.TextUtils;
 
+import java.io.IOException;
+
 import im.vector.app.eachchat.utils.SPUtils;
 
 
@@ -121,7 +123,7 @@ public class NetConstant {
         SPUtils.put(KEY_MQTT_HOST, host);
     }
 
-    public static void clearHost() {
+    public static void clearHost() throws IOException {
         SPUtils.remove(KEY_SERVER_HOST);
         SPUtils.remove(KEY_MQTT_HOST);
         SPUtils.remove(KEY_PUSH_HOST);

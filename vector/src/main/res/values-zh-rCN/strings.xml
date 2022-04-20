@@ -68,7 +68,7 @@
 \n正在导入群聊</string>
     <string name="initial_sync_start_importing_account_joined_rooms">初始化同步：
 \n正在加载对话
-\n如果你加入了很多论群聊，这可能需要一段时间</string>
+\n如果你加入了很多群聊，这可能需要一段时间</string>
     <string name="initial_sync_start_importing_account_invited_rooms">初始化同步：
 \n正在导入已邀请的群聊</string>
     <string name="initial_sync_start_importing_account_left_rooms">初始化同步：
@@ -3073,7 +3073,7 @@
     <string name="star">*</string>
     <string name="matrix_id_hint">Matrix ID</string>
     <string name="family_name">姓氏</string>
-    <string name="family_name_hint">姓氏</string>
+    <string name="family_name_hint">姓氏（必填）</string>
     <string name="family_name_pinyin">姓氏拼音</string>
     <string name="family_name_hint_pinyin">姓氏拼音</string>
     <string name="middle_name_pinyin">中间名拼音</string>
@@ -3084,7 +3084,7 @@
     <string name="nick_name">昵称</string>
     <string name="nick_name_hint">昵称</string>
     <string name="given_name">名字</string>
-    <string name="given_name_hint">名字</string>
+    <string name="given_name_hint">名字（必填）</string>
     <string name="remark_name">备注名</string>
     <string name="remark_name_hint">备注名</string>
     <string name="mobile">手机</string>
@@ -3172,4 +3172,5 @@
     <string name="unknown_message">[不支持的消息类型，请升级客户端]</string>
     <string name="search_message_record">包含 %d 条聊天记录</string>
     <string name="search_group_chat">搜索群聊</string>
+    <string name="initial_sync_start_importing_contacts">正在同步联系人</string>
 </resources>

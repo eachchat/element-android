@@ -1,6 +1,8 @@
 package im.vector.app.eachchat.mqtt;
 
 
+import java.io.IOException;
+
 import im.vector.app.eachchat.net.NetWorkManager;
 import im.vector.app.eachchat.contact.api.UserService;
 
@@ -9,7 +11,7 @@ import im.vector.app.eachchat.contact.api.UserService;
  */
 public class ApiService {
 
-    public static UserService getUserService() {
+    public static UserService getUserService() throws IOException {
         return NetWorkManager.getInstance().getRetrofit().create(UserService.class);
     }
 
