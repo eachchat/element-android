@@ -32,7 +32,7 @@ interface DepartmentDao {
     @Query("SELECT * FROM DepartmentStoreHelper WHERE parentId is null and del != 1")
     fun getRootDepartmentsLiveData(): LiveData<List<Department?>?>?
 
-    @Query("SELECT * FROM DepartmentStoreHelper WHERE parentId = :parentId and del != 1")
+    @Query("SELECT * FROM DepartmentStoreHelper WHERE parentId = :parentId and del != 1 ORDER BY showOrder")
     fun getDepartmentsByParentId(parentId: String): List<Department>?
 
     @Query("SELECT * FROM DepartmentStoreHelper WHERE id = :id")

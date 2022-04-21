@@ -52,6 +52,8 @@ class RoomMemberProfileController @Inject constructor(
         fun onBanClicked(isSpace: Boolean, isUserBanned: Boolean)
         fun onCancelInviteClicked()
         fun onInviteClicked()
+        fun onVoiceCall()
+        fun onVideoCall()
     }
 
     override fun buildModels(data: RoomMemberProfileViewState?) {
@@ -66,24 +68,41 @@ class RoomMemberProfileController @Inject constructor(
     }
 
     private fun buildUserActions(state: RoomMemberProfileViewState) {
-        val ignoreActionTitle = state.buildIgnoreActionTitle() ?: return
+        // val ignoreActionTitle = state.buildIgnoreActionTitle() ?: return
         // More
 //        buildProfileSection(stringProvider.getString(R.string.room_profile_section_more))
-        buildProfileAction(
-                id = "ignore",
-                title = ignoreActionTitle,
-                destructive = true,
-                editable = false,
-                divider = false,
-                action = { callback?.onIgnoreClicked() }
-        )
+//        buildProfileAction(
+//                id = "ignore",
+//                title = ignoreActionTitle,
+//                destructive = true,
+//                editable = false,
+//                divider = false,
+//                action = { callback?.onIgnoreClicked() }
+//        )
         if (!state.isMine) {
             buildProfileAction(
                     id = "direct",
                     editable = false,
                     title = stringProvider.getString(R.string.room_member_open_or_create_dm),
+                    icon = R.mipmap.ic_send_message,
                     action = { callback?.onOpenDmClicked() }
             )
+            if (state.directRoomId != null) {
+                buildProfileAction(
+                        id = "video_call",
+                        editable = false,
+                        title = stringProvider.getString(R.string.action_video_call),
+                        icon = R.drawable.ic_call_answer_video,
+                        action = { callback?.onVideoCall() }
+                )
+                buildProfileAction(
+                        id = "voice_call",
+                        editable = false,
+                        title = stringProvider.getString(R.string.action_voice_call),
+                        icon = R.drawable.ic_call_answer,
+                        action = { callback?.onVoiceCall() }
+                )
+            }
         }
     }
 
@@ -100,16 +119,33 @@ class RoomMemberProfileController @Inject constructor(
                     id = "direct",
                     editable = false,
                     title = stringProvider.getString(R.string.room_member_open_or_create_dm),
+                    icon = R.mipmap.ic_send_message,
                     action = { callback?.onOpenDmClicked() }
             )
-            val ignoreActionTitle = state.buildIgnoreActionTitle()
-            buildProfileAction(
-                    id = "mention",
-                    title = stringProvider.getString(R.string.room_participants_action_mention),
-                    editable = false,
-                    divider = ignoreActionTitle != null,
-                    action = { callback?.onMentionClicked() }
-            )
+            if (state.directRoomId != null) {
+                buildProfileAction(
+                        id = "video_call",
+                        editable = false,
+                        title = stringProvider.getString(R.string.action_video_call),
+                        icon = R.drawable.ic_call_answer_video,
+                        action = { callback?.onVideoCall() }
+                )
+                buildProfileAction(
+                        id = "voice_call",
+                        editable = false,
+                        title = stringProvider.getString(R.string.action_voice_call),
+                        icon = R.drawable.ic_call_answer,
+                        action = { callback?.onVoiceCall() }
+                )
+            }
+            // val ignoreActionTitle = state.buildIgnoreActionTitle()
+//            buildProfileAction(
+//                    id = "mention",
+//                    title = stringProvider.getString(R.string.room_participants_action_mention),
+//                    editable = false,
+//                    divider = ignoreActionTitle != null,
+//                    action = { callback?.onMentionClicked() }
+//            )
         }
         //buildMoreSection(state)
         buildAdminSection(state)

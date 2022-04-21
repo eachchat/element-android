@@ -24,6 +24,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import com.airbnb.mvrx.Fail
 import com.airbnb.mvrx.Incomplete
 import com.airbnb.mvrx.Success
@@ -39,15 +40,22 @@ import im.vector.app.core.extensions.cleanup
 import im.vector.app.core.extensions.configureWith
 import im.vector.app.core.extensions.copyOnLongClick
 import im.vector.app.core.extensions.exhaustive
-import im.vector.app.core.extensions.setTextOrHide
 import im.vector.app.core.platform.StateView
 import im.vector.app.core.platform.VectorBaseFragment
+import im.vector.app.core.utils.PERMISSIONS_FOR_AUDIO_IP_CALL
+import im.vector.app.core.utils.PERMISSIONS_FOR_VIDEO_IP_CALL
+import im.vector.app.core.utils.checkPermissions
+import im.vector.app.core.utils.onPermissionDeniedDialog
+import im.vector.app.core.utils.registerForPermissionsResult
 import im.vector.app.core.utils.startSharePlainTextIntent
 import im.vector.app.databinding.DialogBaseEditTextBinding
 import im.vector.app.databinding.DialogShareQrCodeBinding
 import im.vector.app.databinding.FragmentMatrixProfileBinding
 import im.vector.app.databinding.ViewStubRoomMemberProfileHeaderBinding
+import im.vector.app.eachchat.base.BaseModule
 import im.vector.app.features.analytics.plan.Screen
+import im.vector.app.features.call.VectorCallActivity
+import im.vector.app.features.call.webrtc.WebRtcCallManager
 import im.vector.app.features.crypto.verification.VerificationBottomSheet
 import im.vector.app.features.displayname.getBestName
 import im.vector.app.features.home.AvatarRenderer
@@ -56,6 +64,9 @@ import im.vector.app.features.home.room.detail.RoomDetailPendingActionStore
 import im.vector.app.features.home.room.detail.timeline.helper.MatrixItemColorProvider
 import im.vector.app.features.roommemberprofile.devices.DeviceListBottomSheet
 import im.vector.app.features.roommemberprofile.powerlevel.EditPowerLevelDialogs
+import im.vector.app.features.settings.VectorPreferences
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 import org.matrix.android.sdk.api.crypto.RoomEncryptionTrustLevel
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
@@ -72,7 +83,9 @@ class RoomMemberProfileFragment @Inject constructor(
         private val roomMemberProfileController: RoomMemberProfileController,
         private val avatarRenderer: AvatarRenderer,
         private val roomDetailPendingActionStore: RoomDetailPendingActionStore,
-        private val matrixItemColorProvider: MatrixItemColorProvider
+        private val matrixItemColorProvider: MatrixItemColorProvider,
+        private val callManager: WebRtcCallManager,
+        private val vectorPreferences: VectorPreferences
 ) : VectorBaseFragment<FragmentMatrixProfileBinding>(),
         RoomMemberProfileController.Callback {
 
@@ -419,5 +432,119 @@ class RoomMemberProfileFragment @Inject constructor(
 
     override fun onInviteClicked() {
         viewModel.handle(RoomMemberProfileAction.InviteUser)
+    }
+
+    override fun onVoiceCall() {
+        isVideoCall = false
+        handleCallRequest(false)
+    }
+
+    override fun onVideoCall() {
+        isVideoCall = true
+        handleCallRequest(true)
+    }
+
+    private fun handleCallRequest(isVideoCall: Boolean) = withState(viewModel) { state ->
+        val roomSummary = viewModel.room?.roomSummary()
+        when (roomSummary?.joinedMembersCount) {
+            1    -> {
+                val pendingInvite = roomSummary.invitedMembersCount ?: 0 > 0
+                if (pendingInvite) {
+                    // wait for other to join
+                    showDialogWithMessage(BaseModule.getContext().getString(R.string.cannot_call_yourself_with_invite))
+                } else {
+                    // You cannot place a call with yourself.
+                    showDialogWithMessage(BaseModule.getContext().getString(R.string.cannot_call_yourself))
+                }
+            }
+            2    -> {
+                val currentCall = callManager.getCurrentCall()
+                if (currentCall?.signalingRoomId == state.directRoomId) {
+                    onTapToReturnToCall()
+                } else {
+                    safeStartCall(isVideoCall)
+                }
+            }
+            else -> {
+            }
+        }
+    }
+
+    private fun onTapToReturnToCall() {
+        callManager.getCurrentCall()?.let { call ->
+            VectorCallActivity.newIntent(
+                    context = requireContext(),
+                    callId = call.callId,
+                    signalingRoomId = call.signalingRoomId,
+                    otherUserId = call.mxCall.opponentUserId,
+                    isIncomingCall = !call.mxCall.isOutgoing,
+                    isVideoCall = call.mxCall.isVideoCall,
+                    mode = null
+            ).let {
+                startActivity(it)
+            }
+        }
+    }
+
+    private fun showDialogWithMessage(message: String) {
+        MaterialAlertDialogBuilder(requireContext())
+                .setMessage(message)
+                .setPositiveButton(getString(R.string.ok), null)
+                .show()
+    }
+
+    private fun safeStartCall(isVideoCall: Boolean) {
+        if (vectorPreferences.preventAccidentalCall()) {
+            MaterialAlertDialogBuilder(requireActivity())
+                    .setMessage(if (isVideoCall) R.string.start_video_call_prompt_msg else R.string.start_voice_call_prompt_msg)
+                    .setPositiveButton(if (isVideoCall) R.string.start_video_call else R.string.start_voice_call) { _, _ ->
+                        safeStartCall2(isVideoCall)
+                    }
+                    .setNegativeButton(R.string.action_cancel, null)
+                    .show()
+        } else {
+            safeStartCall2(isVideoCall)
+        }
+    }
+
+    private fun safeStartCall2(isVideoCall: Boolean) {
+        // val startCallAction = RoomDetailAction.StartCall(isVideoCall)
+        // timelineViewModel.pendingAction = startCallAction
+        if (isVideoCall) {
+            if (checkPermissions(PERMISSIONS_FOR_VIDEO_IP_CALL,
+                            requireActivity(),
+                            startCallActivityResultLauncher,
+                            R.string.permissions_rationale_msg_camera_and_audio)) {
+                // timelineViewModel.pendingAction = null
+                startCall(isVideoCall)
+            }
+        } else {
+            if (checkPermissions(PERMISSIONS_FOR_AUDIO_IP_CALL,
+                            requireActivity(),
+                            startCallActivityResultLauncher,
+                            R.string.permissions_rationale_msg_record_audio)) {
+                // timelineViewModel.pendingAction = null
+                startCall(isVideoCall)
+            }
+        }
+    }
+
+    var isVideoCall = false
+    private val startCallActivityResultLauncher = registerForPermissionsResult { allGranted, deniedPermanently ->
+        if (allGranted) {
+            startCall(isVideoCall)
+        } else {
+            if (deniedPermanently) {
+                activity?.onPermissionDeniedDialog(R.string.denied_permission_generic)
+            }
+        }
+    }
+
+    private fun startCall(isVideoCall: Boolean) {
+        withState(viewModel) {
+            lifecycleScope.launch(Dispatchers.IO) {
+                it.directRoomId?.let { it1 -> callManager.startOutgoingCall(it1, it.userId, isVideoCall) }
+            }
+        }
     }
 }

@@ -37,10 +37,12 @@ import im.vector.app.eachchat.search.contactsearch.data.SearchUserBean
 import im.vector.app.eachchat.service.SearchService
 import im.vector.app.eachchat.utils.AppCache
 import im.vector.app.eachchat.utils.getCloseContactTitle
+import im.vector.app.eachchat.utils.string.StringUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import org.matrix.android.sdk.api.MatrixPatterns
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.session.events.model.Content
 import org.matrix.android.sdk.api.session.events.model.Event
@@ -142,15 +144,15 @@ class ContactsSearchViewModel @AssistedInject constructor(
 //                        ContactsSearchAdapter.SUB_TYPE_GROUP_CHAT
 //                )
 //            }
-//            val keywordValid = isEmail(keyword) || isTel(keyword) || MatrixPatterns.isUserId(keyword)
-//            if (items.size == 0 && keywordValid) {
-//                items.add(
-//                        ContactsSearchAdapter.SearchContactOnlineItem(
-//                                ContactsSearchAdapter.TYPE_SEARCH_CONTACT_ONLINE,
-//                                keyword
-//                        )
-//                )
-//            }
+            val keywordValid = isEmail(keyword) || StringUtils.isPhoneNumber(keyword) || MatrixPatterns.isUserId(keyword)
+            if (items.size == 0 && keywordValid) {
+                items.add(
+                        ContactsSearchAdapter.SearchContactOnlineItem(
+                                ContactsSearchAdapter.TYPE_SEARCH_CONTACT_ONLINE,
+                                keyword
+                        )
+                )
+            }
             searchResultsLiveData.postValue(items)
         }
     }
@@ -484,6 +486,7 @@ class ContactsSearchViewModel @AssistedInject constructor(
         loading.postValue(true)
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
+                session.identityService().setUserConsent(true)
                 val data = session.getProfile(matrixId)
                 val displayName = data[ProfileService.DISPLAY_NAME_KEY] as? String?
                 val avatar = data[ProfileService.AVATAR_URL_KEY] as? String?
@@ -516,6 +519,7 @@ class ContactsSearchViewModel @AssistedInject constructor(
         loading.postValue(true)
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
+                session.identityService().setUserConsent(true)
                 val threePids = ArrayList<ThreePid>()
                 if (isEmail(string)) {
                     val threePid = ThreePid.Email(string)
@@ -528,6 +532,10 @@ class ContactsSearchViewModel @AssistedInject constructor(
                         .lookUp(threePids)
                 if (user.isNotEmpty()) {
                     searchMatrixUser(user[0].matrixId)
+                } else if (StringUtils.isPhoneNumber(string) && !string.startsWith("86")){
+                    searchMatrixUserByEmailOrPhone("86$string")
+                } else {
+                    searchUserOnlineLiveData.postValue(null)
                 }
             }.exceptionOrNull()?.let {
                 searchUserOnlineLiveData.postValue(null)

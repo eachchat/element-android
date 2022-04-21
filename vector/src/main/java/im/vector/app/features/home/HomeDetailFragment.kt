@@ -103,9 +103,9 @@ class HomeDetailFragment @Inject constructor(
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
-        withState(viewModel) { state ->
-            val isRoomList = state.currentTab is HomeTab.RoomList
-            menu.findItem(R.id.menu_home_mark_all_as_read).isVisible = isRoomList && hasUnreadRooms
+        withState(viewModel) { _ ->
+            // val isRoomList = state.currentTab is HomeTab.RoomList
+            menu.findItem(R.id.menu_home_mark_all_as_read).isVisible = false
         }
         super.onPrepareOptionsMenu(menu)
     }
@@ -395,6 +395,7 @@ class HomeDetailFragment @Inject constructor(
                     is HomeTab.RoomList -> {
                         val params = RoomListParams(tab.displayMode)
                         if (tab.displayMode == RoomListDisplayMode.PEOPLE) {
+                            add(R.id.roomListContainer, RealContactsFragment::class.java, null, HomeTab.RoomList(RoomListDisplayMode.ROOMS).toFragmentTag())
                             add(R.id.roomListContainer, RoomListFragment::class.java, params.toMvRxBundle(), fragmentTag)
                         } else {
                             add(R.id.roomListContainer, RealContactsFragment::class.java, null, fragmentTag)

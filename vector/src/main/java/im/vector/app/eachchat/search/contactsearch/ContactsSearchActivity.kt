@@ -75,7 +75,7 @@ open class ContactsSearchActivity :
             showSearingView(true)
             doSearch(keyWord.trim())
         }
-        views.searchTitleBar.etSearch.setHint(R.string.search_name_id_email_phone)
+        views.searchTitleBar.etSearch.setHint(R.string.search)
     }
 
     private fun initRecyclerView() {

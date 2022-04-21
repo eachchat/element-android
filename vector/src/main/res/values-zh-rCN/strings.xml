@@ -680,7 +680,7 @@
     <string name="bottom_action_favourites">收藏夹</string>
     <string name="bottom_action_people">联系人</string>
     <string name="bottom_action_rooms">群聊</string>
-    <string name="bottom_action_chat">聊天</string>
+    <string name="bottom_action_chat">首页</string>
     <string name="home_filter_placeholder_home">按群聊名称过滤</string>
     <string name="home_filter_placeholder_favorites">按收藏夹过滤</string>
     <string name="home_filter_placeholder_people">按联系人过滤</string>
@@ -1538,7 +1538,7 @@
     <string name="send_suggestion_sent">谢谢，建议已成功发送</string>
     <string name="send_suggestion_failed">建议发送失败 (%s)</string>
     <string name="settings_labs_show_hidden_events_in_timeline">在时间线上显示隐藏事件</string>
-    <string name="title_action_people_x">聊天</string>
+    <string name="title_action_people_x">首页</string>
     <string name="bottom_action_people_x">聊天</string>
     <string name="send_file_step_idle">正在等待…</string>
     <string name="send_file_step_encrypting_thumbnail">正在加密缩略图…</string>
@@ -2888,7 +2888,7 @@
     <string name="settings_developer_mode_show_info_on_screen_title">在屏幕商显示调试信息</string>
     <string name="does_not_look_like_valid_email">看起来不像是有效的邮箱地址</string>
     <string name="open_discovery_settings">打开“发现”设置</string>
-    <string name="user_directory_search_hint_2">搜索姓名或ID</string>
+    <string name="user_directory_search_hint_2">搜索姓名、ID、电子邮件或手机号</string>
     <string name="create_new_space">创建新空间</string>
     <string name="room_settings_space_access_public_description">任何人均可找到此空间并加入</string>
     <string name="room_settings_space_access_title">空间访问</string>
@@ -3068,7 +3068,7 @@
     <string name="please_enter_correct_msisdn">请输入姓名、ID、电子邮件或手机号</string>
     <string name="team">团队</string>
     <string name="manage_contacts">管理联系人</string>
-    <string name="search_name_id">搜索姓名或ID</string>
+    <string name="search_name_id">搜索姓名、ID、电子邮件或手机号</string>
     <string name="new_contact">新建联系人</string>
     <string name="star">*</string>
     <string name="matrix_id_hint">Matrix ID</string>
@@ -3141,7 +3141,7 @@
     <string name="permission_defined">权限拒绝</string>
     <string name="export_permission_denied">导出联系人需要开启文件访问权限</string>
     <string name="searching_tips">搜索中…</string>
-    <string name="search_name_id_email_phone">搜索姓名或Id</string>
+    <string name="search_name_id_email_phone">搜索姓名、ID、电子邮件或手机号</string>
     <string name="see_more">查看更多</string>
     <string name="search_contact_online">网络查找联系人</string>
     <string name="contacts">联系人</string>
@@ -3174,4 +3174,5 @@
     <string name="search_group_chat">搜索群聊</string>
     <string name="initial_sync_start_importing_contacts">正在同步联系人</string>
     <string name="action_un_save">未保存</string>
+    <string name="invite_by_msisdn">通过电话号码进行邀请</string>
 </resources>

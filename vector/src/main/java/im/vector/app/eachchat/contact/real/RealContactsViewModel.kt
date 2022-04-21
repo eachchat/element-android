@@ -38,6 +38,8 @@ import im.vector.app.eachchat.contact.database.ContactDaoHelper
 import im.vector.app.eachchat.contact.data.ContactsDisplayBean
 import im.vector.app.eachchat.contact.data.User
 import im.vector.app.eachchat.database.AppDatabase
+import im.vector.app.eachchat.department.getCompleteTitle
+import im.vector.app.eachchat.department.getHomeSever
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -77,7 +79,7 @@ class RealContactsViewModel @AssistedInject constructor(
             memberships = listOf(Membership.JOIN)
             roomCategoryFilter = RoomCategoryFilter.ONLY_DM
         }
-        session.getFilteredPagedRoomSummariesLive(queryParams).livePagedList.observe(owner) {
+        session.getRoomSummariesLive(queryParams).observe(owner) {
             if (it.isNullOrEmpty()) return@observe
             var users = mutableListOf<User>()
             val joinRooms = mutableListOf<RoomSummary>()
@@ -96,6 +98,9 @@ class RealContactsViewModel @AssistedInject constructor(
                         val matrixUser = session.getUser(roomSummary2.otherMemberIds[0]) ?: return@forEach
                         user = if (AppCache.getIsOpenOrg()) AppDatabase.getInstance(BaseModule.getContext()).UserDao().getBriefUserByMatrixId(matrixUser.userId) else null
                         var contact: ContactsDisplayBean? = null
+                        if (user?.matrixId?.getHomeSever() != BaseModule.getSession().myUserId.getHomeSever()) {
+                            user?.userTitle = getCompleteTitle(user?.userTitle, user?.departmentId)
+                        }
                         if (matrixUser.userId.isNotEmpty() && AppCache.getIsOpenContact()) {
                             contact = ContactDaoHelper.getInstance().getContactByMatrixId(matrixUser.userId)
                         }

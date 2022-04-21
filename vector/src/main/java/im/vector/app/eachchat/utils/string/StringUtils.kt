@@ -1,7 +1,10 @@
 package im.vector.app.eachchat.utils.string
 
 import android.text.Spanned
+import android.util.Patterns
 import im.vector.app.eachchat.utils.string.HtmlUtils.fromHtml
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 object StringUtils {
     @JvmStatic
@@ -28,6 +31,13 @@ object StringUtils {
         val str = this.substring(startIndex, startIndex + keyword.length)
 
         return this.replace(str, "<font color='#00B368'>$str</font>", false)
+    }
+
+    fun isPhoneNumber(text: CharSequence?) :Boolean{
+        if (text == null) return true
+        val p: Pattern = Patterns.PHONE
+        val m: Matcher = p.matcher(text)
+        return m.matches()
     }
 
     @JvmStatic

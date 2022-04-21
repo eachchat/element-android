@@ -593,6 +593,7 @@ class HomeActivity :
                 it.updateUIForTab(HomeTab.RoomList(RoomListDisplayMode.ROOMS))
             }
         }
+        views.drawerLayout.closeDrawers()
     }
 
     fun selectHomeFragment() {
@@ -601,6 +602,7 @@ class HomeActivity :
                 it.updateUIForTab(HomeTab.RoomList(RoomListDisplayMode.PEOPLE))
             }
         }
+        views.drawerLayout.closeDrawers()
     }
 
     fun getSelectedTab(): Int {

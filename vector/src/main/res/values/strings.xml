@@ -3857,7 +3857,7 @@
     <string name="please_enter_correct_msisdn">请输入正确的手机号</string>
     <string name="team">团队</string>
     <string name="manage_contacts">管理联系人</string>
-    <string name="search_name_id">搜索姓名或ID</string>
+    <string name="search_name_id">搜索姓名、ID、电子邮件或手机号</string>
     <string name="new_contact">新建联系人</string>
     <string name="star">*</string>
     <string name="matrix_id_hint">请输入Matrix ID</string>
@@ -3930,7 +3930,7 @@
     <string name="permission_defined">权限拒绝</string>
     <string name="export_permission_denied">导出联系人需要开启文件访问权限</string>
     <string name="searching_tips">搜索中…</string>
-    <string name="search_name_id_email_phone">搜索姓名或Id</string>
+    <string name="search_name_id_email_phone">搜索姓名、ID、电子邮件或手机号</string>
     <string name="see_more">查看更多</string>
     <string name="search_contact_online">网络查找联系人</string>
     <string name="contacts">联系人</string>
@@ -3964,4 +3964,5 @@
     <string name="search_group_chat">搜索群聊</string>
     <string name="initial_sync_start_importing_contacts">正在同步联系人</string>
     <string name="action_un_save">未保存</string>
+    <string name="invite_by_msisdn">通过电话号码进行邀请</string>
 </resources>

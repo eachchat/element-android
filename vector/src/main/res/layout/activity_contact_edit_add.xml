@@ -301,7 +301,8 @@
                 android:visibility="gone"
                 app:editHint="@string/label"
                 app:leftTitle="@string/label"
-                tools:visibility="visible" />
+                tools:visibility="visible"
+                android:layout_marginBottom="16dp" />
 
             <TextView
                 android:id="@+id/tv_more_property"

@@ -22,6 +22,7 @@ import com.airbnb.mvrx.Loading
 import com.airbnb.mvrx.MavericksViewModelFactory
 import com.airbnb.mvrx.Success
 import com.airbnb.mvrx.Uninitialized
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -32,7 +33,12 @@ import im.vector.app.core.extensions.exhaustive
 import im.vector.app.core.mvrx.runCatchingToAsync
 import im.vector.app.core.platform.VectorViewModel
 import im.vector.app.core.resources.StringProvider
+import im.vector.app.core.utils.PERMISSIONS_FOR_AUDIO_IP_CALL
+import im.vector.app.core.utils.PERMISSIONS_FOR_VIDEO_IP_CALL
+import im.vector.app.core.utils.checkPermissions
+import im.vector.app.eachchat.base.BaseModule
 import im.vector.app.features.displayname.getBestName
+import im.vector.app.features.home.room.detail.RoomDetailAction
 import im.vector.app.features.home.room.detail.timeline.helper.MatrixItemColorProvider
 import im.vector.app.features.powerlevel.PowerLevelsFlowFactory
 import kotlinx.coroutines.Dispatchers
@@ -76,7 +82,7 @@ class RoomMemberProfileViewModel @AssistedInject constructor(
 
     companion object : MavericksViewModelFactory<RoomMemberProfileViewModel, RoomMemberProfileViewState> by hiltMavericksViewModelFactory()
 
-    private val room = if (initialState.roomId != null) {
+    val room = if (initialState.roomId != null) {
         session.getRoom(initialState.roomId)
     } else {
         null
@@ -127,6 +133,9 @@ class RoomMemberProfileViewModel @AssistedInject constructor(
                 .execute {
                     copy(userMXCrossSigningInfo = it.invoke()?.getOrNull())
                 }
+
+        setState { copy(directRoomId = session.getExistingDirectRoomWithUser(initialState.userId)) }
+
     }
 
     private fun observeAccountData() {

@@ -72,6 +72,8 @@ class PublicRoomsFragment @Inject constructor(
         setupToolbar(views.publicRoomsToolbar)
                 .allowBack()
 
+        views.publicRoomsFilter.requestFocus()
+
         sharedActionViewModel = activityViewModelProvider.get(RoomDirectorySharedActionViewModel::class.java)
         setupRecyclerView()
 

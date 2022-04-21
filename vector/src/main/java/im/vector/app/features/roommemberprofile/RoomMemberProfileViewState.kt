@@ -43,7 +43,8 @@ data class RoomMemberProfileViewState(
         val asyncMembership: Async<Membership> = Uninitialized,
         val hasReadReceipt: Boolean = false,
         val userColorOverride: String? = null,
-        val actionPermissions: ActionPermissions = ActionPermissions()
+        val actionPermissions: ActionPermissions = ActionPermissions(),
+        val directRoomId: String? = null // 判断是否显示语音通话和视频通话
 ) : MavericksState {
 
     constructor(args: RoomMemberProfileArgs) : this(userId = args.userId, roomId = args.roomId)

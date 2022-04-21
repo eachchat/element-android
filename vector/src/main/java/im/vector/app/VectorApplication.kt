@@ -222,9 +222,11 @@ class VectorApplication :
 
     private val startSyncOnFirstStart = object : DefaultLifecycleObserver {
         override fun onStart(owner: LifecycleOwner) {
-            Timber.i("App process started")
-            authenticationService.getLastAuthenticatedSession()?.startSyncing(appContext)
-            ProcessLifecycleOwner.get().lifecycle.removeObserver(this)
+            kotlin.runCatching {
+                Timber.i("App process started")
+                authenticationService.getLastAuthenticatedSession()?.startSyncing(appContext)
+                ProcessLifecycleOwner.get().lifecycle.removeObserver(this)
+            }
         }
     }
 
