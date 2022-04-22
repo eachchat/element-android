@@ -140,7 +140,7 @@ class ContactManageFragment @Inject constructor(
                         ToastUtil.showError(activity, R.string.permission_defined)
                     }
                 }).ask(1)
-        (activity as VectorBaseActivity<*>).setPermissionRequestObject(requestObject)
+        (activity as ContactManageActivity).setPermissionRequestObject(requestObject)
     }
 
     private fun createFolderIntent() {
@@ -157,7 +157,7 @@ class ContactManageFragment @Inject constructor(
                         ToastUtil.showError(activity, R.string.permission_defined)
                     }
                 }).ask(1)
-        (activity as VectorBaseActivity<*>).setPermissionRequestObject(requestObject)
+        (activity as ContactManageActivity).setPermissionRequestObject(requestObject)
     }
 
     override fun onImageReady(uri: Uri?) {

@@ -631,15 +631,4 @@ abstract class VectorBaseActivity<VB : ViewBinding> : AppCompatActivity(), Maver
     fun setupToolbar(toolbar: MaterialToolbar) = ToolbarConfig(this, toolbar).also {
         this.toolbar = it.setup()
     }
-
-    private var mPermissionRequestObject: PermissionUtil.PermissionRequestObject? = null
-
-    open fun setPermissionRequestObject(permissionRequestObject: PermissionUtil.PermissionRequestObject) {
-        mPermissionRequestObject = permissionRequestObject
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        mPermissionRequestObject!!.onRequestPermissionsResult(requestCode, permissions, grantResults)
-    }
 }

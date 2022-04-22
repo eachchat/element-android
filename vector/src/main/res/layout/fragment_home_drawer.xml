@@ -197,11 +197,12 @@
         android:minHeight="52dp"
         android:padding="16dp"
         android:text="@string/logout"
+        android:textColor="@color/caution_fc4"
         app:drawableStartCompat="@drawable/ic_signout_18dp"
-        app:drawableTint="?vctr_content_secondary"
+        app:drawableTint="@color/caution_fc4"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:tint="?vctr_content_secondary"
+        app:tint="@color/caution_fc4"
         tools:ignore="MissingPrefix" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

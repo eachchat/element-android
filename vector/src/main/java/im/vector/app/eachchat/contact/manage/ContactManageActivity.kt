@@ -30,6 +30,7 @@ import im.vector.app.core.platform.VectorBaseActivity
 import im.vector.app.databinding.ActivityFragmentContainerBinding
 import im.vector.app.eachchat.contact.invite.InviteFragment
 import im.vector.app.eachchat.contact.mycontacts.MyContactsActivity
+import im.vector.app.eachchat.utils.permission.PermissionUtil
 import im.vector.app.features.home.RoomListDisplayMode
 import im.vector.app.features.home.room.list.RoomListParams
 import im.vector.lib.multipicker.FilePicker
@@ -54,5 +55,16 @@ class ContactManageActivity: VectorBaseActivity<ActivityFragmentContainerBinding
             val intent = Intent(context, ContactManageActivity::class.java)
             context.startActivity(intent)
         }
+    }
+
+    private var mPermissionRequestObject: PermissionUtil.PermissionRequestObject? = null
+
+    fun setPermissionRequestObject(permissionRequestObject: PermissionUtil.PermissionRequestObject) {
+        mPermissionRequestObject = permissionRequestObject
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        mPermissionRequestObject!!.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 }
