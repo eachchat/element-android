@@ -51,6 +51,12 @@ class ContactAddSearchActivity : VectorBaseActivity<ActivityContactAddSearchBind
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initView()
+
+        //init waiting view
+        views.waitingView.waitingStatusText.text = getString(R.string.please_wait)
+        vm.loading.observe(this) {
+            views.waitingView.waitingView.isVisible = it
+        }
     }
 
     private var mAdapter = ContactAddSearchAdapter()

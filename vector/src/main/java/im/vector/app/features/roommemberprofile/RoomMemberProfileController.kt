@@ -89,18 +89,18 @@ class RoomMemberProfileController @Inject constructor(
             )
             if (state.directRoomId != null) {
                 buildProfileAction(
-                        id = "video_call",
-                        editable = false,
-                        title = stringProvider.getString(R.string.action_video_call),
-                        icon = R.drawable.ic_call_answer_video,
-                        action = { callback?.onVideoCall() }
-                )
-                buildProfileAction(
                         id = "voice_call",
                         editable = false,
                         title = stringProvider.getString(R.string.action_voice_call),
                         icon = R.drawable.ic_call_answer,
                         action = { callback?.onVoiceCall() }
+                )
+                buildProfileAction(
+                        id = "video_call",
+                        editable = false,
+                        title = stringProvider.getString(R.string.action_video_call),
+                        icon = R.drawable.ic_call_answer_video,
+                        action = { callback?.onVideoCall() }
                 )
             }
         }
@@ -124,18 +124,18 @@ class RoomMemberProfileController @Inject constructor(
             )
             if (state.directRoomId != null) {
                 buildProfileAction(
-                        id = "video_call",
-                        editable = false,
-                        title = stringProvider.getString(R.string.action_video_call),
-                        icon = R.drawable.ic_call_answer_video,
-                        action = { callback?.onVideoCall() }
-                )
-                buildProfileAction(
                         id = "voice_call",
                         editable = false,
                         title = stringProvider.getString(R.string.action_voice_call),
                         icon = R.drawable.ic_call_answer,
                         action = { callback?.onVoiceCall() }
+                )
+                buildProfileAction(
+                        id = "video_call",
+                        editable = false,
+                        title = stringProvider.getString(R.string.action_video_call),
+                        icon = R.drawable.ic_call_answer_video,
+                        action = { callback?.onVideoCall() }
                 )
             }
             // val ignoreActionTitle = state.buildIgnoreActionTitle()

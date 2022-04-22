@@ -326,7 +326,6 @@
 
     <include
         android:id="@+id/waiting_view"
-        layout="@layout/merge_overlay_waiting_view"
-        android:visibility="gone" />
+        layout="@layout/merge_overlay_waiting_view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
