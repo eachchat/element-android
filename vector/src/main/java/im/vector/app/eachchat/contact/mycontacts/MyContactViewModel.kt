@@ -108,6 +108,7 @@ class MyContactViewModel @AssistedInject constructor(
             return
         }
         viewModelScope.launch(Dispatchers.IO) {
+            loading.postValue(true)
             //用于清理垃圾数据
 //            contacts.forEach {
 //                it.id?.let { it1 -> ContactServiceV2.getInstance().delete(it1) }

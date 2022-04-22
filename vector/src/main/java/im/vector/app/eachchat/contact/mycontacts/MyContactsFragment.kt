@@ -25,6 +25,7 @@ import android.widget.RelativeLayout
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.mvrx.fragmentViewModel
+import im.vector.app.R
 import im.vector.app.core.epoxy.onClick
 import im.vector.app.core.platform.VectorBaseBottomSheetDialogFragment.ResultListener.Companion.RESULT_OK
 import im.vector.app.core.platform.VectorBaseFragment
@@ -65,6 +66,10 @@ class MyContactsFragment @Inject constructor(
         // viewModel.loadMyContactsOffset()
         contactsLiveData?.observe(viewLifecycleOwner) {
             viewModel.loadMyContacts(it)
+        }
+
+        viewModel.loading.observe(viewLifecycleOwner) {
+            showLoading(getString(R.string.loading_contact))
         }
     }
 

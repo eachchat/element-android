@@ -192,6 +192,7 @@ class ContactAddSearchViewModel @AssistedInject constructor(
     }
 
     fun addContacts(position: Int, contact: ContactsDisplayBean, adapter: ContactAddSearchAdapter) {
+        loading.postValue(true)
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 val contactV2 = contact.toContactsDisplayBeanV2()
@@ -207,8 +208,14 @@ class ContactAddSearchViewModel @AssistedInject constructor(
                     withContext(Dispatchers.IO) {
                         local.insertContacts(contact)
                         EventBus.getDefault().post(UpdateMyContactsEvent)
+                        loading.postValue(false)
                     }
+                } else {
+                    loading.postValue(false)
                 }
+            }.exceptionOrNull()?.let {
+                it.printStackTrace()
+                loading.postValue(false)
             }
         }
     }

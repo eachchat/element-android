@@ -3175,4 +3175,5 @@
     <string name="initial_sync_start_importing_contacts">正在同步联系人</string>
     <string name="action_un_save">未保存</string>
     <string name="invite_by_msisdn">通过电话号码进行邀请</string>
+    <string name="loading_contact">正在加载联系人</string>
 </resources>
