@@ -69,7 +69,11 @@ class MyContactsFragment @Inject constructor(
         }
 
         viewModel.loading.observe(viewLifecycleOwner) {
-            showLoading(getString(R.string.loading_contact))
+            if (it) {
+                showLoading(getString(R.string.loading_contact))
+            } else {
+                dismissLoadingDialog()
+            }
         }
     }
 

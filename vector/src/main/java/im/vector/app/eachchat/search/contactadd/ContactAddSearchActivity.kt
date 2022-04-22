@@ -54,6 +54,7 @@ class ContactAddSearchActivity : VectorBaseActivity<ActivityContactAddSearchBind
 
         //init waiting view
         views.waitingView.waitingStatusText.text = getString(R.string.please_wait)
+        views.waitingView.waitingStatusText.isVisible = true
         vm.loading.observe(this) {
             views.waitingView.waitingView.isVisible = it
         }
