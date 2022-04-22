@@ -26,8 +26,6 @@ import im.vector.app.eachchat.base.BaseModule
 import im.vector.app.eachchat.contact.api.ContactServiceV2
 import im.vector.app.eachchat.contact.data.ContactsDisplayBeanV2
 import im.vector.app.eachchat.database.AppDatabase
-import im.vector.app.eachchat.utils.AppCache
-import im.vector.app.features.form.formSwitchItem
 import im.vector.app.features.home.AvatarRenderer
 import im.vector.app.features.roomprofile.RoomProfileController.Companion.END_LOADING
 import im.vector.app.features.roomprofile.RoomProfileController.Companion.START_LOADING
@@ -35,7 +33,6 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.matrix.android.sdk.api.util.MatrixItem
 
 fun EpoxyController.buildProfileSection(title: String) {
@@ -86,6 +83,15 @@ fun EpoxyController.buildDivider(dividerName: String, height: Int) {
     customHeightDividerItem {
         id("divider_$dividerName")
         customHeight(height)
+    }
+}
+
+// 展示一些基本信息
+fun EpoxyController.buildUserProfileInfoItem(key: String?, value: String?) {
+    userProfileInfoItem {
+        id("user_profile_$key")
+        key(key)
+        value(value)
     }
 }
 

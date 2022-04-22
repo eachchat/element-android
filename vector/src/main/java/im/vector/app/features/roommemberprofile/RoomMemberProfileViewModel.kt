@@ -17,12 +17,12 @@
 
 package im.vector.app.features.roommemberprofile
 
+import androidx.lifecycle.LifecycleOwner
 import com.airbnb.mvrx.Fail
 import com.airbnb.mvrx.Loading
 import com.airbnb.mvrx.MavericksViewModelFactory
 import com.airbnb.mvrx.Success
 import com.airbnb.mvrx.Uninitialized
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -33,12 +33,9 @@ import im.vector.app.core.extensions.exhaustive
 import im.vector.app.core.mvrx.runCatchingToAsync
 import im.vector.app.core.platform.VectorViewModel
 import im.vector.app.core.resources.StringProvider
-import im.vector.app.core.utils.PERMISSIONS_FOR_AUDIO_IP_CALL
-import im.vector.app.core.utils.PERMISSIONS_FOR_VIDEO_IP_CALL
-import im.vector.app.core.utils.checkPermissions
 import im.vector.app.eachchat.base.BaseModule
+import im.vector.app.eachchat.database.AppDatabase
 import im.vector.app.features.displayname.getBestName
-import im.vector.app.features.home.room.detail.RoomDetailAction
 import im.vector.app.features.home.room.detail.timeline.helper.MatrixItemColorProvider
 import im.vector.app.features.powerlevel.PowerLevelsFlowFactory
 import kotlinx.coroutines.Dispatchers
@@ -113,6 +110,7 @@ class RoomMemberProfileViewModel @AssistedInject constructor(
                 observeRoomMemberSummary(room)
                 observeRoomSummaryAndPowerLevels(room)
             }
+
         }
 
         session.flow().liveUserCryptoDevices(initialState.userId)
@@ -135,7 +133,34 @@ class RoomMemberProfileViewModel @AssistedInject constructor(
                 }
 
         setState { copy(directRoomId = session.getExistingDirectRoomWithUser(initialState.userId)) }
+    }
 
+    // 观察一些补充的信息
+    fun observeOtherInfo(lifecycleOwner: LifecycleOwner) {
+        if (room?.roomSummary()?.isDirect != false) {
+            observeContact(lifecycleOwner)
+            observeDepartmentUser(lifecycleOwner)
+        }
+    }
+
+    private fun observeContact(lifecycleOwner: LifecycleOwner) {
+        AppDatabase
+                .getInstance(BaseModule.getContext()).contactDaoV2()
+                .getContactByMatrixIdLive(initialState.userId).observe(lifecycleOwner) {
+                    setState {
+                        copy(contact = it)
+                    }
+                }
+    }
+
+    private fun observeDepartmentUser(lifecycleOwner: LifecycleOwner) {
+        AppDatabase
+                .getInstance(BaseModule.getContext()).UserDao()
+                .getBriefUserByMatrixIdLive(initialState.userId).observe(lifecycleOwner) {
+                    setState {
+                        copy(departmentUser = it)
+                    }
+                }
     }
 
     private fun observeAccountData() {

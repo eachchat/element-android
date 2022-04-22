@@ -16,17 +16,22 @@
 
 package im.vector.app.eachchat.contact.database
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import im.vector.app.eachchat.contact.api.bean.Department
+import im.vector.app.eachchat.contact.data.ContactsDisplayBeanV2
 import im.vector.app.eachchat.contact.data.User
 
 @Dao
 interface UserDao {
     @Query("SELECT * FROM UserInfoStore WHERE matrixId = :id AND del!=1")
     fun getBriefUserByMatrixId(id: String?): User?
+
+    @Query("SELECT * FROM UserInfoStore WHERE matrixId = :id AND del!=1")
+    fun getBriefUserByMatrixIdLive(id: String?): LiveData<User?>
 
     @Query("SELECT * FROM UserInfoStore WHERE departmentId = :departmentId and del != 1")
     fun getSelectUsersByDepartmentId(departmentId: String?): List<User>?

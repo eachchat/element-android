@@ -105,6 +105,7 @@ class RoomMemberProfileFragment @Inject constructor(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         analyticsScreenName = Screen.ScreenName.User
+        viewModel.observeOtherInfo(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

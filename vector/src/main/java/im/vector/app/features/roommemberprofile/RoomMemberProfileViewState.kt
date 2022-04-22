@@ -20,6 +20,8 @@ package im.vector.app.features.roommemberprofile
 import com.airbnb.mvrx.Async
 import com.airbnb.mvrx.MavericksState
 import com.airbnb.mvrx.Uninitialized
+import im.vector.app.eachchat.contact.data.ContactsDisplayBeanV2
+import im.vector.app.eachchat.contact.data.User
 import org.matrix.android.sdk.api.session.crypto.crosssigning.MXCrossSigningInfo
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
@@ -44,7 +46,9 @@ data class RoomMemberProfileViewState(
         val hasReadReceipt: Boolean = false,
         val userColorOverride: String? = null,
         val actionPermissions: ActionPermissions = ActionPermissions(),
-        val directRoomId: String? = null // 判断是否显示语音通话和视频通话
+        val directRoomId: String? = null, // 判断是否显示语音通话和视频通话
+        val contact: ContactsDisplayBeanV2? = null, // 用户的联系信息
+        val departmentUser: User? = null // 用户的组织信息
 ) : MavericksState {
 
     constructor(args: RoomMemberProfileArgs) : this(userId = args.userId, roomId = args.roomId)
