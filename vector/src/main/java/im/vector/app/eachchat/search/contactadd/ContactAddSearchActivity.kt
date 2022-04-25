@@ -139,9 +139,9 @@ class ContactAddSearchActivity : VectorBaseActivity<ActivityContactAddSearchBind
             it.interpolator = LinearInterpolator()
         }.also { it.start() }
 
-//        vm.showOnlineSearchLayout.observe(this) {
-//            views.layoutSearchUserOnline.myContactLl.isVisible = it
-//        }
+        vm.showOnlineSearchLayout.observe(this) {
+            views.layoutSearchUserOnline.myContactLl.isVisible = it
+        }
 
         vm.showContactList.observe(this) {
             views.listUser.isVisible = it

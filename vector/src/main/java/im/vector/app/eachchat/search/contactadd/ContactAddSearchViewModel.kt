@@ -6,6 +6,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.airbnb.mvrx.MavericksViewModelFactory
 import com.airbnb.mvrx.ViewModelContext
+import com.blankj.utilcode.util.RegexUtils.isEmail
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -29,12 +30,14 @@ import im.vector.app.eachchat.database.AppDatabase
 import im.vector.app.eachchat.department.DepartmentStoreHelper
 import im.vector.app.eachchat.search.contactadd.adapter.ContactAddSearchAdapter
 import im.vector.app.eachchat.utils.AppCache
+import im.vector.app.eachchat.utils.string.StringUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.greenrobot.eventbus.EventBus
+import org.matrix.android.sdk.api.MatrixPatterns
 import org.matrix.android.sdk.api.extensions.orFalse
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.session.identity.ThreePid
@@ -92,20 +95,20 @@ class ContactAddSearchViewModel @AssistedInject constructor(
     }
     val showEmptyView = MediatorLiveData<Boolean>().also {
         it.addSource(_modeSearch) { _modeSearch ->
-//            val keywordValid =
-//                    isEmail(keyword.value?.trim()) || isTel(keyword.value?.trim()) || MatrixPatterns.isUserId(
-//                            keyword.value.toString().trim()
-//                    )
-            it.postValue(_modeSearch && userList.size < 1 ) // && !keywordValid)
+            val keywordValid =
+                    isEmail(keyword.value?.trim()) || StringUtils.isPhoneNumber(keyword.value?.trim()) || MatrixPatterns.isUserId(
+                            keyword.value.toString().trim()
+                    )
+            it.postValue(_modeSearch && userList.size < 1 && !keywordValid) // )
         }
     }
     val showOnlineSearchLayout = MediatorLiveData<Boolean>().also {
         it.addSource(_modeSearch) { _modeSearch ->
-//            val keywordValid =
-//                    isEmail(keyword.value?.trim()) || isTel(keyword.value?.trim()) || MatrixPatterns.isUserId(
-//                            keyword.value.toString().trim()
-//                    )
-            it.postValue(_modeSearch && userList.size < 1 )// && keywordValid)
+            val keywordValid =
+                    isEmail(keyword.value?.trim()) || StringUtils.isPhoneNumber(keyword.value?.trim()) || MatrixPatterns.isUserId(
+                            keyword.value.toString().trim()
+                    )
+            it.postValue(_modeSearch && userList.size < 1 && keywordValid)// )
         }
     }
 
@@ -275,6 +278,7 @@ class ContactAddSearchViewModel @AssistedInject constructor(
         if (string.isNullOrBlank()) return
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
+                session.identityService().setUserConsent(true)
                 val threePids = ArrayList<ThreePid>()
                 if (string.contains("@")) {
                     val threePid = ThreePid.Email(string)
