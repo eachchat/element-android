@@ -131,7 +131,7 @@ class MQTTService : Service() {
                         }
                         try {
                             // use SQLiteDatabase encrypted storage
-                            getInstance(BaseModule.getContext()).UserDao().bulkInsert(response.results)
+                            getInstance(BaseModule.getContext()).userDao().bulkInsert(response.results)
                             EventBus.getDefault().post(UpdateUserEvent)
                             LogUtils.iTag(TAG, "CMD_UPDATE_USER load success, response.getResults().size() = " + response.results!!.size)
                             if (response.hasNext) {

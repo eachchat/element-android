@@ -7,15 +7,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import im.vector.app.R
+import im.vector.app.eachchat.base.BaseModule
 import im.vector.app.eachchat.contact.data.ContactsDisplayBean
 import im.vector.app.eachchat.contact.data.User
-import im.vector.app.eachchat.contact.data.resolveMxc
-import im.vector.app.eachchat.department.data.DepartmentUserBean
 import im.vector.app.eachchat.department.data.IDisplayBean
+import im.vector.app.eachchat.user.UserInfoActivity
+import im.vector.app.eachchat.user.UserInfoArg
+import im.vector.app.features.roommemberprofile.RoomMemberProfileActivity
+import im.vector.app.features.roommemberprofile.RoomMemberProfileArgs
 import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 /**
  * Created by zhouguanjie on 2019/8/22.
@@ -52,12 +52,8 @@ class ContactHolder(view: View) : RecyclerView.ViewHolder(view) {
         mRoot.setOnClickListener {
             if (user is User) {
                 val contact: User = user
-                if (TextUtils.isEmpty(contact.id) && TextUtils.equals(contact.departmentId, ContactsDisplayBean.CONTACTS_DEPARTMENT_ID)) {
-//                    Contact.INSTANCE.contactInfoActivity(contact.getMatrixId(), true, false)
-                    return@setOnClickListener
-                }
+                UserInfoActivity.start(mRoot.context, UserInfoArg(userId = contact.matrixId, departmentUserId = contact.id))
             }
-            // UserInfoActivity.start(user.getId())
         }
     }
 

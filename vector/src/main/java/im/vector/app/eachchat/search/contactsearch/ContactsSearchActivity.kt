@@ -26,6 +26,8 @@ import im.vector.app.eachchat.department.DepartmentActivity
 import im.vector.app.eachchat.department.DepartmentFragment
 import im.vector.app.eachchat.search.contactsearch.searchmore.SearchMoreActivity
 import im.vector.app.eachchat.ui.dialog.AlertDialog
+import im.vector.app.features.roommemberprofile.RoomMemberProfileActivity
+import im.vector.app.features.roommemberprofile.RoomMemberProfileArgs
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -179,9 +181,12 @@ open class ContactsSearchActivity :
                                 }
                             }
                             ContactsSearchAdapter.SUB_TYPE_MY_CONTACT    -> {
-                                // contactInfoActivityV2(displayBean.id)
+                                val intent = RoomMemberProfileActivity.newIntent(this, RoomMemberProfileArgs(it.id))
+                                startActivity(intent)
                             }
                             ContactsSearchAdapter.SUB_TYPE_ORG           -> {
+                                val intent = RoomMemberProfileActivity.newIntent(this, RoomMemberProfileArgs(it.id))
+                                startActivity(intent)
                                 // start(displayBean.id)
                             }
                             ContactsSearchAdapter.SUB_TYPE_DEPARTMENT    -> {

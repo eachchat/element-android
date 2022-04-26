@@ -141,7 +141,7 @@ class ContactAddSearchViewModel @AssistedInject constructor(
                 withContext(Dispatchers.IO) {
 
 //                    if (AppCache.getIsOpenOrg()) {
-                    AppDatabase.getInstance(BaseModule.getContext()).UserDao().search(internalKeyword)?.filter {
+                    AppDatabase.getInstance(BaseModule.getContext()).userDao().search(internalKeyword)?.filter {
                         it.matrixId?.contains(internalKeyword)
                                 .orFalse() || it.displayName?.contains(internalKeyword).orFalse()
                     }?.map { user ->
@@ -260,7 +260,7 @@ class ContactAddSearchViewModel @AssistedInject constructor(
                     user.displayName = contact.displayName
                     user.contactAdded = true
                 }
-                val orgMember = AppDatabase.getInstance(BaseModule.getContext()).UserDao().getBriefUserByMatrixId(matrixId)
+                val orgMember = AppDatabase.getInstance(BaseModule.getContext()).userDao().getBriefUserByMatrixId(matrixId)
                 if (AppCache.getIsOpenOrg()) {
                     user.displayName = orgMember?.displayName
                 }

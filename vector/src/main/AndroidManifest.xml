@@ -511,6 +511,8 @@
         <activity android:name=".eachchat.search.contactsearch.ContactsSearchActivity" />
         <activity android:name=".eachchat.search.contactsearch.searchmore.SearchMoreActivity" />
         <activity android:name=".eachchat.search.contactadd.ContactAddSearchActivity" />
+        <activity android:name=".eachchat.user.UserInfoActivity"/>
+        <activity android:name=".eachchat.moreinfo.MoreInfoActivity"/>
         <!-- Services -->
 
         <service

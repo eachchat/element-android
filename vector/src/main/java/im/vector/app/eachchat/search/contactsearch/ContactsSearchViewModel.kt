@@ -305,7 +305,7 @@ class ContactsSearchViewModel @AssistedInject constructor(
 
     private fun searchOrg(keyword: String): List<IDisplayBean> {
         orgUsers.clear()
-        val searchUsers = AppDatabase.getInstance(BaseModule.getContext()).UserDao().search(keyword, 100)
+        val searchUsers = AppDatabase.getInstance(BaseModule.getContext()).userDao().search(keyword, 100)
         if (!searchUsers.isNullOrEmpty()) {
             searchUsers.forEach {
                 val searchUserBean = SearchUserBean(it, keyword)
@@ -347,7 +347,7 @@ class ContactsSearchViewModel @AssistedInject constructor(
                             .sortedWith(RoomComparator())
             processedJoinRooms.forEach { roomSummary ->
                 val matrixUser = session.getUser(roomSummary.otherMemberIds[0]) ?: return@forEach
-                var user = AppDatabase.getInstance(BaseModule.getContext()).UserDao().getBriefUserByMatrixId(matrixUser.userId)
+                var user = AppDatabase.getInstance(BaseModule.getContext()).userDao().getBriefUserByMatrixId(matrixUser.userId)
                 val contact = AppDatabase.getInstance(BaseModule.getContext()).contactDaoV2()
                         .getContactByMatrixId(matrixUser.userId)
                 if (user == null) {
@@ -499,7 +499,7 @@ class ContactsSearchViewModel @AssistedInject constructor(
                     user.subTitle = contact.title
                     user.displayName = contact.displayName
                 }
-                val orgMember = AppDatabase.getInstance(BaseModule.getContext()).UserDao().getBriefUserByMatrixId(matrixId)
+                val orgMember = AppDatabase.getInstance(BaseModule.getContext()).userDao().getBriefUserByMatrixId(matrixId)
                 if (orgMember != null && AppCache.getIsOpenOrg()) {
                     user.subTitle = orgMember.userTitle
                     user.displayName = orgMember.displayName
@@ -637,7 +637,7 @@ class ContactsSearchViewModel @AssistedInject constructor(
         }
 
         // 如果没有备注名, 再获取组织架构中的名字
-        val user = if (AppCache.getIsOpenOrg()) AppDatabase.getInstance(BaseModule.getContext()).UserDao().getBriefUserByMatrixId(matrixId) else null
+        val user = if (AppCache.getIsOpenOrg()) AppDatabase.getInstance(BaseModule.getContext()).userDao().getBriefUserByMatrixId(matrixId) else null
 
         // 如果组织架构中没有名字, 就使用 Matrix 中的名字
         if (user == null || TextUtils.isEmpty(user.displayName)) {

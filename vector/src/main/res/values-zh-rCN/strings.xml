@@ -3177,4 +3177,5 @@
     <string name="invite_by_msisdn">通过电话号码进行邀请</string>
     <string name="loading_contact">正在加载联系人</string>
     <string name="user_title">职位</string>
+    <string name="more_info">更多详情</string>
 </resources>

@@ -155,7 +155,7 @@ class RoomMemberProfileViewModel @AssistedInject constructor(
 
     private fun observeDepartmentUser(lifecycleOwner: LifecycleOwner) {
         AppDatabase
-                .getInstance(BaseModule.getContext()).UserDao()
+                .getInstance(BaseModule.getContext()).userDao()
                 .getBriefUserByMatrixIdLive(initialState.userId).observe(lifecycleOwner) {
                     setState {
                         copy(departmentUser = it)

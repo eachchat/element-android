@@ -27,6 +27,9 @@ import im.vector.app.eachchat.contact.data.User
 
 @Dao
 interface UserDao {
+    @Query("SELECT * FROM UserInfoStore WHERE id = :id AND del!=1")
+    fun getBriefUserById(id: String?): User?
+
     @Query("SELECT * FROM UserInfoStore WHERE matrixId = :id AND del!=1")
     fun getBriefUserByMatrixId(id: String?): User?
 

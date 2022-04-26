@@ -24,6 +24,7 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
 import dagger.multibindings.IntoMap
+import im.vector.app.eachchat.user.UserInfoFragment
 import im.vector.app.features.analytics.ui.consent.AnalyticsOptInFragment
 import im.vector.app.features.attachments.preview.AttachmentsPreviewFragment
 import im.vector.app.features.contactsbook.ContactsBookFragment
@@ -633,6 +634,11 @@ interface FragmentModule {
     @IntoMap
     @FragmentKey(RoomMemberProfileFragment::class)
     fun bindRoomMemberProfileFragment(fragment: RoomMemberProfileFragment): Fragment
+
+    @Binds
+    @IntoMap
+    @FragmentKey(UserInfoFragment::class)
+    fun bindUserInfoFragment(userInfoFragment: UserInfoFragment): Fragment
 
     @Binds
     @IntoMap

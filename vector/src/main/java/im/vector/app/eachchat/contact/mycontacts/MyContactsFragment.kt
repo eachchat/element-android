@@ -23,15 +23,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.mvrx.fragmentViewModel
 import im.vector.app.R
 import im.vector.app.core.epoxy.onClick
-import im.vector.app.core.platform.VectorBaseBottomSheetDialogFragment.ResultListener.Companion.RESULT_OK
 import im.vector.app.core.platform.VectorBaseFragment
 import im.vector.app.databinding.FragmentMyContactsBinding
+import im.vector.app.eachchat.user.UserInfoActivity
+import im.vector.app.eachchat.user.UserInfoArg
 import im.vector.app.eachchat.base.BaseModule
 import im.vector.app.eachchat.contact.data.ContactsDisplayBeanV2
+import im.vector.app.eachchat.contact.data.User
 import im.vector.app.eachchat.database.AppDatabase
 import im.vector.app.eachchat.ui.index.IndexView
 import im.vector.app.eachchat.ui.stickyHeader.StickyHeaderDecoration
@@ -85,19 +88,20 @@ class MyContactsFragment @Inject constructor(
         views.backLayout.onClick {
             requireActivity().onBackPressed()
         }
-//        adapter.setOnItemClickListener { adapter, _, position ->
-//            val user: User = adapter.getItem(position) as User
-//            // 是联系人跳联系人详情; 不是联系人跳成员详情
-//            if (TextUtils.isEmpty(user.id) && TextUtils.equals(
-//                            user.departmentId,
-//                            CONTACTS_DEPARTMENT_ID
-//                    )
-//            ) {
-//                contactInfoActivityV2(user.contactId, this)
+        adapter.setOnItemClickListener { adapter, _, position ->
+            val user: User = adapter.getItem(position) as User
+//            if (!user.matrixId.isNullOrBlank()) let {
+//                val intent = RoomMemberProfileActivity.newIntent(requireContext(), RoomMemberProfileArgs(user.matrixId!!))
+//                startActivity(intent)
 //            } else {
-//                start(user.id)
+//                val intent = RoomMemberProfileActivity.newIntent(requireContext(), RoomMemberProfileArgs(user.matrixId!!))
+//                startActivity(intent)
 //            }
-//        }
+            lifecycleScope.launch(Dispatchers.IO) {
+                val contact = AppDatabase.getInstance(requireContext()).contactDaoV2().getContactByContactId(user.contactId)
+                UserInfoActivity.start(requireActivity(), UserInfoArg(userId = contact?.matrixId, contact = contact, displayName = contact?.displayName))
+            }
+        }
     }
 
     private fun observeData() {

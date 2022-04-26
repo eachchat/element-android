@@ -23,33 +23,32 @@ import java.util.regex.Pattern
 @Entity(tableName = "contacts")
 @Parcelize
 data class ContactsDisplayBean(
-    @Transient
-    var avatar: String? = null,
-    var remarkName: String? = null,
-    var matrixId: String,
-    var email: String? = null,
-    var mobile: String? = null,
-    var telephone: String? = null,
-    var company: String? = null,
-    @SerializedName("title")
-    var userTitle: String? = null,
-    @Transient
-    var contactAdded: Boolean = false,
-    @Transient
-    var fromOrg: Boolean = false,
-    @Transient
-    var displayName: String? = null,
-    @PrimaryKey
-    var contactId: String = "",
-    var valid: Int = 0,
-    var lastSeenTs: Long = 0,
-    var del: Int = 0,
+        @Transient
+        var avatar: String? = null,
+        var remarkName: String? = null,
+        var matrixId: String,
+        var email: String? = null,
+        var mobile: String? = null,
+        var telephone: String? = null,
+        var company: String? = null,
+        @SerializedName("title")
+        var userTitle: String? = null,
+        @Transient
+        var contactAdded: Boolean = false,
+        @Transient
+        var fromOrg: Boolean = false,
+        @Transient
+        var displayName: String? = null,
+        @PrimaryKey
+        var contactId: String = "",
+        var valid: Int = 0,
+        var lastSeenTs: Long = 0,
+        var del: Int = 0,
 ) : Parcelable {
 
     companion object {
         const val CONTACTS_DEPARTMENT_ID = "-0x10086"
     }
-
 
     @IgnoredOnParcel var avatarUrl: String? = null
         set(value) {
@@ -75,12 +74,12 @@ data class ContactsDisplayBean(
                 when {
                     fromOrg -> userTitle
 //                    matrixHostEquals(matrixId) -> userTitle
-                    else -> {
+                    else    -> {
                         when {
-                            company.isNullOrEmpty() && !userTitle.isNullOrEmpty() -> userTitle
-                            !company.isNullOrEmpty() && userTitle.isNullOrEmpty() -> company
+                            company.isNullOrEmpty() && !userTitle.isNullOrEmpty()  -> userTitle
+                            !company.isNullOrEmpty() && userTitle.isNullOrEmpty()  -> company
                             !company.isNullOrEmpty() && !userTitle.isNullOrEmpty() -> "$company $userTitle"
-                            else -> matrixId
+                            else                                                   -> matrixId
                         }
                     }
                 }
@@ -182,78 +181,79 @@ fun List<org.matrix.android.sdk.api.session.user.model.User>?.toContactList(
 }
 
 fun org.matrix.android.sdk.api.session.user.model.User.toContact(contactAdded: Boolean = false) =
-    ContactsDisplayBean(
-        avatarUrl,
-        displayName,
-        userId,
-        contactAdded = contactAdded,
-        displayName = displayName
-    )
+        ContactsDisplayBean(
+                avatarUrl,
+                displayName,
+                userId,
+                contactAdded = contactAdded,
+                displayName = displayName
+        )
 
 fun User.toContact(company: String?, contactAdded: Boolean = false) =
-    ContactsDisplayBean(
-        avatarTUrl,
-        displayName.emptyTake(userName),
-        matrixId ?: "",
-        userTitle = userTitle,
-        contactAdded = contactAdded,
-        fromOrg = true,
-        displayName = displayName,
-        company = company
-    ).also {
-        phoneNumbers?.forEach { phone ->
-            if ("work".equals(phone.type, true)) {
-                it.telephone = phone.value
-            } else {
-                it.mobile = phone.value
+        ContactsDisplayBean(
+                avatarTUrl,
+                displayName.emptyTake(userName),
+                matrixId ?: "",
+                userTitle = userTitle,
+                contactAdded = contactAdded,
+                fromOrg = true,
+                displayName = displayName,
+                company = company,
+                contactId = if (id != null) id!! else ""
+        ).also {
+            phoneNumbers?.forEach { phone ->
+                if ("work".equals(phone.type, true)) {
+                    it.telephone = phone.value
+                } else {
+                    it.mobile = phone.value
+                }
+            }
+
+            emails?.forEach { email ->
+                it.email = email.value
             }
         }
-
-        emails?.forEach { email ->
-            it.email = email.value
-        }
-    }
 
 fun User.toContactV2(company: String?, department: String? = null, contactAdded: Boolean = false) =
-    ContactsDisplayBeanV2(
-        photo = avatarTUrl,
-        family = displayName.emptyTake(userName),
-        matrixId = matrixId ?: "",
-        title = userTitle,
-        contactAdded = contactAdded,
-        fromOrg = true,
-        nickName = displayName,
-        organization = company,
-        department = department
-    ).also {
-        phoneNumbers?.forEach { phone ->
-            val telephoneBean = TelephoneBean()
-            if ("work".equals(phone.type, true)) {
-                telephoneBean.value = phone.value
-                telephoneBean.type = TelephoneBean.WORK
-            } else {
-                telephoneBean.value = phone.value
-                telephoneBean.type = TelephoneBean.HOME
+        ContactsDisplayBeanV2(
+                photo = avatarTUrl,
+                family = displayName.emptyTake(userName),
+                matrixId = matrixId ?: "",
+                title = userTitle,
+                contactAdded = contactAdded,
+                fromOrg = true,
+                nickName = displayName,
+                organization = company,
+                department = department
+        ).also {
+            phoneNumbers?.forEach { phone ->
+                val telephoneBean = TelephoneBean()
+                if ("work".equals(phone.type, true)) {
+                    telephoneBean.value = phone.value
+                    telephoneBean.type = TelephoneBean.WORK
+                } else {
+                    telephoneBean.value = phone.value
+                    telephoneBean.type = TelephoneBean.HOME
+                }
+                if (it.telephoneList == null) {
+                    it.telephoneList = ArrayList()
+                }
+                it.telephoneList?.add(telephoneBean)
             }
-            if (it.telephoneList == null) {
-                it.telephoneList = ArrayList()
-            }
-            it.telephoneList?.add(telephoneBean)
-        }
 
-        emails?.forEach { email ->
-            val emailBean = EmailBean()
-            emailBean.value = email.value
-            emailBean.type = EmailBean.WORK
-            if (it.emailList == null) {
-                it.emailList = ArrayList()
+            emails?.forEach { email ->
+                val emailBean = EmailBean()
+                emailBean.value = email.value
+                emailBean.type = EmailBean.WORK
+                if (it.emailList == null) {
+                    it.emailList = ArrayList()
+                }
+                it.emailList?.add(emailBean)
             }
-            it.emailList?.add(emailBean)
         }
-    }
 
 internal fun String?.emptyTake(newValue: String?) =
-    this.takeIf { !it.isNullOrEmpty() && it != "null" } ?: newValue
+        this.takeIf { !it.isNullOrEmpty() && it != "null" } ?: newValue
 
 internal fun String?.isNull() = (this.isNullOrEmpty() || this == "null")
 
@@ -287,8 +287,8 @@ fun getNamePy(name: String?): String {
 
 fun String?.resolveMxc() =
         when {
-            isNullOrEmpty() -> this
+            isNullOrEmpty()      -> this
             startsWith("mxc://") -> BaseModule.getSession().contentUrlResolver()
                     .resolveThumbnail(this, 250, 250, ContentUrlResolver.ThumbnailMethod.SCALE) ?: this
-            else -> this
+            else                 -> this
         }

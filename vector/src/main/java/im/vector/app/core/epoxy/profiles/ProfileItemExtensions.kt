@@ -95,6 +95,13 @@ fun EpoxyController.buildUserProfileInfoItem(key: String?, value: String?) {
     }
 }
 
+fun EpoxyController.buildShowMoreInfoInfoItem(action: ClickListener? = null) {
+    showMoreInfoItem {
+        id("user_profile_show_more")
+        listener(action)
+    }
+}
+
 @OptIn(DelicateCoroutinesApi::class)
 fun EpoxyController.addContactSwitchItem(title: String, matrixId: String, contact: ContactsDisplayBeanV2, callBack: (String) -> Unit) {
     contactSwitchItem {

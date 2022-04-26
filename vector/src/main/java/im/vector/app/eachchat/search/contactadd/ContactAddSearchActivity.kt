@@ -21,8 +21,12 @@ import im.vector.app.eachchat.contact.data.ContactsDisplayBean
 import im.vector.app.eachchat.search.contactadd.adapter.ContactAddSearchAdapter
 import im.vector.app.eachchat.ui.LineDecoration
 import im.vector.app.eachchat.ui.dialog.AlertDialog
+import im.vector.app.eachchat.user.UserInfoActivity
+import im.vector.app.eachchat.user.UserInfoArg
 import im.vector.app.eachchat.utils.ScreenUtils
 import im.vector.app.eachchat.utils.ToastUtil
+import im.vector.app.features.roommemberprofile.RoomMemberProfileActivity
+import im.vector.app.features.roommemberprofile.RoomMemberProfileArgs
 import org.matrix.android.sdk.api.MatrixPatterns
 
 /**
@@ -71,8 +75,14 @@ class ContactAddSearchActivity : VectorBaseActivity<ActivityContactAddSearchBind
             layoutManager = LinearLayoutManager(this@ContactAddSearchActivity)
             itemAnimator = null
             mAdapter = ContactAddSearchAdapter(vm.userList)
-            mAdapter.setOnItemClickListener { _, _, _ ->
-
+            mAdapter.setOnItemClickListener { adapter, _, position ->
+                val user = adapter.getItem(position) as ContactsDisplayBean
+                if (user.fromOrg) {
+                    UserInfoActivity.start(this@ContactAddSearchActivity, UserInfoArg(userId = user.matrixId, departmentUserId = user.contactId))
+                } else {
+                    val intent = RoomMemberProfileActivity.newIntent(this@ContactAddSearchActivity, RoomMemberProfileArgs(userId = user.matrixId))
+                    startActivity(intent)
+                }
             }
             mAdapter.setOnItemChildClickListener { adapter, view, position ->
                 if (view.id == R.id.btn_add_contacts) {

@@ -96,7 +96,7 @@ class RealContactsViewModel @AssistedInject constructor(
                     processedJoinRooms.forEach { roomSummary2 ->
                         var user: User?
                         val matrixUser = session.getUser(roomSummary2.otherMemberIds[0]) ?: return@forEach
-                        user = if (AppCache.getIsOpenOrg()) AppDatabase.getInstance(BaseModule.getContext()).UserDao().getBriefUserByMatrixId(matrixUser.userId) else null
+                        user = if (AppCache.getIsOpenOrg()) AppDatabase.getInstance(BaseModule.getContext()).userDao().getBriefUserByMatrixId(matrixUser.userId) else null
                         var contact: ContactsDisplayBean? = null
                         if (user?.matrixId?.getHomeSever() != BaseModule.getSession().myUserId.getHomeSever()) {
                             user?.userTitle = getCompleteTitle(user?.userTitle, user?.departmentId)

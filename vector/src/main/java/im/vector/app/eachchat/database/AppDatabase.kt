@@ -41,7 +41,7 @@ abstract class AppDatabase : RoomDatabase() {
     //    abstract fun contactDao(): ContactDao
     abstract fun contactDaoV2(): ContactDaoV2
 
-    abstract fun UserDao(): UserDao
+    abstract fun userDao(): UserDao
 
     abstract fun contactRoomDao(): ContactRoomDao
 

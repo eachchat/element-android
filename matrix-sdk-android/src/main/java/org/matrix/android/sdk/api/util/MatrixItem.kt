@@ -37,7 +37,7 @@ sealed class MatrixItem(
                         override val avatarUrl: String? = null) :
         MatrixItem(id, displayName?.removeSuffix(ircPattern), avatarUrl) {
         init {
-            if (BuildConfig.DEBUG) checkId()
+            // if (BuildConfig.DEBUG) checkId()
         }
 
         override fun updateAvatar(newAvatar: String?) = copy(avatarUrl = newAvatar)

@@ -25,11 +25,11 @@ import im.vector.app.eachchat.department.data.IDisplayBean
 object UserStoreHelper {
     @JvmStatic
     fun getSelectUsersByDepartmentId(departmentId: String?): List<IDisplayBean> {
-        return AppDatabase.getInstance(BaseModule.getContext()).UserDao().getSelectUsersByDepartmentId(departmentId).toIDisplayBeanList()
+        return AppDatabase.getInstance(BaseModule.getContext()).userDao().getSelectUsersByDepartmentId(departmentId).toIDisplayBeanList()
     }
 
     fun getBriefUserByMatrixId(matrixId: String?): IDisplayBean {
-        return DepartmentUserBean(AppDatabase.getInstance(BaseModule.getContext()).UserDao().getBriefUserByMatrixId(matrixId))
+        return DepartmentUserBean(AppDatabase.getInstance(BaseModule.getContext()).userDao().getBriefUserByMatrixId(matrixId))
     }
 
     @JvmStatic
@@ -37,9 +37,9 @@ object UserStoreHelper {
                count: Int,
                departId: String?): List<IDisplayBean> {
         if (departId != null) {
-            return AppDatabase.getInstance(BaseModule.getContext()).UserDao().search(keyWord, count, departId).toIDisplayBeanList()
+            return AppDatabase.getInstance(BaseModule.getContext()).userDao().search(keyWord, count, departId).toIDisplayBeanList()
         } else {
-            return AppDatabase.getInstance(BaseModule.getContext()).UserDao().search(keyWord, count).toIDisplayBeanList()
+            return AppDatabase.getInstance(BaseModule.getContext()).userDao().search(keyWord, count).toIDisplayBeanList()
         }
     }
 

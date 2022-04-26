@@ -29,7 +29,7 @@ import im.vector.app.eachchat.department.DepartmentStoreHelper
 fun getCloseContactTitle(matrixId: String): String? {
     val contact = if (AppCache.getIsOpenContact()) ContactDaoHelper.getInstance()
             .getContactByMatrixId(matrixId) else null
-    val user = if (AppCache.getIsOpenOrg()) AppDatabase.getInstance(BaseModule.getContext()).UserDao().getBriefUserByMatrixId(
+    val user = if (AppCache.getIsOpenOrg()) AppDatabase.getInstance(BaseModule.getContext()).userDao().getBriefUserByMatrixId(
             matrixId,
     ) else null
     val tempTitle = contact?.userTitle.emptyTake(user?.userTitle)
