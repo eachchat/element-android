@@ -99,7 +99,7 @@ class MyContactsFragment @Inject constructor(
 //            }
             lifecycleScope.launch(Dispatchers.IO) {
                 val contact = AppDatabase.getInstance(requireContext()).contactDaoV2().getContactByContactId(user.contactId)
-                UserInfoActivity.start(requireActivity(), UserInfoArg(userId = contact?.matrixId, contact = contact, displayName = contact?.displayName))
+                UserInfoActivity.start(requireActivity(), UserInfoArg(userId = contact?.matrixId, contact = contact, displayName = contact?.displayName, openByContact = true))
             }
         }
     }

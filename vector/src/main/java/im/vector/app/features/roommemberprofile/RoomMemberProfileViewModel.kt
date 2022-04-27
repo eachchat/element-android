@@ -34,6 +34,10 @@ import im.vector.app.core.mvrx.runCatchingToAsync
 import im.vector.app.core.platform.VectorViewModel
 import im.vector.app.core.resources.StringProvider
 import im.vector.app.eachchat.base.BaseModule
+import im.vector.app.eachchat.contact.api.ContactServiceV2
+import im.vector.app.eachchat.contact.data.ContactsDisplayBean
+import im.vector.app.eachchat.contact.data.ContactsDisplayBeanV2
+import im.vector.app.eachchat.contact.database.ContactDaoHelper
 import im.vector.app.eachchat.database.AppDatabase
 import im.vector.app.features.displayname.getBestName
 import im.vector.app.features.home.room.detail.timeline.helper.MatrixItemColorProvider
@@ -64,6 +68,7 @@ import org.matrix.android.sdk.api.util.toMatrixItem
 import org.matrix.android.sdk.api.util.toOptional
 import org.matrix.android.sdk.flow.flow
 import org.matrix.android.sdk.flow.unwrap
+import timber.log.Timber
 
 class RoomMemberProfileViewModel @AssistedInject constructor(
         @Assisted private val initialState: RoomMemberProfileViewState,
@@ -424,6 +429,53 @@ class RoomMemberProfileViewModel @AssistedInject constructor(
     private fun handleShareRoomMemberProfile() {
         session.permalinkService().createPermalink(initialState.userId)?.let { permalink ->
             _viewEvents.post(RoomMemberProfileViewEvents.ShareRoomMemberProfile(permalink))
+        }
+    }
+
+
+    fun addContacts(contact: ContactsDisplayBean) {
+        loading.postValue(true)
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                val contactV2 = contact.toContactsDisplayBeanV2()
+                val response = ContactServiceV2.getInstance().add(contactV2)
+                if (!response.obj?.id.isNullOrEmpty()) {
+                    contact.contactAdded = true
+                    contact.contactId = response.obj?.id.orEmpty()
+                    withContext(Dispatchers.IO) {
+                        ContactDaoHelper.getInstance().insertContacts(contact)
+                        loading.postValue(false)
+                    }
+                } else {
+                    loading.postValue(false)
+                }
+            }.exceptionOrNull()?.let {
+                it.printStackTrace()
+                loading.postValue(false)
+            }
+        }
+    }
+
+    fun deleteContact(mContact: ContactsDisplayBeanV2, deleteSuccessListener: () -> Unit) {
+        loading.postValue(true)
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                val response = mContact.id?.let { it1 -> ContactServiceV2.getInstance().delete(it1) }
+                if (response?.isSuccess == true) {
+                    mContact.del = 1
+                    AppDatabase.getInstance(BaseModule.getContext()).contactDaoV2().update(mContact)
+                    // callBack.invoke(RoomProfileController.END_LOADING)
+                    deleteSuccessListener.invoke()
+                    loading.postValue(false)
+                } else {
+                    // callBack.invoke(RoomProfileController.END_LOADING)
+                    loading.postValue(false)
+                }
+            }.exceptionOrNull()?.let {
+                it.printStackTrace()
+                loading.postValue(false)
+                Timber.e("删除联系人错误")
+            }
         }
     }
 }

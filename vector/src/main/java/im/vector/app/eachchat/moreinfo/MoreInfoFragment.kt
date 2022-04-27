@@ -50,6 +50,7 @@ import im.vector.app.core.utils.startSharePlainTextIntent
 import im.vector.app.databinding.DialogBaseEditTextBinding
 import im.vector.app.databinding.DialogShareQrCodeBinding
 import im.vector.app.databinding.FragmentMatrixProfileBinding
+import im.vector.app.databinding.FragmentMoreUserInfoBinding
 import im.vector.app.databinding.ViewStubRoomMemberProfileHeaderBinding
 import im.vector.app.eachchat.contact.data.ContactsDisplayBeanV2
 import im.vector.app.eachchat.contact.data.User
@@ -92,53 +93,44 @@ class MoreInfoFragment @Inject constructor(
         private val matrixItemColorProvider: MatrixItemColorProvider,
         private val callManager: WebRtcCallManager,
         private val vectorPreferences: VectorPreferences
-) : VectorBaseFragment<FragmentMatrixProfileBinding>(),
+) : VectorBaseFragment<FragmentMoreUserInfoBinding>(),
         MoreInfoProfileController.Callback {
 
-    private lateinit var headerViews: ViewStubRoomMemberProfileHeaderBinding
+    // private lateinit var headerViews: ViewStubRoomMemberProfileHeaderBinding
 
     private val fragmentArgs: UserInfoArg by args()
     private val viewModel: MoreInfoViewModel by fragmentViewModel()
 
     private var appBarStateChangeListener: AppBarStateChangeListener? = null
 
-    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentMatrixProfileBinding {
-        return FragmentMatrixProfileBinding.inflate(inflater, container, false)
+    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentMoreUserInfoBinding {
+        return FragmentMoreUserInfoBinding.inflate(inflater, container, false)
     }
 
     override fun getMenuRes() = R.menu.vector_room_member_profile
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.observeOtherInfo(this)
         // analyticsScreenName = Screen.ScreenName.User
         // viewModel.observeOtherInfo(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupToolbar(views.matrixProfileToolbar)
+        setupToolbar(views.moreInfoToolbar)
                 .allowBack()
-        val headerView = views.matrixProfileHeaderView.let {
-            it.layoutResource = R.layout.view_stub_room_member_profile_header
-            it.inflate()
-        }
-        headerViews = ViewStubRoomMemberProfileHeaderBinding.bind(headerView)
-        headerViews.memberProfileStateView.eventCallback = object : StateView.EventCallback {
-            override fun onRetryClicked() {
-                // viewModel.handle(RoomMemberProfileAction.RetryFetchingInfo)
-            }
-        }
-        headerViews.memberProfileStateView.contentView = headerViews.memberProfileInfoContainer
-        views.matrixProfileRecyclerView.configureWith(roomMemberProfileController, hasFixedSize = true, disableItemAnimation = true)
+
+        views.moreInfoRecyclerView.configureWith(roomMemberProfileController, hasFixedSize = true, disableItemAnimation = true)
         roomMemberProfileController.callback = this
-        appBarStateChangeListener = MatrixItemAppBarStateChangeListener(headerView,
-                listOf(
-                        views.matrixProfileToolbarAvatarImageView,
-                        views.matrixProfileToolbarTitleView,
-                        views.matrixProfileDecorationToolbarAvatarImageView
-                )
-        )
-        views.matrixProfileAppBarLayout.addOnOffsetChangedListener(appBarStateChangeListener)
+//        appBarStateChangeListener = MatrixItemAppBarStateChangeListener(headerView,
+//                listOf(
+//                        views.matrixProfileToolbarAvatarImageView,
+//                        views.matrixProfileToolbarTitleView,
+//                        views.matrixProfileDecorationToolbarAvatarImageView
+//                )
+//        )
+        // views.matrixProfileAppBarLayout.addOnOffsetChangedListener(appBarStateChangeListener)
 //        viewModel.observeViewEvents {
 //            when (it) {
 //                is RoomMemberProfileViewEvents.Loading -> showLoading(it.message)
@@ -156,12 +148,9 @@ class MoreInfoFragment @Inject constructor(
 //        }
         setupLongClicks()
 
-        headerViews.memberProfilePowerLevelView.visibility = View.GONE
     }
 
     private fun setupLongClicks() {
-        headerViews.memberProfileNameView.copyOnLongClick()
-        headerViews.memberProfileIdView.copyOnLongClick()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -194,89 +183,89 @@ class MoreInfoFragment @Inject constructor(
     }
 
     override fun onDestroyView() {
-        views.matrixProfileAppBarLayout.removeOnOffsetChangedListener(appBarStateChangeListener)
+        // views.matrixProfileAppBarLayout.removeOnOffsetChangedListener(appBarStateChangeListener)
         roomMemberProfileController.callback = null
         appBarStateChangeListener = null
-        views.matrixProfileRecyclerView.cleanup()
+        views.moreInfoRecyclerView.cleanup()
         super.onDestroyView()
     }
 
     override fun invalidate() = withState(viewModel) { state ->
         when (val asyncUserMatrixItem = state.userMatrixItem) {
             is Incomplete -> {
-                views.matrixProfileToolbarTitleView.text = state.displayName
+                // views.matrixProfileToolbarTitleView.text = state.displayName
 //                if (!state.userId.isNullOrBlank()) {
 //                    avatarRenderer.render(MatrixItem.UserItem(state.userId, null, null), views.matrixProfileToolbarAvatarImageView)
 //                }
 //                headerViews.memberProfileStateView.state = StateView.State.Loading
-                avatarRenderer.renderDefault(views.matrixProfileToolbarAvatarImageView)
-                avatarRenderer.renderDefault(headerViews.memberProfileAvatarView)
-                headerViews.memberProfileNameView.text = state.displayName
+                // avatarRenderer.renderDefault(views.matrixProfileToolbarAvatarImageView)
+                // avatarRenderer.renderDefault(headerViews.memberProfileAvatarView)
+                // headerViews.memberProfileNameView.text = state.displayName
             }
             is Fail    -> {
 //                state.userId?.let {
 //
 //                }
-                avatarRenderer.renderDefault(views.matrixProfileToolbarAvatarImageView)
-                views.matrixProfileToolbarTitleView.text = state.displayName
+                // avatarRenderer.renderDefault(views.matrixProfileToolbarAvatarImageView)
+                // views.matrixProfileToolbarTitleView.text = state.displayName
                 // val failureMessage = errorFormatter.toHumanReadable(asyncUserMatrixItem.error)
                 // headerViews.memberProfileStateView.state = StateView.State.Error(failureMessage)
             }
             is Success -> {
                 val userMatrixItem = asyncUserMatrixItem()
-                headerViews.memberProfileStateView.state = StateView.State.Content
-                headerViews.memberProfileIdView.text = userMatrixItem?.id
-                val bestName = userMatrixItem?.getBestName()
-                headerViews.memberProfileNameView.text = bestName
+                // headerViews.memberProfileStateView.state = StateView.State.Content
+                // headerViews.memberProfileIdView.text = userMatrixItem?.id
+                // val bestName = userMatrixItem?.getBestName()
+                // headerViews.memberProfileNameView.text = bestName
                 userMatrixItem?.let {
-                    headerViews.memberProfileNameView.setTextColor(matrixItemColorProvider.getColor(it))
+                    // headerViews.memberProfileNameView.setTextColor(matrixItemColorProvider.getColor(it))
                 }
-                views.matrixProfileToolbarTitleView.text = bestName
+                // views.matrixProfileToolbarTitleView.text = bestName
                 if (userMatrixItem != null) {
-                    avatarRenderer.render(userMatrixItem, headerViews.memberProfileAvatarView)
+                    // avatarRenderer.render(userMatrixItem, headerViews.memberProfileAvatarView)
                 }
                 if (userMatrixItem != null) {
-                    avatarRenderer.render(userMatrixItem, views.matrixProfileToolbarAvatarImageView)
+                    // avatarRenderer.render(userMatrixItem, views.matrixProfileToolbarAvatarImageView)
                 }
 
                 if (state.isRoomEncrypted) {
-                    headerViews.memberProfileDecorationImageView.isVisible = true
-                    val trustLevel = if (state.userMXCrossSigningInfo != null) {
-                        // Cross signing is enabled for this user
-                        if (state.userMXCrossSigningInfo.isTrusted()) {
-                            // User is trusted
-                            if (state.allDevicesAreCrossSignedTrusted) {
-                                RoomEncryptionTrustLevel.Trusted
-                            } else {
-                                RoomEncryptionTrustLevel.Warning
-                            }
-                        } else {
-                            RoomEncryptionTrustLevel.Default
-                        }
-                    } else {
-                        // Legacy
-                        if (state.allDevicesAreTrusted) {
-                            RoomEncryptionTrustLevel.Trusted
-                        } else {
-                            RoomEncryptionTrustLevel.Warning
-                        }
-                    }
-                    headerViews.memberProfileDecorationImageView.render(trustLevel)
-                    views.matrixProfileDecorationToolbarAvatarImageView.render(trustLevel)
+                    // headerViews.memberProfileDecorationImageView.isVisible = true
+//                    val trustLevel = if (state.userMXCrossSigningInfo != null) {
+//                        // Cross signing is enabled for this user
+//                        if (state.userMXCrossSigningInfo.isTrusted()) {
+//                            // User is trusted
+//                            if (state.allDevicesAreCrossSignedTrusted) {
+//                                RoomEncryptionTrustLevel.Trusted
+//                            } else {
+//                                RoomEncryptionTrustLevel.Warning
+//                            }
+//                        } else {
+//                            RoomEncryptionTrustLevel.Default
+//                        }
+//                    } else {
+//                        // Legacy
+//                        if (state.allDevicesAreTrusted) {
+//                            RoomEncryptionTrustLevel.Trusted
+//                        } else {
+//                            RoomEncryptionTrustLevel.Warning
+//                        }
+//                    }
+                    // headerViews.memberProfileDecorationImageView.render(trustLevel)
+                    // views.matrixProfileDecorationToolbarAvatarImageView.render(trustLevel)
                 } else {
-                    headerViews.memberProfileDecorationImageView.isVisible = false
+                    // headerViews.memberProfileDecorationImageView.isVisible = false
                 }
 
-                headerViews.memberProfileAvatarView.setOnClickListener { view ->
-                    if (userMatrixItem != null) {
-                        onAvatarClicked(view, userMatrixItem)
-                    }
-                }
-                views.matrixProfileToolbarAvatarImageView.setOnClickListener { view ->
-                    if (userMatrixItem != null) {
-                        onAvatarClicked(view, userMatrixItem)
-                    }
-                }
+//                headerViews.memberProfileAvatarView.setOnClickListener { view ->
+//                    if (userMatrixItem != null) {
+//                        onAvatarClicked(view, userMatrixItem)
+//                    }
+//                }
+//                views.matrixProfileToolbarAvatarImageView.setOnClickListener { view ->
+//                    if (userMatrixItem != null) {
+//                        onAvatarClicked(view, userMatrixItem)
+//                    }
+//                }
             }
         }
         //headerViews.memberProfilePowerLevelView.setTextOrHide(state.userPowerLevelString())

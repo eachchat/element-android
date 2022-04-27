@@ -19,10 +19,14 @@ package im.vector.app.features.roommemberprofile
 
 import android.os.Bundle
 import android.os.Parcelable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.airbnb.mvrx.Fail
@@ -53,6 +57,10 @@ import im.vector.app.databinding.DialogShareQrCodeBinding
 import im.vector.app.databinding.FragmentMatrixProfileBinding
 import im.vector.app.databinding.ViewStubRoomMemberProfileHeaderBinding
 import im.vector.app.eachchat.base.BaseModule
+import im.vector.app.eachchat.contact.addcontact.ContactEditAddActivity
+import im.vector.app.eachchat.contact.data.ContactsDisplayBean
+import im.vector.app.eachchat.contact.data.getDepartments
+import im.vector.app.eachchat.contact.data.toContact
 import im.vector.app.features.analytics.plan.Screen
 import im.vector.app.features.call.VectorCallActivity
 import im.vector.app.features.call.webrtc.WebRtcCallManager
@@ -101,6 +109,55 @@ class RoomMemberProfileFragment @Inject constructor(
     }
 
     override fun getMenuRes() = R.menu.vector_room_member_profile
+
+    private var actionAddContact: MenuItem? = null
+    private var actionDeleteContact: MenuItem? = null
+    private var actionEditContact: MenuItem? = null
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        actionAddContact = menu.findItem(R.id.userInfoAddContactAction)
+        actionDeleteContact = menu.findItem(R.id.userInfoDeleteContactAction)
+        actionEditContact = menu.findItem(R.id.userEditContactAction)
+        actionDeleteContact?.title?.let {
+            val spannableString = SpannableString(it)
+            spannableString.setSpan(ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.caution_fc4)), 0, spannableString.length, 0)
+            actionDeleteContact?.title = spannableString
+        }
+        actionAddContact?.setOnMenuItemClickListener {
+            withState(viewModel) {
+                lifecycleScope.launch(Dispatchers.IO) {
+                    if (it.departmentUser != null) {
+                        viewModel.addContacts(it.departmentUser.toContact(it.departmentUser.getDepartments(), false))
+                    } else if (it.userMatrixItem.invoke() != null) {
+                        viewModel.addContacts(ContactsDisplayBean(
+                                it.userMatrixItem.invoke()!!.avatarUrl,
+                                it.userMatrixItem.invoke()!!.displayName,
+                                it.userMatrixItem.invoke()!!.id
+                        ))
+                    }
+                }
+            }
+            true
+        }
+        actionDeleteContact?.setOnMenuItemClickListener {
+            withState(viewModel) {
+                if (it.contact != null) {
+                    viewModel.deleteContact(it.contact) {
+
+                    }
+                }
+            }
+            true
+        }
+        actionEditContact?.setOnMenuItemClickListener {
+            withState(viewModel) {
+                ContactEditAddActivity.startEdit(requireContext(), it.contact?.id)
+            }
+            true
+        }
+        return super.onPrepareOptionsMenu(menu)
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -267,6 +324,11 @@ class RoomMemberProfileFragment @Inject constructor(
                 }
             }
         }
+
+        actionAddContact?.isVisible = state.contact == null
+        actionDeleteContact?.isVisible = state.contact != null
+        actionEditContact?.isVisible = state.contact != null
+
         //headerViews.memberProfilePowerLevelView.setTextOrHide(state.userPowerLevelString())
         roomMemberProfileController.setData(state)
     }

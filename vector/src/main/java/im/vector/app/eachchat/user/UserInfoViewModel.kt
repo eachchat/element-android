@@ -27,6 +27,10 @@ import im.vector.app.core.di.hiltMavericksViewModelFactory
 import im.vector.app.core.mvrx.runCatchingToAsync
 import im.vector.app.core.platform.VectorViewModel
 import im.vector.app.eachchat.base.BaseModule
+import im.vector.app.eachchat.contact.api.ContactServiceV2
+import im.vector.app.eachchat.contact.data.ContactsDisplayBean
+import im.vector.app.eachchat.contact.data.ContactsDisplayBeanV2
+import im.vector.app.eachchat.contact.database.ContactDaoHelper
 import im.vector.app.eachchat.database.AppDatabase
 import im.vector.app.features.home.room.detail.timeline.helper.MatrixItemColorProvider
 import im.vector.app.features.roommemberprofile.RoomMemberProfileAction
@@ -36,6 +40,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.session.accountdata.UserAccountDataTypes
 import org.matrix.android.sdk.api.session.events.model.toModel
@@ -43,6 +48,7 @@ import org.matrix.android.sdk.api.session.profile.ProfileService
 import org.matrix.android.sdk.api.util.MatrixItem
 import org.matrix.android.sdk.flow.flow
 import org.matrix.android.sdk.flow.unwrap
+import timber.log.Timber
 
 class UserInfoViewModel @AssistedInject constructor(
         @Assisted private val initialState: UserInfoViewState,
@@ -81,10 +87,10 @@ class UserInfoViewModel @AssistedInject constructor(
     }
 
     private fun observeContact(lifecycleOwner: LifecycleOwner) {
-        initialState.userId?.let {
+        if (!initialState.userId.isNullOrBlank()) {
             AppDatabase
                     .getInstance(BaseModule.getContext()).contactDaoV2()
-                    .getContactByMatrixIdLive(it).observe(lifecycleOwner) {
+                    .getContactByMatrixIdLive(initialState.userId).observe(lifecycleOwner) {
                         setState {
                             copy(contact = it)
                         }
@@ -93,13 +99,15 @@ class UserInfoViewModel @AssistedInject constructor(
     }
 
     private fun observeDepartmentUser(lifecycleOwner: LifecycleOwner) {
-        AppDatabase
-                .getInstance(BaseModule.getContext()).userDao()
-                .getBriefUserByMatrixIdLive(initialState.userId).observe(lifecycleOwner) {
-                    setState {
-                        copy(departmentUser = it)
+        if (!initialState.userId.isNullOrBlank()) {
+            AppDatabase
+                    .getInstance(BaseModule.getContext()).userDao()
+                    .getBriefUserByMatrixIdLive(initialState.userId).observe(lifecycleOwner) {
+                        setState {
+                            copy(departmentUser = it)
+                        }
                     }
-                }
+        }
     }
 
     private fun observeAccountData() {
@@ -130,7 +138,6 @@ class UserInfoViewModel @AssistedInject constructor(
     }
 
     override fun handle(action: RoomMemberProfileAction) {
-
     }
 
     private fun handleSetUserColorOverride(action: RoomMemberProfileAction.SetUserColorOverride) {
@@ -206,6 +213,52 @@ class UserInfoViewModel @AssistedInject constructor(
         initialState.userId?.let {
             session.permalinkService().createPermalink(it)?.let { permalink ->
                 _viewEvents.post(RoomMemberProfileViewEvents.ShareRoomMemberProfile(permalink))
+            }
+        }
+    }
+
+    fun addContacts(contact: ContactsDisplayBean) {
+        loading.postValue(true)
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                val contactV2 = contact.toContactsDisplayBeanV2()
+                val response = ContactServiceV2.getInstance().add(contactV2)
+                if (!response.obj?.id.isNullOrEmpty()) {
+                    contact.contactAdded = true
+                    contact.contactId = response.obj?.id.orEmpty()
+                    withContext(Dispatchers.IO) {
+                        ContactDaoHelper.getInstance().insertContacts(contact)
+                        loading.postValue(false)
+                    }
+                } else {
+                    loading.postValue(false)
+                }
+            }.exceptionOrNull()?.let {
+                it.printStackTrace()
+                loading.postValue(false)
+            }
+        }
+    }
+
+    fun deleteContact(mContact: ContactsDisplayBeanV2, deleteSuccessListener: () -> Unit) {
+        loading.postValue(true)
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                val response = mContact.id?.let { it1 -> ContactServiceV2.getInstance().delete(it1) }
+                if (response?.isSuccess == true) {
+                    mContact.del = 1
+                    AppDatabase.getInstance(BaseModule.getContext()).contactDaoV2().update(mContact)
+                    // callBack.invoke(RoomProfileController.END_LOADING)
+                    deleteSuccessListener.invoke()
+                    loading.postValue(false)
+                } else {
+                    // callBack.invoke(RoomProfileController.END_LOADING)
+                    loading.postValue(false)
+                }
+            }.exceptionOrNull()?.let {
+                it.printStackTrace()
+                loading.postValue(false)
+                Timber.e("删除联系人错误")
             }
         }
     }

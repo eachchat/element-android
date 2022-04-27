@@ -8,7 +8,9 @@ import androidx.room.PrimaryKey
 import com.github.promeg.pinyinhelper.Pinyin
 import com.google.gson.annotations.SerializedName
 import im.vector.app.eachchat.base.BaseModule
+import im.vector.app.eachchat.contact.api.bean.Department
 import im.vector.app.eachchat.contact.database.ContactDaoHelper
+import im.vector.app.eachchat.department.DepartmentStoreHelper
 import kotlinx.parcelize.IgnoredOnParcel
 
 import kotlinx.parcelize.Parcelize
@@ -292,3 +294,26 @@ fun String?.resolveMxc() =
                     .resolveThumbnail(this, 250, 250, ContentUrlResolver.ThumbnailMethod.SCALE) ?: this
             else                 -> this
         }
+
+
+fun User.getDepartments(): String {
+    // Get departments of the user
+    val departments = ArrayList<Department>()
+    var departmentText = ""
+    var departmentId = this.departmentId
+    while (!departmentId.isNullOrEmpty()) {
+        val department =
+                runCatching { DepartmentStoreHelper.getDepartmentById(departmentId!!) }.getOrNull()
+        departmentId = department?.parentId
+        // current department is the org level, break the cycle
+        if (department == null || departmentId.isNullOrEmpty()) {
+//                this@UserViewModel.company.postValue(company)
+            break
+        }
+        departmentText =
+                if (departmentText.isNotEmpty()) "${department.displayName} / $departmentText"
+                else department.displayName.orEmpty()
+        departments.add(department)
+    }
+    return departmentText
+}

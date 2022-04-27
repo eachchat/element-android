@@ -38,7 +38,7 @@ import im.vector.app.eachchat.contact.database.ContactDaoHelper
 import im.vector.app.eachchat.contact.data.ContactsDisplayBean
 import im.vector.app.eachchat.contact.data.User
 import im.vector.app.eachchat.database.AppDatabase
-import im.vector.app.eachchat.department.getCompleteTitle
+import im.vector.app.eachchat.department.getCompany
 import im.vector.app.eachchat.department.getHomeSever
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -99,7 +99,7 @@ class RealContactsViewModel @AssistedInject constructor(
                         user = if (AppCache.getIsOpenOrg()) AppDatabase.getInstance(BaseModule.getContext()).userDao().getBriefUserByMatrixId(matrixUser.userId) else null
                         var contact: ContactsDisplayBean? = null
                         if (user?.matrixId?.getHomeSever() != BaseModule.getSession().myUserId.getHomeSever()) {
-                            user?.userTitle = getCompleteTitle(user?.userTitle, user?.departmentId)
+                            user?.userTitle = getCompany(null, user?.departmentId) + " "  + user?.userTitle
                         }
                         if (matrixUser.userId.isNotEmpty() && AppCache.getIsOpenContact()) {
                             contact = ContactDaoHelper.getInstance().getContactByMatrixId(matrixUser.userId)

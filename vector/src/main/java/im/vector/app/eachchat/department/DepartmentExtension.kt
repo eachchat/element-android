@@ -23,11 +23,11 @@ fun String.getHomeSever(): String {
     return this.substring(this.indexOf(":"))
 }
 
-tailrec fun getCompleteTitle(userTitle: String?, departmentId: String?): String? {
-    if (userTitle == null || departmentId == null) return userTitle
+tailrec fun getCompany(company: String?, departmentId: String?): String? {
+    if (departmentId == null) return company
     val department = AppDatabase.getInstance(BaseModule.getContext()).departmentDao().getDepartmentById(departmentId)
     if (department == null || department.departmentType == "root") {
-        return userTitle
+        return company
     }
-    return getCompleteTitle(department.displayName + " " + userTitle, department.parentId)
+    return getCompany(department.displayName, department.parentId)
 }

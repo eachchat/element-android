@@ -19,10 +19,14 @@ package im.vector.app.eachchat.user
 
 import android.os.Bundle
 import android.os.Parcelable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.airbnb.mvrx.Fail
@@ -51,18 +55,21 @@ import im.vector.app.databinding.DialogBaseEditTextBinding
 import im.vector.app.databinding.DialogShareQrCodeBinding
 import im.vector.app.databinding.FragmentMatrixProfileBinding
 import im.vector.app.databinding.ViewStubRoomMemberProfileHeaderBinding
+import im.vector.app.eachchat.base.BaseModule
+import im.vector.app.eachchat.contact.addcontact.ContactEditAddActivity
+import im.vector.app.eachchat.contact.data.ContactsDisplayBean
 import im.vector.app.eachchat.contact.data.ContactsDisplayBeanV2
-import im.vector.app.eachchat.contact.data.User
-import im.vector.app.features.analytics.plan.Screen
+import im.vector.app.eachchat.contact.data.getDepartments
+import im.vector.app.eachchat.contact.data.toContact
+import im.vector.app.eachchat.moreinfo.MoreInfoActivity
+import im.vector.app.eachchat.ui.dialog.AlertDialog
 import im.vector.app.features.call.VectorCallActivity
 import im.vector.app.features.call.webrtc.WebRtcCallManager
 import im.vector.app.features.crypto.verification.VerificationBottomSheet
 import im.vector.app.features.displayname.getBestName
 import im.vector.app.features.home.AvatarRenderer
-import im.vector.app.features.home.room.detail.RoomDetailPendingAction
 import im.vector.app.features.home.room.detail.RoomDetailPendingActionStore
 import im.vector.app.features.home.room.detail.timeline.helper.MatrixItemColorProvider
-import im.vector.app.features.roommemberprofile.RoomMemberProfileAction
 import im.vector.app.features.roommemberprofile.RoomMemberProfileViewEvents
 import im.vector.app.features.roommemberprofile.powerlevel.EditPowerLevelDialogs
 import im.vector.app.features.settings.VectorPreferences
@@ -70,6 +77,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 import org.matrix.android.sdk.api.crypto.RoomEncryptionTrustLevel
+import org.matrix.android.sdk.api.session.room.model.create.CreateRoomParams
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
 import org.matrix.android.sdk.api.util.MatrixItem
 import javax.inject.Inject
@@ -80,7 +88,8 @@ data class UserInfoArg(
         val contact: ContactsDisplayBeanV2? = null,
         val departmentUserId: String? = null,
         val roomId: String? = null,
-        val displayName: String? = null
+        val displayName: String? = null,
+        val openByContact: Boolean? = false // 如果由联系人打开，删除联系人后需要退出
 ) : Parcelable {
 
 }
@@ -108,8 +117,59 @@ class UserInfoFragment @Inject constructor(
 
     override fun getMenuRes() = R.menu.vector_room_member_profile
 
+    private var actionAddContact: MenuItem? = null
+    private var actionDeleteContact: MenuItem? = null
+    private var actionEditContact: MenuItem? = null
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        actionAddContact = menu.findItem(R.id.userInfoAddContactAction)
+        actionDeleteContact = menu.findItem(R.id.userInfoDeleteContactAction)
+        actionEditContact = menu.findItem(R.id.userEditContactAction)
+        actionDeleteContact?.title?.let {
+            val spannableString = SpannableString(it)
+            spannableString.setSpan(ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.caution_fc4)), 0, spannableString.length, 0)
+            actionDeleteContact?.title = spannableString
+        }
+        actionAddContact?.setOnMenuItemClickListener {
+            withState(viewModel) {
+                lifecycleScope.launch(Dispatchers.IO) {
+                    if (it.departmentUser != null) {
+                        viewModel.addContacts(it.departmentUser.toContact(it.departmentUser.getDepartments(), false))
+                    } else if (it.userMatrixItem.invoke() != null) {
+                        viewModel.addContacts(ContactsDisplayBean(
+                                it.userMatrixItem.invoke()!!.avatarUrl,
+                                it.userMatrixItem.invoke()!!.displayName,
+                                it.userMatrixItem.invoke()!!.id
+                        ))
+                    }
+                }
+            }
+            true
+        }
+        actionDeleteContact?.setOnMenuItemClickListener {
+            withState(viewModel) {
+                if (it.contact != null) {
+                    viewModel.deleteContact(it.contact) {
+                        if (fragmentArgs.openByContact == true) {
+                            requireActivity().finish()
+                        }
+                    }
+                }
+            }
+            true
+        }
+        actionEditContact?.setOnMenuItemClickListener {
+            withState(viewModel) {
+                ContactEditAddActivity.startEdit(requireContext(), it.contact?.id)
+            }
+            true
+        }
+        return super.onPrepareOptionsMenu(menu)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.observeOtherInfo(this)
         // analyticsScreenName = Screen.ScreenName.User
         // viewModel.observeOtherInfo(this)
     }
@@ -213,7 +273,7 @@ class UserInfoFragment @Inject constructor(
                 avatarRenderer.renderDefault(headerViews.memberProfileAvatarView)
                 headerViews.memberProfileNameView.text = state.displayName
             }
-            is Fail    -> {
+            is Fail       -> {
 //                state.userId?.let {
 //
 //                }
@@ -222,7 +282,7 @@ class UserInfoFragment @Inject constructor(
                 // val failureMessage = errorFormatter.toHumanReadable(asyncUserMatrixItem.error)
                 // headerViews.memberProfileStateView.state = StateView.State.Error(failureMessage)
             }
-            is Success -> {
+            is Success    -> {
                 val userMatrixItem = asyncUserMatrixItem()
                 headerViews.memberProfileStateView.state = StateView.State.Content
                 headerViews.memberProfileIdView.text = userMatrixItem?.id
@@ -280,13 +340,17 @@ class UserInfoFragment @Inject constructor(
             }
         }
         //headerViews.memberProfilePowerLevelView.setTextOrHide(state.userPowerLevelString())
+
+        actionAddContact?.isVisible = state.contact == null
+        actionDeleteContact?.isVisible = state.contact != null
+        actionEditContact?.isVisible = state.contact != null
+
         roomMemberProfileController.setData(state)
     }
 
     // RoomMemberProfileController.Callback
 
     override fun onIgnoreClicked() {
-
     }
 
     override fun onTapVerify() {
@@ -302,8 +366,40 @@ class UserInfoFragment @Inject constructor(
     }
 
     override fun onOpenDmClicked() {
-//        roomDetailPendingActionStore.data = fragmentArgs.userId?.let { RoomDetailPendingAction.OpenOrCreateDm(it) }
+        withState(viewModel) {
+            if (it.userMatrixItem.invoke()?.id.isNullOrBlank()) {
+                AlertDialog(requireContext()).builder()
+                        .setTitle(if (it.userMatrixItem.invoke()?.id.isNullOrBlank()) R.string.empty_martix_id else R.string.id_error)
+                        .setPositiveButtonColor(R.color.send_btn_color)
+                        .setPositiveButton(R.string.edit_contact) {
+                            id.let { ContactEditAddActivity.start(requireContext()) }
+                        }
+                        .setNegativeButton(R.string.cancel, null)
+                        .show()
+            }
+            lifecycleScope.launch(Dispatchers.IO) {
+                it.userMatrixItem.invoke()?.let {
+                    val existingRoomId = BaseModule.getSession().getExistingDirectRoomWithUser(it.id)
+                    if (existingRoomId != null) {
+                        lifecycleScope.launch(Dispatchers.Main) {
+                            navigator.openRoom(requireContext(), existingRoomId)
+                        }
+                    } else {
+                        val roomParams = CreateRoomParams()
+                                .apply {
+                                    invitedUserIds.add(it.id)
+                                    setDirectMessage()
+                                    enableEncryptionIfInvitedUsersSupportIt = false
+                                }
+
+                        lifecycleScope.launch(Dispatchers.Main) {
+                            navigator.openRoom(requireContext(), BaseModule.getSession().createRoom(roomParams))
+                        }
+                    }
+                }
 //        vectorBaseActivity.finish()
+            }
+        }
     }
 
     override fun onJumpToReadReceiptClicked() {
@@ -426,39 +522,19 @@ class UserInfoFragment @Inject constructor(
 
     override fun onVoiceCall() {
         isVideoCall = false
-        // handleCallRequest(false)
+        safeStartCall(false)
     }
 
     override fun onVideoCall() {
         isVideoCall = true
-        // handleCallRequest(true)
+        safeStartCall(true)
     }
 
-//    private fun handleCallRequest(isVideoCall: Boolean) = withState(viewModel) { state ->
-//        val roomSummary = viewModel.room?.roomSummary()
-//        when (roomSummary?.joinedMembersCount) {
-//            1    -> {
-//                val pendingInvite = roomSummary.invitedMembersCount ?: 0 > 0
-//                if (pendingInvite) {
-//                    // wait for other to join
-//                    showDialogWithMessage(BaseModule.getContext().getString(R.string.cannot_call_yourself_with_invite))
-//                } else {
-//                    // You cannot place a call with yourself.
-//                    showDialogWithMessage(BaseModule.getContext().getString(R.string.cannot_call_yourself))
-//                }
-//            }
-//            2    -> {
-//                val currentCall = callManager.getCurrentCall()
-//                if (currentCall?.signalingRoomId == state.directRoomId) {
-//                    onTapToReturnToCall()
-//                } else {
-//                    safeStartCall(isVideoCall)
-//                }
-//            }
-//            else -> {
-//            }
-//        }
-//    }
+    override fun onMoreInfoClick() {
+        withState(viewModel) {
+            MoreInfoActivity.start(requireActivity(), UserInfoArg(userId = it.userId, contact = it.contact, departmentUserId = it.departmentUserId))
+        }
+    }
 
     private fun onTapToReturnToCall() {
         callManager.getCurrentCall()?.let { call ->
@@ -531,9 +607,10 @@ class UserInfoFragment @Inject constructor(
     }
 
     private fun startCall(isVideoCall: Boolean) {
+        withState(viewModel) {
             lifecycleScope.launch(Dispatchers.IO) {
-                startCall(isVideoCall)
-                // it.directRoomId?.let { it1 -> it.userId?.let { it2 -> callManager.startOutgoingCall(it1, it2, isVideoCall) } }
+                it.directRoomId?.let { it1 -> it.userId?.let { it2 -> callManager.startOutgoingCall(it1, it2, isVideoCall) } }
             }
+        }
     }
 }

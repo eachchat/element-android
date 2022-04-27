@@ -120,6 +120,7 @@ import im.vector.app.eachchat.contact.addcontact.ContactEditAddViewModel
 import im.vector.app.eachchat.contact.manage.ContactManageViewModel
 import im.vector.app.eachchat.contact.mycontacts.MyContactViewModel
 import im.vector.app.eachchat.contact.real.RealContactsViewModel
+import im.vector.app.eachchat.moreinfo.MoreInfoViewModel
 import im.vector.app.eachchat.search.contactadd.ContactAddSearchViewModel
 import im.vector.app.eachchat.search.contactsearch.ContactsSearchViewModel
 import im.vector.app.eachchat.user.UserInfoViewModel
@@ -138,6 +139,11 @@ interface MavericksViewModelModule {
     @IntoMap
     @MavericksViewModelKey(UserInfoViewModel::class)
     fun userInfoViewModelFactory(factory: UserInfoViewModel.Factory): MavericksAssistedViewModelFactory<*, *>
+
+    @Binds
+    @IntoMap
+    @MavericksViewModelKey(MoreInfoViewModel::class)
+    fun moreInfoViewModelFactory(factory: MoreInfoViewModel.Factory): MavericksAssistedViewModelFactory<*, *>
 
     @Binds
     @IntoMap

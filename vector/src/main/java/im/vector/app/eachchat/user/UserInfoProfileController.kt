@@ -35,7 +35,6 @@ import im.vector.app.eachchat.department.DepartmentStoreHelper
 import im.vector.lib.core.utils.epoxy.charsequence.toEpoxyCharSequence
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
-import java.util.ArrayList
 import javax.inject.Inject
 
 class UserInfoProfileController @Inject constructor(
@@ -61,6 +60,7 @@ class UserInfoProfileController @Inject constructor(
         fun onInviteClicked()
         fun onVoiceCall()
         fun onVideoCall()
+        fun onMoreInfoClick()
     }
 
     override fun buildModels(data: UserInfoViewState?) {
@@ -169,8 +169,15 @@ class UserInfoProfileController @Inject constructor(
             buildUserProfileInfoItem(stringProvider.getString(R.string.user_title), userTitle)
         }
         if (state.contact != null || state.departmentUser != null) {
+            if (!hasDivider) {
+                hasDivider = true
+                customHeightDividerItem {
+                    id("divider_room_member_profile_info")
+                    customHeight(8)
+                }
+            }
             buildShowMoreInfoInfoItem {
-
+                callback?.onMoreInfoClick()
             }
         }
     }
@@ -194,6 +201,7 @@ class UserInfoProfileController @Inject constructor(
                     else department.displayName.orEmpty()
             departments.add(department)
         }
+
         return departmentText
     }
 
@@ -235,15 +243,13 @@ class UserInfoProfileController @Inject constructor(
             customHeight(8)
         }
         if (!state.isMine) {
-            if (state.userMatrixItem.invoke() != null) {
-                buildProfileAction(
-                        id = "direct",
-                        editable = false,
-                        title = stringProvider.getString(R.string.room_member_open_or_create_dm),
-                        icon = R.mipmap.ic_send_message,
-                        action = { callback?.onOpenDmClicked() }
-                )
-            }
+            buildProfileAction(
+                    id = "direct",
+                    editable = false,
+                    title = stringProvider.getString(R.string.room_member_open_or_create_dm),
+                    icon = R.mipmap.ic_send_message,
+                    action = { callback?.onOpenDmClicked() }
+            )
             if (state.directRoomId != null) {
                 buildProfileAction(
                         id = "voice_call",
@@ -272,15 +278,13 @@ class UserInfoProfileController @Inject constructor(
 //            buildSecuritySection(state)
         }
         if (!state.isMine) {
-            if (state.userMatrixItem.invoke() != null) {
-                buildProfileAction(
-                        id = "direct",
-                        editable = false,
-                        title = stringProvider.getString(R.string.room_member_open_or_create_dm),
-                        icon = R.mipmap.ic_send_message,
-                        action = { callback?.onOpenDmClicked() }
-                )
-            }
+            buildProfileAction(
+                    id = "direct",
+                    editable = false,
+                    title = stringProvider.getString(R.string.room_member_open_or_create_dm),
+                    icon = R.mipmap.ic_send_message,
+                    action = { callback?.onOpenDmClicked() }
+            )
             if (state.directRoomId != null) {
                 buildProfileAction(
                         id = "voice_call",
@@ -424,8 +428,6 @@ class UserInfoProfileController @Inject constructor(
                         action = { callback?.onJumpToReadReceiptClicked() }
                 )
             }
-
         }
     }
-
 }

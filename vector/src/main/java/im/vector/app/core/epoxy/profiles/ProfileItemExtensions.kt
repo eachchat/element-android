@@ -19,6 +19,7 @@ package im.vector.app.core.epoxy.profiles
 
 import androidx.annotation.DrawableRes
 import com.airbnb.epoxy.EpoxyController
+import im.vector.app.R
 import im.vector.app.core.epoxy.ClickListener
 import im.vector.app.core.epoxy.customHeightDividerItem
 import im.vector.app.core.epoxy.dividerItem
@@ -87,11 +88,50 @@ fun EpoxyController.buildDivider(dividerName: String, height: Int) {
 }
 
 // 展示一些基本信息
-fun EpoxyController.buildUserProfileInfoItem(key: String?, value: String?) {
+fun EpoxyController.buildUserProfileInfoItem(key: String?, value: String?, showArrow: Boolean = false, mClickListener: (() -> Unit)? = null) {
     userProfileInfoItem {
         id("user_profile_$key")
         key(key)
         value(value)
+        showArrow(showArrow)
+        clickListener {
+            mClickListener?.invoke()
+        }
+    }
+}
+
+fun EpoxyController.buildMultiUserProfileInfoItem(key: String?, values: ArrayList<String>) {
+    customHeightDividerItem {
+        id("item_divider_top_$key")
+        customHeight(11)
+        colorResource(R.color.white)
+    }
+    userProfileMultiInfoTitleItem {
+        id("user_profile_title_$key")
+        key(key)
+    }
+    customHeightDividerItem {
+        id("item_divider_top_$key")
+        customHeight(2)
+        colorResource(R.color.white)
+    }
+    var index = 0
+    values.forEach {
+        userProfileMultiInfoContentItem{
+            id("user_profile_content_$index")
+            value(it)
+        }
+        index++
+        customHeightDividerItem {
+            id("item_divider_top_$key")
+            customHeight(4)
+            colorResource(R.color.white)
+        }
+    }
+    customHeightDividerItem {
+        id("item_divider_top_$key")
+        customHeight(7)
+        colorResource(R.color.white)
     }
 }
 

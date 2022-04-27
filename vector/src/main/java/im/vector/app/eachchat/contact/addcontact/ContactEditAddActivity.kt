@@ -66,6 +66,8 @@ import im.vector.app.eachchat.contact.data.UrlBean
 import im.vector.app.eachchat.department.ContactUtils
 import im.vector.app.eachchat.ui.view.pickerview.builder.TimePickerBuilder
 import im.vector.app.eachchat.ui.view.pickerview.view.TimePickerView
+import im.vector.app.eachchat.user.UserInfoActivity
+import im.vector.app.eachchat.user.UserInfoArg
 import im.vector.app.eachchat.utils.ScreenUtils
 import im.vector.app.eachchat.utils.ToastUtil
 import im.vector.lib.ui.styles.dialogs.MaterialProgressDialog
@@ -100,8 +102,7 @@ class ContactEditAddActivity: VectorBaseActivity<ActivityContactEditAddBinding>(
     private var websiteTypes: List<String>? = null
 
     var mode: Int = MODE_ADD //添加或编辑模式
-    var id: String? = null
-    var contact: ContactsDisplayBean? = null
+    var contactId: String? = null
 
     var dialog: AlertDialog? = null
 
@@ -113,12 +114,15 @@ class ContactEditAddActivity: VectorBaseActivity<ActivityContactEditAddBinding>(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        mode = intent.getIntExtra(KEY_MODE, MODE_ADD)
+        contactId = intent.getStringExtra(KEY_ID)
         initClickListener()
-        id?.let {
-            vm.getContact(id!!)
+        contactId?.let {
+            vm.getContact(contactId!!)
         }
 
         views.waitingView.waitingStatusText.text = getString(R.string.please_wait)
+        views.waitingView.waitingStatusText.isVisible = true
         vm.loading.observe(this) {
             views.waitingView.waitingView.isVisible = it
         }
@@ -164,7 +168,7 @@ class ContactEditAddActivity: VectorBaseActivity<ActivityContactEditAddBinding>(
             it?.let {
                 initData(it)
                 addEmptyLayout()
-                checkNeedShowMore()
+                // checkNeedShowMore()
             }
         }
 
@@ -174,9 +178,10 @@ class ContactEditAddActivity: VectorBaseActivity<ActivityContactEditAddBinding>(
             when (status) {
                 ADD_SUCCESS -> {
                     ToastUtil.showSuccess(this, R.string.add_contact_success)
-                    setResult(
-                            RESULT_OK,
-                            intent.also { it.putExtra(RouterConstant.ContactAfterAdded, true) })
+//                    setResult(
+//                            RESULT_OK,
+//                            intent.also { it.putExtra(RouterConstant.ContactAfterAdded, true) })
+                    UserInfoActivity.start(this, UserInfoArg(userId = vm.mContact?.matrixId, contact = vm.mContact, displayName = vm.mContact?.displayName, openByContact = true))
                     finish()
                 }
                 ADD_FAIL -> ToastUtil.showError(this, R.string.add_contact_failed)
@@ -282,11 +287,11 @@ class ContactEditAddActivity: VectorBaseActivity<ActivityContactEditAddBinding>(
             views.layoutGivenName.etEdit.setText(it.given)
         }
         if (!it.firstName.isNullOrBlank()) {
-            views.layoutFamilyNamePinyin.visibility = View.VISIBLE
+//            views.layoutFamilyNamePinyin.visibility = View.VISIBLE
             views.layoutFamilyNamePinyin.etEdit.setText(it.firstName)
         }
         if (!it.middleName.isNullOrBlank()) {
-            views.layoutMiddleNamePinyin.visibility = View.VISIBLE
+//            views.layoutMiddleNamePinyin.visibility = View.VISIBLE
             views.layoutMiddleNamePinyin.etEdit.setText(it.middleName)
         }
         if (!it.lastName.isNullOrBlank()) {
@@ -294,7 +299,7 @@ class ContactEditAddActivity: VectorBaseActivity<ActivityContactEditAddBinding>(
             views.layoutNamePinyin.etEdit.setText(it.lastName)
         }
         if (!it.nickName.isNullOrBlank()) {
-            views.layoutNickName.visibility = View.VISIBLE
+            // views.layoutNickName.visibility = View.VISIBLE
             views.layoutNickName.etEdit.setText(it.nickName)
         }
         if (!it.organization.isNullOrBlank()) {
@@ -302,11 +307,11 @@ class ContactEditAddActivity: VectorBaseActivity<ActivityContactEditAddBinding>(
         }
         views.layoutCompany.setViewLineVisible(false)
         if (!it.department.isNullOrBlank()) {
-            views.layoutDepartment.visibility = View.VISIBLE
+//            views.layoutDepartment.visibility = View.VISIBLE
             views.layoutDepartment.etEdit.setText(it.department)
         }
         if (!it.title.isNullOrBlank()) {
-            views.layoutUserTitle.visibility = View.VISIBLE
+//            views.layoutUserTitle.visibility = View.VISIBLE
             views.layoutUserTitle.etEdit.setText(it.title)
         }
         if (!it.emailList.isNullOrEmpty()) {
@@ -332,13 +337,13 @@ class ContactEditAddActivity: VectorBaseActivity<ActivityContactEditAddBinding>(
             }
         }
         if (!it.addressList.isNullOrEmpty()) {
-            views.llAddress.visibility = View.VISIBLE
+//            views.llAddress.visibility = View.VISIBLE
             for (address in it.addressList!!) {
                 addAddressLayout(ContactUtils.convertAddressType(this, address.type, true), address)
             }
         }
         if (!it.urlList.isNullOrEmpty()) {
-            views.llWebsiteList.visibility = View.VISIBLE
+//            views.llWebsiteList.visibility = View.VISIBLE
             for (url in it.urlList!!) {
                 addEditLayout(
                         getString(R.string.website),
@@ -350,7 +355,7 @@ class ContactEditAddActivity: VectorBaseActivity<ActivityContactEditAddBinding>(
             }
         }
         if (!it.imppList.isNullOrEmpty()) {
-            views.llCommunicationToolList.visibility = View.VISIBLE
+//            views.llCommunicationToolList.visibility = View.VISIBLE
             for (impp in it.imppList!!) {
                 addEditLayout(
                         getString(R.string.communication_tool),
@@ -360,7 +365,7 @@ class ContactEditAddActivity: VectorBaseActivity<ActivityContactEditAddBinding>(
             }
         }
         if (!it.dateList.isNullOrEmpty()) {
-            views.llKeyDate.visibility = View.VISIBLE
+//            views.llKeyDate.visibility = View.VISIBLE
             for (url in it.dateList!!) {
                 addDateLayout(ContactUtils.convertDateType(this, url.type, true), url.value)
             }
@@ -370,12 +375,12 @@ class ContactEditAddActivity: VectorBaseActivity<ActivityContactEditAddBinding>(
 //            views.layoutRelationship.setText(it.relationship)
 //        }
         if (!it.note.isNullOrBlank()) {
-            views.layoutRemark.visibility = View.VISIBLE
+//            views.layoutRemark.visibility = View.VISIBLE
             views.layoutRemark.setText(it.note)
         }
         views.layoutRemark.setViewLineVisible(false)
         if (!it.categories.isNullOrBlank()) {
-            views.layoutLabel.visibility = View.VISIBLE
+//            views.layoutLabel.visibility = View.VISIBLE
             views.layoutLabel.setText(it.categories)
         }
         views.layoutLabel.setViewLineVisible(false)
@@ -574,7 +579,7 @@ class ContactEditAddActivity: VectorBaseActivity<ActivityContactEditAddBinding>(
         if (mode == MODE_ADD) {
             vm.addContact(mContact)
         } else if (mode == MODE_EDIT) {
-            mContact.id = id
+            mContact.id = contactId
             vm.updateContact(mContact, vm.contactLiveData.value?.matrixId != mContact.matrixId)
         }
     }
@@ -824,11 +829,22 @@ class ContactEditAddActivity: VectorBaseActivity<ActivityContactEditAddBinding>(
     companion object {
         const val MODE_ADD = 0
         const val MODE_EDIT = 1
+        const val KEY_MODE = "KEY_MODE"
+        const val KEY_ID = "KEY_ID"
 
         fun start(
                 context: Context,
         ) {
             val intent = Intent(context, ContactEditAddActivity::class.java)
+            context.startActivity(intent)
+        }
+
+        fun startEdit(
+                context: Context,contactId: String? = null
+        ) {
+            val intent = Intent(context, ContactEditAddActivity::class.java)
+            intent.putExtra(KEY_MODE, MODE_EDIT)
+            intent.putExtra(KEY_ID, contactId)
             context.startActivity(intent)
         }
     }

@@ -11,12 +11,14 @@ import im.vector.app.eachchat.search.contactsearch.ContactsSearchActivity
 class SearchMoreActivity : ContactsSearchActivity() {
     var keyword: String? = ""
     private var needShowBack: Boolean? = false
+    private var needFocus: Boolean? = false
     var searchType: String? = null
 
     companion object {
         const val KEY_SEARCH_MORE_KEYWORD = "KEY_SEARCH_MORE_KEYWORD"
         const val KEY_SEARCH_MORE_NEED_SHOW_BACK = "KEY_SEARCH_MORE_NEED_SHOW_BACK"
         const val KEY_SEARCH_MORE_SEARCH_TYPE = "KEY_SEARCH_MORE_SEARCH_TYPE"
+        const val KEY_NEED_FOCUS = "KEY_NEED_FOCUS"
         const val SEARCH_MORE_TYPE_CONTACT = "SEARCH_MORE_TYPE_CONTACT"
         const val SEARCH_MORE_TYPE_DEPARTMENT = "SEARCH_MORE_TYPE_ORG"
         const val SEARCH_MORE_TYPE_ORG_MEMBER = "SEARCH_MORE_TYPE_ORG_MEMBER"
@@ -24,12 +26,13 @@ class SearchMoreActivity : ContactsSearchActivity() {
         const val SEARCH_MORE_TYPE_IN_DEPARTMENT = "SEARCH_MORE_TYPE_IN_DEPARTMENT"
         const val SEARCH_MORE_TYPE_GROUP_CHAT = "SEARCH_MORE_TYPE_GROUP_CHAT"
 
-        fun start(context: Context, keyWord: String? = "", needShowBack: Boolean? = false, searchType: String? = null
+        fun start(context: Context, keyWord: String? = "", needShowBack: Boolean? = false, searchType: String? = null, needFocus: Boolean? = false
         ) {
             val intent = Intent(context, SearchMoreActivity::class.java)
             intent.putExtra(KEY_SEARCH_MORE_KEYWORD, keyWord)
             intent.putExtra(KEY_SEARCH_MORE_NEED_SHOW_BACK, needShowBack)
             intent.putExtra(KEY_SEARCH_MORE_SEARCH_TYPE, searchType)
+            intent.putExtra(KEY_NEED_FOCUS, needFocus)
             context.startActivity(intent)
         }
     }
@@ -39,6 +42,7 @@ class SearchMoreActivity : ContactsSearchActivity() {
         keyword = intent.getStringExtra(KEY_SEARCH_MORE_KEYWORD)
         needShowBack = intent.getBooleanExtra(KEY_SEARCH_MORE_NEED_SHOW_BACK, false)
         searchType = intent.getStringExtra(KEY_SEARCH_MORE_SEARCH_TYPE)
+        needFocus = intent.getBooleanExtra(KEY_NEED_FOCUS, false)
         initSearchTitle()
     }
 
@@ -49,6 +53,9 @@ class SearchMoreActivity : ContactsSearchActivity() {
         views.searchTitleBar.etSearch.setHint(getHint(searchType))
         if (needShowBack == true) {
             views.searchTitleBar.backIv.visibility = View.VISIBLE
+        }
+        if (needFocus == true) {
+            views.searchTitleBar.etSearch.requestFocus()
         }
     }
 

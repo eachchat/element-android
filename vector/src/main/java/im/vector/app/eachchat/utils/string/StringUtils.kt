@@ -77,4 +77,16 @@ object StringUtils {
 
         return oldStr.replace(str, "<font color='$highlightColor'>$str</font>", false)
     }
+
+    /**
+     * 验证值，是否是英文
+     *
+     * @param text
+     */
+    fun isAllEnglish(text: CharSequence?): Boolean {
+        if (text == null) return true
+        val p: Pattern = Pattern.compile("[a-zA-Z]+")
+        val m: Matcher = p.matcher(text)
+        return m.matches()
+    }
 }

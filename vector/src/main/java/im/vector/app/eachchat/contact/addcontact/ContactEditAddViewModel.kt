@@ -35,6 +35,7 @@ class ContactEditAddViewModel @AssistedInject constructor(
     val local = AppDatabase.getInstance(BaseModule.getContext()).contactDaoV2()
     val contactEditAddStatues = MutableLiveData<Int>()
     val contactLiveData = MutableLiveData<ContactsDisplayBeanV2?>()
+    var mContact: ContactsDisplayBeanV2? = null
     val session = BaseModule.getSession()
 
     @AssistedFactory
@@ -100,6 +101,7 @@ class ContactEditAddViewModel @AssistedInject constructor(
                 if (response.code == 200) {
                     local.insertContact(response.obj)
 //                    Contact.contactInfoActivityV2(response.obj?.id)
+                    mContact = response.obj
                     contactEditAddStatues.postValue(ADD_SUCCESS)
                 } else {
                     contactEditAddStatues.postValue(ADD_FAIL)

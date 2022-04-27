@@ -46,7 +46,7 @@ open class DepartmentActivity: VectorBaseActivity<ContactFragmentBinding>() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_org_filter      -> {
-                SearchMoreActivity.start(this, null, false, SearchMoreActivity.SEARCH_MORE_TYPE_IN_DEPARTMENT)
+                SearchMoreActivity.start(this, null, false, SearchMoreActivity.SEARCH_MORE_TYPE_IN_DEPARTMENT, needFocus = true)
                 return true
             }
         }

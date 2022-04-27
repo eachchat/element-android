@@ -3968,4 +3968,17 @@
     <string name="loading_contact">正在加载联系人</string>
     <string name="user_title">职位</string>
     <string name="more_info">更多详情</string>
+    <string name="empty_martix_id">当前联系人缺少Matrix ID，请补充后开始沟通。</string>
+    <string name="id_error">当前联系人Matrix ID似乎无效，是否重新编辑联系人。</string>
+    <string name="edit_contact_info">编辑联系信息</string>
+    <string name="delete_contact">从我的联系人移除</string>
+    <string name="add_to_my_contact">添加到我的联系人</string>
+    <string name="more_user_info">更多信息</string>
+    <string name="name">姓名</string>
+    <string name="name_pinyin_text">%1$s %2$s %3$s</string>
+    <string name="reporting_relationship">汇报关系</string>
+    <string name="view">查看</string>
+    <string name="region_title">地区</string>
+    <string name="relationship">关系</string>
+    <string name="formated_date">%1$s\n%2$s</string>
 </resources>

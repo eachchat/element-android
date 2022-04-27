@@ -70,7 +70,7 @@ class MyContactsActivity: VectorBaseActivity<ActivityFragmentContainerBinding>()
                 return true
             }
             R.id.menu_my_contact_filter      -> {
-                SearchMoreActivity.start(this, null, false, SearchMoreActivity.SEARCH_MORE_TYPE_CONTACT)
+                SearchMoreActivity.start(this, null, false, SearchMoreActivity.SEARCH_MORE_TYPE_CONTACT, needFocus = true)
                 return true
             }
         }

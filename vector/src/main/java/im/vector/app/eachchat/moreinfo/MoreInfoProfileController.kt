@@ -20,28 +20,25 @@ package im.vector.app.eachchat.moreinfo
 import com.airbnb.epoxy.TypedEpoxyController
 import im.vector.app.R
 import im.vector.app.core.epoxy.customHeightDividerItem
-import im.vector.app.core.epoxy.profiles.buildProfileAction
+import im.vector.app.core.epoxy.profiles.buildMultiUserProfileInfoItem
 import im.vector.app.core.epoxy.profiles.buildProfileSection
-import im.vector.app.core.epoxy.profiles.buildShowMoreInfoInfoItem
 import im.vector.app.core.epoxy.profiles.buildUserProfileInfoItem
 import im.vector.app.core.resources.StringProvider
-import im.vector.app.core.ui.list.genericFooterItem
+import im.vector.app.eachchat.base.BaseModule
 import im.vector.app.eachchat.contact.api.bean.Department
 import im.vector.app.eachchat.contact.data.ContactsDisplayBeanV2
 import im.vector.app.eachchat.contact.data.EmailBean
 import im.vector.app.eachchat.contact.data.TelephoneBean
 import im.vector.app.eachchat.contact.data.User
+import im.vector.app.eachchat.department.ContactUtils
 import im.vector.app.eachchat.department.DepartmentStoreHelper
 import im.vector.app.eachchat.user.UserInfoViewState
-import im.vector.lib.core.utils.epoxy.charsequence.toEpoxyCharSequence
-import org.matrix.android.sdk.api.session.Session
+import im.vector.app.eachchat.utils.string.StringUtils
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
-import java.util.ArrayList
 import javax.inject.Inject
 
 class MoreInfoProfileController @Inject constructor(
-        private val stringProvider: StringProvider,
-        private val session: Session
+        private val stringProvider: StringProvider
 ) : TypedEpoxyController<UserInfoViewState>() {
 
     var callback: Callback? = null
@@ -69,133 +66,15 @@ class MoreInfoProfileController @Inject constructor(
 //        if (data?.userMatrixItem?.invoke() == null) {
 //
 //        }
-        buildUserInfo(data)
-        if (data.showAsMember) {
-            buildRoomMemberActions(data)
-        } else {
-            buildUserActions(data)
-        }
-    }
+        // buildUserInfo(data)
 
-    private fun buildUserInfo(state: UserInfoViewState) {
-        var hasDivider = false
-
-        // 昵称
-        if (!state.contact?.nickName.isNullOrBlank()) {
-            if (!hasDivider) {
-                hasDivider = true
-                customHeightDividerItem {
-                    id("divider_room_member_profile_info")
-                    customHeight(8)
-                }
-            }
-            buildUserProfileInfoItem(stringProvider.getString(R.string.nick_name), state.contact?.nickName)
+        data.contact?.let {
+            initBaseInfo(it)
         }
-
-        // 电话
-        var phone: TelephoneBean? = null
-        if (state.departmentUser?.phoneNumbers != null && state.departmentUser.phoneNumbers!!.size > 0 && !state.departmentUser.phoneNumbers!![0].value.isNullOrBlank()) {
-            phone = TelephoneBean()
-            phone.type = stringProvider.getString(R.string.cell_phone)
-            phone.value = state.departmentUser.phoneNumbers!![0].value
-        }
-        if (phone == null && state.contact != null && state.contact.telephoneList != null && state.contact.telephoneList!!.size > 0) {
-            phone = state.contact.telephoneList!![0]
-        }
-        phone?.let {
-            if (!hasDivider) {
-                hasDivider = true
-                customHeightDividerItem {
-                    id("divider_room_member_profile_info")
-                    customHeight(8)
-                }
-            }
-            buildUserProfileInfoItem(stringProvider.getString(R.string.cell_phone), it.value)
-        }
-
-        // 邮件
-        var email: EmailBean? = null
-        if (state.departmentUser?.emails != null && state.departmentUser.emails!!.size > 0) {
-            email = EmailBean()
-            email.type = state.departmentUser.emails!![0].type
-            email.value = state.departmentUser.emails!![0].value
-        }
-        if (email == null && state.contact != null && state.contact.emailList != null && state.contact.emailList!!.size > 0) {
-            email = state.contact.emailList!![0]
-        }
-        email?.let {
-            if (!hasDivider) {
-                hasDivider = true
-                customHeightDividerItem {
-                    id("divider_room_member_profile_info")
-                    customHeight(8)
-                }
-            }
-            buildUserProfileInfoItem(stringProvider.getString(R.string.e_mail), it.value)
-        }
-
-        var department: String? = null
-        if (state.departmentUser?.departmentId != null) {
-            department = getDepartments(state.departmentUser)
-        }
-        if (department.isNullOrBlank()) {
-            department = state.contact?.let { initTitle(it) }
-        }
-        if (!department.isNullOrBlank()) {
-            if (!hasDivider) {
-                hasDivider = true
-                customHeightDividerItem {
-                    id("divider_room_member_profile_info")
-                    customHeight(8)
-                }
-            }
-            buildUserProfileInfoItem(stringProvider.getString(R.string.department), department)
-        }
-
-        var userTitle: String? = null
-        if (!state.departmentUser?.userTitle.isNullOrBlank()) {
-            userTitle = state.departmentUser?.userTitle
-        }
-        if (userTitle.isNullOrBlank()) {
-            userTitle = state.contact?.title
-        }
-        if (!userTitle.isNullOrBlank()) {
-            if (!hasDivider) {
-                hasDivider = true
-                customHeightDividerItem {
-                    id("divider_room_member_profile_info")
-                    customHeight(8)
-                }
-            }
-            buildUserProfileInfoItem(stringProvider.getString(R.string.user_title), userTitle)
-        }
-        if (state.contact != null || state.departmentUser != null) {
-            buildShowMoreInfoInfoItem {
-
-            }
-        }
-    }
-
-    private fun getDepartments(userFound: User): String {
-        // Get departments of the user
-        val departments = ArrayList<Department>()
-        var departmentText = ""
-        var departmentId = userFound.departmentId
-        while (!departmentId.isNullOrEmpty()) {
-            val department =
-                    runCatching { DepartmentStoreHelper.getDepartmentById(departmentId!!) }.getOrNull()
-            departmentId = department?.parentId
-            // current department is the org level, break the cycle
-            if (department == null || departmentId.isNullOrEmpty()) {
-//                this@UserViewModel.company.postValue(company)
-                break
-            }
-            departmentText =
-                    if (departmentText.isNotEmpty()) "${department.displayName} / $departmentText"
-                    else department.displayName.orEmpty()
-            departments.add(department)
-        }
-        return departmentText
+        initPhone(data)
+        initEmail(data)
+        initAddress(data)
+        initAbout(data)
     }
 
     private fun initTitle(contact: ContactsDisplayBeanV2): String? {
@@ -219,214 +98,337 @@ class MoreInfoProfileController @Inject constructor(
         return titleText
     }
 
-    private fun buildUserActions(state: UserInfoViewState) {
-        // val ignoreActionTitle = state.buildIgnoreActionTitle() ?: return
-        // More
-//        buildProfileSection(stringProvider.getString(R.string.room_profile_section_more))
-//        buildProfileAction(
-//                id = "ignore",
-//                title = ignoreActionTitle,
-//                destructive = true,
-//                editable = false,
-//                divider = false,
-//                action = { callback?.onIgnoreClicked() }
-//        )
-        customHeightDividerItem {
-            id("divider_room_member_profile")
-            customHeight(8)
-        }
-        if (!state.isMine) {
-            if (state.userMatrixItem.invoke() != null) {
-                buildProfileAction(
-                        id = "direct",
-                        editable = false,
-                        title = stringProvider.getString(R.string.room_member_open_or_create_dm),
-                        icon = R.mipmap.ic_send_message,
-                        action = { callback?.onOpenDmClicked() }
-                )
+    private fun initBaseInfo(contact: ContactsDisplayBeanV2) {
+        initName(contact)
+        initPinyin(contact)
+        initNickName(contact)
+    }
+
+    private fun getUserName(contact: ContactsDisplayBeanV2): CharSequence? {
+        return if (!contact.family.isNull() || !contact.given.isNull()
+        ) {
+            var family = contact.family
+            var given = contact.given
+            if (contact.family.isNull()) family = ""
+            if (contact.given.isNull()) given = ""
+            if (StringUtils.isAllEnglish(family) && StringUtils.isAllEnglish(given)) {
+                return "$given $family"
             }
-            if (state.directRoomId != null) {
-                buildProfileAction(
-                        id = "voice_call",
-                        editable = false,
-                        title = stringProvider.getString(R.string.action_voice_call),
-                        icon = R.drawable.ic_call_answer,
-                        action = { callback?.onVoiceCall() }
-                )
-                buildProfileAction(
-                        id = "video_call",
-                        editable = false,
-                        title = stringProvider.getString(R.string.action_video_call),
-                        icon = R.drawable.ic_call_answer_video,
-                        action = { callback?.onVideoCall() }
-                )
-            }
+            family + given
+        } else if (!contact.nickName.isNull()) {
+            contact.nickName
+        } else {
+            ""
         }
     }
 
-    private fun buildRoomMemberActions(state: UserInfoViewState) {
-        customHeightDividerItem {
-            id("divider_room_member_profile")
-            customHeight(8)
-        }
-        if (!state.isSpace) {
-//            buildSecuritySection(state)
-        }
-        if (!state.isMine) {
-            if (state.userMatrixItem.invoke() != null) {
-                buildProfileAction(
-                        id = "direct",
-                        editable = false,
-                        title = stringProvider.getString(R.string.room_member_open_or_create_dm),
-                        icon = R.mipmap.ic_send_message,
-                        action = { callback?.onOpenDmClicked() }
-                )
+    private fun initPhone(data: UserInfoViewState) {
+        var hasTitle = false
+        val contact = data.contact
+        val orgMember = data.departmentUser
+        contact?.telephoneList?.let {
+            for (phone in it) {
+                if (phone.value.isNullOrEmpty())
+                    continue
+                if (!hasTitle) {
+                    buildProfileSection(stringProvider.getString(R.string.tele_phone))
+                    hasTitle = true
+                }
+                buildUserProfileInfoItem(ContactUtils.convertTelephoneType(BaseModule.getContext(), phone.type, true), phone.value)
             }
-            if (state.directRoomId != null) {
-                buildProfileAction(
-                        id = "voice_call",
-                        editable = false,
-                        title = stringProvider.getString(R.string.action_voice_call),
-                        icon = R.drawable.ic_call_answer,
-                        action = { callback?.onVoiceCall() }
-                )
-                buildProfileAction(
-                        id = "video_call",
-                        editable = false,
-                        title = stringProvider.getString(R.string.action_video_call),
-                        icon = R.drawable.ic_call_answer_video,
-                        action = { callback?.onVideoCall() }
-                )
-            }
-            // val ignoreActionTitle = state.buildIgnoreActionTitle()
-//            buildProfileAction(
-//                    id = "mention",
-//                    title = stringProvider.getString(R.string.room_participants_action_mention),
-//                    editable = false,
-//                    divider = ignoreActionTitle != null,
-//                    action = { callback?.onMentionClicked() }
-//            )
         }
-        //buildMoreSection(state)
-    }
-
-    private fun buildSecuritySection(state: UserInfoViewState) {
-        // Security
-        val host = this
-
-        if (state.isRoomEncrypted) {
-            if (!state.isAlgorithmSupported) {
-                // TODO find sensible message to display here
-                // For now we just remove the verify actions as well as the Security status
-            } else if (state.userMXCrossSigningInfo != null) {
-                buildProfileSection(stringProvider.getString(R.string.room_profile_section_security))
-                // Cross signing is enabled for this user
-                if (state.userMXCrossSigningInfo.isTrusted()) {
-                    // User is trusted
-                    val icon = if (state.allDevicesAreTrusted) {
-                        R.drawable.ic_shield_trusted
-                    } else {
-                        R.drawable.ic_shield_warning
-                    }
-
-                    val titleRes = if (state.allDevicesAreTrusted) {
-                        R.string.verification_profile_verified
-                    } else {
-                        R.string.verification_profile_warning
-                    }
-
-                    buildProfileAction(
-                            id = "learn_more",
-                            title = stringProvider.getString(titleRes),
-                            editable = true,
-                            icon = icon,
-                            tintIcon = false,
-                            divider = false,
-                            action = { callback?.onShowDeviceList() }
-                    )
-                } else {
-                    // Not trusted, propose to verify
-                    if (!state.isMine) {
-                        buildProfileAction(
-                                id = "learn_more",
-                                title = stringProvider.getString(R.string.verification_profile_verify),
-                                editable = true,
-                                icon = R.drawable.ic_shield_black,
-                                divider = false,
-                                action = { callback?.onTapVerify() }
-                        )
-                    } else {
-                        buildProfileAction(
-                                id = "learn_more",
-                                title = stringProvider.getString(R.string.room_profile_section_security_learn_more),
-                                editable = false,
-                                divider = false,
-                                action = { callback?.onShowDeviceListNoCrossSigning() }
-                        )
-                    }
-
-                    genericFooterItem {
-                        id("verify_footer")
-                        text(host.stringProvider.getString(R.string.room_profile_encrypted_subtitle).toEpoxyCharSequence())
-                        centered(false)
+        orgMember?.phoneNumbers?.forEach { phone ->
+            if (contact?.telephoneList != null) {
+                //remove duplicate item
+                for (telephoneBean in contact.telephoneList!!) {
+                    if (telephoneBean.value == phone.value) {
+                        return@forEach
                     }
                 }
+                if (phone.value.isNullOrEmpty())
+                    return@forEach
+                if (!hasTitle) {
+                    buildProfileSection(stringProvider.getString(R.string.tele_phone))
+                    hasTitle = true
+                }
+                buildUserProfileInfoItem(ContactUtils.convertTelephoneType(BaseModule.getContext(), stringProvider.getString(R.string.work), true), phone.value)
             } else {
-                buildProfileSection(stringProvider.getString(R.string.room_profile_section_security))
-
-                buildProfileAction(
-                        id = "learn_more",
-                        title = stringProvider.getString(R.string.room_profile_section_security_learn_more),
-                        editable = false,
-                        divider = false,
-                        subtitle = stringProvider.getString(R.string.room_profile_encrypted_subtitle),
-                        action = { callback?.onShowDeviceListNoCrossSigning() }
-                )
-            }
-        } else {
-            buildProfileSection(stringProvider.getString(R.string.room_profile_section_security))
-
-            genericFooterItem {
-                id("verify_footer_not_encrypted")
-                text(host.stringProvider.getString(R.string.room_profile_not_encrypted_subtitle).toEpoxyCharSequence())
-                centered(false)
+                if (phone.value.isNullOrEmpty())
+                    return@forEach
+                if (!hasTitle) {
+                    buildProfileSection(stringProvider.getString(R.string.tele_phone))
+                    hasTitle = true
+                }
+                buildUserProfileInfoItem(ContactUtils.convertTelephoneType(BaseModule.getContext(), phone.type, true), phone.value)
             }
         }
     }
 
-    private fun buildMoreSection(state: UserInfoViewState) {
-        // More
-        buildProfileSection(stringProvider.getString(R.string.room_profile_section_more))
-
-        buildProfileAction(
-                id = "overrideColor",
-                editable = false,
-                title = stringProvider.getString(R.string.room_member_override_nick_color),
-                subtitle = state.userColorOverride,
-                divider = !state.isMine,
-                action = { callback?.onOverrideColorClicked() }
-        )
-
-        if (!state.isMine) {
-            //                                                                                                                                                                                                             val membership = state.asyncMembership() ?: return
-
-            buildProfileAction(
-                    id = "direct",
-                    editable = false,
-                    title = stringProvider.getString(R.string.room_member_open_or_create_dm),
-                    action = { callback?.onOpenDmClicked() }
-            )
-
-            if (!state.isSpace && state.hasReadReceipt) {
-                buildProfileAction(
-                        id = "read_receipt",
-                        editable = false,
-                        title = stringProvider.getString(R.string.room_member_jump_to_read_receipt),
-                        action = { callback?.onJumpToReadReceiptClicked() }
-                )
+    private fun initEmail(data: UserInfoViewState) {
+        var hasTitle = false
+        val contact = data.contact
+        val orgMember = data.departmentUser
+        contact?.emailList?.let {
+            for (email in it) {
+                if (email.value.isNullOrEmpty())
+                    continue
+                if (!hasTitle) {
+                    buildProfileSection(stringProvider.getString(R.string.e_mail))
+                    hasTitle = true
+                }
+                buildUserProfileInfoItem(ContactUtils.convertEmailType(BaseModule.getContext(), email.type, true), email.value)
             }
-
+        }
+        orgMember?.emails?.forEach { email ->
+            if (contact?.emailList != null) {
+                //remove duplicate item
+                for (emailBean in contact.emailList!!) {
+                    if (emailBean.value == email.value) {
+                        return@forEach
+                    }
+                }
+                if (email.value.isNullOrEmpty())
+                    return@forEach
+                if (!hasTitle) {
+                    buildProfileSection(stringProvider.getString(R.string.e_mail))
+                    hasTitle = true
+                }
+                buildUserProfileInfoItem(ContactUtils.convertTelephoneType(BaseModule.getContext(), stringProvider.getString(R.string.e_mail), true), email.value)
+            } else {
+                if (email.value.isNullOrEmpty())
+                    return@forEach
+                if (!hasTitle) {
+                    buildProfileSection(stringProvider.getString(R.string.e_mail))
+                    hasTitle = true
+                }
+                buildUserProfileInfoItem(ContactUtils.convertEmailType(BaseModule.getContext(), email.type, true), email.value)
+            }
         }
     }
 
+    private fun initAddress(data: UserInfoViewState) {
+        var hasTitle = false
+        val contact = data.contact
+        if (contact?.addressList == null) {
+            return
+        }
+        contact.addressList?.let {
+            if (it.size == 0) {
+                return
+            }
+            for (address in it) {
+                var addressText = ""
+                if (!address.country.isNullOrBlank())
+                    addressText += address.country + "\n"
+                if (!address.region.isNullOrBlank())
+                    addressText += address.region + "\n"
+                if (!address.locality.isNullOrBlank())
+                    addressText += address.locality + "\n"
+                if (!address.subLocality.isNullOrBlank())
+                    addressText += address.subLocality + "\n"
+                if (!address.streetAddress.isNullOrBlank())
+                    addressText += address.streetAddress + "\n"
+                if (!address.postalCode.isNullOrBlank())
+                    addressText += address.postalCode + "\n"
+                if (addressText.isNotEmpty()) {
+                    if (addressText.endsWith("\n")) {
+                        addressText =
+                                addressText.removeRange(addressText.length - 1, addressText.length)
+                    }
+                    if (!hasTitle) {
+                        buildProfileSection(stringProvider.getString(R.string.address))
+                        hasTitle = true
+                    }
+                    buildUserProfileInfoItem(ContactUtils.convertAddressType(BaseModule.getContext(), address.type, true), addressText)
+                }
+            }
+        }
+    }
+
+    private fun initAbout(data: UserInfoViewState) {
+        val contact = data.contact
+        customHeightDividerItem {
+            id("divider_more_info_about")
+            customHeight(8)
+        }
+        contact?.let {
+            if (contact.given.isNull())
+                contact.given = ""
+            initUrl(contact)
+        }
+        initOrg(data)
+        contact?.let {
+            initTitle(contact)
+            initImpp(contact)
+            initDate(contact)
+            initRelationship(contact)
+            initNote(contact)
+            initCategories(contact)
+        }
+    }
+
+    private fun initName(contact: ContactsDisplayBeanV2) {
+        val name = getUserName(contact)
+        if (name.isNullOrBlank()) return
+        buildUserProfileInfoItem(stringProvider.getString(R.string.name), name.toString())
+    }
+
+    private fun initNickName(contact: ContactsDisplayBeanV2) {
+        if (contact.nickName.isNullOrBlank()) return
+        buildUserProfileInfoItem(stringProvider.getString(R.string.nick_name), contact.nickName)
+    }
+
+    private fun initPinyin(contact: ContactsDisplayBeanV2) {
+        var familyPinYin: String? = ""
+        var givenPinYin: String? = ""
+        var additionPinYin: String? = ""
+        if (contact.firstName.isNull() && contact.lastName.isNull()) return
+        if (!contact.firstName.isNull()) familyPinYin = contact.firstName
+        if (!contact.lastName.isNull()) givenPinYin = contact.lastName
+        if (!contact.middleName.isNull()) additionPinYin = contact.middleName
+        buildUserProfileInfoItem(stringProvider.getString(R.string.given_and_family_pinyin), stringProvider.getString(R.string.name_pinyin_text, familyPinYin, additionPinYin, givenPinYin))
+    }
+
+    private fun initUrl(contact: ContactsDisplayBeanV2) {
+        contact.urlList?.let {
+            if (it.size == 0) return
+            for (url in it) {
+                if (url.value.isNullOrEmpty())
+                    continue
+                buildUserProfileInfoItem(stringProvider.getString(R.string.website), url.value)
+            }
+        }
+    }
+
+    private fun initOrg(data: UserInfoViewState) {
+        val contact = data.contact
+        val orgMember = data.departmentUser
+        //first take org info
+        if (orgMember != null) {
+            val departments = getDepartments(orgMember)
+            if (departments.isNotBlank()) {
+                buildUserProfileInfoItem(stringProvider.getString(R.string.department), departments)
+            }
+            val userTitle = orgMember.userTitle
+            if (!userTitle.isNullOrBlank()) {
+                buildUserProfileInfoItem(stringProvider.getString(R.string.position_title), userTitle)
+            }
+            buildUserProfileInfoItem(stringProvider.getString(R.string.reporting_relationship), stringProvider.getString(R.string.view), true) {
+
+            }
+//            reportingLayout.setOnClickListener {
+//                Contact.reportingRelationshipActivity(orgMember)
+//            }
+            // v.llOrg.addView(reportingLayout)
+            var userRegion: String? = null
+            if (orgMember.addresses?.size != null && orgMember.addresses?.size!! > 0) {
+                userRegion = orgMember.addresses?.get(0)?.locality
+            }
+            if (!userRegion.isNullOrBlank()) {
+                buildUserProfileInfoItem(stringProvider.getString(R.string.region_title), userRegion)
+            }
+            //if don't have org info take contact info
+        } else if (contact != null) {
+            var departmentText = ""
+            contact.organization?.let {
+                departmentText += "$it/"
+            }
+            contact.department?.let {
+                departmentText += "$it/"
+            }
+            departmentText = departmentText.replace("//", "/")//去掉连续的杠
+            //去掉开头的杠
+            while (departmentText.startsWith("/")) {
+                departmentText = departmentText.replaceFirst("/", "")
+            }
+            //去掉最后的杠
+            while (departmentText.endsWith("/")) {
+                departmentText = departmentText.replaceRange(
+                        departmentText.length - 1,
+                        departmentText.length,
+                        ""
+                )
+            }
+            if (departmentText.isNotEmpty()) {
+                buildUserProfileInfoItem(stringProvider.getString(R.string.organization), departmentText)
+            }
+            if (!contact.title.isNullOrBlank()) {
+                buildUserProfileInfoItem(stringProvider.getString(R.string.position_title), contact.title)
+            }
+        }
+    }
+
+    fun getDepartments(userFound: User): String {
+        // Get departments of the user
+        val departments = ArrayList<Department>()
+        var departmentText = ""
+        var departmentId = userFound.departmentId
+        while (!departmentId.isNullOrEmpty()) {
+            val department =
+                    runCatching { DepartmentStoreHelper.getDepartmentById(departmentId!!) }.getOrNull()
+            departmentId = department?.parentId
+            // current department is the org level, break the cycle
+            if (department == null || departmentId.isNullOrEmpty()) {
+//                this@UserViewModel.company.postValue(company)
+                break
+            }
+            departmentText =
+                    if (departmentText.isNotEmpty()) "${department.displayName} / $departmentText"
+                    else department.displayName.orEmpty()
+            departments.add(department)
+        }
+        return departmentText
+    }
+
+    private fun initImpp(contact: ContactsDisplayBeanV2) {
+        contact.imppList?.let {
+            if (it.size == 0) return
+            val impps = ArrayList<String>()
+            for (impp in it) {
+                if (impp.value.isNullOrEmpty())
+                    continue
+                impps.add(
+                        ContactUtils.convertImppType(BaseModule.getContext(), impp.type, true)  + "\n" +
+                        impp.value
+                )
+            }
+            buildMultiUserProfileInfoItem(stringProvider.getString(R.string.communication_tool), impps)
+        }
+    }
+
+    private fun initDate(contact: ContactsDisplayBeanV2) {
+        contact.dateList?.let {
+            if (it.size == 0) return
+            val dates = ArrayList<String>()
+            for (date in it) {
+                dates.add(
+                        ContactUtils.convertDateType(BaseModule.getContext(), date.type, true) + "\n" +
+                        date.value
+                )
+            }
+            buildMultiUserProfileInfoItem(stringProvider.getString(R.string.key_date), dates)
+        }
+    }
+
+    private fun initRelationship(contact: ContactsDisplayBeanV2) {
+        contact.relationship?.let {
+            buildUserProfileInfoItem(stringProvider.getString(R.string.relationship), it)
+        }
+    }
+
+    private fun initNote(contact: ContactsDisplayBeanV2) {
+        contact.note?.let {
+            if (it.isBlank()) return
+            buildUserProfileInfoItem(stringProvider.getString(R.string.remark), it)
+        }
+    }
+
+    private fun initCategories(contact: ContactsDisplayBeanV2) {
+        contact.categories?.let {
+            if (it.isBlank()) return
+            buildUserProfileInfoItem(stringProvider.getString(R.string.label), it)
+        }
+    }
+
+    private fun String?.isNull() = (this.isNullOrEmpty() || this == "null")
 }

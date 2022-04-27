@@ -21,11 +21,17 @@ import im.vector.app.R
 import im.vector.app.core.platform.VectorBaseActivity
 import im.vector.app.databinding.ActivityContactsSearchLayoutBinding
 import im.vector.app.eachchat.base.BaseModule
+import im.vector.app.eachchat.contact.data.ContactsDisplayBean
 import im.vector.app.eachchat.contact.data.User
+import im.vector.app.eachchat.database.AppDatabase
 import im.vector.app.eachchat.department.DepartmentActivity
 import im.vector.app.eachchat.department.DepartmentFragment
+import im.vector.app.eachchat.search.contactsearch.data.SearchContactsBean
+import im.vector.app.eachchat.search.contactsearch.data.SearchUserBean
 import im.vector.app.eachchat.search.contactsearch.searchmore.SearchMoreActivity
 import im.vector.app.eachchat.ui.dialog.AlertDialog
+import im.vector.app.eachchat.user.UserInfoActivity
+import im.vector.app.eachchat.user.UserInfoArg
 import im.vector.app.features.roommemberprofile.RoomMemberProfileActivity
 import im.vector.app.features.roommemberprofile.RoomMemberProfileArgs
 import kotlinx.coroutines.Dispatchers
@@ -158,7 +164,7 @@ open class ContactsSearchActivity :
                                         }
                                         if (existingRoomId != null) {
                                             lifecycleScope.launch(Dispatchers.Main) {
-                                                navigator.openRoom(BaseModule.getContext(), existingRoomId)
+                                                navigator.openRoom(this@ContactsSearchActivity, existingRoomId)
                                             }
                                         } else {
                                             lifecycleScope.launch(Dispatchers.IO) {
@@ -181,13 +187,22 @@ open class ContactsSearchActivity :
                                 }
                             }
                             ContactsSearchAdapter.SUB_TYPE_MY_CONTACT    -> {
-                                val intent = RoomMemberProfileActivity.newIntent(this, RoomMemberProfileArgs(it.id))
-                                startActivity(intent)
+                                val item = baseItem.item as SearchContactsBean
+                                lifecycleScope.launch(Dispatchers.IO) {
+                                    val contact = AppDatabase.getInstance(this@ContactsSearchActivity).contactDaoV2().getContactByMatrixId(item.contact.matrixId)
+                                    lifecycleScope.launch(Dispatchers.IO) {
+                                        UserInfoActivity.start(this@ContactsSearchActivity, UserInfoArg(item.contact.matrixId, contact = contact, displayName = baseItem.item.mainContent, openByContact = true))
+                                    }
+                                }
                             }
                             ContactsSearchAdapter.SUB_TYPE_ORG           -> {
-                                val intent = RoomMemberProfileActivity.newIntent(this, RoomMemberProfileArgs(it.id))
-                                startActivity(intent)
-                                // start(displayBean.id)
+                                lifecycleScope.launch(Dispatchers.IO) {
+                                    val user: User = baseItem.item as SearchUserBean
+//                                    val departmentUser = AppDatabase.getInstance(this@ContactsSearchActivity).userDao().getBriefUserByMatrixId(user.matrixId)
+                                    lifecycleScope.launch(Dispatchers.IO) {
+                                        UserInfoActivity.start(this@ContactsSearchActivity, UserInfoArg(user.matrixId, departmentUserId = user.id, displayName = user.displayName))
+                                    }
+                                }
                             }
                             ContactsSearchAdapter.SUB_TYPE_DEPARTMENT    -> {
                                 DepartmentActivity.start(this, it.mainContent, it.id)

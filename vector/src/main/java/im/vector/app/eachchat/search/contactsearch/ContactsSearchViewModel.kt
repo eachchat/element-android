@@ -305,7 +305,7 @@ class ContactsSearchViewModel @AssistedInject constructor(
 
     private fun searchOrg(keyword: String): List<IDisplayBean> {
         orgUsers.clear()
-        val searchUsers = AppDatabase.getInstance(BaseModule.getContext()).userDao().search(keyword, 100)
+        val searchUsers = AppDatabase.getInstance(BaseModule.getContext()).userDao().search(keyword, 100)?.filter { it.del != 1 }
         if (!searchUsers.isNullOrEmpty()) {
             searchUsers.forEach {
                 val searchUserBean = SearchUserBean(it, keyword)

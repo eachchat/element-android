@@ -40,14 +40,14 @@ interface UserDao {
     fun getSelectUsersByDepartmentId(departmentId: String?): List<User>?
 
     @Query("SELECT * FROM UserInfoStore WHERE displayName LIKE '%'||:keyword||'%' OR userName LIKE '%'||:keyword||'%' " +
-            "OR displayNamePy LIKE '%'||:keyword||'%' LIMIT :count")
+            "OR displayNamePy LIKE '%'||:keyword||'%' AND del!=1 LIMIT :count")
     fun search(keyword: String, count: Int): List<User>?
 
     @Query("SELECT * FROM UserInfoStore WHERE displayName LIKE '%'||:keyword||'%' OR userName LIKE '%'||:keyword||'%' " +
-            "OR displayNamePy LIKE '%'||:keyword||'%' ")
+            "OR displayNamePy LIKE '%'||:keyword||'%' AND del!=1")
     fun search(keyword: String): List<User>?
 
-    @Query("SELECT * FROM UserInfoStore WHERE displayName LIKE '%'||:keyword||'%' AND del != 1 AND departmentId = :departmentId LIMIT :count")
+    @Query("SELECT * FROM UserInfoStore WHERE displayName LIKE '%'||:keyword||'%' AND del != 1 AND departmentId = :departmentId AND del!=1 LIMIT :count")
     fun search(keyword: String, count: Int, departmentId: String): List<User>?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

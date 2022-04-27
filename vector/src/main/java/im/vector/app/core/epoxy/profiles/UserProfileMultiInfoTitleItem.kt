@@ -13,34 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package im.vector.app.core.epoxy
+package im.vector.app.core.epoxy.profiles
 
-import android.view.View
-import androidx.core.content.ContextCompat
+import android.graphics.Color
+import android.widget.LinearLayout
+import android.widget.TextView
 import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
 import im.vector.app.R
-import im.vector.app.core.utils.DimensionConverter
+import im.vector.app.core.epoxy.VectorEpoxyHolder
+import im.vector.app.core.epoxy.VectorEpoxyModel
 import im.vector.app.eachchat.base.BaseModule
+import im.vector.app.eachchat.utils.ScreenUtils
 
-@EpoxyModelClass(layout = R.layout.item_custom_height_divider)
-abstract class CustomHeightDividerItem : VectorEpoxyModel<CustomHeightDividerItem.Holder>() {
+// 用来显示聊天工具、重要日期之类
+@EpoxyModelClass(layout = R.layout.item_multi_user_profile_info)
+abstract class UserProfileMultiInfoTitleItem : VectorEpoxyModel<UserProfileMultiInfoTitleItem.Holder>() {
     @EpoxyAttribute
-    var customHeight: Int = 1
+    var key: String? = ""
 
     @EpoxyAttribute
-    var colorResource: Int = R.color.element_system_light
+    var values: ArrayList<String>? = null
 
     override fun bind(holder: Holder) {
         super.bind(holder)
 
-        val lp = holder.divider.layoutParams
-        lp.height = DimensionConverter(holder.divider.resources).dpToPx(customHeight)
-        holder.divider.layoutParams = lp
-        holder.divider.setBackgroundColor(ContextCompat.getColor(BaseModule.getContext(), colorResource))
+        holder.title.text = key
     }
 
     class Holder : VectorEpoxyHolder() {
-        val divider by bind<View>(R.id.view_divider)
+        val title by bind<TextView>(R.id.tv_item_user_info_title)
     }
 }
