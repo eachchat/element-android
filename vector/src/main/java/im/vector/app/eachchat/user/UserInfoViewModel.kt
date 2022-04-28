@@ -32,6 +32,7 @@ import im.vector.app.eachchat.contact.data.ContactsDisplayBean
 import im.vector.app.eachchat.contact.data.ContactsDisplayBeanV2
 import im.vector.app.eachchat.contact.database.ContactDaoHelper
 import im.vector.app.eachchat.database.AppDatabase
+import im.vector.app.eachchat.utils.AppCache
 import im.vector.app.features.home.room.detail.timeline.helper.MatrixItemColorProvider
 import im.vector.app.features.roommemberprofile.RoomMemberProfileAction
 import im.vector.app.features.roommemberprofile.RoomMemberProfileViewEvents
@@ -82,8 +83,10 @@ class UserInfoViewModel @AssistedInject constructor(
 
     // 观察一些补充的信息
     fun observeOtherInfo(lifecycleOwner: LifecycleOwner) {
-        observeContact(lifecycleOwner)
-        observeDepartmentUser(lifecycleOwner)
+        if (AppCache.getIsOpenContact())
+            observeContact(lifecycleOwner)
+        if (AppCache.getIsOpenOrg())
+            observeDepartmentUser(lifecycleOwner)
     }
 
     private fun observeContact(lifecycleOwner: LifecycleOwner) {

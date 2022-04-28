@@ -29,6 +29,7 @@ import im.vector.app.core.platform.VectorViewModel
 import im.vector.app.eachchat.base.BaseModule
 import im.vector.app.eachchat.database.AppDatabase
 import im.vector.app.eachchat.user.UserInfoViewState
+import im.vector.app.eachchat.utils.AppCache
 import im.vector.app.features.home.room.detail.timeline.helper.MatrixItemColorProvider
 import im.vector.app.features.roommemberprofile.RoomMemberProfileAction
 import im.vector.app.features.roommemberprofile.RoomMemberProfileViewEvents
@@ -77,8 +78,10 @@ class MoreInfoViewModel @AssistedInject constructor(
 
     // 观察一些补充的信息
     fun observeOtherInfo(lifecycleOwner: LifecycleOwner) {
-        observeContact(lifecycleOwner)
-        observeDepartmentUser(lifecycleOwner)
+        if (AppCache.getIsOpenContact())
+            observeContact(lifecycleOwner)
+        if (AppCache.getIsOpenOrg())
+            observeDepartmentUser(lifecycleOwner)
     }
 
     private fun observeContact(lifecycleOwner: LifecycleOwner) {
@@ -131,7 +134,6 @@ class MoreInfoViewModel @AssistedInject constructor(
     }
 
     override fun handle(action: RoomMemberProfileAction) {
-
     }
 
     private fun handleSetUserColorOverride(action: RoomMemberProfileAction.SetUserColorOverride) {
