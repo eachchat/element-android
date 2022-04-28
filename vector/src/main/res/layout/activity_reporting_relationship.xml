@@ -59,7 +59,7 @@
                         android:layout_marginStart="8dp"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        android:text="@string/more_user_info"
+                        android:text="@string/reporting_relationship"
                         android:textAppearance="@style/TextAppearance.Vector.Widget.ActionBarTitle"
                         android:textColor="?vctr_content_primary"
                         app:layout_constraintBottom_toBottomOf="parent"
