@@ -184,7 +184,7 @@ open class User(@PrimaryKey(autoGenerate = true)
 //        request.into(imageView);
             if (imageView != null && context != null) {
                 GlideApp.with(context)
-                        .load(url)
+                        .load(url.resolveMxc())
                         .apply(RequestOptions.circleCropTransform())
                         .error(R.drawable.default_person_icon)
                         .into(imageView)

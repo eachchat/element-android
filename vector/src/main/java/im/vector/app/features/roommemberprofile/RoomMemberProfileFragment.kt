@@ -61,6 +61,8 @@ import im.vector.app.eachchat.contact.addcontact.ContactEditAddActivity
 import im.vector.app.eachchat.contact.data.ContactsDisplayBean
 import im.vector.app.eachchat.contact.data.getDepartments
 import im.vector.app.eachchat.contact.data.toContact
+import im.vector.app.eachchat.moreinfo.MoreInfoActivity
+import im.vector.app.eachchat.user.UserInfoArg
 import im.vector.app.features.analytics.plan.Screen
 import im.vector.app.features.call.VectorCallActivity
 import im.vector.app.features.call.webrtc.WebRtcCallManager
@@ -157,7 +159,6 @@ class RoomMemberProfileFragment @Inject constructor(
         }
         return super.onPrepareOptionsMenu(menu)
     }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -324,6 +325,15 @@ class RoomMemberProfileFragment @Inject constructor(
                 }
             }
         }
+
+        if (state.contact != null) {
+            headerViews.memberProfileNameView.text = state.contact.displayName
+            views.matrixProfileToolbarTitleView.text = state.contact.displayName
+        } else if (state.departmentUser != null) {
+            headerViews.memberProfileNameView.text = state.departmentUser.displayName
+            views.matrixProfileToolbarTitleView.text = state.departmentUser.displayName
+        }
+
 
         actionAddContact?.isVisible = state.contact == null
         actionDeleteContact?.isVisible = state.contact != null
@@ -507,6 +517,12 @@ class RoomMemberProfileFragment @Inject constructor(
         handleCallRequest(true)
     }
 
+    override fun onMoreInfoClick() {
+        withState(viewModel) {
+            MoreInfoActivity.start(requireActivity(), UserInfoArg(userId = it.userId, contact = it.contact, departmentUserId = it.departmentUser?.id))
+        }
+    }
+
     private fun handleCallRequest(isVideoCall: Boolean) = withState(viewModel) { state ->
         val roomSummary = viewModel.room?.roomSummary()
         when (roomSummary?.joinedMembersCount) {
@@ -609,5 +625,10 @@ class RoomMemberProfileFragment @Inject constructor(
                 it.directRoomId?.let { it1 -> callManager.startOutgoingCall(it1, it.userId, isVideoCall) }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getExistingDM()
     }
 }

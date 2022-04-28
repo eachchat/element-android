@@ -337,6 +337,7 @@
         <activity android:name=".features.home.room.filtered.FilteredRoomsActivity" />
         <activity android:name=".features.home.room.threads.ThreadsActivity" />
         <activity android:name="im.vector.app.eachchat.department.DepartmentActivity" />
+        <activity android:name="ai.workly.eachchat.android.contact.relationship.ReportingRelationshipActivity"/>
 
         <activity
             android:name=".features.home.room.detail.RoomDetailActivity"

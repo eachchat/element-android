@@ -17,6 +17,7 @@
 
 package im.vector.app.eachchat.moreinfo
 
+import ai.workly.eachchat.android.contact.relationship.ReportingRelationshipActivity
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.LayoutInflater
@@ -421,6 +422,12 @@ class MoreInfoFragment @Inject constructor(
     override fun onVideoCall() {
         isVideoCall = true
         // handleCallRequest(true)
+    }
+
+    override fun onReportingRelationshipClicked() {
+        withState(viewModel) {
+            ReportingRelationshipActivity.start(requireContext(), it.departmentUser?.id)
+        }
     }
 
 //    private fun handleCallRequest(isVideoCall: Boolean) = withState(viewModel) { state ->

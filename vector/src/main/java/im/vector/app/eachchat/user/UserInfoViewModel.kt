@@ -81,6 +81,10 @@ class UserInfoViewModel @AssistedInject constructor(
         setState { copy(directRoomId = initialState.userId?.let { session.getExistingDirectRoomWithUser(it) }) }
     }
 
+    fun getExistingDM() {
+        setState { copy(directRoomId = initialState.userId?.let { session.getExistingDirectRoomWithUser(it) }) }
+    }
+
     // 观察一些补充的信息
     fun observeOtherInfo(lifecycleOwner: LifecycleOwner) {
         if (AppCache.getIsOpenContact())

@@ -3973,7 +3973,7 @@
     <string name="edit_contact_info">编辑联系信息</string>
     <string name="delete_contact">从我的联系人移除</string>
     <string name="add_to_my_contact">添加到我的联系人</string>
-    <string name="more_user_info">更多信息</string>
+    <string name="more_user_info">更多详情</string>
     <string name="name">姓名</string>
     <string name="name_pinyin_text">%1$s %2$s %3$s</string>
     <string name="reporting_relationship">汇报关系</string>
@@ -3981,4 +3981,6 @@
     <string name="region_title">地区</string>
     <string name="relationship">关系</string>
     <string name="formated_date">%1$s\n%2$s</string>
+    <string name="load_user_error">加载用户信息出错</string>
+    <string name="send_message">发消息</string>
 </resources>

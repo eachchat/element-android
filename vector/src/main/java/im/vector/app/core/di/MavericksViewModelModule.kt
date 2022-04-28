@@ -16,6 +16,7 @@
 
 package im.vector.app.core.di
 
+import ai.workly.eachchat.android.contact.relationship.ReportingRelationshipViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -139,6 +140,11 @@ interface MavericksViewModelModule {
     @IntoMap
     @MavericksViewModelKey(UserInfoViewModel::class)
     fun userInfoViewModelFactory(factory: UserInfoViewModel.Factory): MavericksAssistedViewModelFactory<*, *>
+
+    @Binds
+    @IntoMap
+    @MavericksViewModelKey(ReportingRelationshipViewModel::class)
+    fun reportingRelationshipViewModelFactory(factory: ReportingRelationshipViewModel.Factory): MavericksAssistedViewModelFactory<*, *>
 
     @Binds
     @IntoMap

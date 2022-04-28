@@ -340,6 +340,13 @@ class UserInfoFragment @Inject constructor(
             }
         }
         //headerViews.memberProfilePowerLevelView.setTextOrHide(state.userPowerLevelString())
+        if (state.contact != null) {
+            headerViews.memberProfileNameView.text = state.contact.displayName
+            views.matrixProfileToolbarTitleView.text = state.contact.displayName
+        } else if (state.departmentUser != null) {
+            headerViews.memberProfileNameView.text = state.departmentUser.displayName
+            views.matrixProfileToolbarTitleView.text = state.departmentUser.displayName
+        }
 
         actionAddContact?.isVisible = state.contact == null
         actionDeleteContact?.isVisible = state.contact != null
@@ -612,5 +619,10 @@ class UserInfoFragment @Inject constructor(
                 it.directRoomId?.let { it1 -> it.userId?.let { it2 -> callManager.startOutgoingCall(it1, it2, isVideoCall) } }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getExistingDM()
     }
 }

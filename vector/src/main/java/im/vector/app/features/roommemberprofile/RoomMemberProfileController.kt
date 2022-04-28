@@ -22,6 +22,7 @@ import im.vector.app.R
 import im.vector.app.core.epoxy.customHeightDividerItem
 import im.vector.app.core.epoxy.profiles.buildProfileAction
 import im.vector.app.core.epoxy.profiles.buildProfileSection
+import im.vector.app.core.epoxy.profiles.buildShowMoreInfoInfoItem
 import im.vector.app.core.epoxy.profiles.buildUserProfileInfoItem
 import im.vector.app.core.resources.StringProvider
 import im.vector.app.core.ui.list.genericFooterItem
@@ -63,6 +64,7 @@ class RoomMemberProfileController @Inject constructor(
         fun onInviteClicked()
         fun onVoiceCall()
         fun onVideoCall()
+        fun onMoreInfoClick()
     }
 
     override fun buildModels(data: RoomMemberProfileViewState?) {
@@ -168,6 +170,11 @@ class RoomMemberProfileController @Inject constructor(
                 }
             }
             buildUserProfileInfoItem(stringProvider.getString(R.string.user_title), userTitle)
+        }
+        if (state.departmentUser != null) {
+            buildShowMoreInfoInfoItem {
+                callback?.onMoreInfoClick()
+            }
         }
     }
 

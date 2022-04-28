@@ -141,14 +141,16 @@ class RoomMemberProfileViewModel @AssistedInject constructor(
         setState { copy(directRoomId = session.getExistingDirectRoomWithUser(initialState.userId)) }
     }
 
+    fun getExistingDM() {
+        setState { copy(directRoomId = session.getExistingDirectRoomWithUser(initialState.userId)) }
+    }
+
     // 观察一些补充的信息
     fun observeOtherInfo(lifecycleOwner: LifecycleOwner) {
-        if (room?.roomSummary()?.isDirect != false) {
-            if (AppCache.getIsOpenContact())
-                observeContact(lifecycleOwner)
-            if (AppCache.getIsOpenOrg())
-                observeDepartmentUser(lifecycleOwner)
-        }
+        if (AppCache.getIsOpenContact())
+            observeContact(lifecycleOwner)
+        if (AppCache.getIsOpenOrg())
+            observeDepartmentUser(lifecycleOwner)
     }
 
     private fun observeContact(lifecycleOwner: LifecycleOwner) {

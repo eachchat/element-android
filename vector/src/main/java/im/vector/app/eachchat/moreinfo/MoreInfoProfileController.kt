@@ -59,6 +59,7 @@ class MoreInfoProfileController @Inject constructor(
         fun onInviteClicked()
         fun onVoiceCall()
         fun onVideoCall()
+        fun onReportingRelationshipClicked()
     }
 
     override fun buildModels(data: UserInfoViewState?) {
@@ -314,7 +315,7 @@ class MoreInfoProfileController @Inject constructor(
                 buildUserProfileInfoItem(stringProvider.getString(R.string.position_title), userTitle)
             }
             buildUserProfileInfoItem(stringProvider.getString(R.string.reporting_relationship), stringProvider.getString(R.string.view), true) {
-
+                callback?.onReportingRelationshipClicked()
             }
 //            reportingLayout.setOnClickListener {
 //                Contact.reportingRelationshipActivity(orgMember)
