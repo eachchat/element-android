@@ -68,7 +68,7 @@ internal class DefaultWidgetURLFormatter @Inject constructor(private val integra
      */
     override suspend fun format(baseUrl: String, params: Map<String, String>, forceFetchScalarToken: Boolean, bypassWhitelist: Boolean): String {
         return if (bypassWhitelist || isWhiteListed(baseUrl)) {
-            val taskParams = GetScalarTokenTask.Params(currentConfig.restUrl, forceFetchScalarToken)
+            val taskParams = GetScalarTokenTask.Params("https://scalar.eachchat.net/api/v1/scalar", forceFetchScalarToken) // currentConfig.restUrl, forceFetchScalarToken)
             val scalarToken = getScalarTokenTask.execute(taskParams)
             buildString {
                 append(baseUrl)
