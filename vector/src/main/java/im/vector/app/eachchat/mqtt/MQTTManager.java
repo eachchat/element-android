@@ -255,7 +255,7 @@ public class MQTTManager implements MqttCallback {
                 if (mClient != null && BaseModule.getSession() != null) {
                     mClient.subscribe(BaseModule.getSession().getMyUserId(), 2);
                 }
-            } catch (MqttException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             if (mConnectCallback != null) {
