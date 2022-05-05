@@ -34,7 +34,8 @@ class FDroidGuardServiceStarter @Inject constructor(
             try {
                 Timber.i("## Sync: starting GuardService")
                 val intent = Intent(appContext, GuardService::class.java)
-                ContextCompat.startForegroundService(appContext, intent)
+                appContext.startService(intent)
+                // ContextCompat.startForegroundService(appContext, intent)
             } catch (ex: Throwable) {
                 Timber.e("## Sync: ERROR starting GuardService")
             }

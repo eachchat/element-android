@@ -48,7 +48,8 @@ fun Session.startSyncing(context: Context) {
         )
                 .let {
                     try {
-                        ContextCompat.startForegroundService(applicationContext, it)
+                        applicationContext.startService(it)
+                        // ContextCompat.startForegroundService(applicationContext, it)
                     } catch (ex: Throwable) {
                         // TODO
                         Timber.e(ex)

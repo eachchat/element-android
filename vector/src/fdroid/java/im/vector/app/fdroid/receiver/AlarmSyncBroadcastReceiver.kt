@@ -49,7 +49,8 @@ class AlarmSyncBroadcastReceiver : BroadcastReceiver() {
         )
                 .let {
                     try {
-                        ContextCompat.startForegroundService(context, it)
+                        context.startService(it)
+                        // ContextCompat.startForegroundService(context, it)
                     } catch (ex: Throwable) {
                         Timber.i("## Sync: Failed to start service, Alarm scheduled to restart service")
                         scheduleAlarm(context, sessionId, vectorPreferences.backgroundSyncDelay())
@@ -98,7 +99,8 @@ class AlarmSyncBroadcastReceiver : BroadcastReceiver() {
             // Stop current service to restart
             VectorSyncService.stopIntent(context).let {
                 try {
-                    ContextCompat.startForegroundService(context, it)
+
+                    // ContextCompat.startForegroundService(context, it)
                 } catch (ex: Throwable) {
                     Timber.i("## Sync: Cancel sync")
                 }

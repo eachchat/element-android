@@ -3193,4 +3193,11 @@
     <string name="formated_date">%1$s\n%2$s</string>
     <string name="load_user_error">加载用户信息出错</string>
     <string name="send_message">发消息</string>
+    <string name="add_auth_email">添加授权邮箱</string>
+    <string name="add_email">添加邮箱</string>
+    <string name="network_error_please_retry">网络连接异常，请重试</string>
+    <string name="IMAP">IMAP</string>
+    <string name="POP">POP</string>
+    <string name="repeat_matrix_id">已存在该MatrixID</string>
+    <string name="not_an_active_room">房间已失效</string>
 </resources>

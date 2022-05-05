@@ -193,7 +193,7 @@ class ContactEditAddActivity: VectorBaseActivity<ActivityContactEditAddBinding>(
                     finish()
                 }
                 EDIT_FAIL -> ToastUtil.showError(this, R.string.edit_contact_failed)
-                REPEAT_MATRIX_ID -> showMatrixIdError()
+                REPEAT_MATRIX_ID -> showRepeatMatrixIdError()
                 INVALID_MATRIX_ID -> showMatrixIdError()
                 UNKNOWN_HOST_EXCEPTION -> ToastUtil.showError(this, R.string.network_error)
             }
@@ -253,6 +253,11 @@ class ContactEditAddActivity: VectorBaseActivity<ActivityContactEditAddBinding>(
     private fun showMatrixIdError() {
         views.layoutMatrixId.tvError.visibility = View.VISIBLE
         views.layoutMatrixId.tvError.text = getString(R.string.invalid_matrix_id)
+    }
+
+    private fun showRepeatMatrixIdError() {
+        views.layoutMatrixId.tvError.visibility = View.VISIBLE
+        views.layoutMatrixId.tvError.text = getString(R.string.repeat_matrix_id)
     }
 
     private fun addEmptyLayout() {

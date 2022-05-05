@@ -79,6 +79,12 @@ class UserInfoViewModel @AssistedInject constructor(
         }
 
         setState { copy(directRoomId = initialState.userId?.let { session.getExistingDirectRoomWithUser(it) }) }
+
+        if (initialState.userId == BaseModule.getSession().myUserId) {
+            setState {
+                copy(isMine = true)
+            }
+        }
     }
 
     fun getExistingDM() {

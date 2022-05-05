@@ -58,15 +58,15 @@ public final class MyLoggingInterceptor implements Interceptor {
 
     @Override
     public Response intercept(Chain chain) throws IOException {
-        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-            @Override
-            public void uncaughtException(Thread t, Throwable e) {
-                // 这里就可以捕获到第三方库的异常了
-                // 在开发模式下可以不用
-                e.printStackTrace();
-                Timber.e("全局异常 "+e+e.getMessage());
-            }
-        });
+//        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+//            @Override
+//            public void uncaughtException(Thread t, Throwable e) {
+//                // 这里就可以捕获到第三方库的异常了
+//                // 在开发模式下可以不用
+//                e.printStackTrace();
+//                Timber.e("全局异常 "+e+e.getMessage());
+//            }
+//        });
         Request request = chain.request();
         if (printLevel == Level.NONE) {
             return chain.proceed(request);

@@ -40,7 +40,6 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.RemoteInput
 import androidx.core.app.TaskStackBuilder
-import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.IconCompat
@@ -250,29 +249,27 @@ class NotificationUtils @Inject constructor(private val context: Context,
 //            builder.priority = NotificationCompat.PRIORITY_MIN
 //        }
 
-        val notification = builder.build()
+        //        notification.flags = notification.flags or Notification.FLAG_NO_CLEAR
 
-//        notification.flags = notification.flags or Notification.FLAG_NO_CLEAR
-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            // some devices crash if this field is not set
-            // even if it is deprecated
-
-            // setLatestEventInfo() is deprecated on Android M, so we try to use
-            // reflection at runtime, to avoid compiler error: "Cannot resolve method.."
-            try {
-                val deprecatedMethod = notification.javaClass
-                        .getMethod("setLatestEventInfo",
-                                Context::class.java,
-                                CharSequence::class.java,
-                                CharSequence::class.java,
-                                PendingIntent::class.java)
-                deprecatedMethod.invoke(notification, context, stringProvider.getString(R.string.app_name), stringProvider.getString(subTitleResId), pi)
-            } catch (ex: Exception) {
-                Timber.e(ex, "## buildNotification(): Exception - setLatestEventInfo() Msg=")
-            }
-        }
-        return notification
+//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+//            // some devices crash if this field is not set
+//            // even if it is deprecated
+//
+//            // setLatestEventInfo() is deprecated on Android M, so we try to use
+//            // reflection at runtime, to avoid compiler error: "Cannot resolve method.."
+//            try {
+//                val deprecatedMethod = notification.javaClass
+//                        .getMethod("setLatestEventInfo",
+//                                Context::class.java,
+//                                CharSequence::class.java,
+//                                CharSequence::class.java,
+//                                PendingIntent::class.java)
+//                deprecatedMethod.invoke(notification, context, stringProvider.getString(R.string.app_name), stringProvider.getString(subTitleResId), pi)
+//            } catch (ex: Exception) {
+//                Timber.e(ex, "## buildNotification(): Exception - setLatestEventInfo() Msg=")
+//            }
+//        }
+        return builder.build()
     }
 
     fun getChannelForIncomingCall(fromBg: Boolean): NotificationChannel? {

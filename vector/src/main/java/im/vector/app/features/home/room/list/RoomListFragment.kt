@@ -166,6 +166,7 @@ open class RoomListFragment @Inject constructor(
         }
     }
 
+    // 底部弹出的错误提示
     override fun showFailure(throwable: Throwable) {
         showErrorInSnackbar(throwable)
     }

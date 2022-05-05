@@ -185,6 +185,8 @@ import im.vector.app.eachchat.contact.manage.ContactManageFragment
 import im.vector.app.eachchat.contact.mycontacts.MyContactsFragment
 import im.vector.app.eachchat.contact.real.RealContactsFragment
 import im.vector.app.eachchat.moreinfo.MoreInfoFragment
+import im.vector.app.eachchat.widget.email.WidgetEmailFragment
+import im.vector.app.eachchat.widget.email.WidgetEmailServerFragment
 import im.vector.app.features.roomprofile.contact.RoomContactFragment
 
 @InstallIn(ActivityComponent::class)
@@ -200,6 +202,16 @@ interface FragmentModule {
     @IntoMap
     @FragmentKey(RoomListFragment::class)
     fun bindRoomListFragment(fragment: RoomListFragment): Fragment
+
+    @Binds
+    @IntoMap
+    @FragmentKey(WidgetEmailFragment::class)
+    fun bindWidgetEmailFragment(fragment: WidgetEmailFragment): Fragment
+
+    @Binds
+    @IntoMap
+    @FragmentKey(WidgetEmailServerFragment::class)
+    fun bindWidgetEmailServerFragment(fragment: WidgetEmailServerFragment): Fragment
 
     @Binds
     @IntoMap

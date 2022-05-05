@@ -18,6 +18,7 @@ package im.vector.app.features.home.room.detail
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Color
@@ -40,6 +41,7 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContract
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
@@ -119,6 +121,8 @@ import im.vector.app.core.utils.startInstallFromSourceIntent
 import im.vector.app.core.utils.toast
 import im.vector.app.databinding.DialogReportContentBinding
 import im.vector.app.databinding.FragmentTimelineBinding
+import im.vector.app.eachchat.widget.email.WidgetEmailActivity
+import im.vector.app.eachchat.widget.email.WidgetEmailActivity.Companion.KEY_WIDGET_EMAIL
 import im.vector.app.features.analytics.plan.Click
 import im.vector.app.features.analytics.plan.Screen
 import im.vector.app.features.attachments.AttachmentTypeSelectorView
@@ -289,6 +293,29 @@ class TimelineFragment @Inject constructor(
 
         private const val ircPattern = " (IRC)"
     }
+
+
+    // 打开邮箱验证界面
+//    private val widgetEmailActivityResultContract = object : ActivityResultContract<Intent, String?>(){
+//
+//        override fun createIntent(context: Context, input: Intent): Intent {
+//            //这个intent由resultLauncher调用launch方法时传入
+//            return input
+//        }
+//
+//        override fun parseResult(resultCode: Int, intent: Intent?): String? {
+//            if(resultCode == Activity.RESULT_OK){
+//                return intent?.getStringExtra(KEY_WIDGET_EMAIL)
+//            }
+//            return null
+//        }
+//    }
+//
+//    private val resultLauncher = registerForActivityResult(widgetEmailActivityResultContract){
+//        if (it != null) {
+//            sendTextMessage(it)
+//        }
+//    }
 
     private val galleryOrCameraDialogHelper = GalleryOrCameraDialogHelper(this, colorProvider)
 
