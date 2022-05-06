@@ -3114,7 +3114,7 @@
     <string name="edit_contact_success">编辑联系人成功</string>
     <string name="edit_contact_failed">编辑联系人失败</string>
     <string name="no_type">无标签</string>
-    <string name="edit_contact">编辑联系人</string>
+    <string name="edit_contact">设置联系信息</string>
     <string name="invalid_matrix_id">用户不存在或ID输入错误</string>
     <string name="website">网站</string>
     <string name="pickerview_cancel">取消</string>

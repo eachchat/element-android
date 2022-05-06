@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -99,6 +98,7 @@
     <im.vector.app.eachchat.contact.addcontact.RequestFocusNestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fillViewport="true"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
 
         <LinearLayout
@@ -298,28 +298,29 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="0dp"
+                android:layout_marginBottom="16dp"
                 android:visibility="gone"
                 app:editHint="@string/label"
                 app:leftTitle="@string/label"
-                tools:visibility="visible"
-                android:layout_marginBottom="16dp" />
+                tools:visibility="visible" />
 
-            <TextView
-                android:id="@+id/tv_more_property"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="0dp"
-                android:background="@color/white"
-                android:gravity="center_horizontal|center_vertical"
-                android:paddingTop="24dp"
-                android:text="@string/more_property"
-                android:textColor="@color/ff00b368"
-                android:textSize="15sp"
-                tools:ignore="RtlSymmetry" />
+                android:layout_height="140dp"
+                android:orientation="vertical">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/common_38dip" />
+                <TextView
+                    android:id="@+id/tv_more_property"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:paddingTop="24dp"
+                    android:text="@string/more_property"
+                    android:textColor="@color/ff00b368"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
 
         </LinearLayout>
     </im.vector.app.eachchat.contact.addcontact.RequestFocusNestedScrollView>
