@@ -244,7 +244,7 @@ class ContactEditAddActivity: VectorBaseActivity<ActivityContactEditAddBinding>(
             addEmptyLayout()
         }
         if (mode == MODE_EDIT) {
-            views.groupToolbarTitleView.text = getString(R.string.edit_contact)
+            views.groupToolbarTitleView.text = getString(R.string.edit_contact_info)
         } else {
             views.groupToolbarTitleView.text = getString(R.string.new_contact)
         }
