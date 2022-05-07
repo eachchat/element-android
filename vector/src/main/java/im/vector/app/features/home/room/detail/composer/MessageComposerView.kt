@@ -21,6 +21,7 @@ import android.net.Uri
 import android.text.Editable
 import android.util.AttributeSet
 import android.view.ViewGroup
+import android.widget.EditText
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.text.toSpannable

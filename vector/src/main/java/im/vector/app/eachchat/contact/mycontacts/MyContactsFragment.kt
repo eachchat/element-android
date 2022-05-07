@@ -22,6 +22,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
+import androidx.core.view.isVisible
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -109,6 +110,7 @@ class MyContactsFragment @Inject constructor(
             //contactAvatarObserver.clearObserver(this)
 //            val diffCallback = MyContactsDiffCallBack(it)
             adapter.setNewData(it)
+            views.emptyTv.isVisible = it.isEmpty()
             // if (dialog != null && dialog.isShowing) {
             //    views.myContactsRv.scrollToPosition(0)
             // }

@@ -20,6 +20,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
 import com.airbnb.mvrx.Fail
 import com.airbnb.mvrx.Loading
@@ -70,6 +71,12 @@ class LoginResetPasswordFragment @Inject constructor() : AbstractLoginFragment<F
 
     private fun setupSubmitButton() {
         views.resetPasswordSubmit.debouncedClicks { submit() }
+        views.resetPasswordEmail.doAfterTextChanged {
+            views.resetPasswordSubmit.isEnabled = !views.resetPasswordEmail.text.isNullOrBlank() && !views.passwordField.text.isNullOrBlank()
+        }
+        views.passwordField.doAfterTextChanged {
+            views.resetPasswordSubmit.isEnabled = !views.resetPasswordEmail.text.isNullOrBlank() && !views.passwordField.text.isNullOrBlank()
+        }
         combine(
                 views.resetPasswordEmail.textChanges().map { it.isEmail() },
                 views.passwordField.textChanges().map { it.isNotEmpty() }
@@ -79,7 +86,6 @@ class LoginResetPasswordFragment @Inject constructor() : AbstractLoginFragment<F
                 .onEach {
                     views.resetPasswordEmailTil.error = null
                     views.passwordFieldTil.error = null
-                    views.resetPasswordSubmit.isEnabled = it
                 }
                 .launchIn(viewLifecycleOwner.lifecycleScope)
     }

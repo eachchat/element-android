@@ -3065,7 +3065,7 @@
     <string name="staff">成员</string>
     <string name="add_contacts">添加联系人</string>
     <string name="footer_menu_contact">通讯录</string>
-    <string name="please_enter_correct_msisdn">请输入姓名、ID、电子邮件或手机号</string>
+    <string name="please_enter_correct_msisdn">请输入正确的手机号</string>
     <string name="team">团队</string>
     <string name="manage_contacts">管理联系人</string>
     <string name="search_name_id">搜索姓名、ID、电子邮件或手机号</string>
@@ -3200,4 +3200,5 @@
     <string name="POP">POP</string>
     <string name="repeat_matrix_id">已存在该MatrixID</string>
     <string name="not_an_active_room">房间已失效</string>
+    <string name="my_contacts_no_contact">暂无联系人</string>
 </resources>

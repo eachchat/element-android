@@ -75,6 +75,7 @@ class MoreInfoProfileController @Inject constructor(
         initPhone(data)
         initEmail(data)
         initAddress(data)
+        initOrg(data)
         initAbout(data)
     }
 
@@ -257,9 +258,8 @@ class MoreInfoProfileController @Inject constructor(
                 contact.given = ""
             initUrl(contact)
         }
-        initOrg(data)
         contact?.let {
-            initTitle(contact)
+            // initTitle(contact)
             initImpp(contact)
             initDate(contact)
             initRelationship(contact)
@@ -306,6 +306,7 @@ class MoreInfoProfileController @Inject constructor(
         val orgMember = data.departmentUser
         //first take org info
         if (orgMember != null) {
+            buildProfileSection(stringProvider.getString(R.string.organization))
             val departments = getDepartments(orgMember)
             if (departments.isNotBlank()) {
                 buildUserProfileInfoItem(stringProvider.getString(R.string.department), departments)
@@ -327,6 +328,10 @@ class MoreInfoProfileController @Inject constructor(
             }
             if (!userRegion.isNullOrBlank()) {
                 buildUserProfileInfoItem(stringProvider.getString(R.string.region_title), userRegion)
+            }
+            customHeightDividerItem {
+                id("divider_more_info_org")
+                customHeight(8)
             }
             //if don't have org info take contact info
         } else if (contact != null) {
@@ -350,11 +355,20 @@ class MoreInfoProfileController @Inject constructor(
                         ""
                 )
             }
+            if (departmentText.isNotEmpty() || !contact.title.isNullOrBlank()) {
+                buildProfileSection(stringProvider.getString(R.string.organization))
+            }
             if (departmentText.isNotEmpty()) {
                 buildUserProfileInfoItem(stringProvider.getString(R.string.organization), departmentText)
             }
             if (!contact.title.isNullOrBlank()) {
                 buildUserProfileInfoItem(stringProvider.getString(R.string.position_title), contact.title)
+            }
+            if (departmentText.isNotEmpty() || !contact.title.isNullOrBlank()) {
+                customHeightDividerItem {
+                    id("divider_more_info_org")
+                    customHeight(8)
+                }
             }
         }
     }

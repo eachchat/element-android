@@ -65,6 +65,7 @@ import im.vector.app.features.login2.LoginWaitForEmailFragment2
 import im.vector.app.features.login2.LoginWebFragment2
 import im.vector.app.features.login2.created.AccountCreatedFragment
 import im.vector.app.features.login2.terms.LoginTermsFragment2
+import im.vector.app.features.onboarding.ftueauth.FRAGMENT_LOGIN_URL_TAG
 import org.matrix.android.sdk.api.auth.registration.FlowResult
 import org.matrix.android.sdk.api.auth.registration.Stage
 import org.matrix.android.sdk.api.extensions.tryOrNull
@@ -211,7 +212,7 @@ class Login2Variant(
             }
             is LoginViewEvents2.OnResetPasswordMailConfirmationSuccessDone -> {
                 // Go back to the login fragment
-                supportFragmentManager.popBackStack(FRAGMENT_LOGIN_TAG, POP_BACK_STACK_EXCLUSIVE)
+                supportFragmentManager.popBackStack(FRAGMENT_LOGIN_URL_TAG, POP_BACK_STACK_EXCLUSIVE)
             }
             is LoginViewEvents2.OnSendEmailSuccess                         ->
                 activity.addFragmentToBackstack(views.loginFragmentContainer,

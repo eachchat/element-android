@@ -1684,7 +1684,9 @@ class TimelineFragment @Inject constructor(
                 displayCommandError(getString(R.string.command_problem_with_parameters, sendMessageResult.command.command))
             }
             is MessageComposerViewEvents.SlashCommandUnknown               -> {
-                displayCommandError(getString(R.string.unrecognized_command, sendMessageResult.command))
+                // displayCommandError(getString(R.string.unrecognized_command, sendMessageResult.command))
+                messageComposerViewModel.sendErrorCommand(sendMessageResult.command)
+                views.composerLayout.setTextIfDifferent("")
             }
             is MessageComposerViewEvents.SlashCommandResultOk              -> {
                 dismissLoadingDialog()

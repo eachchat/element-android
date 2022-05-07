@@ -44,6 +44,7 @@ import im.vector.app.features.home.HomeActivity
 import im.vector.app.features.login.terms.LoginTermsFragment
 import im.vector.app.features.login.terms.LoginTermsFragmentArgument
 import im.vector.app.features.login.terms.toLocalizedLoginTerms
+import im.vector.app.features.onboarding.ftueauth.FRAGMENT_LOGIN_URL_TAG
 import im.vector.app.features.pin.UnlockedActivity
 import org.matrix.android.sdk.api.auth.registration.FlowResult
 import org.matrix.android.sdk.api.auth.registration.Stage
@@ -102,7 +103,7 @@ open class LoginActivity : VectorBaseActivity<ActivityLoginBinding>(), UnlockedA
     }
 
     protected open fun addFirstFragment() {
-        addFragment(views.loginFragmentContainer, LoginServerUrlFormFragment::class.java)
+        addFragment(views.loginFragmentContainer, LoginServerUrlFormFragment::class.java, tag = FRAGMENT_LOGIN_URL_TAG)
     }
 
     private fun handleLoginViewEvents(loginViewEvents: LoginViewEvents) {
@@ -182,7 +183,7 @@ open class LoginActivity : VectorBaseActivity<ActivityLoginBinding>(), UnlockedA
             }
             is LoginViewEvents.OnResetPasswordMailConfirmationSuccessDone -> {
                 // Go back to the login fragment
-                supportFragmentManager.popBackStack(FRAGMENT_LOGIN_TAG, POP_BACK_STACK_EXCLUSIVE)
+                supportFragmentManager.popBackStack(FRAGMENT_REGISTRATION_STAGE_TAG, POP_BACK_STACK_EXCLUSIVE)
             }
             is LoginViewEvents.OnSendEmailSuccess                         -> {
                 // Pop the enter email Fragment
@@ -249,7 +250,8 @@ open class LoginActivity : VectorBaseActivity<ActivityLoginBinding>(), UnlockedA
             ServerType.EMS,
             ServerType.Other     -> addFragmentToBackstack(views.loginFragmentContainer,
                     LoginServerUrlFormFragment::class.java,
-                    option = commonOption)
+                    option = commonOption,
+                    tag = FRAGMENT_LOGIN_URL_TAG)
             ServerType.Unknown   -> Unit /* Should not happen */
         }
     }

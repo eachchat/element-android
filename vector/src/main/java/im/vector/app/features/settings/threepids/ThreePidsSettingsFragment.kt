@@ -69,7 +69,9 @@ class ThreePidsSettingsFragment @Inject constructor(
 
         viewModel.observeViewEvents {
             when (it) {
-                is ThreePidsSettingsViewEvents.Failure -> displayErrorDialog(it.throwable)
+                is ThreePidsSettingsViewEvents.Failure -> {
+                    displayErrorDialog(it.throwable)
+                }
                 is ThreePidsSettingsViewEvents.RequestReAuth -> askAuthentication(it)
             }.exhaustive
         }

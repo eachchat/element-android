@@ -470,7 +470,7 @@ class RoomMemberProfileController @Inject constructor(
         val canKick = !state.isMine && state.actionPermissions.canKick
         val canBan = !state.isMine && state.actionPermissions.canBan
         val canEditPowerLevel = state.actionPermissions.canEditPowerLevel
-        if (canKick || canBan || canEditPowerLevel) {
+        if (canKick || canBan || canEditPowerLevel && !state.isMine) {
             buildProfileSection(stringProvider.getString(R.string.room_profile_section_admin))
         }
         if (canEditPowerLevel) {

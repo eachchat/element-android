@@ -83,6 +83,17 @@
         android:orientation="vertical"
         android:layout_below="@id/appBarLayout">
 
+        <TextView
+            android:id="@+id/emptyTv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/my_contacts_no_contact"
+            android:textColor="@color/greyLighter"
+            android:textSize="@dimen/common_font_fs2"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/my_contacts_rv"
             android:layout_width="match_parent"

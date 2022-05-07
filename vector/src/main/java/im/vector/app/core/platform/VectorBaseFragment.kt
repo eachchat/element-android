@@ -53,6 +53,7 @@ import kotlinx.coroutines.flow.onEach
 import org.matrix.android.sdk.api.failure.Failure
 import reactivecircus.flowbinding.android.view.clicks
 import timber.log.Timber
+import java.lang.RuntimeException
 
 abstract class VectorBaseFragment<VB : ViewBinding> : Fragment(), MavericksView {
     /* ==========================================================================================
@@ -297,7 +298,7 @@ abstract class VectorBaseFragment<VB : ViewBinding> : Fragment(), MavericksView 
                     .setMessage(R.string.please_enter_correct_msisdn)
                     .setPositiveButton(R.string.ok, null)
                     .show()
-        } else {
+        } else if (!(throwable is Failure.RegistrationFlowError)) {
             MaterialAlertDialogBuilder(requireActivity())
                     .setTitle(R.string.dialog_title_error)
                     .setMessage(errorFormatter.toHumanReadable(throwable))

@@ -208,6 +208,13 @@ class RoomMemberProfileFragment @Inject constructor(
         }
         setupLongClicks()
 
+        viewModel.loading.observe(viewLifecycleOwner) {
+            views.waitingView.waitingView.isVisible = it
+        }
+
+        views.waitingView.waitingStatusText.text = getString(R.string.please_wait)
+        views.waitingView.waitingStatusText.visibility = View.VISIBLE
+
         headerViews.memberProfilePowerLevelView.visibility = View.GONE
     }
 

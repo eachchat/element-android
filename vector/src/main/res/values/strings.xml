@@ -3990,4 +3990,5 @@
     <string name="POP">POP</string>
     <string name="repeat_matrix_id">已存在该MatrixID</string>
     <string name="not_an_active_room">房间已失效</string>
+    <string name="my_contacts_no_contact">暂无联系人</string>
 </resources>
