@@ -25,6 +25,8 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.util.AttributeSet
 import android.view.View
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.animation.doOnEnd
@@ -36,6 +38,7 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceViewHolder
 import com.google.android.material.textview.MaterialTextView
 import im.vector.app.R
+import im.vector.app.eachchat.utils.ScreenUtils
 import im.vector.app.features.themes.ThemeUtils
 import timber.log.Timber
 
@@ -90,6 +93,13 @@ open class VectorPreference : Preference {
             notifyChanged()
         }
 
+    //用于自定义图标
+    var drawableResource: Int? = null
+        set(value) {
+            field = value
+            notifyChanged()
+        }
+
     var tintIcon = false
         set(value) {
             field = value
@@ -127,6 +137,12 @@ open class VectorPreference : Preference {
             currentHighlightAnimator?.cancel()
             colorResource?.let {
                 title?.setTextColor(ContextCompat.getColor(itemView.context, it))
+            }
+            drawableResource?.let {
+                val drawable = ContextCompat.getDrawable(itemView.context, it)
+                drawable?.setBounds(0, 0, drawable.minimumWidth / 2,drawable.minimumHeight / 2)
+                title?.setCompoundDrawables(null, null , drawable, null)
+                title?.compoundDrawablePadding = ScreenUtils.dip2px(itemView.context, 160f)
             }
             if (isHighlighted) {
                 val colorFrom = Color.TRANSPARENT

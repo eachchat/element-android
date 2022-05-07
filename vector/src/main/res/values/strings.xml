@@ -3991,4 +3991,9 @@
     <string name="repeat_matrix_id">已存在该MatrixID</string>
     <string name="not_an_active_room">房间已失效</string>
     <string name="my_contacts_no_contact">暂无联系人</string>
+    <string name="toast_already_up_to_date">已经是最新版本</string>
+    <string name="toast_no_supported_app_download">手机中暂无应用支持下载</string>
+    <string name="temporarily_not_update">暂不更新</string>
+    <string name="upgrade_immediately">马上升级</string>
+    <string name="check_update">检查更新</string>
 </resources>

@@ -16,6 +16,13 @@
 
 package im.vector.app.features.settings
 
+import ai.workly.eachchat.android.usercenter.api.VersionUpdateHelper
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.lifecycleScope
 import androidx.preference.Preference
 import im.vector.app.BuildConfig
 import im.vector.app.R
@@ -24,8 +31,14 @@ import im.vector.app.core.utils.FirstThrottler
 import im.vector.app.core.utils.copyToClipboard
 import im.vector.app.core.utils.openAppSettingsPage
 import im.vector.app.core.utils.openUrlInChromeCustomTab
+import im.vector.app.eachchat.contact.api.BaseConstant
+import im.vector.app.eachchat.service.LoginApi.Companion.GMS_URL
+import im.vector.app.eachchat.utils.ToastUtil
+import im.vector.app.eachchat.version_update.EachChatSettingsService
 import im.vector.app.features.version.VersionProvider
 import im.vector.app.features.webview.VectorWebViewActivity
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.matrix.android.sdk.api.Matrix
 import javax.inject.Inject
 
@@ -36,7 +49,27 @@ class VectorSettingsHelpAboutFragment @Inject constructor(
     override var titleRes = R.string.preference_root_help_about
     override val preferenceXmlRes = R.xml.vector_settings_help_about
 
+    val newVersion = MutableLiveData(VersionUpdateHelper.getLastVersion())
+
     private val firstThrottler = FirstThrottler(1000)
+
+    private var versionInitialized = false
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        newVersion.observe(this) {
+            if (savedInstanceState == null && !versionInitialized){
+                versionInitialized = true
+                return@observe
+            }
+            findPreference<VectorPreference>("SETTINGS_VERSION_CHECK_UPDATE_PREFERENCE_KEY")!!.drawableResource = if (newVersion.value?.needUpdate() == true) R.drawable.ic_new_version else null
+            if (it.needUpdate()) {
+                VersionUpdateHelper.showUpdateDialog(requireActivity(), it)
+            } else {
+                ToastUtil.showSuccess(requireContext() ,R.string.toast_already_up_to_date)
+            }
+        }
+    }
 
     override fun bindPref() {
         // Help
@@ -111,6 +144,31 @@ class VectorSettingsHelpAboutFragment @Inject constructor(
             false
         }
 
+        findPreference<VectorPreference>("SETTINGS_VERSION_CHECK_UPDATE_PREFERENCE_KEY")!!.isVisible = BuildConfig.FLAVOR != BaseConstant.FLAVOR_XIAOMI
+        findPreference<VectorPreference>("SETTINGS_VERSION_CHECK_UPDATE_PREFERENCE_KEY")!!.drawableResource = if (newVersion.value?.needUpdate() == true) R.drawable.ic_new_version else null
+        findPreference<VectorPreference>("SETTINGS_VERSION_CHECK_UPDATE_PREFERENCE_KEY")!!.onPreferenceClickListener = Preference.OnPreferenceClickListener {
+            checkNewVersion()
+            false
+        }
+    }
+
+    private val _service = EachChatSettingsService.getInstance(GMS_URL)
+
+    private fun checkNewVersion() {
+//        loading.value = true
+        lifecycleScope.launch(Dispatchers.IO) {
+            val result = kotlin.runCatching {
+                return@runCatching _service.checkUpdate()
+            }
+            result.getOrNull()?.obj?.let {
+                VersionUpdateHelper.setLastVersion(it)
+                newVersion.postValue(it)
+            }
+                    ?: VersionUpdateHelper.getLastVersion().run {
+                        newVersion.postValue(this)
+                    }
+            // loading.postValue(false)
+        }
     }
 
     companion object {

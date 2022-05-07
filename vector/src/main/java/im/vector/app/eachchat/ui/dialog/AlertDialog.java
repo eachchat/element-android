@@ -297,6 +297,11 @@ public class AlertDialog {
         customLayout.setLayoutParams(lp);
     }
 
+    public AlertDialog hideButtonDivider() {
+        divider.setVisibility(View.GONE);
+        return this;
+    }
+
     protected void setMsgTopMargin(int topMargin) {
         LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) txt_msg.getLayoutParams();
         lp.setMargins(lp.leftMargin, ScreenUtils.dip2px(context, topMargin), lp.rightMargin, lp.bottomMargin);
