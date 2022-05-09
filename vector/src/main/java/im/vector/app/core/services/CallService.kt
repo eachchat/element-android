@@ -229,15 +229,15 @@ class CallService : VectorService() {
         }
         val callInformation = call.toCallInformation()
         Timber.tag(loggerTag.value).v("displayOutgoingCallNotification : display the dedicated notification")
-        val notification = notificationUtils.buildOutgoingRingingCallNotification(
-                call = call,
-                title = callInformation.opponentMatrixItem?.getBestName() ?: callInformation.opponentUserId
-        )
-        if (knownCalls.isEmpty()) {
-            startForeground(callId.hashCode(), notification)
-        } else {
-            notificationManager.notify(callId.hashCode(), notification)
-        }
+//        val notification = notificationUtils.buildOutgoingRingingCallNotification(
+//                call = call,
+//                title = callInformation.opponentMatrixItem?.getBestName() ?: callInformation.opponentUserId
+//        )
+//        if (knownCalls.isEmpty()) {
+//            startForeground(callId.hashCode(), notification)
+//        } else {
+//            notificationManager.notify(callId.hashCode(), notification)
+//        }
         knownCalls[callId] = callInformation
     }
 

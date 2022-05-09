@@ -42,10 +42,13 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.matrix.android.sdk.api.query.RoomCategoryFilter
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.session.accountdata.UserAccountDataTypes
 import org.matrix.android.sdk.api.session.events.model.toModel
 import org.matrix.android.sdk.api.session.profile.ProfileService
+import org.matrix.android.sdk.api.session.room.model.Membership
+import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 import org.matrix.android.sdk.api.util.MatrixItem
 import org.matrix.android.sdk.flow.flow
 import org.matrix.android.sdk.flow.unwrap
@@ -78,7 +81,17 @@ class UserInfoViewModel @AssistedInject constructor(
             fetchProfileInfo()
         }
 
-        setState { copy(directRoomId = initialState.userId?.let { session.getExistingDirectRoomWithUser(it) }) }
+        viewModelScope.launch(Dispatchers.IO) {
+            val queryParams = roomSummaryQueryParams {
+                memberships = listOf(Membership.JOIN)
+                roomCategoryFilter = RoomCategoryFilter.ONLY_DM
+            }
+            var roomSummaries = session.getRoomSummaries(queryParams)
+            roomSummaries = roomSummaries.filter { it.otherMemberIds[0] == initialState.userId && it.joinedMembersCount == 2 }
+            if (roomSummaries.isNotEmpty()) {
+                setState { copy(directRoomId = roomSummaries[0].roomId) }
+            }
+        }
 
         if (initialState.userId == BaseModule.getSession().myUserId) {
             setState {
@@ -88,7 +101,17 @@ class UserInfoViewModel @AssistedInject constructor(
     }
 
     fun getExistingDM() {
-        setState { copy(directRoomId = initialState.userId?.let { session.getExistingDirectRoomWithUser(it) }) }
+        viewModelScope.launch(Dispatchers.IO) {
+            val queryParams = roomSummaryQueryParams {
+                memberships = listOf(Membership.JOIN)
+                roomCategoryFilter = RoomCategoryFilter.ONLY_DM
+            }
+            var roomSummaries = session.getRoomSummaries(queryParams)
+            roomSummaries = roomSummaries.filter { it.otherMemberIds[0] == initialState.userId && it.joinedMembersCount == 2 }
+            if (roomSummaries.isNotEmpty()) {
+                setState { copy(directRoomId = roomSummaries[0].roomId) }
+            }
+        }
     }
 
     // 观察一些补充的信息

@@ -34,6 +34,7 @@ import im.vector.app.core.mvrx.runCatchingToAsync
 import im.vector.app.core.platform.VectorViewModel
 import im.vector.app.core.resources.StringProvider
 import im.vector.app.eachchat.base.BaseModule
+import im.vector.app.eachchat.contact.api.ContactService
 import im.vector.app.eachchat.contact.api.ContactServiceV2
 import im.vector.app.eachchat.contact.data.ContactsDisplayBean
 import im.vector.app.eachchat.contact.data.ContactsDisplayBeanV2
@@ -51,6 +52,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.matrix.android.sdk.api.query.QueryStringValue
+import org.matrix.android.sdk.api.query.RoomCategoryFilter
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.session.accountdata.UserAccountDataTypes
 import org.matrix.android.sdk.api.session.events.model.EventType
@@ -64,6 +66,7 @@ import org.matrix.android.sdk.api.session.room.model.RoomEncryptionAlgorithm
 import org.matrix.android.sdk.api.session.room.model.RoomType
 import org.matrix.android.sdk.api.session.room.powerlevels.PowerLevelsHelper
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
+import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 import org.matrix.android.sdk.api.util.MatrixItem
 import org.matrix.android.sdk.api.util.toMatrixItem
 import org.matrix.android.sdk.api.util.toOptional
@@ -138,11 +141,31 @@ class RoomMemberProfileViewModel @AssistedInject constructor(
                     copy(userMXCrossSigningInfo = it.invoke()?.getOrNull())
                 }
 
-        setState { copy(directRoomId = session.getExistingDirectRoomWithUser(initialState.userId)) }
+        viewModelScope.launch(Dispatchers.IO) {
+            val queryParams = roomSummaryQueryParams {
+                memberships = listOf(Membership.JOIN)
+                roomCategoryFilter = RoomCategoryFilter.ONLY_DM
+            }
+            var roomSummaries = session.getRoomSummaries(queryParams)
+            roomSummaries = roomSummaries.filter { it.otherMemberIds[0] == initialState.userId && it.joinedMembersCount == 2  }
+            if (roomSummaries.isNotEmpty()) {
+                setState { copy(directRoomId = roomSummaries[0].roomId) }
+            }
+        }
     }
 
     fun getExistingDM() {
-        setState { copy(directRoomId = session.getExistingDirectRoomWithUser(initialState.userId)) }
+        viewModelScope.launch(Dispatchers.IO) {
+            val queryParams = roomSummaryQueryParams {
+                memberships = listOf(Membership.JOIN)
+                roomCategoryFilter = RoomCategoryFilter.ONLY_DM
+            }
+            var roomSummaries = session.getRoomSummaries(queryParams)
+            roomSummaries = roomSummaries.filter { it.otherMemberIds[0] == initialState.userId && it.joinedMembersCount == 2 }
+            if (roomSummaries.isNotEmpty()) {
+                setState { copy(directRoomId = roomSummaries[0].roomId) }
+            }
+        }
     }
 
     // 观察一些补充的信息

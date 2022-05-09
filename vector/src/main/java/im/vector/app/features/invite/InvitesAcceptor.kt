@@ -75,6 +75,7 @@ class InvitesAcceptor @Inject constructor(
                 .launchIn(coroutineScope)
     }
 
+    //TODO 可以在这里做自动接受邀请
     private fun onSessionActive(session: Session) {
         if (!autoAcceptInvites.isEnabled) {
             return

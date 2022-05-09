@@ -18,7 +18,10 @@ package org.matrix.android.sdk.flow
 
 import androidx.lifecycle.asFlow
 import androidx.paging.PagedList
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 import org.matrix.android.sdk.api.query.QueryStringValue
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.session.accountdata.UserAccountDataEvent
