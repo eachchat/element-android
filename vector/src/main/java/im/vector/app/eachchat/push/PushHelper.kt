@@ -16,6 +16,7 @@
 
 package im.vector.app.eachchat.push
 
+import ai.workly.eachchat.android.push.firebase.FirebasePush
 import android.content.Context
 import android.content.Intent
 import android.os.Build
@@ -92,6 +93,7 @@ class PushHelper {
             TYPE_OPPO_PUSH -> OppoPush(BaseModule.getContext())
             TYPE_VIVO_PUSH -> VivoPush(BaseModule.getContext())
             TYPE_GETUI     -> GeTuiPush(BaseModule.getContext())
+            TYPE_FIREBASE  -> FirebasePush(BaseModule.getContext())
             else           -> GeTuiPush(BaseModule.getContext())
         }
         try {
