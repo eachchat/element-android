@@ -60,6 +60,6 @@ data class SearchRoomsData(
 
 @JsonClass(generateAdapter = true)
 data class GroupCountData(
-        @Json(name = "room_id") val roomId: String?,
+        @Json(name = "room_id") val room_id: String?,
         @Json(name = "keywordCount") val keywordCount: Int,
         @Json(name = "firstChat") val firstChat: SearchGroupMessageResponse?)

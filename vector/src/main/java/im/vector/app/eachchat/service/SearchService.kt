@@ -21,7 +21,7 @@ interface SearchService {
     suspend fun searchGroupMessageCount(@Body input: SearchGroupCountInput): Response<SearchGroupCountResponse?, Any?>
 
     companion object {
-        fun getInstance(): SearchService = NetWorkManager.getInstance().moshiRetrofit.create(SearchService::class.java)
+        fun getInstance(): SearchService = NetWorkManager.getInstance().retrofit.create(SearchService::class.java)
     }
 
 }

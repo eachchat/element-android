@@ -3206,4 +3206,5 @@
     <string name="temporarily_not_update">暂不更新</string>
     <string name="upgrade_immediately">马上升级</string>
     <string name="check_update">检查更新</string>
+    <string name="chat_record">聊天记录</string>
 </resources>

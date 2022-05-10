@@ -35,7 +35,7 @@ class ContactsSearchAdapter :
         const val TYPE_SEARCH_CONTACT_ONLINE = 1010
         const val SEARCH_MULTI_TYPE = 100
         const val BODY: String = "body"
-        const val TYPE_CHAT_RECORD: Int = 1212
+        const val SUB_TYPE_CHAT_RECORD: Int = 1212
     }
 
     init {
@@ -92,6 +92,10 @@ class ContactsSearchAdapter :
             SUB_TYPE_GROUP_CHAT -> helper.setText(
                 R.id.header_tv,
                 mContext.getString(R.string.group_chat)
+            )
+            SUB_TYPE_CHAT_RECORD -> helper.setText(
+                    R.id.header_tv,
+                    mContext.getString(R.string.chat_record)
             )
         }
     }

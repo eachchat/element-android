@@ -2,7 +2,7 @@ package im.vector.app.eachchat.search.contactsearch
 
 import ai.workly.eachchat.android.search.adapter.ContactsSearchAdapter
 import ai.workly.eachchat.android.search.adapter.ContactsSearchAdapter.Companion.BODY
-import ai.workly.eachchat.android.search.adapter.ContactsSearchAdapter.Companion.TYPE_CHAT_RECORD
+import ai.workly.eachchat.android.search.adapter.ContactsSearchAdapter.Companion.SUB_TYPE_CHAT_RECORD
 import android.content.Context
 import android.text.TextUtils
 import androidx.lifecycle.MutableLiveData
@@ -51,6 +51,7 @@ import org.matrix.android.sdk.api.session.profile.ProfileService
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
+import timber.log.Timber
 
 class ContactsSearchViewModel @AssistedInject constructor(
         @Assisted initialState: EmptyViewState,
@@ -66,6 +67,7 @@ class ContactsSearchViewModel @AssistedInject constructor(
     private val myContactUsers = mutableListOf<IDisplayBean>()
     private val orgUsers = mutableListOf<IDisplayBean>()
     private val departments = mutableListOf<IDisplayBean>()
+    private val chatRecords = mutableListOf<IDisplayBean>()
     private val groupChatRooms = mutableListOf<IDisplayBean>()
     private val contactMatrixUserDao =
             AppDatabase.getInstance(BaseModule.getContext()).contactMatrixUserDao()
@@ -109,9 +111,10 @@ class ContactsSearchViewModel @AssistedInject constructor(
             val job5 = async {
                 searchGroupChat(keyword)
             }
-//            val job5 = if (AppCache.getIsOpenGroup()) async {
-//                searchGroupChat(keyword)
-//            } else null
+            // 6. 聊天记录
+            val job6 = async {
+                searchChatRecord(keyword)
+            }
             parseItem(
                     items,
                     job1.await().toMutableList(),
@@ -137,13 +140,11 @@ class ContactsSearchViewModel @AssistedInject constructor(
                     job5.await().toMutableList(),
                     ContactsSearchAdapter.SUB_TYPE_GROUP_CHAT
             )
-//            if (job5 != null) {
-//                parseItem(
-//                        items,
-//                        job5.await().toMutableList(),
-//                        ContactsSearchAdapter.SUB_TYPE_GROUP_CHAT
-//                )
-//            }
+            if (job6.await() != null) {
+                parseItem(items, job6.await()!!, SUB_TYPE_CHAT_RECORD)
+            }
+
+
             val keywordValid = isEmail(keyword) || StringUtils.isPhoneNumber(keyword) || MatrixPatterns.isUserId(keyword)
             if (items.size == 0 && keywordValid) {
                 items.add(
@@ -330,7 +331,7 @@ class ContactsSearchViewModel @AssistedInject constructor(
         return myContactUsers
     }
 
-    fun searchCloseContact(keyword: String): List<IDisplayBean> {
+    private fun searchCloseContact(keyword: String): List<IDisplayBean> {
         val queryParams = roomSummaryQueryParams {
             memberships = listOf(Membership.JOIN)
         }
@@ -545,8 +546,8 @@ class ContactsSearchViewModel @AssistedInject constructor(
         }
     }
 
-    private suspend fun searchChatRecord(keyword: String) {
-        closeContactUsers.clear()
+    private suspend fun searchChatRecord(keyword: String): MutableList<IDisplayBean>? {
+        chatRecords.clear()
         val filters = mutableListOf<Filter>()
         val filter = Filter(field = "body", value = keyword)
         val indexFilter = Filter(field = "type", value = "CHAT")
@@ -558,17 +559,17 @@ class ContactsSearchViewModel @AssistedInject constructor(
         runCatching {
             val response = SearchService.getInstance().searchGroupMessageCount(input)
             if (!response.isSuccess || response.obj == null || response.obj!!.rooms == null) {
-                return
+                return null
             }
             response.obj!!.rooms!!.results?.forEach {
                 val minor: String?
                 var mainTitle: String? = ""
                 var avatarUrl: String?
-                if (it.roomId.isNullOrEmpty()) {
+                if (it.room_id.isNullOrEmpty()) {
                     return@forEach
                 }
 
-                val room = session.getRoom(it.roomId) ?: return@forEach
+                val room = session.getRoom(it.room_id) ?: return@forEach
                 val roomSummary = room.roomSummary() ?: return@forEach
                 avatarUrl = roomSummary.avatarUrl
                 var targetId: String? = null
@@ -600,15 +601,19 @@ class ContactsSearchViewModel @AssistedInject constructor(
                 }
                 val searchData = SearchData(
                         mainTitle, minor, avatarUrl,
-                        TYPE_CHAT_RECORD, it.roomId,
+                        SUB_TYPE_CHAT_RECORD, it.room_id,
                         more, it.keywordCount, targetId
                 )
                 searchData.isDirect = roomSummary.isDirect
-                closeContactUsers.add(searchData)
+                chatRecords.add(searchData)
+                return chatRecords
             }
         }.exceptionOrNull()?.let {
+            Timber.v("聊天记录搜索异常")
+            it.printStackTrace()
             error.postValue(it)
         }
+        return null
     }
 
     fun getText(context: Context, event: Event): String {
