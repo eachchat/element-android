@@ -331,17 +331,18 @@ android {
             buildConfigField "String", "FLAVOR_DESCRIPTION", "\"FDroid\""
         }
 
-        xiaomi {
-            dimension "store"
-
-            //versionName "${versionMajor}.${versionMinor}.${versionPatch}${getFdroidVersionSuffix()}"
-            versionName "2.6.0"
-
-            resValue "bool", "isGplay", "false"
-            buildConfigField "boolean", "ALLOW_FCM_USE", "false"
-            buildConfigField "String", "SHORT_FLAVOR_DESCRIPTION", "\"F\""
-            buildConfigField "String", "FLAVOR_DESCRIPTION", "\"FDroid\""
-        }
+        // 用来打包小米渠道包，不注释就打不了其他包？
+//        xiaomi {
+//            dimension "store"
+//
+//            //versionName "${versionMajor}.${versionMinor}.${versionPatch}${getFdroidVersionSuffix()}"
+//            versionName "2.6.0"
+//
+//            resValue "bool", "isGplay", "false"
+//            buildConfigField "boolean", "ALLOW_FCM_USE", "false"
+//            buildConfigField "String", "SHORT_FLAVOR_DESCRIPTION", "\"F\""
+//            buildConfigField "String", "FLAVOR_DESCRIPTION", "\"Xiaomi\""
+//        }
     }
 
 //    lintOptions {
@@ -648,4 +649,5 @@ dependencies {
 
     implementation platform('com.google.firebase:firebase-bom:26.1.0')
     implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-messaging'
 }
