@@ -23,6 +23,7 @@ import im.vector.app.eachchat.base.EmptyViewState
 import im.vector.app.eachchat.bean.Filter
 import im.vector.app.eachchat.bean.GroupFilter
 import im.vector.app.eachchat.bean.SearchGroupCountInput
+import im.vector.app.eachchat.bean.SearchInput
 import im.vector.app.eachchat.contact.RoomComparator
 import im.vector.app.eachchat.contact.data.ContactsDisplayBean
 import im.vector.app.eachchat.contact.data.resolveMxc
@@ -30,6 +31,8 @@ import im.vector.app.eachchat.contact.database.ContactDaoHelper
 import im.vector.app.eachchat.database.AppDatabase
 import im.vector.app.eachchat.department.DepartmentStoreHelper
 import im.vector.app.eachchat.department.data.IDisplayBean
+import im.vector.app.eachchat.search.chatRecord.SearchAction
+import im.vector.app.eachchat.search.chatRecord.SearchType
 import im.vector.app.eachchat.search.contactsearch.data.SearchContactsBean
 import im.vector.app.eachchat.search.contactsearch.data.SearchData
 import im.vector.app.eachchat.search.contactsearch.data.SearchGroupBean
@@ -38,11 +41,13 @@ import im.vector.app.eachchat.service.SearchService
 import im.vector.app.eachchat.utils.AppCache
 import im.vector.app.eachchat.utils.getCloseContactTitle
 import im.vector.app.eachchat.utils.string.StringUtils
+import im.vector.app.eachchat.utils.string.StringUtils.getKeywordStr
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import org.matrix.android.sdk.api.MatrixPatterns
+import org.matrix.android.sdk.api.failure.Failure
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.session.events.model.Content
 import org.matrix.android.sdk.api.session.events.model.Event
@@ -58,7 +63,7 @@ class ContactsSearchViewModel @AssistedInject constructor(
         private val session: Session
 ) : VectorViewModel<EmptyViewState, EmptyAction, EmptyViewEvents>(initialState) {
 
-    private var gmsJob: Job? = null
+    // private var gmsJob: Job? = null
     var keyword: String = ""
     val searchUserOnlineLiveData = MutableLiveData<ContactsDisplayBean?>()
     val searchResultsLiveData = MutableLiveData<List<ContactsSearchAdapter.BaseItem>>()
@@ -69,6 +74,7 @@ class ContactsSearchViewModel @AssistedInject constructor(
     private val departments = mutableListOf<IDisplayBean>()
     private val chatRecords = mutableListOf<IDisplayBean>()
     private val groupChatRooms = mutableListOf<IDisplayBean>()
+    val action = MutableLiveData<SearchAction>()
     private val contactMatrixUserDao =
             AppDatabase.getInstance(BaseModule.getContext()).contactMatrixUserDao()
 
@@ -143,7 +149,6 @@ class ContactsSearchViewModel @AssistedInject constructor(
             if (job6.await() != null) {
                 parseItem(items, job6.await()!!, SUB_TYPE_CHAT_RECORD)
             }
-
 
             val keywordValid = isEmail(keyword) || StringUtils.isPhoneNumber(keyword) || MatrixPatterns.isUserId(keyword)
             if (items.size == 0 && keywordValid) {
@@ -272,13 +277,32 @@ class ContactsSearchViewModel @AssistedInject constructor(
         }
     }
 
+    fun searchChatRecordJob(keyword: String): Job {
+        this.keyword = keyword
+        return viewModelScope.launch(Dispatchers.IO) {
+            val items = mutableListOf<ContactsSearchAdapter.BaseItem>()
+
+            // 部门
+            val job = async {
+                searchChatRecord(keyword)
+            }
+            if (job.await() == null) return@launch
+            parseAllItem(
+                    items,
+                    job.await()!!.toMutableList(),
+                    SUB_TYPE_CHAT_RECORD
+            )
+            searchResultsLiveData.postValue(items)
+        }
+    }
+
     private fun searchDepartment(keyword: String): List<IDisplayBean> {
         departments.clear()
         departments.addAll(DepartmentStoreHelper.search(keyword, 100, null))
         return departments
     }
 
-    fun searchGroupChat(keyword: String): MutableList<IDisplayBean> {
+    private fun searchGroupChat(keyword: String): MutableList<IDisplayBean> {
         val queryParams = roomSummaryQueryParams {
             memberships = listOf(Membership.JOIN)
         }
@@ -533,7 +557,7 @@ class ContactsSearchViewModel @AssistedInject constructor(
                         .lookUp(threePids)
                 if (user.isNotEmpty()) {
                     searchMatrixUser(user[0].matrixId)
-                } else if (StringUtils.isPhoneNumber(string) && !string.startsWith("86")){
+                } else if (StringUtils.isPhoneNumber(string) && !string.startsWith("86")) {
                     searchMatrixUserByEmailOrPhone("86$string")
                 } else {
                     searchUserOnlineLiveData.postValue(null)
@@ -583,8 +607,8 @@ class ContactsSearchViewModel @AssistedInject constructor(
                     mainTitle = roomSummary.displayName
                 }
                 if (it.keywordCount == 1 && it.firstChat != null && it.firstChat.event != null) {
-                    minor = getText(BaseModule.getContext(), it.firstChat.event)
-                    targetId = it.firstChat.event.eventId
+                    minor = it.firstChat.body
+                    targetId = it.firstChat.event.event_id
                 } else {
                     minor = String.format(
                             BaseModule.getContext()
@@ -606,8 +630,8 @@ class ContactsSearchViewModel @AssistedInject constructor(
                 )
                 searchData.isDirect = roomSummary.isDirect
                 chatRecords.add(searchData)
-                return chatRecords
             }
+            return chatRecords
         }.exceptionOrNull()?.let {
             Timber.v("聊天记录搜索异常")
             it.printStackTrace()
@@ -653,6 +677,62 @@ class ContactsSearchViewModel @AssistedInject constructor(
             return matrixId
         }
         return user.displayName
+    }
+
+    val pageCount = 20
+    private var currentKeyword: String? = null
+    val total = MutableLiveData(0)
+
+    fun searchGroupMessage(keyword: String, roomId: String?, count: Int) {
+        this.currentKeyword = keyword
+        val filters = mutableListOf<Filter>()
+        val filter = Filter(field = "body", value = keyword)
+        val indexFilter = Filter(field = "type", value = "CHAT")
+        filters.add(filter)
+        filters.add(indexFilter)
+        if (!roomId.isNullOrEmpty()) {
+            val roomFilter = Filter(field = "room_id", value = roomId)
+            filters.add(roomFilter)
+        }
+        val input = SearchInput(filters = filters, sequenceId = count, perPage = pageCount)
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                val response = SearchService.getInstance().searchGroupMessage(input)
+                total.postValue(response.total)
+                if (!response.isSuccess) {
+                    loading.postValue(false)
+                    error.postValue(Failure.NetworkConnection())
+                    return@launch
+                }
+                val searchDatas = mutableListOf<SearchData>()
+                response.results?.forEach {
+                    if (it?.event == null) return@forEach
+                    var displayName: String? = ""
+                    var minor: String?
+                    var avatarUrl: String? = ""
+                    val id = it.event.sender
+                    if (!id.isNullOrEmpty()) {
+                        val user = BaseModule.getSession()?.getUser(id)
+                        displayName = getUserDisplayName(user?.displayName, id)
+                        avatarUrl = user?.avatarUrl
+                    }
+                    displayName = getKeywordStr(displayName, keyword)
+                    minor = it.body
+                    minor = getKeywordStr(minor, keyword)
+                    val data = SearchData(displayName, minor, avatarUrl,
+                            SearchType.GroupMessage, it.event.event_id, false, targetId = roomId)
+                    data.time = it.event.origin_server_ts
+                    searchDatas.add(data)
+                }
+                if (count == 0) {
+                    action.postValue(SearchAction.SearchResult(searchDatas))
+                } else {
+                    action.postValue(SearchAction.SearchMoreResult(searchDatas))
+                }
+            }.exceptionOrNull()?.let {
+                action.postValue(SearchAction.SearchResult(null))
+            }
+        }
     }
 }
 

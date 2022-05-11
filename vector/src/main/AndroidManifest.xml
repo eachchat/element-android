@@ -16,6 +16,8 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="com.huawei.android.launcher.permission.CHANGE_BADGE " />
+    <uses-permission android:name="com.vivo.notification.permission.BADGE_ICON" />
 
     <!-- MiPush -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -349,6 +351,7 @@
         <activity android:name=".features.home.room.threads.ThreadsActivity" />
         <activity android:name="im.vector.app.eachchat.department.DepartmentActivity" />
         <activity android:name="ai.workly.eachchat.android.contact.relationship.ReportingRelationshipActivity"/>
+        <activity android:name=".eachchat.search.chatRecord.ChatRecordSearchActivity"/>
 
         <activity
             android:name=".features.home.room.detail.RoomDetailActivity"

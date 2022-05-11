@@ -25,6 +25,7 @@ class SearchMoreActivity : ContactsSearchActivity() {
         const val SEARCH_MORE_TYPE_REAL_CONTACT = "SEARCH_MORE_TYPE_REAL_CONTACT"
         const val SEARCH_MORE_TYPE_IN_DEPARTMENT = "SEARCH_MORE_TYPE_IN_DEPARTMENT"
         const val SEARCH_MORE_TYPE_GROUP_CHAT = "SEARCH_MORE_TYPE_GROUP_CHAT"
+        const val SEARCH_MORE_TYPE_CHAT_RECORD = "SEARCH_MORE_TYPE_CHAT_RECORD"
 
         fun start(context: Context, keyWord: String? = "", needShowBack: Boolean? = false, searchType: String? = null, needFocus: Boolean? = false
         ) {
@@ -67,6 +68,7 @@ class SearchMoreActivity : ContactsSearchActivity() {
             SEARCH_MORE_TYPE_REAL_CONTACT -> { getString(R.string.search_real_contact) }
             SEARCH_MORE_TYPE_IN_DEPARTMENT -> { getString(R.string.search_org) }
             SEARCH_MORE_TYPE_GROUP_CHAT -> { getString(R.string.search_group_chat) }
+            SEARCH_MORE_TYPE_CHAT_RECORD -> { getString(R.string.search_chat_record) }
             else -> { getString(R.string.search) }
         }
     }
@@ -98,6 +100,7 @@ class SearchMoreActivity : ContactsSearchActivity() {
             SEARCH_MORE_TYPE_REAL_CONTACT -> { vm.searchRealContactJob(keyWord) }
             SEARCH_MORE_TYPE_IN_DEPARTMENT -> { vm.searchInOrganizationJob(keyWord) }
             SEARCH_MORE_TYPE_GROUP_CHAT -> { vm.searchGroupChatJob(keyWord) }
+            SEARCH_MORE_TYPE_CHAT_RECORD -> { vm.searchChatRecordJob(keyWord) }
             else -> { vm.searchDepartmentJob(keyWord) }
         }
     }

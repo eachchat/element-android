@@ -65,12 +65,12 @@ public abstract class AbsPush {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             List<NotificationChannel> channels = new ArrayList<>();
-            // todo 通知要怎么与 element 兼容?
-//            if (nm != null) {
-//                createVideoChannel(context, nm, channels);
-//                createChatChannel(context, nm, channels);
-//                nm.createNotificationChannels(channels);
-//            }
+             // todo 通知要怎么与 element 兼容?
+            if (nm != null) {
+                createVideoChannel(context, nm, channels);
+                createChatChannel(context, nm, channels);
+                nm.createNotificationChannels(channels);
+            }
         }
     }
 

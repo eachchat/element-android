@@ -10,7 +10,6 @@ import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
 import android.view.animation.RotateAnimation
 import android.view.inputmethod.InputMethodManager
-import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,19 +20,17 @@ import im.vector.app.R
 import im.vector.app.core.platform.VectorBaseActivity
 import im.vector.app.databinding.ActivityContactsSearchLayoutBinding
 import im.vector.app.eachchat.base.BaseModule
-import im.vector.app.eachchat.contact.data.ContactsDisplayBean
 import im.vector.app.eachchat.contact.data.User
 import im.vector.app.eachchat.database.AppDatabase
 import im.vector.app.eachchat.department.DepartmentActivity
-import im.vector.app.eachchat.department.DepartmentFragment
+import im.vector.app.eachchat.search.chatRecord.ChatRecordSearchActivity
 import im.vector.app.eachchat.search.contactsearch.data.SearchContactsBean
+import im.vector.app.eachchat.search.contactsearch.data.SearchData
 import im.vector.app.eachchat.search.contactsearch.data.SearchUserBean
 import im.vector.app.eachchat.search.contactsearch.searchmore.SearchMoreActivity
 import im.vector.app.eachchat.ui.dialog.AlertDialog
 import im.vector.app.eachchat.user.UserInfoActivity
 import im.vector.app.eachchat.user.UserInfoArg
-import im.vector.app.features.roommemberprofile.RoomMemberProfileActivity
-import im.vector.app.features.roommemberprofile.RoomMemberProfileArgs
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -150,6 +147,12 @@ open class ContactsSearchActivity :
                                     true,
                                     SearchMoreActivity.SEARCH_MORE_TYPE_DEPARTMENT)
                         }
+                        ContactsSearchAdapter.SUB_TYPE_CHAT_RECORD   -> {
+                            SearchMoreActivity.start(this,
+                                    views.searchTitleBar.etSearch.text.toString(),
+                                    true,
+                                    SearchMoreActivity.SEARCH_MORE_TYPE_CHAT_RECORD)
+                        }
                         else                                         -> vm.buildSearchSeeMoreData(baseItem.subType)
                     }
                 is ContactsSearchAdapter.ContentItem             -> {
@@ -210,6 +213,16 @@ open class ContactsSearchActivity :
                             ContactsSearchAdapter.SUB_TYPE_GROUP_CHAT    -> {
                                 navigator.openRoom(this, it.id)
                             }
+                            ContactsSearchAdapter.SUB_TYPE_CHAT_RECORD   -> {
+                                if (!(it is SearchData)) return@let
+                                if (it.count == 1) {
+                                    if (it.id.isNullOrEmpty()) return@let
+                                    it.id?.let { it1 -> navigator.openRoom(this, it1, it.targetId) }
+                                } else {
+                                    if (it.id.isNullOrEmpty()) return@let
+                                    ChatRecordSearchActivity.start(this, it.id, views.searchTitleBar.etSearch.text.toString(), it.mainTitle, it.count)
+                                }
+                            }
                             else                                         -> {}
                         }
                     }
@@ -262,7 +275,7 @@ open class ContactsSearchActivity :
         }
         // views.searchTitleBar.backIv.visibility = if (isShowSeeMore) View.VISIBLE else View.GONE
         views.searchTitleBar.backIv.visibility = View.VISIBLE
-                showSearingView(false)
+        showSearingView(false)
 //        observer.clearObserver(this)
         adapter.setNewData(results)
     }

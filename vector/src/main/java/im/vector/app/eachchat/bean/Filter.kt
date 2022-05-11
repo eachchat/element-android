@@ -18,7 +18,8 @@ package im.vector.app.eachchat.bean
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
-import org.matrix.android.sdk.api.session.events.model.Event
+import org.matrix.android.sdk.api.session.events.model.Content
+import org.matrix.android.sdk.api.session.events.model.UnsignedData
 
 /**
  * Created by zhouguanjie on 2021/1/4.
@@ -47,6 +48,19 @@ data class SearchGroupMessageResponse(
         @Json(name = "origin_server_ts") val origin_server_ts: Long?,
         @Json(name = "body") val body: String?,
         @Json(name = "event") val event: Event?)
+
+data class Event(
+        @Json(name = "type") val type: String? = null,
+        @Json(name = "event_id") val event_id: String? = null,
+        @Json(name = "content") val content: Content? = null,
+        @Json(name = "prev_content") val prev_content: Content? = null,
+        @Json(name = "origin_server_ts") val origin_server_ts: Long? = null,
+        @Json(name = "sender") val sender: String? = null,
+        @Json(name = "state_key") val state_key: String? = null,
+        @Json(name = "room_id") val room_id: String? = null,
+        @Json(name = "unsigned") val unsigned: UnsignedData? = null,
+        @Json(name = "redacts") val redacts: String? = null
+)
 
 @JsonClass(generateAdapter = true)
 data class SearchGroupCountResponse(@Json(name = "rooms") val rooms: SearchRoomsData?)

@@ -176,6 +176,7 @@ class NotificationUtils @Inject constructor(private val context: Context,
                     description = stringProvider.getString(R.string.notification_noisy_notifications)
                     enableVibration(true)
                     enableLights(true)
+                    setShowBadge(true)
 //                    lightColor = accentColor
                 })
 
@@ -189,16 +190,17 @@ class NotificationUtils @Inject constructor(private val context: Context,
                     description = stringProvider.getString(R.string.notification_silent_notifications)
                     setSound(null, null)
                     enableLights(true)
+                    setShowBadge(true)
 //                    lightColor = accentColor
                 })
 
         notificationManager.createNotificationChannel(NotificationChannel(LISTENING_FOR_EVENTS_NOTIFICATION_CHANNEL_ID,
                 stringProvider.getString(R.string.notification_listening_for_events).ifEmpty { "Listening for events" },
-                NotificationManager.IMPORTANCE_MIN)
+                NotificationManager.IMPORTANCE_HIGH)
                 .apply {
                     description = stringProvider.getString(R.string.notification_listening_for_events)
                     setSound(null, null)
-                    setShowBadge(false)
+                    setShowBadge(true)
                 })
 
         notificationManager.createNotificationChannel(NotificationChannel(CALL_NOTIFICATION_CHANNEL_ID,
@@ -208,6 +210,7 @@ class NotificationUtils @Inject constructor(private val context: Context,
                     description = stringProvider.getString(R.string.call)
                     setSound(null, null)
                     enableLights(true)
+                    setShowBadge(true)
 //                    lightColor = accentColor
                 })
     }
