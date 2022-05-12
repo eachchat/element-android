@@ -4013,4 +4013,6 @@
     <string name="message_record_title">聊天记录</string>
     <string name="contains_message_record">包含 %1$s 条聊天记录</string>
     <string name="loading_data">正在加载数据</string>
+    <string name="you_have_n_unread_message">您有 %1$s 条未读消息</string>
+    <string name="notification_listening_for_set_badge">监听角标更新</string>
 </resources>

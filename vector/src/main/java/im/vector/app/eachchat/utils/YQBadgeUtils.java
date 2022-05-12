@@ -42,8 +42,8 @@ public class YQBadgeUtils {
                     return setSamsungBadge(count, context);
 //                case "oppo":
 //                    return setOPPOBadge(count, context) || setOPPOBadge2(count, context);
-//                case "vivo":
-//                    return setVivoBadge(count, context);
+                case "vivo":
+                    return setVivoBadge(count, context);
                 case "lenovo":
                     return setZukBadge(count, context);
                 case "htc":

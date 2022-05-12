@@ -109,6 +109,7 @@ class NotificationUtils @Inject constructor(private val context: Context,
 
         // on devices >= android O, we need to define a channel for each notifications
         private const val LISTENING_FOR_EVENTS_NOTIFICATION_CHANNEL_ID = "LISTEN_FOR_EVENTS_NOTIFICATION_CHANNEL_ID"
+        private const val LISTENING_FOR_BADGE_NOTIFICATION_CHANNEL_ID = "LISTENING_FOR_BADGE_NOTIFICATION_CHANNEL_ID"
 
         private const val NOISY_NOTIFICATION_CHANNEL_ID = "DEFAULT_NOISY_NOTIFICATION_CHANNEL_ID"
 
@@ -199,6 +200,15 @@ class NotificationUtils @Inject constructor(private val context: Context,
                 NotificationManager.IMPORTANCE_HIGH)
                 .apply {
                     description = stringProvider.getString(R.string.notification_listening_for_events)
+                    setSound(null, null)
+                    setShowBadge(true)
+                })
+
+        notificationManager.createNotificationChannel(NotificationChannel(LISTENING_FOR_BADGE_NOTIFICATION_CHANNEL_ID,
+                stringProvider.getString(R.string.notification_listening_for_set_badge).ifEmpty { "Listening for events" },
+                NotificationManager.IMPORTANCE_HIGH)
+                .apply {
+                    description = stringProvider.getString(R.string.notification_listening_for_set_badge)
                     setSound(null, null)
                     setShowBadge(true)
                 })
