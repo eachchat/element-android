@@ -62,7 +62,11 @@ class RoomDirectoryPickerController @Inject constructor(
         when (val asyncThirdPartyProtocol = data.asyncThirdPartyRequest) {
             is Success    -> {
                 data.directories.join(
-                        each = { _, roomDirectoryServer -> buildDirectory(roomDirectoryServer) },
+                        each = { _, roomDirectoryServer ->
+                            if (roomDirectoryServer.isUserServer) {
+                                buildDirectory(roomDirectoryServer)
+                            }
+                        },
                         between = { idx, _ -> buildDivider(idx) }
                 )
                 buildForm(data)
@@ -190,13 +194,18 @@ class RoomDirectoryPickerController @Inject constructor(
         roomDirectoryServer.protocols.forEach { roomDirectoryData ->
             roomDirectoryItem {
                 id("server_${roomDirectoryServer}_proto_$roomDirectoryData")
-                directoryName(
-                        if (roomDirectoryData.includeAllNetworks) {
+                if (roomDirectoryData.includeAllNetworks) {
+                    directoryName(
                             host.stringProvider.getString(R.string.directory_server_all_rooms_on_server, roomDirectoryServer.serverName)
-                        } else {
-                            roomDirectoryData.displayName
-                        }
-                )
+                    )
+                }
+//                directoryName(
+//                        if (roomDirectoryData.includeAllNetworks) {
+//                            host.stringProvider.getString(R.string.directory_server_all_rooms_on_server, roomDirectoryServer.serverName)
+//                        } else {
+//                            roomDirectoryData.displayName
+//                        }
+//                )
                 if (roomDirectoryData.displayName == RoomDirectoryData.MATRIX_PROTOCOL_NAME && !roomDirectoryData.includeAllNetworks) {
                     directoryDescription(
                             host.stringProvider.getString(R.string.directory_server_native_rooms, roomDirectoryServer.serverName)

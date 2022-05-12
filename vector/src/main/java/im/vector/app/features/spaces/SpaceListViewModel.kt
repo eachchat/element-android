@@ -24,6 +24,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import im.vector.app.AppStateHandler
+import im.vector.app.R
 import im.vector.app.RoomGroupingMethod
 import im.vector.app.core.di.MavericksAssistedViewModelFactory
 import im.vector.app.core.di.hiltMavericksViewModelFactory
@@ -153,7 +154,12 @@ class SpaceListViewModel @AssistedInject constructor(@Assisted initialState: Spa
             is SpaceListAction.MoveSpace         -> handleMoveSpace(action)
             is SpaceListAction.OnEndDragging     -> handleEndDragging()
             is SpaceListAction.OnStartDragging   -> handleStartDragging()
+            is SpaceListAction.SelectTab -> handleSelectTab()
         }
+    }
+
+    private fun handleSelectTab() = withState {
+        setState { copy(isSelectedChange = !it.isSelectedChange) }
     }
 
 // PRIVATE METHODS *****************************************************************************

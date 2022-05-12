@@ -32,6 +32,7 @@ import im.vector.app.core.di.SingletonEntryPoint
 import im.vector.app.core.di.hiltMavericksViewModelFactory
 import im.vector.app.core.extensions.hasUnsavedKeys
 import im.vector.app.core.platform.VectorViewModel
+import im.vector.app.eachchat.base.BaseModule
 import im.vector.app.features.login.LoginMode
 import kotlinx.coroutines.launch
 import org.matrix.android.sdk.api.auth.AuthenticationService
@@ -206,6 +207,7 @@ class SoftLogoutViewModel @AssistedInject constructor(
 
     private fun onSessionRestored() {
         activeSessionHolder.setActiveSession(session)
+        BaseModule.setSession(session)
         // Start the sync
         session.startSync(true)
 

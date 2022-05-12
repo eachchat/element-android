@@ -152,6 +152,7 @@ class MessageBubbleView @JvmOverloads constructor(context: Context, attrs: Attri
             this.fillColor = if (messageLayout.isPseudoBubble) {
                 ColorStateList.valueOf(Color.TRANSPARENT)
             } else {
+                // 修改气泡背景颜色
                 val backgroundColorAttr = if (isIncoming) R.attr.vctr_message_bubble_inbound else R.attr.vctr_message_bubble_outbound
                 val backgroundColor = ThemeUtils.getColor(context, backgroundColorAttr)
                 ColorStateList.valueOf(backgroundColor)

@@ -32,6 +32,7 @@ import im.vector.app.features.login.AbstractLoginFragment
 import im.vector.app.features.login.LoginAction
 import im.vector.app.features.login.LoginMode
 import im.vector.app.features.login.LoginViewEvents
+import im.vector.app.features.login.SignMode
 import javax.inject.Inject
 
 /**

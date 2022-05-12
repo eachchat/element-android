@@ -75,19 +75,20 @@
         app:layout_constraintTop_toBottomOf="@id/roomProfileAvatarView"
         tools:text="@sample/rooms.json/data/name" />
 
-    <TextView
-        android:id="@+id/roomProfileAliasView"
-        style="@style/Widget.Vector.TextView.Body"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="16dp"
-        android:gravity="center"
-        android:singleLine="true"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/roomProfileNameView"
-        tools:text="@sample/rooms.json/data/alias" />
+        <TextView
+            android:id="@+id/roomProfileAliasView"
+            style="@style/Widget.Vector.TextView.Body"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:singleLine="true"
+            android:textColor="?vctr_content_secondary"
+            android:textSize="16sp"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/roomProfileNameView"
+            tools:text="matrixId" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

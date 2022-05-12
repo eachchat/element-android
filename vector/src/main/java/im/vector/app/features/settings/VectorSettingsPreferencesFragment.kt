@@ -151,7 +151,7 @@ class VectorSettingsPreferencesFragment @Inject constructor(
             true
         }
 
-        findPreference<VectorSwitchPreference>(VectorPreferences.SETTINGS_PREF_ENABLE_LOCATION_SHARING)?.isVisible = BuildConfig.enableLocationSharing
+//        findPreference<VectorSwitchPreference>(VectorPreferences.SETTINGS_PREF_ENABLE_LOCATION_SHARING)?.isVisible = BuildConfig.enableLocationSharing
     }
 
     private fun updateTakePhotoOrVideoPreferenceSummary() {

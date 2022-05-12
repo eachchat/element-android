@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <im.vector.app.eachchat.contact.addcontact.ContactEditAddLayout
+        android:id="@+id/tv_country"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <im.vector.app.eachchat.contact.addcontact.ContactEditAddLayout
+        android:id="@+id/tv_region"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <im.vector.app.eachchat.contact.addcontact.ContactEditAddLayout
+        android:id="@+id/tv_locality"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <im.vector.app.eachchat.contact.addcontact.ContactEditAddLayout
+        android:id="@+id/tv_subLocality"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <im.vector.app.eachchat.contact.addcontact.ContactEditAddLayout
+        android:id="@+id/tv_street"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <im.vector.app.eachchat.contact.addcontact.ContactEditAddLayout
+        android:id="@+id/tv_postal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

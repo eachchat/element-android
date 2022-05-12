@@ -152,27 +152,27 @@ class CallService : VectorService() {
             handleUnexpectedState(callId)
         }
         val callInformation = call.toCallInformation()
-        val isVideoCall = call.mxCall.isVideoCall
+//        val isVideoCall = call.mxCall.isVideoCall
         val fromBg = intent.getBooleanExtra(EXTRA_IS_IN_BG, false)
         Timber.tag(loggerTag.value).v("displayIncomingCallNotification : display the dedicated notification")
-        val incomingCallAlert = IncomingCallAlert(callId,
-                shouldBeDisplayedIn = { activity ->
-                    if (activity is VectorCallActivity) {
-                        activity.intent.getParcelableExtra<CallArgs>(Mavericks.KEY_ARG)?.callId != call.callId
-                    } else true
-                }
-        ).apply {
-            viewBinder = IncomingCallAlert.ViewBinder(
-                    matrixItem = callInformation.opponentMatrixItem,
-                    avatarRenderer = avatarRenderer,
-                    isVideoCall = isVideoCall,
-                    onAccept = { showCallScreen(call, VectorCallActivity.INCOMING_ACCEPT) },
-                    onReject = { call.endCall() }
-            )
-            dismissedAction = Runnable { call.endCall() }
-            contentAction = Runnable { showCallScreen(call, VectorCallActivity.INCOMING_RINGING) }
-        }
-        alertManager.postVectorAlert(incomingCallAlert)
+//        val incomingCallAlert = IncomingCallAlert(callId,
+//                shouldBeDisplayedIn = { activity ->
+//                    if (activity is VectorCallActivity) {
+//                        activity.intent.getParcelableExtra<CallArgs>(Mavericks.KEY_ARG)?.callId != call.callId
+//                    } else true
+//                }
+//        ).apply {
+//            viewBinder = IncomingCallAlert.ViewBinder(
+//                    matrixItem = callInformation.opponentMatrixItem,
+//                    avatarRenderer = avatarRenderer,
+//                    isVideoCall = isVideoCall,
+//                    onAccept = { showCallScreen(call, VectorCallActivity.INCOMING_ACCEPT) },
+//                    onReject = { call.endCall() }
+//            )
+//            dismissedAction = Runnable { call.endCall() }
+//            contentAction = Runnable { showCallScreen(call, VectorCallActivity.INCOMING_RINGING) }
+//        }
+//        alertManager.postVectorAlert(incomingCallAlert)
         val notification = notificationUtils.buildIncomingCallNotification(
                 call = call,
                 title = callInformation.opponentMatrixItem?.getBestName() ?: callInformation.opponentUserId,
@@ -229,15 +229,15 @@ class CallService : VectorService() {
         }
         val callInformation = call.toCallInformation()
         Timber.tag(loggerTag.value).v("displayOutgoingCallNotification : display the dedicated notification")
-        val notification = notificationUtils.buildOutgoingRingingCallNotification(
-                call = call,
-                title = callInformation.opponentMatrixItem?.getBestName() ?: callInformation.opponentUserId
-        )
-        if (knownCalls.isEmpty()) {
-            startForeground(callId.hashCode(), notification)
-        } else {
-            notificationManager.notify(callId.hashCode(), notification)
-        }
+//        val notification = notificationUtils.buildOutgoingRingingCallNotification(
+//                call = call,
+//                title = callInformation.opponentMatrixItem?.getBestName() ?: callInformation.opponentUserId
+//        )
+//        if (knownCalls.isEmpty()) {
+//            startForeground(callId.hashCode(), notification)
+//        } else {
+//            notificationManager.notify(callId.hashCode(), notification)
+//        }
         knownCalls[callId] = callInformation
     }
 
@@ -330,7 +330,8 @@ class CallService : VectorService() {
                         putExtra(EXTRA_CALL_ID, callId)
                         putExtra(EXTRA_IS_IN_BG, isInBackground)
                     }
-            ContextCompat.startForegroundService(context, intent)
+            // ContextCompat.startForegroundService(context, intent)
+            context.startService(intent)
         }
 
         fun onOutgoingCallRinging(context: Context,
@@ -340,7 +341,8 @@ class CallService : VectorService() {
                         action = ACTION_OUTGOING_RINGING_CALL
                         putExtra(EXTRA_CALL_ID, callId)
                     }
-            ContextCompat.startForegroundService(context, intent)
+            // ContextCompat.startForegroundService(context, intent)
+            context.startService(intent)
         }
 
         fun onPendingCall(context: Context,
@@ -350,7 +352,8 @@ class CallService : VectorService() {
                         action = ACTION_ONGOING_CALL
                         putExtra(EXTRA_CALL_ID, callId)
                     }
-            ContextCompat.startForegroundService(context, intent)
+            // ContextCompat.startForegroundService(context, intent)
+            context.startService(intent)
         }
 
         fun onCallTerminated(context: Context,

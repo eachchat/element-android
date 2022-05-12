@@ -61,7 +61,7 @@ class AnalyticsAccountDataViewModel @AssistedInject constructor(
 
     init {
         observeAccountData()
-        observeInitSync()
+//        observeInitSync()
     }
 
     private fun observeInitSync() {

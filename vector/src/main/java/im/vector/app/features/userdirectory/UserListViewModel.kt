@@ -31,6 +31,7 @@ import im.vector.app.core.extensions.isEmail
 import im.vector.app.core.extensions.toggle
 import im.vector.app.core.platform.VectorViewModel
 import im.vector.app.core.resources.StringProvider
+import im.vector.app.eachchat.utils.string.StringUtils
 import im.vector.app.features.discovery.fetchIdentityServerWithTerms
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.debounce
@@ -64,6 +65,11 @@ class UserListViewModel @AssistedInject constructor(
     private val knownUsersSearch = MutableStateFlow("")
     private val directoryUsersSearch = MutableStateFlow("")
     private val identityServerUsersSearch = MutableStateFlow(UserSearch(searchTerm = ""))
+    private val identityServerUsersSearch2 = MutableStateFlow(UserSearch(searchTerm = ""))
+
+    init {
+        session.identityService().setUserConsent(true)
+    }
 
     @AssistedFactory
     interface Factory : MavericksAssistedViewModelFactory<UserListViewModel, UserListViewState> {
@@ -184,10 +190,12 @@ class UserListViewModel @AssistedInject constructor(
 
     private fun observeUsers() = withState { state ->
         identityServerUsersSearch
-                .filter { it.searchTerm.isEmail() }
+                .filter { it.searchTerm.isEmail() || StringUtils.isPhoneNumber(it.searchTerm) }
                 .sample(300)
                 .onEach { search ->
                     executeSearchEmail(search.searchTerm)
+                    executeSearchMsisdn(search.searchTerm)
+                    executeSearchMsisdn("86" + search.searchTerm)
                 }.launchIn(viewModelScope)
 
         knownUsersSearch
@@ -229,6 +237,37 @@ class UserListViewModel @AssistedInject constructor(
             }
         }.execute {
             copy(matchingEmail = it)
+        }
+    }
+
+    private suspend fun executeSearchMsisdn(search: String) {
+        suspend {
+            val params = listOf(ThreePid.Msisdn(search))
+            val foundThreePid = session.identityService().lookUp(params).firstOrNull()
+            if (foundThreePid == null) {
+                null
+            } else {
+                try {
+                    val json = session.getProfile(foundThreePid.matrixId)
+                    ThreePidUser(
+                            email = if (search.startsWith("86")) search.substring(2) else search,
+                            user = User(
+                                    userId = foundThreePid.matrixId,
+                                    displayName = json[ProfileService.DISPLAY_NAME_KEY] as? String,
+                                    avatarUrl = json[ProfileService.AVATAR_URL_KEY] as? String
+                            )
+                    )
+                } catch (failure: Throwable) {
+                    null
+                }
+            }
+        }.execute {
+            if (it.invoke() != null) {
+                copy(matchingEmail = it)
+            }
+            else {
+                copy()
+            }
         }
     }
 

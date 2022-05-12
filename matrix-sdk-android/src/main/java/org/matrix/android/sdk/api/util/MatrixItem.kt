@@ -49,7 +49,7 @@ sealed class MatrixItem(
                                   val roomDisplayName: String? = null) :
             MatrixItem(id, displayName, avatarUrl) {
         init {
-            if (BuildConfig.DEBUG) checkId()
+            // if (BuildConfig.DEBUG) checkId()
         }
 
         override fun updateAvatar(newAvatar: String?) = copy(avatarUrl = newAvatar)

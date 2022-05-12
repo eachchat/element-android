@@ -3,7 +3,7 @@
     "categories": [
         {
             "id": "smileys_&_emotion",
-            "name": "Smileys & Emotion",
+            "name": "笑脸&情绪",
             "emojis": [
                 "grinning-face",
                 "grinning-face-with-big-eyes",
@@ -172,7 +172,7 @@
         },
         {
             "id": "people_&_body",
-            "name": "People & Body",
+            "name": "人员&动作",
             "emojis": [
                 "waving-hand",
                 "raised-back-of-hand",
@@ -539,7 +539,7 @@
         },
         {
             "id": "animals_&_nature",
-            "name": "Animals & Nature",
+            "name": "动物&自然",
             "emojis": [
                 "monkey-face",
                 "monkey",
@@ -689,7 +689,7 @@
         },
         {
             "id": "food_&_drink",
-            "name": "Food & Drink",
+            "name": "食物&饮料",
             "emojis": [
                 "grapes",
                 "melon",
@@ -827,7 +827,7 @@
         },
         {
             "id": "travel_&_places",
-            "name": "Travel & Places",
+            "name": "旅行&地点",
             "emojis": [
                 "globe-showing-europeafrica",
                 "globe-showing-americas",
@@ -1051,7 +1051,7 @@
         },
         {
             "id": "activities",
-            "name": "Activities",
+            "name": "活动",
             "emojis": [
                 "jackolantern",
                 "christmas-tree",
@@ -1143,7 +1143,7 @@
         },
         {
             "id": "objects",
-            "name": "Objects",
+            "name": "物品",
             "emojis": [
                 "glasses",
                 "sunglasses",
@@ -1404,7 +1404,7 @@
         },
         {
             "id": "symbols",
-            "name": "Symbols",
+            "name": "符号",
             "emojis": [
                 "atm-sign",
                 "litter-in-bin-sign",
@@ -1631,7 +1631,7 @@
         },
         {
             "id": "flags",
-            "name": "Flags",
+            "name": "旗帜",
             "emojis": [
                 "chequered-flag",
                 "triangular-flag",

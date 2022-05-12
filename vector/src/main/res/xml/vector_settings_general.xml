@@ -51,7 +51,8 @@
 
     </im.vector.app.core.preference.VectorPreferenceCategory>
 
-    <im.vector.app.core.preference.VectorPreferenceCategory android:title="@string/settings_integrations">
+    <im.vector.app.core.preference.VectorPreferenceCategory android:title="@string/settings_integrations"
+        app:isPreferenceVisible="false">
 
         <im.vector.app.core.preference.VectorPreference
             android:focusable="false"
@@ -81,8 +82,9 @@
         <im.vector.app.core.preference.VectorPreference
             android:key="SETTINGS_HOME_SERVER_PREFERENCE_KEY"
             android:title="@string/settings_home_server"
-            app:fragment="im.vector.app.features.settings.homeserver.HomeserverSettingsFragment"
             tools:summary="https://homeserver.org" />
+
+<!--        app:fragment="im.vector.app.features.settings.homeserver.HomeserverSettingsFragment"-->
 
         <im.vector.app.core.preference.VectorPreference
             android:key="SETTINGS_IDENTITY_SERVER_PREFERENCE_KEY"
@@ -99,7 +101,9 @@
 
     </im.vector.app.core.preference.VectorPreferenceCategory>
 
-    <im.vector.app.core.preference.VectorPreferenceCategory android:title="@string/action_sign_out">
+    <im.vector.app.core.preference.VectorPreferenceCategory
+        android:key="SETTINGS_SIGN_OUT_KEY_CATEGORY"
+        android:title="@string/action_sign_out" >
 
         <im.vector.app.core.preference.VectorPreference
             android:key="SETTINGS_SIGN_OUT_KEY"
@@ -107,7 +111,8 @@
 
     </im.vector.app.core.preference.VectorPreferenceCategory>
 
-    <im.vector.app.core.preference.VectorPreferenceCategory android:title="@string/settings_deactivate_account_section">
+    <im.vector.app.core.preference.VectorPreferenceCategory android:title="@string/settings_deactivate_account_section"
+        app:isPreferenceVisible="false">
 
         <im.vector.app.core.preference.VectorPreference
             android:key="SETTINGS_DEACTIVATE_ACCOUNT_KEY"

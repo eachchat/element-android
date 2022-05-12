@@ -29,4 +29,6 @@ sealed class RoomProfileSharedAction : VectorSharedAction {
     object OpenRoomMembers : RoomProfileSharedAction()
     object OpenBannedRoomMembers : RoomProfileSharedAction()
     object OpenRoomNotificationSettings : RoomProfileSharedAction()
+    object OpenRoomComplain : RoomProfileSharedAction()
+    object OpenRoomContact : RoomProfileSharedAction()
 }

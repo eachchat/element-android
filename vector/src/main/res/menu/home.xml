@@ -7,27 +7,36 @@
         android:id="@+id/menu_home_setting"
         android:icon="@drawable/ic_settings_x"
         android:title="@string/settings"
+        android:visible="false"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/menu_home_suggestion"
         android:icon="@drawable/ic_material_bug_report"
-        android:title="@string/send_suggestion" />
+        android:title="@string/send_suggestion"
+        android:visible="false"/>
 
     <item
         android:id="@+id/menu_home_report_bug"
         android:icon="@drawable/ic_material_bug_report"
-        android:title="@string/send_bug_report" />
+        android:title="@string/send_bug_report"
+        android:visible="false"/>
 
     <item
         android:id="@+id/menu_home_init_sync_legacy"
         android:title="Do a legacy init sync"
-        tools:ignore="HardcodedText" />
+        tools:ignore="HardcodedText"
+        android:visible="false"/>
+
+    <item
+        android:id="@+id/menu_home_add_contact"
+        android:title="@string/add_contacts" />
 
     <item
         android:id="@+id/menu_home_init_sync_optimized"
         android:title="Do an optimized init sync"
-        tools:ignore="HardcodedText" />
+        tools:ignore="HardcodedText"
+        android:visible="false" />
 
     <item
         android:id="@+id/menu_home_filter"

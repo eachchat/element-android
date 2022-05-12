@@ -52,7 +52,7 @@
     </style>
 
     <style name="Widget.Vector.Button.Text" parent="Widget.MaterialComponents.Button.TextButton">
-        <item name="colorControlHighlight">?colorSecondary</item>
+        <item name="colorControlHighlight">@color/ff00b368</item>
         <item name="materialThemeOverlay">@style/VectorMaterialThemeOverlayPositive</item>
         <item name="android:textAppearance">@style/TextAppearance.Vector.Button</item>
         <item name="cornerRadius">8dp</item>
@@ -60,7 +60,7 @@
     </style>
 
     <style name="Widget.Vector.Button.Text.OnPrimary">
-        <item name="colorControlHighlight">?colorOnPrimary</item>
+        <item name="colorControlHighlight">@color/ff00b368</item>
         <item name="materialThemeOverlay">@style/VectorMaterialThemeOverlayOnPrimary</item>
     </style>
 

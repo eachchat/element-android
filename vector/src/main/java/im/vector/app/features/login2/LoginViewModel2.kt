@@ -34,6 +34,7 @@ import im.vector.app.core.extensions.tryAsync
 import im.vector.app.core.platform.VectorViewModel
 import im.vector.app.core.resources.StringProvider
 import im.vector.app.core.utils.ensureTrailingSlash
+import im.vector.app.eachchat.base.BaseModule
 import im.vector.app.features.login.HomeServerConnectionConfigFactory
 import im.vector.app.features.login.LoginConfig
 import im.vector.app.features.login.LoginMode
@@ -689,6 +690,7 @@ class LoginViewModel2 @AssistedInject constructor(
     private suspend fun onSessionCreated(session: Session) {
         activeSessionHolder.setActiveSession(session)
 
+        BaseModule.setSession(session)
         authenticationService.reset()
         session.configureAndStart(applicationContext)
         withState { state ->
@@ -719,7 +721,7 @@ class LoginViewModel2 @AssistedInject constructor(
         val homeServerConnectionConfig = homeServerConnectionConfigFactory.create(action.homeServerUrl)
         if (homeServerConnectionConfig == null) {
             // This is invalid
-            _viewEvents.post(LoginViewEvents2.Failure(Throwable("Unable to create a HomeServerConnectionConfig")))
+            _viewEvents.post(LoginViewEvents2.Failure(Throwable("您的组织未开通服务")))
         } else {
             getLoginFlow(homeServerConnectionConfig)
         }

@@ -64,6 +64,7 @@ import im.vector.app.core.extensions.singletonEntryPoint
 import im.vector.app.core.extensions.toMvRxBundle
 import im.vector.app.core.utils.ToolbarConfig
 import im.vector.app.core.utils.toast
+import im.vector.app.eachchat.utils.permission.PermissionUtil
 import im.vector.app.features.MainActivity
 import im.vector.app.features.MainActivityArgs
 import im.vector.app.features.analytics.AnalyticsTracker
@@ -190,6 +191,7 @@ abstract class VectorBaseActivity<VB : ViewBinding> : AppCompatActivity(), Maver
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
         Timber.i("onCreate Activity ${javaClass.simpleName}")
+        Timber.i("创建Activity ${javaClass.simpleName}")
         val singletonEntryPoint = singletonEntryPoint()
         val activityEntryPoint = EntryPointAccessors.fromActivity(this, ActivityEntryPoint::class.java)
         ThemeUtils.setActivityTheme(this, getOtherThemes())

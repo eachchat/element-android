@@ -194,10 +194,10 @@ class ThreePidsSettingsController @Inject constructor(
                 }
             is ThreePidsSettingsUiState.AddingEmail       -> Unit
             is ThreePidsSettingsUiState.AddingPhoneNumber -> {
-                settingsInfoItem {
-                    id("addingMsisdnInfo")
-                    helperText(host.stringProvider.getString(R.string.login_msisdn_notice))
-                }
+//                settingsInfoItem {
+//                    id("addingMsisdnInfo")
+//                    helperText(host.stringProvider.getString(R.string.login_msisdn_notice))
+//                }
                 settingsEditTextItem {
                     id("addingMsisdn")
                     inputType(InputType.TYPE_CLASS_PHONE)

@@ -16,6 +16,7 @@
 
 package im.vector.app
 
+import android.app.ActivityManager
 import android.app.Application
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -24,7 +25,9 @@ import android.content.IntentFilter
 import android.content.res.Configuration
 import android.os.Handler
 import android.os.HandlerThread
+import android.os.Process
 import android.os.StrictMode
+import android.text.TextUtils
 import androidx.core.provider.FontRequest
 import androidx.core.provider.FontsContractCompat
 import androidx.lifecycle.DefaultLifecycleObserver
@@ -36,13 +39,17 @@ import com.airbnb.epoxy.EpoxyController
 import com.airbnb.mvrx.Mavericks
 import com.facebook.stetho.Stetho
 import com.gabrielittner.threetenbp.LazyThreeTen
+import com.heytap.msp.push.HeytapPushManager
+import com.igexin.sdk.PushManager
 import com.mapbox.mapboxsdk.Mapbox
+import com.tencent.bugly.crashreport.CrashReport
 import com.vanniktech.emoji.EmojiManager
 import com.vanniktech.emoji.google.GoogleEmojiProvider
 import dagger.hilt.android.HiltAndroidApp
 import im.vector.app.core.di.ActiveSessionHolder
 import im.vector.app.core.extensions.configureAndStart
 import im.vector.app.core.extensions.startSyncing
+import im.vector.app.eachchat.base.BaseModule
 import im.vector.app.features.analytics.VectorAnalytics
 import im.vector.app.features.call.webrtc.WebRtcCallManager
 import im.vector.app.features.configuration.VectorConfiguration
@@ -115,10 +122,19 @@ class VectorApplication :
         enableStrictModeIfNeeded()
         super.onCreate()
         appContext = this
+        if (!isMainProcess()) {
+            return
+        }
+        BaseModule.init(this)
         vectorAnalytics.init()
         invitesAcceptor.initialize()
         autoRageShaker.initialize()
         vectorUncaughtExceptionHandler.activate()
+        HeytapPushManager.init(this, true)
+        //初始化bugly崩溃报告
+        CrashReport.initCrashReport(applicationContext, getBuglyID(), false)
+        HeytapPushManager.init(this, true)
+        PushManager.getInstance().initialize(this)
 
         // Remove Log handler statically added by Jitsi
         Timber.forest()
@@ -138,7 +154,7 @@ class VectorApplication :
         Mavericks.initialize(debugMode = false)
         EpoxyController.defaultDiffingHandler = EpoxyAsyncUtil.getAsyncBackgroundHandler()
         EpoxyController.defaultModelBuildingHandler = EpoxyAsyncUtil.getAsyncBackgroundHandler()
-        registerActivityLifecycleCallbacks(VectorActivityLifecycleCallbacks(popupAlertManager))
+        registerActivityLifecycleCallbacks(VectorActivityLifecycleCallbacks(popupAlertManager, activeSessionHolder))
         val fontRequest = FontRequest(
                 "com.google.android.gms.fonts",
                 "com.google.android.gms",
@@ -164,6 +180,7 @@ class VectorApplication :
         if (authenticationService.hasAuthenticatedSessions() && !activeSessionHolder.hasActiveSession()) {
             val lastAuthenticatedSession = authenticationService.getLastAuthenticatedSession()!!
             activeSessionHolder.setActiveSession(lastAuthenticatedSession)
+            BaseModule.setSession(lastAuthenticatedSession)
             lastAuthenticatedSession.configureAndStart(applicationContext, startSyncing = false)
         }
 
@@ -203,9 +220,11 @@ class VectorApplication :
 
     private val startSyncOnFirstStart = object : DefaultLifecycleObserver {
         override fun onStart(owner: LifecycleOwner) {
-            Timber.i("App process started")
-            authenticationService.getLastAuthenticatedSession()?.startSyncing(appContext)
-            ProcessLifecycleOwner.get().lifecycle.removeObserver(this)
+            kotlin.runCatching {
+                Timber.i("App process started")
+                authenticationService.getLastAuthenticatedSession()?.startSyncing(appContext)
+                ProcessLifecycleOwner.get().lifecycle.removeObserver(this)
+            }
         }
     }
 
@@ -239,6 +258,24 @@ class VectorApplication :
         Timber.v("----------------------------------------------------------------\n\n\n\n")
     }
 
+    private fun isMainProcess(): Boolean {
+        return TextUtils.equals(applicationContext.packageName, getCurrentProcessName())
+    }
+
+    private fun getCurrentProcessName(): String {
+        val pid = Process.myPid()
+        var processName = ""
+        val manager = applicationContext.getSystemService(ACTIVITY_SERVICE) as ActivityManager
+        for (process in manager.runningAppProcesses) {
+            if (process.pid == pid) {
+                processName = process.processName
+            }
+        }
+        return processName
+    }
+
+    private fun getBuglyID() = if (BuildConfig.DEBUG) DEBUG_BUGLY_ID else RELEASE_BUGLY_ID
+
     override fun attachBaseContext(base: Context) {
         super.attachBaseContext(base)
         MultiDex.install(this)
@@ -259,5 +296,10 @@ class VectorApplication :
         val handlerThread = HandlerThread("fonts")
         handlerThread.start()
         return Handler(handlerThread.looper)
+    }
+
+    companion object {
+        const val DEBUG_BUGLY_ID = "1039b29a21"
+        const val RELEASE_BUGLY_ID = "0d9ae0e2e4"
     }
 }

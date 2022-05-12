@@ -20,6 +20,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
 import com.airbnb.mvrx.Fail
 import com.airbnb.mvrx.Loading
@@ -58,16 +59,24 @@ class LoginResetPasswordFragment @Inject constructor() : AbstractLoginFragment<F
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        views.ivBack.setOnClickListener {
+            activity?.onBackPressed()
+        }
         setupSubmitButton()
     }
 
-    private fun setupUi(state: LoginViewState) {
-        views.resetPasswordTitle.text = getString(R.string.login_reset_password_on, state.homeServerUrlFromUser.toReducedUrl())
+    private fun setupUi() {
+        views.resetPasswordTitle.text = getString(R.string.login_reset_password_on)
     }
 
     private fun setupSubmitButton() {
         views.resetPasswordSubmit.debouncedClicks { submit() }
+        views.resetPasswordEmail.doAfterTextChanged {
+            views.resetPasswordSubmit.isEnabled = !views.resetPasswordEmail.text.isNullOrBlank() && !views.passwordField.text.isNullOrBlank()
+        }
+        views.passwordField.doAfterTextChanged {
+            views.resetPasswordSubmit.isEnabled = !views.resetPasswordEmail.text.isNullOrBlank() && !views.passwordField.text.isNullOrBlank()
+        }
         combine(
                 views.resetPasswordEmail.textChanges().map { it.isEmail() },
                 views.passwordField.textChanges().map { it.isNotEmpty() }
@@ -77,7 +86,6 @@ class LoginResetPasswordFragment @Inject constructor() : AbstractLoginFragment<F
                 .onEach {
                     views.resetPasswordEmailTil.error = null
                     views.passwordFieldTil.error = null
-                    views.resetPasswordSubmit.isEnabled = it
                 }
                 .launchIn(viewLifecycleOwner.lifecycleScope)
     }
@@ -90,7 +98,7 @@ class LoginResetPasswordFragment @Inject constructor() : AbstractLoginFragment<F
             // Display a warning as Riot-Web does first
             MaterialAlertDialogBuilder(requireActivity())
                     .setTitle(R.string.login_reset_password_warning_title)
-                    .setMessage(R.string.login_reset_password_warning_content)
+                    .setMessage(getString(R.string.login_reset_password_warning_content, views.resetPasswordEmail.text))
                     .setPositiveButton(R.string.login_reset_password_warning_submit) { _, _ ->
                         doSubmit()
                     }
@@ -119,7 +127,7 @@ class LoginResetPasswordFragment @Inject constructor() : AbstractLoginFragment<F
     }
 
     override fun updateWithState(state: LoginViewState) {
-        setupUi(state)
+        setupUi()
 
         when (state.asyncResetPassword) {
             is Loading -> {

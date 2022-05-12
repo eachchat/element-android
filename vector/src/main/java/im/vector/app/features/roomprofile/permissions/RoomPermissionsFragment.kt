@@ -33,6 +33,7 @@ import im.vector.app.core.utils.toast
 import im.vector.app.databinding.FragmentRoomSettingGenericBinding
 import im.vector.app.features.home.AvatarRenderer
 import im.vector.app.features.roommemberprofile.powerlevel.EditPowerLevelDialogs
+import im.vector.app.features.roommemberprofile.powerlevel.RoomPermissionEditPowerLevelDialogs
 import im.vector.app.features.roomprofile.RoomProfileArgs
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
 import org.matrix.android.sdk.api.util.toMatrixItem
@@ -96,7 +97,7 @@ class RoomPermissionsFragment @Inject constructor(
     }
 
     override fun onEditPermission(editablePermission: EditablePermission, currentRole: Role) {
-        EditPowerLevelDialogs.showChoice(requireActivity(), editablePermission.labelResId, currentRole) { newPowerLevel ->
+        RoomPermissionEditPowerLevelDialogs.showChoice(requireActivity(), editablePermission.labelResId, currentRole) { newPowerLevel ->
             viewModel.handle(RoomPermissionsAction.UpdatePermission(editablePermission, newPowerLevel))
         }
     }

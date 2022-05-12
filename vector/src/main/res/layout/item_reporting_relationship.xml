@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <View
+            android:layout_width="2dp"
+            android:layout_height="34dp"
+            android:layerType="software"
+            android:id="@+id/view_dash_top"
+            android:background="@drawable/shape_dash_vertical"/>
+        <View
+            android:id="@+id/view_dash_start"
+            android:layout_width="16dp"
+            android:layout_height="2dp"
+            android:background="@drawable/shape_dash_horizontal"
+            android:layerType="software" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="27dp"
+        android:gravity="center_horizontal"
+        android:id="@+id/layout_switch_line">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/iv_switch"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_reporting_relationship_switch" />
+
+            <View
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:id="@+id/view_dash_switch"
+                android:layerType="software"
+                android:background="@drawable/shape_dash_horizontal"
+                android:visibility="gone"/>
+        </FrameLayout>
+
+        <View
+            android:layout_width="2dp"
+            android:layout_height="36dp"
+            android:layerType="software"
+            android:id="@+id/view_dash_bottom"
+            android:background="@drawable/shape_dash_vertical"/>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view_dash_end"
+        android:layout_marginTop="34dp"
+        android:layout_width="20dp"
+        android:layout_height="2dp"
+        android:background="@drawable/shape_dash_horizontal"
+        android:layerType="software" />
+
+    <View
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginTop="30dp"
+        android:id="@+id/view_circle"
+        android:background="@drawable/shape_circle_grey_lighter" />
+
+    <RelativeLayout
+        android:id="@+id/layout_user"
+        android:layout_width="183dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_relationship"
+        android:layout_marginTop="2dp"
+        android:paddingStart="16dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="10dp">
+
+        <ImageView
+            android:id="@+id/iv_user_avatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/layout_user_text"
+            android:layout_alignBottom="@id/layout_user_text"
+            android:layout_marginEnd="12dp"
+            android:minWidth="40dp"
+            android:minHeight="40dp" />
+
+        <LinearLayout
+            android:id="@+id/layout_user_text"
+            android:layout_width="106dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="9dp"
+            android:layout_toEndOf="@id/iv_user_avatar"
+            android:gravity="center_vertical"
+            android:minHeight="40dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_user_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textColor="@color/forward_msg_content"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+
+    </RelativeLayout>
+</LinearLayout>

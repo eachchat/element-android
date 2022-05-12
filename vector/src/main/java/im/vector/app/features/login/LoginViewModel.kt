@@ -35,6 +35,13 @@ import im.vector.app.core.extensions.exhaustive
 import im.vector.app.core.platform.VectorViewModel
 import im.vector.app.core.resources.StringProvider
 import im.vector.app.core.utils.ensureTrailingSlash
+import im.vector.app.eachchat.base.BaseModule
+import im.vector.app.eachchat.bean.OrgSearchInput
+import im.vector.app.eachchat.database.AppDatabase
+import im.vector.app.eachchat.net.NetConstant
+import im.vector.app.eachchat.service.LoginApi
+import im.vector.app.eachchat.utils.AppCache
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.matrix.android.sdk.api.MatrixPatterns.getDomain
@@ -73,7 +80,8 @@ class LoginViewModel @AssistedInject constructor(
         override fun create(initialState: LoginViewState): LoginViewModel
     }
 
-    companion object : MavericksViewModelFactory<LoginViewModel, LoginViewState> by hiltMavericksViewModelFactory()
+    companion object :
+            MavericksViewModelFactory<LoginViewModel, LoginViewState> by hiltMavericksViewModelFactory()
 
     init {
         getKnownCustomHomeServersUrls()
@@ -89,7 +97,8 @@ class LoginViewModel @AssistedInject constructor(
     private var lastAction: LoginAction? = null
     private var currentHomeServerConnectionConfig: HomeServerConnectionConfig? = null
 
-    private val matrixOrgUrl = stringProvider.getString(R.string.matrix_org_server_url).ensureTrailingSlash()
+    private val matrixOrgUrl =
+            stringProvider.getString(R.string.matrix_org_server_url).ensureTrailingSlash()
 
     val currentThreePid: String?
         get() = registrationWizard?.currentThreePid
@@ -119,8 +128,12 @@ class LoginViewModel @AssistedInject constructor(
             is LoginAction.UpdateServerType           -> handleUpdateServerType(action)
             is LoginAction.UpdateSignMode             -> handleUpdateSignMode(action)
             is LoginAction.InitWith                   -> handleInitWith(action)
-            is LoginAction.UpdateHomeServer           -> handleUpdateHomeserver(action).also { lastAction = action }
-            is LoginAction.LoginOrRegister            -> handleLoginOrRegister(action).also { lastAction = action }
+            is LoginAction.UpdateHomeServer           -> handleUpdateHomeserver(action).also {
+                lastAction = action
+            }
+            is LoginAction.LoginOrRegister            -> handleLoginOrRegister(action).also {
+                lastAction = action
+            }
             is LoginAction.LoginWithToken             -> handleLoginWithToken(action)
             is LoginAction.WebLoginSuccess            -> handleWebLoginSuccess(action)
             is LoginAction.ResetPassword              -> handleResetPassword(action)
@@ -261,8 +274,10 @@ class LoginViewModel @AssistedInject constructor(
         }
     }
 
-    private fun executeRegistrationStep(withLoading: Boolean = true,
-                                        block: suspend (RegistrationWizard) -> RegistrationResult): Job {
+    private fun executeRegistrationStep(
+            withLoading: Boolean = true,
+            block: suspend (RegistrationWizard) -> RegistrationResult
+    ): Job {
         if (withLoading) {
             setState { copy(asyncRegistration = Loading()) }
         }
@@ -428,7 +443,11 @@ class LoginViewModel @AssistedInject constructor(
         when (action.signMode) {
             SignMode.SignUp             -> startRegistrationFlow()
             SignMode.SignIn             -> startAuthenticationFlow()
-            SignMode.SignInWithMatrixId -> _viewEvents.post(LoginViewEvents.OnSignModeSelected(SignMode.SignInWithMatrixId))
+            SignMode.SignInWithMatrixId -> _viewEvents.post(
+                    LoginViewEvents.OnSignModeSelected(
+                            SignMode.SignInWithMatrixId
+                    )
+            )
             SignMode.Unknown            -> Unit
         }
     }
@@ -558,7 +577,10 @@ class LoginViewModel @AssistedInject constructor(
         }.exhaustive
     }
 
-    private fun handleDirectLogin(action: LoginAction.LoginOrRegister, homeServerConnectionConfig: HomeServerConnectionConfig?) {
+    private fun handleDirectLogin(
+            action: LoginAction.LoginOrRegister,
+            homeServerConnectionConfig: HomeServerConnectionConfig?
+    ) {
         setState {
             copy(
                     asyncLoginAction = Loading()
@@ -578,7 +600,11 @@ class LoginViewModel @AssistedInject constructor(
                 is WellknownResult.FailPrompt ->
                     // Relax on IS discovery if homeserver is valid
                     if (data.homeServerUrl != null && data.wellKnown != null) {
-                        onWellknownSuccess(action, WellknownResult.Prompt(data.homeServerUrl!!, null, data.wellKnown!!), homeServerConnectionConfig)
+                        onWellknownSuccess(
+                                action,
+                                WellknownResult.Prompt(data.homeServerUrl!!, null, data.wellKnown!!),
+                                homeServerConnectionConfig
+                        )
                     } else {
                         onWellKnownError()
                     }
@@ -598,9 +624,11 @@ class LoginViewModel @AssistedInject constructor(
         _viewEvents.post(LoginViewEvents.Failure(Exception(stringProvider.getString(R.string.autodiscover_well_known_error))))
     }
 
-    private suspend fun onWellknownSuccess(action: LoginAction.LoginOrRegister,
-                                           wellKnownPrompt: WellknownResult.Prompt,
-                                           homeServerConnectionConfig: HomeServerConnectionConfig?) {
+    private suspend fun onWellknownSuccess(
+            action: LoginAction.LoginOrRegister,
+            wellKnownPrompt: WellknownResult.Prompt,
+            homeServerConnectionConfig: HomeServerConnectionConfig?
+    ) {
         val alteredHomeServerConnectionConfig = homeServerConnectionConfig
                 ?.copy(
                         homeServerUriBase = Uri.parse(wellKnownPrompt.homeServerUrl),
@@ -617,7 +645,8 @@ class LoginViewModel @AssistedInject constructor(
                     alteredHomeServerConnectionConfig,
                     action.username,
                     action.password,
-                    action.initialDeviceName)
+                    action.initialDeviceName
+            )
         } catch (failure: Throwable) {
             onDirectLoginError(failure)
             return
@@ -702,16 +731,27 @@ class LoginViewModel @AssistedInject constructor(
     private fun onFlowResponse(flowResult: FlowResult) {
         // If dummy stage is mandatory, and password is already sent, do the dummy stage now
         if (isRegistrationStarted &&
-                flowResult.missingStages.any { it is Stage.Dummy && it.mandatory }) {
+                flowResult.missingStages.any { it is Stage.Dummy && it.mandatory }
+        ) {
             handleRegisterDummy()
         } else {
             // Notify the user
-            _viewEvents.post(LoginViewEvents.RegistrationFlowResult(flowResult, isRegistrationStarted))
+            _viewEvents.post(
+                    LoginViewEvents.RegistrationFlowResult(
+                            flowResult,
+                            isRegistrationStarted
+                    )
+            )
         }
     }
 
     private suspend fun onSessionCreated(session: Session) {
         activeSessionHolder.setActiveSession(session)
+
+        BaseModule.setSession(session)
+        _viewEvents.post(
+                LoginViewEvents.SyncContact
+        )
 
         authenticationService.reset()
         session.configureAndStart(applicationContext)
@@ -723,7 +763,8 @@ class LoginViewModel @AssistedInject constructor(
     }
 
     private fun handleWebLoginSuccess(action: LoginAction.WebLoginSuccess) = withState { state ->
-        val homeServerConnectionConfigFinal = homeServerConnectionConfigFactory.create(state.homeServerUrl)
+        val homeServerConnectionConfigFinal =
+                homeServerConnectionConfigFactory.create(state.homeServerUrl)
 
         if (homeServerConnectionConfigFinal == null) {
             // Should not happen
@@ -731,7 +772,10 @@ class LoginViewModel @AssistedInject constructor(
         } else {
             currentJob = viewModelScope.launch {
                 try {
-                    authenticationService.createSessionFromSso(homeServerConnectionConfigFinal, action.credentials)
+                    authenticationService.createSessionFromSso(
+                            homeServerConnectionConfigFinal,
+                            action.credentials
+                    )
                 } catch (failure: Throwable) {
                     setState {
                         copy(asyncLoginAction = Fail(failure))
@@ -744,17 +788,41 @@ class LoginViewModel @AssistedInject constructor(
     }
 
     private fun handleUpdateHomeserver(action: LoginAction.UpdateHomeServer) {
-        val homeServerConnectionConfig = homeServerConnectionConfigFactory.create(action.homeServerUrl)
-        if (homeServerConnectionConfig == null) {
-            // This is invalid
-            _viewEvents.post(LoginViewEvents.Failure(Throwable("Unable to create a HomeServerConnectionConfig")))
-        } else {
-            getLoginFlow(homeServerConnectionConfig)
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                AppDatabase.getInstance(BaseModule.getContext()).clearAllTables()
+                var homeServerUrl = action.homeServerUrl
+                val response = LoginApi.getInstance()?.gms(OrgSearchInput(action.homeServerUrl)) ?: return@launch
+                if (response.isSuccess) {
+                    homeServerUrl = response.obj?.entry?.cooperationUrl ?: homeServerUrl
+                    NetConstant.setServerHost(homeServerUrl)
+                    AppCache.setTenantName(action.homeServerUrl)
+                }
+
+                val homeServerConnectionConfig =
+                        homeServerConnectionConfigFactory.create(homeServerUrl)
+
+                // 获取Ldap信息
+                val isLdap = handleGetIsLdap(homeServerUrl)
+                if (homeServerConnectionConfig == null) {
+                    // This is invalid
+                    _viewEvents.post(LoginViewEvents.Failure(Throwable("您的组织未开通服务")))
+                } else {
+                    val wellKnow = LoginApi.getInstance(homeServerConnectionConfig.homeServerUri.toString())?.wellknown()?.body()
+                    wellKnow?.pushServer?.url?.let {
+                        NetConstant.setPushHost(it)
+                    }
+                    getLoginFlow(homeServerConnectionConfig, homeServerName = action.homeServerUrl, isLdap = isLdap)
+                }
+            }
         }
     }
 
-    private fun getLoginFlow(homeServerConnectionConfig: HomeServerConnectionConfig,
-                             serverTypeOverride: ServerType? = null) {
+    private fun getLoginFlow(
+            homeServerConnectionConfig: HomeServerConnectionConfig,
+            serverTypeOverride: ServerType? = null, homeServerName: String? = null,
+            isLdap: Boolean = false
+    ) {
         currentHomeServerConnectionConfig = homeServerConnectionConfig
 
         currentJob = viewModelScope.launch {
@@ -796,7 +864,9 @@ class LoginViewModel @AssistedInject constructor(
             val loginMode = when {
                 // SSO login is taken first
                 data.supportedLoginTypes.contains(LoginFlowTypes.SSO) &&
-                        data.supportedLoginTypes.contains(LoginFlowTypes.PASSWORD) -> LoginMode.SsoAndPassword(data.ssoIdentityProviders)
+                        data.supportedLoginTypes.contains(LoginFlowTypes.PASSWORD) -> LoginMode.SsoAndPassword(
+                        data.ssoIdentityProviders
+                )
                 data.supportedLoginTypes.contains(LoginFlowTypes.SSO)              -> LoginMode.Sso(data.ssoIdentityProviders)
                 data.supportedLoginTypes.contains(LoginFlowTypes.PASSWORD)         -> LoginMode.Password
                 else                                                               -> LoginMode.Unsupported
@@ -807,12 +877,15 @@ class LoginViewModel @AssistedInject constructor(
                         asyncHomeServerLoginFlowRequest = Uninitialized,
                         homeServerUrlFromUser = homeServerConnectionConfig.homeServerUri.toString(),
                         homeServerUrl = data.homeServerUrl,
+                        homeServerName = homeServerName,
                         loginMode = loginMode,
-                        loginModeSupportedTypes = data.supportedLoginTypes.toList()
+                        loginModeSupportedTypes = data.supportedLoginTypes.toList(),
+                        isLdap = isLdap
                 )
             }
             if ((loginMode == LoginMode.Password && !data.isLoginAndRegistrationSupported) ||
-                    data.isOutdatedHomeserver) {
+                    data.isOutdatedHomeserver
+            ) {
                 // Notify the UI
                 _viewEvents.post(LoginViewEvents.OutdatedHomeserver)
             }
@@ -830,5 +903,38 @@ class LoginViewModel @AssistedInject constructor(
 
     fun getFallbackUrl(forSignIn: Boolean, deviceId: String?): String? {
         return authenticationService.getFallbackUrl(forSignIn, deviceId)
+    }
+
+    fun getOrgNames(it: String, getOrgNamesCallback: (List<String>?) -> Unit) {
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                val response = LoginApi.getInstance()?.orgNames(OrgSearchInput(it)) ?: return@launch
+                if (response.isSuccess) {
+                    getOrgNamesCallback.invoke(response.results)
+                } else {
+                    getOrgNamesCallback.invoke(null)
+                }
+            }.exceptionOrNull()?.let {
+                getOrgNamesCallback.invoke(null)
+            }
+        }
+    }
+
+    private suspend fun handleGetIsLdap(url: String): Boolean {
+        kotlin.runCatching {
+            val response = LoginApi.getInstance()
+                    ?.authSettings("$url/api/services/auth/v1/auth/setting")
+            if (response?.isSuccess == true) {
+                if (response.obj?.authType == "three" && response.obj?.threeAuthType == "ldap") {
+                    return true
+                }
+            } else {
+                return false
+            }
+        }.exceptionOrNull()?.let {
+            it.printStackTrace()
+            return false
+        }
+        return false
     }
 }

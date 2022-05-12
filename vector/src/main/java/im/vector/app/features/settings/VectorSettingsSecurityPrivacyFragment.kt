@@ -174,9 +174,7 @@ class VectorSettingsSecurityPrivacyFragment @Inject constructor(
 
         lifecycleScope.launchWhenResumed {
             findPreference<VectorPreference>(VectorPreferences.SETTINGS_CRYPTOGRAPHY_HS_ADMIN_DISABLED_E2E_DEFAULT)?.isVisible =
-                    rawService
-                            .getElementWellknown(session.sessionParams)
-                            ?.isE2EByDefault() == false
+                    false
         }
     }
 
@@ -300,7 +298,7 @@ class VectorSettingsSecurityPrivacyFragment @Inject constructor(
     }
 
     private fun setUpAnalytics() {
-        analyticsCategory.isVisible = analyticsConfig.isEnabled
+//        analyticsCategory.isVisible = analyticsConfig.isEnabled
 
         analyticsConsent.setOnPreferenceChangeListener { _, newValue ->
             val newValueBool = newValue as? Boolean ?: false

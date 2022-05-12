@@ -58,7 +58,8 @@ import org.matrix.android.sdk.api.auth.registration.Stage
 import org.matrix.android.sdk.api.extensions.tryOrNull
 
 private const val FRAGMENT_REGISTRATION_STAGE_TAG = "FRAGMENT_REGISTRATION_STAGE_TAG"
-private const val FRAGMENT_LOGIN_TAG = "FRAGMENT_LOGIN_TAG"
+private const val FRAGMENT_LOGIN_TAG = "FRAGMENT_LOGIN_URL_TAG"
+const val FRAGMENT_LOGIN_URL_TAG = "FRAGMENT_LOGIN_URL_TAG"
 
 class FtueAuthVariant(
         private val views: ActivityLoginBinding,
@@ -200,7 +201,7 @@ class FtueAuthVariant(
             }
             is OnboardingViewEvents.OnResetPasswordMailConfirmationSuccessDone -> {
                 // Go back to the login fragment
-                supportFragmentManager.popBackStack(FRAGMENT_LOGIN_TAG, POP_BACK_STACK_EXCLUSIVE)
+                supportFragmentManager.popBackStack(FRAGMENT_LOGIN_URL_TAG, POP_BACK_STACK_EXCLUSIVE)
             }
             is OnboardingViewEvents.OnSendEmailSuccess                         -> {
                 // Pop the enter email Fragment
@@ -273,7 +274,8 @@ class FtueAuthVariant(
             ServerType.EMS,
             ServerType.Other     -> activity.addFragmentToBackstack(views.loginFragmentContainer,
                     FtueAuthServerUrlFormFragment::class.java,
-                    option = commonOption)
+                    option = commonOption,
+                    tag = FRAGMENT_LOGIN_URL_TAG)
             ServerType.Unknown   -> Unit /* Should not happen */
         }
     }

@@ -40,6 +40,7 @@ import im.vector.app.core.pushers.PushersManager
 import im.vector.app.core.services.GuardServiceStarter
 import im.vector.app.core.utils.isIgnoringBatteryOptimizations
 import im.vector.app.core.utils.requestDisablingBatteryOptimization
+import im.vector.app.eachchat.push.PushHelper
 import im.vector.app.features.notifications.NotificationUtils
 import im.vector.app.features.settings.BackgroundSyncMode
 import im.vector.app.features.settings.BackgroundSyncModeChooserDialog
@@ -91,14 +92,17 @@ class VectorSettingsNotificationPreferenceFragment @Inject constructor(
         findPreference<SwitchPreference>(VectorPreferences.SETTINGS_ENABLE_THIS_DEVICE_PREFERENCE_KEY)?.let {
             it.setTransactionalSwitchChangeListener(lifecycleScope) { isChecked ->
                 if (isChecked) {
-                    FcmHelper.getFcmToken(requireContext())?.let {
-                        pushManager.registerPusherWithFcmKey(it)
-                    }
+//                    FcmHelper.getFcmToken(requireContext())?.let {
+//                        pushManager.registerPusherWithFcmKey(it)
+//                    }
+                    PushHelper.getInstance().registerPusher()
                 } else {
-                    FcmHelper.getFcmToken(requireContext())?.let {
-                        pushManager.unregisterPusher(it)
-                        session.refreshPushers()
-                    }
+//                    FcmHelper.getFcmToken(requireContext())?.let {
+//                        pushManager.unregisterPusher(it)
+//                        session.refreshPushers()
+//                    }
+                    PushHelper.getInstance().unregisterPusher()
+                    session.refreshPushers()
                 }
             }
         }
@@ -141,7 +145,7 @@ class VectorSettingsNotificationPreferenceFragment @Inject constructor(
             }
         }
 
-        bindEmailNotifications()
+        //bindEmailNotifications()
         refreshBackgroundSyncPrefs()
 
         handleSystemPreference()
@@ -214,9 +218,9 @@ class VectorSettingsNotificationPreferenceFragment @Inject constructor(
             }
         }
 
-        findPreference<VectorPreferenceCategory>(VectorPreferences.SETTINGS_BACKGROUND_SYNC_PREFERENCE_KEY)?.let {
-            it.isVisible = !FcmHelper.isPushSupported()
-        }
+//        findPreference<VectorPreferenceCategory>(VectorPreferences.SETTINGS_BACKGROUND_SYNC_PREFERENCE_KEY)?.let {
+//            it.isVisible = !FcmHelper.isPushSupported()
+//        }
 
         val backgroundSyncEnabled = vectorPreferences.isBackgroundSyncEnabled()
         findPreference<VectorEditTextPreference>(VectorPreferences.SETTINGS_SET_SYNC_TIMEOUT_PREFERENCE_KEY)?.let {

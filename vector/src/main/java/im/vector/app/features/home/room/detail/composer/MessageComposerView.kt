@@ -21,9 +21,11 @@ import android.net.Uri
 import android.text.Editable
 import android.util.AttributeSet
 import android.view.ViewGroup
+import android.widget.EditText
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.text.toSpannable
+import androidx.core.widget.doAfterTextChanged
 import androidx.transition.ChangeBounds
 import androidx.transition.Fade
 import androidx.transition.Transition
@@ -151,6 +153,12 @@ class MessageComposerView @JvmOverloads constructor(
             views.composerEditText.setHint(R.string.room_message_placeholder)
         } else {
             views.composerEditText.setHint(R.string.room_message_placeholder)
+        }
+    }
+
+    fun setTextChangeListener(unit: (Editable?) -> Unit) {
+        views.composerEditText.doAfterTextChanged {
+            unit.invoke(it)
         }
     }
 }

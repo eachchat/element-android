@@ -31,4 +31,5 @@ sealed class SpaceListAction : VectorViewModelAction {
     data class OnEndDragging(val spaceId: String, val expanded: Boolean) : SpaceListAction()
 
     data class SelectLegacyGroup(val groupSummary: GroupSummary?) : SpaceListAction()
+    object SelectTab : SpaceListAction()
 }

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_contact_add_contact"
+        android:title="@string/add_contacts" />
+
+    <item
+        android:id="@+id/menu_contact_manage_contact"
+        android:title="@string/manage_contacts" />
+
+    <item
+        android:id="@+id/menu_my_contact_filter"
+        android:icon="@drawable/ic_search"
+        android:title="@string/search_name_id"
+        app:iconTint="?vctr_content_secondary"
+        app:showAsAction="always" />
+
+</menu>

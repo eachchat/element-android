@@ -534,6 +534,10 @@ class MessageComposerViewModel @AssistedInject constructor(
         }
     }
 
+    fun sendErrorCommand(text: String) {
+        room.sendTextMessage(text, autoMarkdown = true)
+    }
+
     private fun popDraft() = withState {
         if (it.sendMode is SendMode.Regular && it.sendMode.fromSharing) {
             // If we were sharing, we want to get back our last value from draft

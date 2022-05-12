@@ -23,6 +23,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.setFragmentResultListener
@@ -51,8 +52,14 @@ import im.vector.app.features.home.room.detail.RoomDetailPendingActionStore
 import im.vector.app.features.home.room.detail.upgrade.MigrateRoomBottomSheet
 import im.vector.app.features.home.room.list.actions.RoomListQuickActionsSharedAction
 import im.vector.app.features.home.room.list.actions.RoomListQuickActionsSharedActionViewModel
+import im.vector.app.features.roomprofile.RoomProfileController.Companion.END_LOADING
+import im.vector.app.features.roomprofile.RoomProfileController.Companion.START_LOADING
+import im.vector.lib.ui.styles.dialogs.MaterialProgressDialog
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 import org.matrix.android.sdk.api.session.room.notification.RoomNotificationState
 import org.matrix.android.sdk.api.util.toMatrixItem
@@ -147,13 +154,13 @@ class RoomProfileFragment @Inject constructor(
                 views.matrixProfileToolbarTitleView
         ).forEach {
             it.debouncedClicks {
-                roomProfileSharedActionViewModel.post(RoomProfileSharedAction.OpenRoomSettings)
+//                roomProfileSharedActionViewModel.post(RoomProfileSharedAction.OpenRoomSettings)
             }
         }
         // Shortcut to room alias
-        headerViews.roomProfileAliasView.debouncedClicks {
-            roomProfileSharedActionViewModel.post(RoomProfileSharedAction.OpenRoomAliasesSettings)
-        }
+//        headerViews.roomProfileAliasView.debouncedClicks {
+//            roomProfileSharedActionViewModel.post(RoomProfileSharedAction.OpenRoomAliasesSettings)
+//        }
         // Open Avatar
         setOf(
                 headerViews.roomProfileAvatarView,
@@ -217,6 +224,9 @@ class RoomProfileFragment @Inject constructor(
                 headerViews.roomProfileNameView.text = it.displayName
                 views.matrixProfileToolbarTitleView.text = it.displayName
                 headerViews.roomProfileAliasView.setTextOrHide(it.canonicalAlias)
+                if (it.isDirect && it.otherMemberIds.isNotEmpty()) {
+                    headerViews.roomProfileAliasView.setTextOrHide(it.otherMemberIds[0])
+                }
                 val matrixItem = it.toMatrixItem()
                 avatarRenderer.render(matrixItem, headerViews.roomProfileAvatarView)
                 avatarRenderer.render(matrixItem, views.matrixProfileToolbarAvatarImageView)
@@ -305,6 +315,16 @@ class RoomProfileFragment @Inject constructor(
 
     override fun restoreEncryptionState() {
         roomProfileViewModel.handle(RoomProfileAction.RestoreEncryptionState)
+    }
+
+    override fun onComplainClicked() {
+        roomProfileSharedActionViewModel.post(RoomProfileSharedAction.OpenRoomComplain)
+    }
+
+    var dialog: AlertDialog? = null
+
+    override fun onContactAddCallBack() {
+        roomProfileSharedActionViewModel.post(RoomProfileSharedAction.OpenRoomContact)
     }
 
     override fun onRoomIdClicked() {

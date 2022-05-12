@@ -16,7 +16,8 @@
     <!-- ************ Cryptography section ************ -->
     <im.vector.app.core.preference.VectorPreferenceCategory
         android:key="SETTINGS_CRYPTOGRAPHY_PREFERENCE_KEY"
-        android:title="@string/settings_cryptography">
+        android:title="@string/settings_cryptography"
+        app:isPreferenceVisible="false">
 
         <im.vector.app.core.preference.VectorPreference
             android:key="SETTINGS_ENCRYPTION_CROSS_SIGNING_PREFERENCE_KEY"
@@ -82,7 +83,8 @@
 
     <im.vector.app.core.preference.VectorPreferenceCategory
         android:key="SETTINGS_CRYPTOGRAPHY_MANAGE_PREFERENCE_KEY"
-        android:title="@string/settings_cryptography_manage_keys">
+        android:title="@string/settings_cryptography_manage_keys"
+        app:isPreferenceVisible="false">
 
         <im.vector.app.core.preference.VectorPreference
             android:key="SETTINGS_SECURE_MESSAGE_RECOVERY_PREFERENCE_KEY"
@@ -103,19 +105,22 @@
 
     <im.vector.app.core.preference.VectorPreferenceCategory
         android:key="SETTINGS_ANALYTICS_PREFERENCE_KEY"
-        android:title="@string/settings_analytics">
+        android:title="@string/settings_analytics"
+        app:isPreferenceVisible="false">
 
         <im.vector.app.core.preference.VectorSwitchPreference
             android:defaultValue="false"
             android:key="SETTINGS_USER_ANALYTICS_CONSENT_KEY"
             android:summary="@string/settings_opt_in_of_analytics_summary"
-            android:title="@string/settings_opt_in_of_analytics" />
+            android:title="@string/settings_opt_in_of_analytics"
+            app:isPreferenceVisible="false"/>
 
     </im.vector.app.core.preference.VectorPreferenceCategory>
 
     <im.vector.app.core.preference.VectorPreferenceCategory
         android:key="SETTINGS_SECURITY_OTHER_CATEGORY"
-        android:title="@string/settings_other">
+        android:title="@string/settings_other"
+        app:isPreferenceVisible="false">
 
         <im.vector.app.core.preference.VectorPreference
             android:key="SETTINGS_SECURITY_PIN"
@@ -127,7 +132,8 @@
             android:defaultValue="false"
             android:key="SETTINGS_SECURITY_USE_FLAG_SECURE"
             android:summary="@string/settings_security_prevent_screenshots_summary"
-            android:title="@string/settings_security_prevent_screenshots_title" />
+            android:title="@string/settings_security_prevent_screenshots_title"
+            app:isPreferenceVisible="false"/>
 
     </im.vector.app.core.preference.VectorPreferenceCategory>
 

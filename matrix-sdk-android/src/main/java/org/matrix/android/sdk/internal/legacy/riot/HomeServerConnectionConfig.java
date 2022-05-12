@@ -416,7 +416,7 @@ public class HomeServerConnectionConfig {
                 mHomeServerConnectionConfig = HomeServerConnectionConfig.fromJson(from.toJson());
             } catch (JSONException e) {
                 // Should not happen
-                throw new RuntimeException("Unable to create a HomeServerConnectionConfig", e);
+                throw new RuntimeException("您的组织未开通服务", e);
             }
         }
 

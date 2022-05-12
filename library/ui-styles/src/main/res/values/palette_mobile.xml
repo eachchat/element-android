@@ -54,5 +54,6 @@
     <color name="element_room_01">@color/palette_verde</color>
     <color name="element_room_02">@color/palette_azure</color>
     <color name="element_room_03">@color/palette_grape</color>
-
+    <color name="ff2a83f7">#ff2a83f7</color>
+    <color name="ffb257f2">#ffb257f2</color>
 </resources>

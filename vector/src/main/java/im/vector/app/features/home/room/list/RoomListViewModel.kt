@@ -110,6 +110,8 @@ class RoomListViewModel @AssistedInject constructor(
                             currentUserName = it.invoke() ?: session.myUserId
                     )
                 }
+
+        // appStateHandler.setCurrentSpace(null)//默认选中主页
     }
 
     private fun observeMembershipChanges() {

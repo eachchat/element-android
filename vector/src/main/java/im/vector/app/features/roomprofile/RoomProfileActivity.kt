@@ -39,6 +39,8 @@ import im.vector.app.features.roomprofile.notifications.RoomNotificationSettings
 import im.vector.app.features.roomprofile.permissions.RoomPermissionsFragment
 import im.vector.app.features.roomprofile.settings.RoomSettingsFragment
 import im.vector.app.features.roomprofile.uploads.RoomUploadsFragment
+import im.vector.app.eachchat.complain.RoomComplainFragment
+import im.vector.app.features.roomprofile.contact.RoomContactFragment
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
@@ -102,6 +104,8 @@ class RoomProfileActivity :
                         RoomProfileSharedAction.OpenRoomUploads                 -> openRoomUploads()
                         RoomProfileSharedAction.OpenBannedRoomMembers        -> openBannedRoomMembers()
                         RoomProfileSharedAction.OpenRoomNotificationSettings -> openRoomNotificationSettings()
+                        RoomProfileSharedAction.OpenRoomComplain                -> openRoomComplain()
+                        RoomProfileSharedAction.OpenRoomContact -> openRoomContact()
                     }.exhaustive
                 }
                 .launchIn(lifecycleScope)
@@ -153,5 +157,13 @@ class RoomProfileActivity :
 
     private fun openRoomNotificationSettings() {
         addFragmentToBackstack(views.simpleFragmentContainer, RoomNotificationSettingsFragment::class.java, roomProfileArgs)
+    }
+
+    private fun openRoomComplain() {
+        addFragmentToBackstack(views.simpleFragmentContainer, RoomComplainFragment::class.java, roomProfileArgs)
+    }
+
+    private fun openRoomContact() {
+        addFragmentToBackstack(views.simpleFragmentContainer, RoomContactFragment::class.java, roomProfileArgs)
     }
 }

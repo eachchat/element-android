@@ -407,15 +407,15 @@ class MessageActionsViewModel @AssistedInject constructor(@Assisted
             }
             addViewSourceItems(timelineEvent)
         }
-        add(EventSharedAction.CopyPermalink(eventId))
+       //  add(EventSharedAction.CopyPermalink(eventId))
         if (session.myUserId != timelineEvent.root.senderId) {
             // not sent by me
-            if (timelineEvent.root.getClearType() == EventType.MESSAGE) {
-                add(EventSharedAction.ReportContent(eventId, timelineEvent.root.senderId))
-            }
+//            if (timelineEvent.root.getClearType() == EventType.MESSAGE) {
+//                add(EventSharedAction.ReportContent(eventId, timelineEvent.root.senderId))
+//            }
 
             add(EventSharedAction.Separator)
-            add(EventSharedAction.IgnoreUser(timelineEvent.root.senderId))
+            // (EventSharedAction.IgnoreUser(timelineEvent.root.senderId))
         }
     }
 

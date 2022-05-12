@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="IndexView">
+        <attr name="indexTextSize" format="dimension"/>
+        <attr name="charTextColor" format="color"/>
+        <attr name="indexTextColor" format="color"/>
+    </declare-styleable>
+
+    <declare-styleable name="BreadcrumbsView">
+        <attr name="SelectedTextColor" format="reference" />
+        <attr name="UnSelectedTextColor" format="reference" />
+        <attr name="CustomTextSize" format="dimension" />
+        <attr name="IsRtl" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="SwitchView">
+        <attr name="hasShadow" format="boolean" />
+        <attr name="primaryColor" format="color" />
+        <attr name="primaryColorDark" format="color" />
+        <attr name="offColor" format="color" />
+        <attr name="offColorDark" format="color" />
+        <attr name="barColor" format="color" />
+        <attr name="bgColor" format="color" />
+        <attr name="shadowColor" format="color" />
+        <attr name="ratioAspect" format="float" />
+        <attr name="isOpened" format="boolean" />
+    </declare-styleable>
+
+<!--    <declare-styleable name="TitleBar">-->
+<!--        <attr name="centerTitle" format="string" localization="suggested" />-->
+<!--        <attr name="showDivider" format="boolean" />-->
+<!--    </declare-styleable>-->
+
+    <declare-styleable name="WaveView">
+        <attr name="waveColor" format="color"/>
+        <attr name="baselineColor" format="color"/>
+        <attr name="maxValue" format="integer"/>
+        <attr name="waveStokeWidth" format="dimension"/>
+        <attr name="invalidateTime" format="integer"/>
+        <attr name="space" format="dimension"/>
+    </declare-styleable>
+
+    <declare-styleable name="pickerview">
+        <attr name="wheelview_gravity">
+            <enum name="center" value="17"/>
+            <enum name="left" value="3"/>
+            <enum name="right" value="5"/>
+        </attr>
+        <attr name="wheelview_textSize" format="dimension"/>
+        <attr name="wheelview_textColorOut" format="color"/>
+        <attr name="wheelview_textColorCenter" format="color"/>
+        <attr name="wheelview_dividerColor" format="color"/>
+        <attr name="wheelview_dividerWidth" format="dimension"/>
+        <attr name="wheelview_lineSpacingMultiplier" format="float"/>
+    </declare-styleable>
+
+    <declare-styleable name="EditTextWithSearchAndDel">
+        <attr name="showMagnifier" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="ContactEditAddLayout">
+        <attr name="leftTitle" format="string" localization="suggested" />
+        <attr name="editHint" format="string" localization="suggested" />
+    </declare-styleable>
+
+    <declare-styleable name="ContactInfoLayout">
+        <attr name="title" format="string" localization="suggested" />
+        <attr name="value" format="string" localization="suggested" />
+    </declare-styleable>
+</resources>

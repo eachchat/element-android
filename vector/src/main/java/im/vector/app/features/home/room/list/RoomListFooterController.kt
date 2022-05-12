@@ -46,7 +46,7 @@ class RoomListFooterController @Inject constructor(
                 }
             }
             else                         -> {
-                if (userPreferencesProvider.shouldShowLongClickOnRoomHelp()) {
+                if (userPreferencesProvider.shouldShowLongClickOnRoomHelp() && data?.displayMode != RoomListDisplayMode.INVITE) {
                     helpFooterItem {
                         id("long_click_help")
                         text(host.stringProvider.getString(R.string.help_long_click_on_room_for_more_options))

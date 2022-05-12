@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--Navigation Bar-->
+    <style name="_17_000000_Medium">
+        <item name="android:textSize">@dimen/common_font_fs2</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:lineSpacingMultiplier">1.3</item>
+    </style>
+
+    <!--主要文字-->
+    <style name="_16_000000_Regular">
+        <item name="android:textSize">@dimen/common_font_fs3</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:lineSpacingMultiplier">1.37</item>
+    </style>
+
+    <style name="_16_666666_Regular">
+        <item name="android:textSize">@dimen/common_font_fs3</item>
+        <item name="android:textColor">@color/ff666666</item>
+        <item name="android:lineSpacingMultiplier">1.37</item>
+    </style>
+
+    <style name="_16_D6D6D6_Medium">
+        <item name="android:textSize">@dimen/common_font_fs3</item>
+        <item name="android:textColor">@color/d6d6d6</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:lineSpacingMultiplier">1.37</item>
+    </style>
+
+    <style name="_16_FFFFFF_Regular">
+        <item name="android:textSize">@dimen/common_font_fs3</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:lineSpacingMultiplier">1.37</item>
+    </style>
+
+    <!--次要文字-->
+    <style name="_16_999999_Regular">
+        <item name="android:textSize">@dimen/common_font_fs3</item>
+        <item name="android:textColor">@color/forward_msg_content</item>
+        <item name="android:lineSpacingMultiplier">1.37</item>
+    </style>
+
+    <style name="_16_333333_Regular">
+        <item name="android:textSize">@dimen/common_font_fs3</item>
+        <item name="android:textColor">@color/text_33</item>
+        <item name="android:lineSpacingMultiplier">1.37</item>
+    </style>
+
+    <!--次要文字-->
+    <style name="_16_24B36B_Regular">
+        <item name="android:textSize">@dimen/common_font_fs3</item>
+        <item name="android:textColor">@color/send_btn_color</item>
+        <item name="android:lineSpacingMultiplier">1.37</item>
+    </style>
+
+    <!--次要文字-->
+    <style name="_16_00b368_Regular">
+        <item name="android:textSize">@dimen/common_font_fs3</item>
+        <item name="android:textColor">@color/green_text</item>
+        <item name="android:lineSpacingMultiplier">1.37</item>
+    </style>
+
+    <!--次要文字-->
+    <style name="_16_EF403A_Regular">
+        <item name="android:textSize">@dimen/common_font_fs3</item>
+        <item name="android:textColor">@color/red_text_color</item>
+        <item name="android:lineSpacingMultiplier">1.37</item>
+    </style>
+
+    <style name="_15_EF403A_Regular">
+        <item name="android:textSize">@dimen/common_font_fs4</item>
+        <item name="android:textColor">@color/red_text_color</item>
+        <item name="android:lineSpacingMultiplier">1.37</item>
+    </style>
+
+    <style name="_16_FA5151_Regular">
+        <item name="android:textSize">@dimen/common_font_fs3</item>
+        <item name="android:textColor">@color/fffa5151</item>
+        <item name="android:lineSpacingMultiplier">1.37</item>
+    </style>
+
+    <style name="_16_5B6A92_Regular">
+        <item name="android:textSize">@dimen/common_font_fs3</item>
+        <item name="android:textColor">@color/ff5b6a92</item>
+        <item name="android:lineSpacingMultiplier">1.37</item>
+    </style>
+
+    <!--弹窗列表文字-->
+    <style name="_15_000000_Regular">
+        <item name="android:textSize">@dimen/common_font_fs4</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:lineSpacingMultiplier">1.47</item>
+    </style>
+
+    <!--弹窗列表文字-->
+    <style name="_15_999999_Regular">
+        <item name="android:textSize">@dimen/common_font_fs4</item>
+        <item name="android:textColor">@color/forward_msg_content</item>
+        <item name="android:lineSpacingMultiplier">1.47</item>
+    </style>
+
+    <!--可点击文字-->
+    <style name="_15_24B36B_Regular">
+        <item name="android:textSize">@dimen/common_font_fs4</item>
+        <item name="android:textColor">@color/member_select_color</item>
+        <item name="android:lineSpacingMultiplier">1.47</item>
+    </style>
+
+    <style name="_15_00b368_Regular">
+        <item name="android:textSize">@dimen/common_font_fs4</item>
+        <item name="android:textColor">@color/green_text</item>
+        <item name="android:lineSpacingMultiplier">1.47</item>
+    </style>
+
+    <style name="_15_5B6A92_Regular">
+        <item name="android:textSize">@dimen/common_font_fs4</item>
+        <item name="android:textColor">@color/ff5b6a92</item>
+        <item name="android:lineSpacingMultiplier">1.47</item>
+    </style>
+
+    <!--正文文字-->
+    <style name="_14_000000_Regular">
+        <item name="android:textSize">@dimen/common_font_fs5</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:lineSpacingMultiplier">1.42</item>
+    </style>
+
+    <!--收藏列表次要文字-->
+    <style name="_12_999999_Collection">
+        <item name="android:textSize">@dimen/common_font_fs7</item>
+        <item name="android:textColor">@color/forward_msg_content</item>
+        <item name="android:lineSpacingMultiplier">1.42</item>
+    </style>
+
+    <!--列表次要文字-->
+    <style name="_14_999999_Regular">
+        <item name="android:textSize">@dimen/common_font_fs5</item>
+        <item name="android:textColor">@color/forward_msg_content</item>
+        <item name="android:lineSpacingMultiplier">1.42</item>
+    </style>
+
+    <style name="_14_333333_Regular">
+        <item name="android:textSize">@dimen/common_font_fs5</item>
+        <item name="android:textColor">@color/text_33</item>
+        <item name="android:lineSpacingMultiplier">1.42</item>
+    </style>
+
+    <style name="_14_666666_Regular">
+        <item name="android:textSize">@dimen/common_font_fs5</item>
+        <item name="android:textColor">@color/firebaseNotificationColor</item>
+    </style>
+
+    <style name="_20_FFFFFF_Regular">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:lineSpacingMultiplier">1.42</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!--可点击文字-->
+    <style name="_14_24B36B_Regular">
+        <item name="android:textSize">@dimen/common_font_fs5</item>
+        <item name="android:textColor">@color/send_btn_color</item>
+        <item name="android:lineSpacingMultiplier">1.42</item>
+    </style>
+
+    <style name="_00B368_Regular">
+        <item name="android:textSize">@dimen/common_font_fs5</item>
+        <item name="android:textColor">@color/ff00a971</item>
+        <item name="android:lineSpacingMultiplier">1.42</item>
+    </style>
+
+    <!--按钮文字-->
+    <style name="_14_FFFFFF_Medium">
+        <item name="android:textSize">@dimen/common_font_fs5</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:lineSpacingMultiplier">1.42</item>
+    </style>
+
+    <style name="_13_000000_Medium">
+        <item name="android:textSize">@dimen/common_font_fs6</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:lineSpacingMultiplier">1.5</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="_13_999999_Regular">
+        <item name="android:textSize">@dimen/common_font_fs6</item>
+        <item name="android:textColor">@color/forward_msg_content</item>
+        <item name="android:lineSpacingMultiplier">1.5</item>
+    </style>
+
+    <style name="_13_666666_Regular">
+        <item name="android:textSize">@dimen/common_font_fs6</item>
+        <item name="android:textColor">@color/firebaseNotificationColor</item>
+    </style>
+
+    <!--辅助文字-->
+    <style name="_12_000000_Regular">
+        <item name="android:textSize">@dimen/common_font_fs7</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:lineSpacingMultiplier">1.5</item>
+    </style>
+
+    <style name="_12_EF403A_Regular">
+        <item name="android:textSize">@dimen/common_font_fs7</item>
+        <item name="android:textColor">@color/red_text_color</item>
+        <item name="android:lineSpacingMultiplier">1.5</item>
+    </style>
+
+    <!--辅助文字-->
+    <style name="_12_999999_Regular">
+        <item name="android:textSize">@dimen/common_font_fs7</item>
+        <item name="android:textColor">@color/forward_msg_content</item>
+        <item name="android:lineSpacingMultiplier">1.5</item>
+    </style>
+
+    <!--辅助文字-->
+    <style name="_12_BBBBBB_Regular">
+        <item name="android:textSize">@dimen/common_font_fs7</item>
+        <item name="android:textColor">@color/bb_grey_color</item>
+        <item name="android:lineSpacingMultiplier">1.5</item>
+    </style>
+
+    <!--发语音弹窗-->
+    <style name="_12_FFFFFF_Regular">
+        <item name="android:textSize">@dimen/common_font_fs7</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:lineSpacingMultiplier">1.5</item>
+    </style>
+
+    <!--Tab Bar-->
+    <style name="_10_000000_Regular">
+        <item name="android:textSize">@dimen/common_font_fs9</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:lineSpacingMultiplier">1.0</item>
+    </style>
+
+    <!--Tab Bar-->
+    <style name="_10_999999_Regular">
+        <item name="android:textSize">@dimen/common_font_fs9</item>
+        <item name="android:textColor">@color/forward_msg_content</item>
+        <item name="android:lineSpacingMultiplier">1.0</item>
+    </style>
+
+    <!--消息提示-->
+    <style name="_10_FFFFFF_Regular">
+        <item name="android:textSize">@dimen/common_font_fs9</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:lineSpacingMultiplier">1.0</item>
+    </style>
+
+    <style name="MainText">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/mainText</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">middle</item>
+        <item name="android:padding">@dimen/common_padding</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="HintContentText">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/charcoalGrey60</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:padding">@dimen/common_padding</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="RedOptionText">
+        <item name="android:textColor">@color/fffa5151</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">middle</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">@dimen/common_15dip</item>
+    </style>
+
+    <style name="dividerHorizontal">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1px</item>
+        <item name="android:background">@color/dividerBg</item>
+    </style>
+
+</resources>

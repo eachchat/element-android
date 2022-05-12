@@ -49,6 +49,13 @@ class ThreePidsSettingsFragment @Inject constructor(
         OnBackPressed,
         ThreePidsSettingsController.InteractionListener {
 
+    private var addMode: String? = null
+
+    companion object {
+        const val ADD_MODE_MSISDN = "add_mode_msisdn"
+        const val ADD_MODE_EMAIL = "add_mode_email"
+    }
+
     private val viewModel: ThreePidsSettingsViewModel by fragmentViewModel()
 
     override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentGenericRecyclerBinding {
@@ -62,17 +69,20 @@ class ThreePidsSettingsFragment @Inject constructor(
 
         viewModel.observeViewEvents {
             when (it) {
-                is ThreePidsSettingsViewEvents.Failure -> displayErrorDialog(it.throwable)
+                is ThreePidsSettingsViewEvents.Failure -> {
+                    displayErrorDialog(it.throwable)
+                }
                 is ThreePidsSettingsViewEvents.RequestReAuth -> askAuthentication(it)
             }.exhaustive
         }
     }
 
     private fun askAuthentication(event: ThreePidsSettingsViewEvents.RequestReAuth) {
+        val reasonTitle = if (addMode == ADD_MODE_EMAIL) getString(R.string.settings_add_email_address) else getString(R.string.settings_add_msisdn)
         ReAuthActivity.newIntent(requireContext(),
                 event.registrationFlowResponse,
                 event.lastErrorCode,
-                getString(R.string.settings_add_email_address)).let { intent ->
+                reasonTitle).let { intent ->
             reAuthActivityResultLauncher.launch(intent)
         }
     }
@@ -130,6 +140,7 @@ class ThreePidsSettingsFragment @Inject constructor(
             return
         }
 
+        addMode = ADD_MODE_EMAIL
         viewModel.handle(ThreePidsSettingsAction.AddThreePid(ThreePid.Email(safeEmail)))
     }
 
@@ -138,26 +149,33 @@ class ThreePidsSettingsFragment @Inject constructor(
     }
 
     override fun doAddMsisdn(msisdn: String) {
+
+
         // Sanity
-        val safeMsisdn = msisdn.trim().replace(" ", "")
+        var safeMsisdn = msisdn.trim().replace(" ", "")
+
+        if (!safeMsisdn.startsWith("+86")) {
+            safeMsisdn = "+86$safeMsisdn"
+        }
 
         viewModel.handle(ThreePidsSettingsAction.ChangeUiState(ThreePidsSettingsUiState.AddingPhoneNumber(null)))
 
         // Check that phone number is valid
-        if (!msisdn.startsWith("+")) {
+        if (!safeMsisdn.startsWith("+")) {
             viewModel.handle(
                     ThreePidsSettingsAction.ChangeUiState(ThreePidsSettingsUiState.AddingPhoneNumber(getString(R.string.login_msisdn_error_not_international)))
             )
             return
         }
 
-        if (!msisdn.isMsisdn()) {
+        if (!safeMsisdn.isMsisdn()) {
             viewModel.handle(
                     ThreePidsSettingsAction.ChangeUiState(ThreePidsSettingsUiState.AddingPhoneNumber(getString(R.string.login_msisdn_error_other)))
             )
             return
         }
 
+        addMode = ADD_MODE_MSISDN
         viewModel.handle(ThreePidsSettingsAction.AddThreePid(ThreePid.Msisdn(safeMsisdn)))
     }
 

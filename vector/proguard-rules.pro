@@ -76,3 +76,91 @@
 -keep class org.bouncycastle.** { *; }
 -keepnames class org.bouncycastle.** { *; }
 -dontwarn org.bouncycastle.**
+
+
+-keep class im.vector.app.eachchat.bean.** { <fields>; }
+
+-dontwarn com.google.**
+-keep class com.google.gson.** {*;}
+-keep class com.google.protobuf.** {*;}
+
+# mi push
+-keep class im.vector.app.eachchat.push.mipush.MiPushReceiver {*;}
+#可以防止一个误报的 warning 导致无法成功编译，如果编译使用的 Android 版本是 23。
+-keep class com.xiaomi.push.**{*; }
+-dontwarn com.xiaomi.push.**
+
+# hw push
+-ignorewarnings
+-keepattributes *Annotation*
+-keepattributes Exceptions
+-keepattributes InnerClasses
+-keepattributes Signature
+-keepattributes SourceFile,LineNumberTable
+-keep class com.huawei.hianalytics.**{*;}
+-keep class com.huawei.updatesdk.**{*;}
+-keep class com.huawei.hms.**{*;}
+
+# oppo push
+-keep public class * extends android.app.Service
+-keep class im.vector.app.eachchat.bean.** { <fields>; }
+
+-keep class im.vector.app.yiqia.net.data.** { *; }
+-keep class com.heytap.msp.** { *;}
+
+# vivo push
+-dontwarn com.vivo.push.**
+-keep class com.vivo.push.**{*; }
+-keep class com.vivo.vms.**{*; }
+-keep class im.vector.app.eachchat.push.vivo.PushMessageReceiverImpl{*;}
+
+# GeTui push
+-dontwarn com.igexin.**
+-keep class com.igexin.** { *; }
+-keep class org.json.** { *; }
+-dontwarn com.getui.**
+-keep class com.getui.** { *; }
+
+# bugly
+-dontwarn com.tencent.bugly.**
+-keep public class com.tencent.bugly.**{*;}
+
+#  ====== Glide Start ======
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep public class * extends com.bumptech.glide.module.AppGlideModule
+-keep public enum com.bumptech.glide.load.ImageHeaderParser$** {
+  **[] $VALUES;
+  public *;
+}
+
+#  ====== Glide End ======
+
+#  ====== Eventbus Start ======
+-keepattributes *Annotation*
+-keepclassmembers class ** {
+    @org.greenrobot.eventbus.Subscribe <methods>;
+}
+-keep enum org.greenrobot.eventbus.ThreadMode { *; }
+
+# Only required if you use AsyncExecutor
+-keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
+    <init>(java.lang.Throwable);
+}
+#  ====== Eventbus End ======
+
+-keep public class * extends com.chad.library.adapter.base.BaseQuickAdapter
+-keep public class * extends com.chad.library.adapter.base.BaseViewHolder
+-keepclassmembers  class **$** extends com.chad.library.adapter.base.BaseViewHolder {
+     <init>(...);
+}
+
+-keep class * implements java.io.Serializable
+-keep class * implements android.os.Parcelable
+
+-dontwarn javax.annotation.**
+
+-dontwarn okhttp3.internal.platform.ConscryptPlatform
+
+#-keep class im.vector.app.eachchat.contact.data.** { *; }
+#-keep class im.vector.app.eachchat.contact.api.bean.** { *; }
+-keep class im.vector.app.eachchat.contact.** { *; }

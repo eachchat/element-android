@@ -37,7 +37,7 @@ object VectorLocale {
     private const val APPLICATION_LOCALE_LANGUAGE_KEY = "APPLICATION_LOCALE_LANGUAGE_KEY"
     private const val APPLICATION_LOCALE_SCRIPT_KEY = "APPLICATION_LOCALE_SCRIPT_KEY"
 
-    private val defaultLocale = Locale("en", "US")
+    private val defaultLocale = Locale("zh", "CN")
 
     private const val ISO_15924_LATN = "Latn"
 
@@ -61,21 +61,22 @@ object VectorLocale {
         this.context = context
         val preferences = DefaultSharedPreferences.getInstance(context)
 
+        //选过语言就延用选择的语言
         if (preferences.contains(APPLICATION_LOCALE_LANGUAGE_KEY)) {
             applicationLocale = Locale(preferences.getString(APPLICATION_LOCALE_LANGUAGE_KEY, "")!!,
                     preferences.getString(APPLICATION_LOCALE_COUNTRY_KEY, "")!!,
                     preferences.getString(APPLICATION_LOCALE_VARIANT_KEY, "")!!
             )
         } else {
-            applicationLocale = Locale.getDefault()
-
-            // detect if the default language is used
-            val defaultStringValue = getString(context, defaultLocale, R.string.resources_country_code)
-            if (defaultStringValue == getString(context, applicationLocale, R.string.resources_country_code)) {
-                applicationLocale = defaultLocale
-            }
-
-            saveApplicationLocale(applicationLocale)
+//            applicationLocale = Locale.getDefault()
+//
+//            // detect if the default language is used
+//            val defaultStringValue = getString(context, defaultLocale, R.string.resources_country_code)
+//            if (defaultStringValue == getString(context, applicationLocale, R.string.resources_country_code)) {
+//                applicationLocale = defaultLocale
+//            }
+    //没选过语言就默认设为中文
+            saveApplicationLocale(defaultLocale)
         }
     }
 

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/_14_999999_Regular"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F3F4F7"
+        android:gravity="center_vertical"
+        android:paddingStart="@dimen/common_padding"
+        android:paddingTop="6dp"
+        android:paddingEnd="@dimen/common_padding"
+        android:paddingBottom="6dp"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_listview_item"
+        android:paddingStart="15dp"
+        android:paddingEnd="@dimen/common_padding">
+
+
+        <ImageView
+            android:id="@+id/del_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/remove_icon"
+            android:visibility="gone"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/image_view"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="12dp"
+            tools:ignore="ContentDescription" />
+
+        <LinearLayout
+            android:id="@+id/search_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@id/image_view"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/main_extra_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/greyLighter"
+                    android:textSize="@dimen/common_font_fs7"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/main_tv"
+                    style="@style/_16_000000_Regular"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/common_padding"
+                    android:layout_toStartOf="@id/main_extra_tv"
+                    android:ellipsize="end"
+                    android:singleLine="true" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/minor_tv"
+                style="@style/_14_999999_Regular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:visibility="gone" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/div_line"
+        style="@style/dividerHorizontal"
+        android:layout_marginStart="68dp" />
+
+    <View
+        android:id="@+id/div_bottom_line"
+        style="@style/dividerHorizontal"
+        android:layout_marginStart="16dp"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/search_more_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_listview_item"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:visibility="gone">
+
+        <TextView
+            style="@style/_14_000000_Regular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:text="@string/view_more" />
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/arrow_right_icon"
+            tools:ignore="ContentDescription" />
+    </RelativeLayout>
+
+
+</LinearLayout>

@@ -133,4 +133,18 @@
     <color name="vctr_presence_indicator_offline_light">@color/palette_gray_100</color>
     <color name="vctr_presence_indicator_offline_dark">@color/palette_gray_450</color>
 
+    <color name="fff2f3f5">#fff2f3f5</color>
+    <color name="ff00c975">#ff00c975</color>
+    <color name="icon_green">#ff00c975</color>
+    <color name="link_text">#ff5b6a92</color>
+    <color name="ff5b6a92">#ff5b6a92</color>
+    <color name="green_text">#ff00b368</color>
+    <color name="ff00b368">#ff00b368</color>
+    <color name="ffa6e9c9">#ffa6e9c9</color>
+    <color name="error_text">#CE514F</color>
+    <color name="error_bg">#FFF5F5</color>
+    <color name="ff4c4c4c">#ff4c4c4c</color>
+    <color name="ff999999">#ff999999</color>
+    <color name="ff4e6eed">#ff4e6eed</color>
+    <color name="ff737d8c">#737d8c</color>
 </resources>

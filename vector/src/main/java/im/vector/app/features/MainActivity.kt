@@ -33,6 +33,9 @@ import im.vector.app.core.extensions.vectorStore
 import im.vector.app.core.platform.VectorBaseActivity
 import im.vector.app.core.utils.deleteAllFiles
 import im.vector.app.databinding.ActivityMainBinding
+import im.vector.app.eachchat.base.BaseModule
+import im.vector.app.eachchat.contact.ContactSyncUtils
+import im.vector.app.eachchat.push.PushHelper
 import im.vector.app.features.analytics.VectorAnalytics
 import im.vector.app.features.home.HomeActivity
 import im.vector.app.features.home.ShortcutsHandler
@@ -46,6 +49,7 @@ import im.vector.app.features.settings.VectorPreferences
 import im.vector.app.features.signout.hard.SignedOutActivity
 import im.vector.app.features.themes.ActivityOtherThemes
 import im.vector.app.features.ui.UiStateRepository
+import io.reactivex.plugins.RxJavaPlugins
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -103,6 +107,7 @@ class MainActivity : VectorBaseActivity<ActivityMainBinding>(), UnlockedActivity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        RxJavaPlugins.setErrorHandler(Throwable::printStackTrace);
         args = parseArgs()
         if (args.clearCredentials || args.isUserLoggedOut || args.clearCache) {
             clearNotifications()
@@ -116,6 +121,9 @@ class MainActivity : VectorBaseActivity<ActivityMainBinding>(), UnlockedActivity
     }
 
     private fun clearNotifications() {
+        PushHelper.getInstance().clearNotification()
+        PushHelper.getInstance().logout()
+
         // Dismiss all notifications
         notificationDrawerManager.clearAllEvents()
 
@@ -145,6 +153,9 @@ class MainActivity : VectorBaseActivity<ActivityMainBinding>(), UnlockedActivity
             startNextActivityAndFinish()
             return
         }
+
+        BaseModule.setSession(session)
+        ContactSyncUtils.getInstance().init(this, application)
 
         val onboardingStore = session.vectorStore(this)
         when {
