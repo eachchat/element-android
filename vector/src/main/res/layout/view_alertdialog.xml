@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/lLayout_bg"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_alert_dialog"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/txt_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/common_32dip"
+        android:ellipsize="middle"
+        android:gravity="center"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        tools:text="是否删除聊天记录？" />
+
+    <TextView
+        android:id="@+id/txt_msg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/common_16dip"
+        android:gravity="center"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:scrollbars="vertical"
+        android:textColor="@color/forward_msg_content"
+        android:textSize="14sp"
+        tools:visibility="gone"
+        tools:text="次要文字次要文字次要文字次要文字次要文字次要文字次要文字" />
+
+
+    <FrameLayout
+        android:id="@+id/custom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/common_16dip"
+        android:visibility="gone"/>
+
+    <View
+        android:id="@+id/button_divider"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/common_1dip"
+        android:layout_marginTop="@dimen/common_32dip"
+        android:background="@color/ffeeeeee" />
+
+    <LinearLayout
+        android:id="@+id/button_layout"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/btn_neg"
+            style="@style/_16_333333_Regular"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/selector_click"
+            android:gravity="center"
+            android:text="@string/cancel" />
+
+        <View
+            android:id="@+id/div_pos_neg"
+            android:layout_width="@dimen/common_1dip"
+            android:layout_height="match_parent"
+            android:background="@color/ffeeeeee" />
+
+        <TextView
+            android:id="@+id/btn_pos"
+            style="@style/_16_FA5151_Regular"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/selector_click"
+            android:gravity="center"
+            android:text="@string/confirm" />
+    </LinearLayout>
+
+</LinearLayout>

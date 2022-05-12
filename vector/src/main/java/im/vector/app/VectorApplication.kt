@@ -40,6 +40,7 @@ import com.airbnb.mvrx.Mavericks
 import com.facebook.stetho.Stetho
 import com.gabrielittner.threetenbp.LazyThreeTen
 import com.heytap.msp.push.HeytapPushManager
+import com.igexin.sdk.PushManager
 import com.mapbox.mapboxsdk.Mapbox
 import com.tencent.bugly.crashreport.CrashReport
 import com.vanniktech.emoji.EmojiManager
@@ -48,7 +49,7 @@ import dagger.hilt.android.HiltAndroidApp
 import im.vector.app.core.di.ActiveSessionHolder
 import im.vector.app.core.extensions.configureAndStart
 import im.vector.app.core.extensions.startSyncing
-import im.vector.app.eachchat.BaseModule
+import im.vector.app.eachchat.base.BaseModule
 import im.vector.app.features.analytics.VectorAnalytics
 import im.vector.app.features.call.webrtc.WebRtcCallManager
 import im.vector.app.features.configuration.VectorConfiguration
@@ -123,16 +124,19 @@ class VectorApplication :
         enableStrictModeIfNeeded()
         super.onCreate()
         appContext = this
+        if (!isMainProcess()) {
+            return
+        }
         BaseModule.init(this)
         vectorAnalytics.init()
         invitesAcceptor.initialize()
         autoRageShaker.initialize()
         vectorUncaughtExceptionHandler.activate()
-        if (isMainProcess()) {
-            HeytapPushManager.init(this, true)
-            //初始化bugly崩溃报告
-            CrashReport.initCrashReport(applicationContext, getBuglyID(), false)
-        }
+        HeytapPushManager.init(this, true)
+        //初始化bugly崩溃报告
+        CrashReport.initCrashReport(applicationContext, getBuglyID(), false)
+        HeytapPushManager.init(this, true)
+        PushManager.getInstance().initialize(this)
 
         // Remove Log handler statically added by Jitsi
         Timber.forest()
@@ -178,6 +182,7 @@ class VectorApplication :
         if (authenticationService.hasAuthenticatedSessions() && !activeSessionHolder.hasActiveSession()) {
             val lastAuthenticatedSession = authenticationService.getLastAuthenticatedSession()!!
             activeSessionHolder.setActiveSession(lastAuthenticatedSession)
+            BaseModule.setSession(lastAuthenticatedSession)
             lastAuthenticatedSession.configureAndStart(applicationContext, startSyncing = false)
         }
 
@@ -217,9 +222,11 @@ class VectorApplication :
 
     private val startSyncOnFirstStart = object : DefaultLifecycleObserver {
         override fun onStart(owner: LifecycleOwner) {
-            Timber.i("App process started")
-            authenticationService.getLastAuthenticatedSession()?.startSyncing(appContext)
-            ProcessLifecycleOwner.get().lifecycle.removeObserver(this)
+            kotlin.runCatching {
+                Timber.i("App process started")
+                authenticationService.getLastAuthenticatedSession()?.startSyncing(appContext)
+                ProcessLifecycleOwner.get().lifecycle.removeObserver(this)
+            }
         }
     }
 

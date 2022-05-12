@@ -61,6 +61,9 @@ class RoomListSectionBuilderGroup(
                 // 5 sections invites / Fav / Rooms / Low Priority / Server notice
                 buildRoomsSections(sections, activeGroupAwareQueries, actualGroupId)
             }
+            RoomListDisplayMode.INVITE         -> {
+                buildInviteSections(sections, activeGroupAwareQueries, actualGroupId)
+            }
             RoomListDisplayMode.FILTERED      -> {
                 // Used when searching for rooms
                 withQueryParams(
@@ -195,7 +198,7 @@ class RoomListSectionBuilderGroup(
                     true
             ) {
                 it.memberships = listOf(Membership.INVITE)
-                it.roomCategoryFilter = RoomCategoryFilter.ONLY_DM
+                // it.roomCategoryFilter = RoomCategoryFilter.ONLY_DM
                 it.activeGroupId = actualGroupId
             }
         }
@@ -207,7 +210,7 @@ class RoomListSectionBuilderGroup(
                 false
         ) {
             it.memberships = listOf(Membership.JOIN)
-            it.roomCategoryFilter = RoomCategoryFilter.ONLY_DM
+            // it.roomCategoryFilter = RoomCategoryFilter.ONLY_DM
             it.roomTagQueryFilter = RoomTagQueryFilter(true, null, null)
             it.activeGroupId = actualGroupId
         }
@@ -219,7 +222,7 @@ class RoomListSectionBuilderGroup(
                 false
         ) {
             it.memberships = listOf(Membership.JOIN)
-            it.roomCategoryFilter = RoomCategoryFilter.ONLY_DM
+//            it.roomCategoryFilter = RoomCategoryFilter.ONLY_DM
             it.roomTagQueryFilter = RoomTagQueryFilter(false, false, null)
             it.activeGroupId = actualGroupId
         }
@@ -231,9 +234,27 @@ class RoomListSectionBuilderGroup(
                 false
         ) {
             it.memberships = listOf(Membership.JOIN)
-            it.roomCategoryFilter = RoomCategoryFilter.ONLY_DM
+            // it.roomCategoryFilter = RoomCategoryFilter.ONLY_DM
             it.roomTagQueryFilter = RoomTagQueryFilter(false, true, null)
             it.activeGroupId = actualGroupId
+        }
+    }
+
+    private fun buildInviteSections(
+            sections: MutableList<RoomsSection>,
+            activeSpaceAwareQueries: MutableList<UpdatableLivePageResult>,
+            actualGroupId: String?
+    ) {
+        if (autoAcceptInvites.showInvites()) {
+            addSection(sections,
+                    activeSpaceAwareQueries,
+                    R.string.invitations_header,
+                    true
+            ) {
+                it.memberships = listOf(Membership.INVITE)
+                // it.roomCategoryFilter = RoomCategoryFilter.ONLY_DM
+                it.activeGroupId = actualGroupId
+            }
         }
     }
 

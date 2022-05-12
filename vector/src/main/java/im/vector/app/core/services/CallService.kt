@@ -229,15 +229,15 @@ class CallService : VectorService() {
         }
         val callInformation = call.toCallInformation()
         Timber.tag(loggerTag.value).v("displayOutgoingCallNotification : display the dedicated notification")
-        val notification = notificationUtils.buildOutgoingRingingCallNotification(
-                call = call,
-                title = callInformation.opponentMatrixItem?.getBestName() ?: callInformation.opponentUserId
-        )
-        if (knownCalls.isEmpty()) {
-            startForeground(callId.hashCode(), notification)
-        } else {
-            notificationManager.notify(callId.hashCode(), notification)
-        }
+//        val notification = notificationUtils.buildOutgoingRingingCallNotification(
+//                call = call,
+//                title = callInformation.opponentMatrixItem?.getBestName() ?: callInformation.opponentUserId
+//        )
+//        if (knownCalls.isEmpty()) {
+//            startForeground(callId.hashCode(), notification)
+//        } else {
+//            notificationManager.notify(callId.hashCode(), notification)
+//        }
         knownCalls[callId] = callInformation
     }
 
@@ -330,7 +330,8 @@ class CallService : VectorService() {
                         putExtra(EXTRA_CALL_ID, callId)
                         putExtra(EXTRA_IS_IN_BG, isInBackground)
                     }
-            ContextCompat.startForegroundService(context, intent)
+            // ContextCompat.startForegroundService(context, intent)
+            context.startService(intent)
         }
 
         fun onOutgoingCallRinging(context: Context,
@@ -340,7 +341,8 @@ class CallService : VectorService() {
                         action = ACTION_OUTGOING_RINGING_CALL
                         putExtra(EXTRA_CALL_ID, callId)
                     }
-            ContextCompat.startForegroundService(context, intent)
+            // ContextCompat.startForegroundService(context, intent)
+            context.startService(intent)
         }
 
         fun onPendingCall(context: Context,
@@ -350,7 +352,8 @@ class CallService : VectorService() {
                         action = ACTION_ONGOING_CALL
                         putExtra(EXTRA_CALL_ID, callId)
                     }
-            ContextCompat.startForegroundService(context, intent)
+            // ContextCompat.startForegroundService(context, intent)
+            context.startService(intent)
         }
 
         fun onCallTerminated(context: Context,

@@ -34,5 +34,6 @@ data class SpaceListViewState(
         val spaceOrderLocalEchos: Map<String, String?>? = null,
         val legacyGroups: List<GroupSummary>? = null,
         val expandedStates: Map<String, Boolean> = emptyMap(),
-        val homeAggregateCount: RoomAggregateNotificationCount = RoomAggregateNotificationCount(0, 0)
+        val homeAggregateCount: RoomAggregateNotificationCount = RoomAggregateNotificationCount(0, 0),
+        val isSelectedChange: Boolean = false // 只是为了触发state监听，值没有意义
 ) : MavericksState

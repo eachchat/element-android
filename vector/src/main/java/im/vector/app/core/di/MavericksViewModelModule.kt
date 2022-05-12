@@ -16,6 +16,7 @@
 
 package im.vector.app.core.di
 
+import ai.workly.eachchat.android.contact.relationship.ReportingRelationshipViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -115,7 +116,16 @@ import im.vector.app.features.widgets.WidgetViewModel
 import im.vector.app.features.widgets.permissions.RoomWidgetPermissionViewModel
 import im.vector.app.features.workers.signout.ServerBackupStatusViewModel
 import im.vector.app.features.workers.signout.SignoutCheckViewModel
-import im.vector.app.yiqia.complain.RoomComplainViewModel
+import im.vector.app.eachchat.complain.RoomComplainViewModel
+import im.vector.app.eachchat.contact.addcontact.ContactEditAddViewModel
+import im.vector.app.eachchat.contact.manage.ContactManageViewModel
+import im.vector.app.eachchat.contact.mycontacts.MyContactViewModel
+import im.vector.app.eachchat.contact.real.RealContactsViewModel
+import im.vector.app.eachchat.moreinfo.MoreInfoViewModel
+import im.vector.app.eachchat.search.contactadd.ContactAddSearchViewModel
+import im.vector.app.eachchat.search.contactsearch.ContactsSearchViewModel
+import im.vector.app.eachchat.user.UserInfoViewModel
+import im.vector.app.features.roomprofile.contact.RoomContactViewModel
 
 @InstallIn(MavericksViewModelComponent::class)
 @Module
@@ -125,6 +135,56 @@ interface MavericksViewModelModule {
     @IntoMap
     @MavericksViewModelKey(RoomListViewModel::class)
     fun roomListViewModelFactory(factory: RoomListViewModel.Factory): MavericksAssistedViewModelFactory<*, *>
+
+    @Binds
+    @IntoMap
+    @MavericksViewModelKey(UserInfoViewModel::class)
+    fun userInfoViewModelFactory(factory: UserInfoViewModel.Factory): MavericksAssistedViewModelFactory<*, *>
+
+    @Binds
+    @IntoMap
+    @MavericksViewModelKey(ReportingRelationshipViewModel::class)
+    fun reportingRelationshipViewModelFactory(factory: ReportingRelationshipViewModel.Factory): MavericksAssistedViewModelFactory<*, *>
+
+    @Binds
+    @IntoMap
+    @MavericksViewModelKey(MoreInfoViewModel::class)
+    fun moreInfoViewModelFactory(factory: MoreInfoViewModel.Factory): MavericksAssistedViewModelFactory<*, *>
+
+    @Binds
+    @IntoMap
+    @MavericksViewModelKey(RoomContactViewModel::class)
+    fun roomContactViewModelFactory(factory: RoomContactViewModel.Factory): MavericksAssistedViewModelFactory<*, *>
+
+    @Binds
+    @IntoMap
+    @MavericksViewModelKey(ContactAddSearchViewModel::class)
+    fun contactAddSearchViewModelFactory(factory: ContactAddSearchViewModel.Factory): MavericksAssistedViewModelFactory<*, *>
+
+    @Binds
+    @IntoMap
+    @MavericksViewModelKey(ContactsSearchViewModel::class)
+    fun contactsSearchViewModelFactory(factory: ContactsSearchViewModel.Factory): MavericksAssistedViewModelFactory<*, *>
+
+    @Binds
+    @IntoMap
+    @MavericksViewModelKey(MyContactViewModel::class)
+    fun myContactsViewModelFactory(factory: MyContactViewModel.Factory): MavericksAssistedViewModelFactory<*, *>
+
+    @Binds
+    @IntoMap
+    @MavericksViewModelKey(ContactEditAddViewModel::class)
+    fun contactEditAddViewModelFactory(factory: ContactEditAddViewModel.Factory): MavericksAssistedViewModelFactory<*, *>
+
+    @Binds
+    @IntoMap
+    @MavericksViewModelKey(ContactManageViewModel::class)
+    fun contactManageViewModelFactory(factory: ContactManageViewModel.Factory): MavericksAssistedViewModelFactory<*, *>
+
+    @Binds
+    @IntoMap
+    @MavericksViewModelKey(RealContactsViewModel::class)
+    fun realContactViewModelFactory(factory: RealContactsViewModel.Factory): MavericksAssistedViewModelFactory<*, *>
 
     @Binds
     @IntoMap

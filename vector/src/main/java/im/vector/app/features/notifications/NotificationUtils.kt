@@ -40,7 +40,6 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.RemoteInput
 import androidx.core.app.TaskStackBuilder
-import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.IconCompat
@@ -110,6 +109,7 @@ class NotificationUtils @Inject constructor(private val context: Context,
 
         // on devices >= android O, we need to define a channel for each notifications
         private const val LISTENING_FOR_EVENTS_NOTIFICATION_CHANNEL_ID = "LISTEN_FOR_EVENTS_NOTIFICATION_CHANNEL_ID"
+        private const val LISTENING_FOR_BADGE_NOTIFICATION_CHANNEL_ID = "LISTENING_FOR_BADGE_NOTIFICATION_CHANNEL_ID"
 
         private const val NOISY_NOTIFICATION_CHANNEL_ID = "DEFAULT_NOISY_NOTIFICATION_CHANNEL_ID"
 
@@ -177,6 +177,7 @@ class NotificationUtils @Inject constructor(private val context: Context,
                     description = stringProvider.getString(R.string.notification_noisy_notifications)
                     enableVibration(true)
                     enableLights(true)
+                    setShowBadge(true)
 //                    lightColor = accentColor
                 })
 
@@ -190,16 +191,26 @@ class NotificationUtils @Inject constructor(private val context: Context,
                     description = stringProvider.getString(R.string.notification_silent_notifications)
                     setSound(null, null)
                     enableLights(true)
+                    setShowBadge(true)
 //                    lightColor = accentColor
                 })
 
         notificationManager.createNotificationChannel(NotificationChannel(LISTENING_FOR_EVENTS_NOTIFICATION_CHANNEL_ID,
                 stringProvider.getString(R.string.notification_listening_for_events).ifEmpty { "Listening for events" },
-                NotificationManager.IMPORTANCE_MIN)
+                NotificationManager.IMPORTANCE_HIGH)
                 .apply {
                     description = stringProvider.getString(R.string.notification_listening_for_events)
                     setSound(null, null)
-                    setShowBadge(false)
+                    setShowBadge(true)
+                })
+
+        notificationManager.createNotificationChannel(NotificationChannel(LISTENING_FOR_BADGE_NOTIFICATION_CHANNEL_ID,
+                stringProvider.getString(R.string.notification_listening_for_set_badge).ifEmpty { "Listening for events" },
+                NotificationManager.IMPORTANCE_HIGH)
+                .apply {
+                    description = stringProvider.getString(R.string.notification_listening_for_set_badge)
+                    setSound(null, null)
+                    setShowBadge(true)
                 })
 
         notificationManager.createNotificationChannel(NotificationChannel(CALL_NOTIFICATION_CHANNEL_ID,
@@ -209,6 +220,7 @@ class NotificationUtils @Inject constructor(private val context: Context,
                     description = stringProvider.getString(R.string.call)
                     setSound(null, null)
                     enableLights(true)
+                    setShowBadge(true)
 //                    lightColor = accentColor
                 })
     }
@@ -250,29 +262,27 @@ class NotificationUtils @Inject constructor(private val context: Context,
 //            builder.priority = NotificationCompat.PRIORITY_MIN
 //        }
 
-        val notification = builder.build()
+        //        notification.flags = notification.flags or Notification.FLAG_NO_CLEAR
 
-//        notification.flags = notification.flags or Notification.FLAG_NO_CLEAR
-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            // some devices crash if this field is not set
-            // even if it is deprecated
-
-            // setLatestEventInfo() is deprecated on Android M, so we try to use
-            // reflection at runtime, to avoid compiler error: "Cannot resolve method.."
-            try {
-                val deprecatedMethod = notification.javaClass
-                        .getMethod("setLatestEventInfo",
-                                Context::class.java,
-                                CharSequence::class.java,
-                                CharSequence::class.java,
-                                PendingIntent::class.java)
-                deprecatedMethod.invoke(notification, context, stringProvider.getString(R.string.app_name), stringProvider.getString(subTitleResId), pi)
-            } catch (ex: Exception) {
-                Timber.e(ex, "## buildNotification(): Exception - setLatestEventInfo() Msg=")
-            }
-        }
-        return notification
+//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+//            // some devices crash if this field is not set
+//            // even if it is deprecated
+//
+//            // setLatestEventInfo() is deprecated on Android M, so we try to use
+//            // reflection at runtime, to avoid compiler error: "Cannot resolve method.."
+//            try {
+//                val deprecatedMethod = notification.javaClass
+//                        .getMethod("setLatestEventInfo",
+//                                Context::class.java,
+//                                CharSequence::class.java,
+//                                CharSequence::class.java,
+//                                PendingIntent::class.java)
+//                deprecatedMethod.invoke(notification, context, stringProvider.getString(R.string.app_name), stringProvider.getString(subTitleResId), pi)
+//            } catch (ex: Exception) {
+//                Timber.e(ex, "## buildNotification(): Exception - setLatestEventInfo() Msg=")
+//            }
+//        }
+        return builder.build()
     }
 
     fun getChannelForIncomingCall(fromBg: Boolean): NotificationChannel? {

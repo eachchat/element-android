@@ -34,6 +34,7 @@ import im.vector.app.core.extensions.tryAsync
 import im.vector.app.core.platform.VectorViewModel
 import im.vector.app.core.resources.StringProvider
 import im.vector.app.core.utils.ensureTrailingSlash
+import im.vector.app.eachchat.base.BaseModule
 import im.vector.app.features.login.HomeServerConnectionConfigFactory
 import im.vector.app.features.login.LoginConfig
 import im.vector.app.features.login.LoginMode
@@ -689,6 +690,7 @@ class LoginViewModel2 @AssistedInject constructor(
     private suspend fun onSessionCreated(session: Session) {
         activeSessionHolder.setActiveSession(session)
 
+        BaseModule.setSession(session)
         authenticationService.reset()
         session.configureAndStart(applicationContext)
         withState { state ->

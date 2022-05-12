@@ -80,6 +80,9 @@ class RoomListSectionBuilderSpace(
                 // 6 sections invites / Fav / Rooms / Low Priority / Server notice / Suggested rooms
                 buildRoomsSections(sections, activeSpaceAwareQueries)
             }
+            RoomListDisplayMode.INVITE        -> {
+                buildInviteSections(sections, activeSpaceAwareQueries)
+            }
             RoomListDisplayMode.FILTERED      -> {
                 // Used when searching for rooms
                 withQueryParams(
@@ -278,7 +281,7 @@ class RoomListSectionBuilderSpace(
                     countRoomAsNotif = true
             ) {
                 it.memberships = listOf(Membership.INVITE)
-                it.roomCategoryFilter = RoomCategoryFilter.ONLY_DM
+                // it.roomCategoryFilter = RoomCategoryFilter.ONLY_DM
             }
         }
 
@@ -290,7 +293,7 @@ class RoomListSectionBuilderSpace(
                 RoomListViewModel.SpaceFilterStrategy.ALL_IF_SPACE_NULL
         ) {
             it.memberships = listOf(Membership.JOIN)
-            it.roomCategoryFilter = RoomCategoryFilter.ONLY_DM
+            // it.roomCategoryFilter = RoomCategoryFilter.ONLY_DM
             it.roomTagQueryFilter = RoomTagQueryFilter(true, null, null)
         }
 
@@ -302,7 +305,7 @@ class RoomListSectionBuilderSpace(
                 RoomListViewModel.SpaceFilterStrategy.ALL_IF_SPACE_NULL
         ) {
             it.memberships = listOf(Membership.JOIN)
-            it.roomCategoryFilter = RoomCategoryFilter.ONLY_DM
+            // it.roomCategoryFilter = RoomCategoryFilter.ONLY_DM
             it.roomTagQueryFilter = RoomTagQueryFilter(false, false, null)
         }
 
@@ -314,8 +317,24 @@ class RoomListSectionBuilderSpace(
                 RoomListViewModel.SpaceFilterStrategy.ALL_IF_SPACE_NULL
         ) {
             it.memberships = listOf(Membership.JOIN)
-            it.roomCategoryFilter = RoomCategoryFilter.ONLY_DM
+            // it.roomCategoryFilter = RoomCategoryFilter.ONLY_DM
             it.roomTagQueryFilter = RoomTagQueryFilter(false, true, null)
+        }
+    }
+
+    private fun buildInviteSections(
+            sections: MutableList<RoomsSection>,
+            activeSpaceAwareQueries: MutableList<RoomListViewModel.ActiveSpaceQueryUpdater>
+    ) {
+        if (autoAcceptInvites.showInvites()) {
+            addSection(sections,
+                    activeSpaceAwareQueries,
+                    R.string.invitations_header,
+                    true
+            ) {
+                it.memberships = listOf(Membership.INVITE)
+                // it.roomCategoryFilter = RoomCategoryFilter.ONLY_DM
+            }
         }
     }
 

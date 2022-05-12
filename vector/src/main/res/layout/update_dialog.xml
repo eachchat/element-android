@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/update_bg">
+
+    <ImageView
+        android:layout_marginTop="32dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@mipmap/ic_launcher"
+        android:layout_gravity="center_horizontal"/>
+
+
+    <TextView
+        android:id="@+id/update_title"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/_16_000000_Regular"
+        android:textStyle="bold"
+        tools:text="亿洽 Version2.0.3"/>
+
+    <TextView
+        android:id="@+id/update_tv"
+        style="@style/_14_000000_Regular"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:maxHeight="350dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:ellipsize="middle"
+        android:lineSpacingMultiplier="1.0"
+        android:scrollbars="vertical"
+        tools:text="功能介绍：\n
+1.聊天图片引用功能\n
+2.聊天图片复制到剪贴版\n
+3.文件保存路径修改功能\n
+4.有的群内消息无法撤回问题修复"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:id="@+id/btn_neg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/alertdialog_left_selector"
+            android:gravity="center"
+            style="@style/_15_000000_Regular"
+            android:text="@string/temporarily_not_update"/>
+
+
+        <TextView
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:id="@+id/btn_pos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/alertdialog_right_selector"
+            android:gravity="center"
+            style="@style/_15_00b368_Regular"
+            android:text="@string/upgrade_immediately"/>
+    </LinearLayout>
+
+</LinearLayout>

@@ -280,4 +280,10 @@
         <item name="android:padding">@dimen/common_15dip</item>
     </style>
 
+    <style name="dividerHorizontal">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1px</item>
+        <item name="android:background">@color/dividerBg</item>
+    </style>
+
 </resources>

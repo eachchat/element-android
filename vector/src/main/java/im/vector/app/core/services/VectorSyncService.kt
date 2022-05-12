@@ -81,13 +81,13 @@ class VectorSyncService : SyncService() {
     override fun getDefaultSyncTimeoutSeconds() = BackgroundSyncMode.DEFAULT_SYNC_TIMEOUT_SECONDS
 
     override fun onStart(isInitialSync: Boolean) {
-        val notificationSubtitleRes = if (isInitialSync) {
-            R.string.notification_initial_sync
-        } else {
-            R.string.notification_listening_for_notifications
-        }
-        val notification = notificationUtils.buildForegroundServiceNotification(notificationSubtitleRes, false)
-        startForeground(NotificationUtils.NOTIFICATION_ID_FOREGROUND_SERVICE, notification)
+//        val notificationSubtitleRes = if (isInitialSync) {
+//            R.string.notification_initial_sync
+//        } else {
+//            R.string.notification_listening_for_notifications
+//        }
+//        val notification = notificationUtils.buildForegroundServiceNotification(notificationSubtitleRes, false)
+//        startForeground(NotificationUtils.NOTIFICATION_ID_FOREGROUND_SERVICE, notification)
     }
 
     override fun onRescheduleAsked(sessionId: String,

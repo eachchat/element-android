@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--搜索光标样式-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color = "@color/green"  />
+    <size android:width="@dimen/common_1dip"/>
+</shape>

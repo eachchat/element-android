@@ -13,7 +13,8 @@
         <im.vector.app.core.preference.VectorCheckboxPreference
             android:key="SETTINGS_PUSH_RULE_CONTAINING_MY_USER_NAME_PREFERENCE_KEY"
             android:persistent="false"
-            android:title="@string/settings_messages_containing_username" />
+            android:title="@string/settings_messages_containing_username"
+            app:isPreferenceVisible="false" />
 
         <im.vector.app.core.preference.VectorCheckboxPreference
             android:key="SETTINGS_PUSH_RULE_MESSAGES_CONTAINING_AT_ROOM_PREFERENCE_KEY"

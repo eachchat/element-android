@@ -36,7 +36,7 @@ import im.vector.app.features.login.EMS_LINK
 import im.vector.app.features.login.ServerType
 import im.vector.app.features.onboarding.OnboardingAction
 import im.vector.app.features.onboarding.OnboardingViewState
-import im.vector.app.yiqia.utils.ToastUtil
+import im.vector.app.eachchat.utils.ToastUtil
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.matrix.android.sdk.api.failure.Failure

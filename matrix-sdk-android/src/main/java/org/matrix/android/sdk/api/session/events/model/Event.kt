@@ -204,11 +204,11 @@ data class Event(
         val text = getDecryptedValue() ?: return null
         return when {
             isReplyRenderedInThread() || isQuote() -> ContentUtils.extractUsefulTextFromReply(text)
-            isFileMessage()                        -> "sent a file."
-            isAudioMessage()                       -> "sent an audio file."
-            isImageMessage()                       -> "sent an image."
-            isVideoMessage()                       -> "sent a video."
-            isSticker()                            -> "sent a sticker"
+            isFileMessage()                        -> "文件"
+            isAudioMessage()                       -> "音频"
+            isImageMessage()                       -> "图片"
+            isVideoMessage()                       -> "视频"
+            isSticker()                            -> "贴纸"
             isPoll()                               -> getPollQuestion() ?: "created a poll."
             else                                   -> text
         }

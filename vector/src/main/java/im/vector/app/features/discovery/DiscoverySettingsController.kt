@@ -65,7 +65,7 @@ class DiscoverySettingsController @Inject constructor(
 //                buildIdentityServerSection(data)
                 val hasIdentityServer = data.identityServer()?.serverUrl.isNullOrBlank().not()
                 if (hasIdentityServer && !data.termsNotSigned) {
-                    buildConsentSection(data)
+                    // buildConsentSection(data)
                     buildEmailsSection(data.emailList)
                     buildMsisdnSection(data.phoneNumbersList)
                 }

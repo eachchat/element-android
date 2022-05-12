@@ -13,7 +13,7 @@ class Response<V, T> : Serializable {
     var results: T? = null
         private set
     var total = 0
-    var isHasNext = false
+    var hasNext = false
     fun setObj(obj: V) {
         this.obj = obj
     }

@@ -16,15 +16,20 @@
 package im.vector.app.core.epoxy
 
 import android.view.View
+import androidx.core.content.ContextCompat
 import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
 import im.vector.app.R
 import im.vector.app.core.utils.DimensionConverter
+import im.vector.app.eachchat.base.BaseModule
 
 @EpoxyModelClass(layout = R.layout.item_custom_height_divider)
 abstract class CustomHeightDividerItem : VectorEpoxyModel<CustomHeightDividerItem.Holder>() {
     @EpoxyAttribute
     var customHeight: Int = 1
+
+    @EpoxyAttribute
+    var colorResource: Int = R.color.element_system_light
 
     override fun bind(holder: Holder) {
         super.bind(holder)
@@ -32,6 +37,7 @@ abstract class CustomHeightDividerItem : VectorEpoxyModel<CustomHeightDividerIte
         val lp = holder.divider.layoutParams
         lp.height = DimensionConverter(holder.divider.resources).dpToPx(customHeight)
         holder.divider.layoutParams = lp
+        holder.divider.setBackgroundColor(ContextCompat.getColor(BaseModule.getContext(), colorResource))
     }
 
     class Holder : VectorEpoxyHolder() {

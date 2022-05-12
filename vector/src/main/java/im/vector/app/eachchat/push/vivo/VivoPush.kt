@@ -2,9 +2,10 @@ package im.vector.app.eachchat.push.vivo
 
 import android.app.NotificationManager
 import android.content.Context
+import android.content.IntentFilter
 import com.facebook.stetho.common.LogUtil
 import com.vivo.push.PushClient
-import im.vector.app.eachchat.BaseModule
+import im.vector.app.eachchat.base.BaseModule
 import im.vector.app.eachchat.push.AbsPush
 import im.vector.app.eachchat.push.PushHelper
 
@@ -25,6 +26,10 @@ class VivoPush(context: Context) : AbsPush(context) {
                 PushHelper.getInstance().bindDevice(regId)
             }
         }
+        val filter = IntentFilter()
+        filter.addAction("com.vivo.pushclient.action.RECEIVE")
+        BaseModule.getContext().registerReceiver(PushMessageReceiverImpl(), filter)
+        LogUtil.i("##注册vivo接收")
     }
 
     override fun stopPush() {

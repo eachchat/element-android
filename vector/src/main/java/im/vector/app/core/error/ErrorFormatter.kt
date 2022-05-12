@@ -105,6 +105,9 @@ class DefaultErrorFormatter @Inject constructor(
                             throwable.error.message == "Not allowed to join this room" -> {
                         stringProvider.getString(R.string.room_error_access_unauthorized)
                     }
+                    throwable.error.message == "Not an active room on this server" -> {
+                        stringProvider.getString(R.string.not_an_active_room)
+                    }
                     else                                                               -> {
                         throwable.error.message.takeIf { it.isNotEmpty() }
                                 ?: throwable.error.code.takeIf { it.isNotEmpty() }

@@ -23,7 +23,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
@@ -31,10 +30,12 @@ import im.vector.app.R
 import im.vector.app.core.extensions.hideKeyboard
 import im.vector.app.core.utils.openUrlInChromeCustomTab
 import im.vector.app.databinding.FragmentLoginServerUrlFormBinding
-import im.vector.app.yiqia.cache.AppCache
-import im.vector.app.yiqia.dialog.PrivacyPolicyDialog
-import im.vector.app.yiqia.utils.ToastUtil
-import im.vector.app.yiqia.utils.string.StringUtils.highlightKeyword
+import im.vector.app.eachchat.database.AppDatabase
+import im.vector.app.eachchat.database.AppDatabase_Impl
+import im.vector.app.eachchat.utils.AppCache
+import im.vector.app.eachchat.ui.dialog.PrivacyPolicyDialog
+import im.vector.app.eachchat.utils.ToastUtil
+import im.vector.app.eachchat.utils.string.StringUtils.highlightKeyword
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach

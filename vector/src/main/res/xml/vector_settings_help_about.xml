@@ -20,6 +20,10 @@
             tools:summary="1.2.3" />
 
         <im.vector.app.core.preference.VectorPreference
+            android:key="SETTINGS_VERSION_CHECK_UPDATE_PREFERENCE_KEY"
+            android:title="@string/check_update" />
+
+        <im.vector.app.core.preference.VectorPreference
             android:key="SETTINGS_SDK_VERSION_PREFERENCE_KEY"
             android:title="@string/settings_sdk_version"
             app:isPreferenceVisible="false"

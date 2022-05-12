@@ -32,6 +32,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.DrawableImageViewTarget
 import com.bumptech.glide.request.target.Target
+import im.vector.app.R
 import im.vector.app.core.contacts.MappedContact
 import im.vector.app.core.di.ActiveSessionHolder
 import im.vector.app.core.glide.AvatarPlaceholder
@@ -64,6 +65,12 @@ class AvatarRenderer @Inject constructor(private val activeSessionHolder: Active
     fun render(matrixItem: MatrixItem, imageView: ImageView) {
         render(GlideApp.with(imageView),
                 matrixItem,
+                DrawableImageViewTarget(imageView))
+    }
+
+    @UiThread
+    fun renderDefault(imageView: ImageView) {
+        renderDefault(GlideApp.with(imageView),
                 DrawableImageViewTarget(imageView))
     }
 
@@ -149,6 +156,24 @@ class AvatarRenderer @Inject constructor(private val activeSessionHolder: Active
                     }
                 }
                 .placeholder(placeholder)
+                .into(target)
+    }
+
+    @UiThread
+    fun render(glideRequests: GlideRequests,
+               avatarUrl: String,
+               target: Target<Drawable>) {
+        glideRequests.loadResolvedUrl(avatarUrl)
+                .apply(RequestOptions.circleCropTransform())
+                .placeholder(R.drawable.default_person_icon)
+                .into(target)
+    }
+
+    @UiThread
+    fun renderDefault(glideRequests: GlideRequests,
+               target: Target<Drawable>) {
+        glideRequests.load(R.drawable.default_person_icon)
+                .apply(RequestOptions.circleCropTransform())
                 .into(target)
     }
 

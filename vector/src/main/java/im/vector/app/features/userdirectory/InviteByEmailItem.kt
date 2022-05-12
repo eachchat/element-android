@@ -25,6 +25,8 @@ import im.vector.app.R
 import im.vector.app.core.epoxy.ClickListener
 import im.vector.app.core.epoxy.VectorEpoxyHolder
 import im.vector.app.core.epoxy.VectorEpoxyModel
+import im.vector.app.core.extensions.isEmail
+import im.vector.app.eachchat.base.BaseModule
 import im.vector.app.features.home.AvatarRenderer
 
 @EpoxyModelClass(layout = R.layout.item_invite_by_mail)
@@ -41,6 +43,9 @@ abstract class InviteByEmailItem : VectorEpoxyModel<InviteByEmailItem.Holder>() 
         holder.checkedImageView.isVisible = false
         holder.avatarImageView.isVisible = true
         holder.view.setOnClickListener(clickListener)
+        if (!foundItem.email.isEmail()) {
+            holder.itemDescription.text = BaseModule.getContext().getText(R.string.invite_by_msisdn)
+        }
         if (selected) {
             holder.checkedImageView.isVisible = true
             holder.avatarImageView.isVisible = false
@@ -54,5 +59,6 @@ abstract class InviteByEmailItem : VectorEpoxyModel<InviteByEmailItem.Holder>() 
         val itemTitleText by bind<TextView>(R.id.itemTitle)
         val avatarImageView by bind<ImageView>(R.id.itemAvatar)
         val checkedImageView by bind<ImageView>(R.id.itemAvatarChecked)
+        val itemDescription by bind<TextView>(R.id.itemDescription)
     }
 }

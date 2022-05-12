@@ -2,6 +2,7 @@ package im.vector.app.eachchat.net;
 
 
 import java.io.IOException;
+import java.net.UnknownHostException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.TimeUnit;
@@ -19,6 +20,7 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 import okhttp3.internal.http.HttpHeaders;
 import okio.Buffer;
+import timber.log.Timber;
 
 /**
  * Created by chengww on 2019-10-22.
@@ -56,6 +58,15 @@ public final class MyLoggingInterceptor implements Interceptor {
 
     @Override
     public Response intercept(Chain chain) throws IOException {
+        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+            @Override
+            public void uncaughtException(Thread t, Throwable e) {
+                // 这里就可以捕获到第三方库的异常了
+                // 在开发模式下可以不用
+                e.printStackTrace();
+                Timber.e("全局异常 "+e+e.getMessage());
+            }
+        });
         Request request = chain.request();
         if (printLevel == Level.NONE) {
             return chain.proceed(request);

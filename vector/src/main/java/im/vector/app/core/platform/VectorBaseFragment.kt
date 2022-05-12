@@ -50,8 +50,10 @@ import im.vector.app.features.navigation.Navigator
 import im.vector.lib.ui.styles.dialogs.MaterialProgressDialog
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import org.matrix.android.sdk.api.failure.Failure
 import reactivecircus.flowbinding.android.view.clicks
 import timber.log.Timber
+import java.lang.RuntimeException
 
 abstract class VectorBaseFragment<VB : ViewBinding> : Fragment(), MavericksView {
     /* ==========================================================================================
@@ -133,7 +135,7 @@ abstract class VectorBaseFragment<VB : ViewBinding> : Fragment(), MavericksView 
         }
     }
 
-    final override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    open override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         Timber.i("onCreateView Fragment ${javaClass.simpleName}")
         Timber.v("创建Fragment ${javaClass.simpleName}")
         _binding = getBinding(inflater, container)
@@ -167,7 +169,7 @@ abstract class VectorBaseFragment<VB : ViewBinding> : Fragment(), MavericksView 
     }
 
     open fun showFailure(throwable: Throwable) {
-        displayErrorDialog(throwable)
+        // displayErrorDialog(throwable)
     }
 
     @CallSuper
@@ -290,10 +292,31 @@ abstract class VectorBaseFragment<VB : ViewBinding> : Fragment(), MavericksView 
      * ========================================================================================== */
 
     protected fun displayErrorDialog(throwable: Throwable) {
-        MaterialAlertDialogBuilder(requireActivity())
-                .setTitle(R.string.dialog_title_error)
-                .setMessage(errorFormatter.toHumanReadable(throwable))
-                .setPositiveButton(R.string.ok, null)
-                .show()
+        if (throwable is Failure.ServerError) {
+            MaterialAlertDialogBuilder(requireActivity())
+                    .setTitle(R.string.dialog_title_error)
+                    .setMessage(R.string.please_enter_correct_msisdn)
+                    .setPositiveButton(R.string.ok, null)
+                    .show()
+        } else if (!(throwable is Failure.RegistrationFlowError)) {
+            MaterialAlertDialogBuilder(requireActivity())
+                    .setTitle(R.string.dialog_title_error)
+                    .setMessage(errorFormatter.toHumanReadable(throwable))
+                    .setPositiveButton(R.string.ok, null)
+                    .show()
+        }
+    }
+
+    open fun isFinishing(): Boolean {
+        return activity == null || requireActivity().isFinishing
+    }
+
+    /**
+     * 返回按键处理，用于提供给 Activity 处理其内部 fragment 的返回事件
+     * 如 Fragment 需要拦截 Activity 返回按键事件，重写此方法返回 true，否则返回 false
+     * @return true 拦截返回事件，false 不拦截
+     */
+    open fun backHandler(): Boolean {
+        return false
     }
 }

@@ -24,6 +24,7 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
 import dagger.multibindings.IntoMap
+import im.vector.app.eachchat.user.UserInfoFragment
 import im.vector.app.features.analytics.ui.consent.AnalyticsOptInFragment
 import im.vector.app.features.attachments.preview.AttachmentsPreviewFragment
 import im.vector.app.features.contactsbook.ContactsBookFragment
@@ -178,7 +179,15 @@ import im.vector.app.features.terms.ReviewTermsFragment
 import im.vector.app.features.usercode.ShowUserCodeFragment
 import im.vector.app.features.userdirectory.UserListFragment
 import im.vector.app.features.widgets.WidgetFragment
-import im.vector.app.yiqia.complain.RoomComplainFragment
+import im.vector.app.eachchat.complain.RoomComplainFragment
+import im.vector.app.eachchat.contact.invite.InviteFragment
+import im.vector.app.eachchat.contact.manage.ContactManageFragment
+import im.vector.app.eachchat.contact.mycontacts.MyContactsFragment
+import im.vector.app.eachchat.contact.real.RealContactsFragment
+import im.vector.app.eachchat.moreinfo.MoreInfoFragment
+import im.vector.app.eachchat.widget.email.WidgetEmailFragment
+import im.vector.app.eachchat.widget.email.WidgetEmailServerFragment
+import im.vector.app.features.roomprofile.contact.RoomContactFragment
 
 @InstallIn(ActivityComponent::class)
 @Module
@@ -193,6 +202,41 @@ interface FragmentModule {
     @IntoMap
     @FragmentKey(RoomListFragment::class)
     fun bindRoomListFragment(fragment: RoomListFragment): Fragment
+
+    @Binds
+    @IntoMap
+    @FragmentKey(WidgetEmailFragment::class)
+    fun bindWidgetEmailFragment(fragment: WidgetEmailFragment): Fragment
+
+    @Binds
+    @IntoMap
+    @FragmentKey(WidgetEmailServerFragment::class)
+    fun bindWidgetEmailServerFragment(fragment: WidgetEmailServerFragment): Fragment
+
+    @Binds
+    @IntoMap
+    @FragmentKey(RoomContactFragment::class)
+    fun bindRoomContactFragment(fragment: RoomContactFragment): Fragment
+
+    @Binds
+    @IntoMap
+    @FragmentKey(ContactManageFragment::class)
+    fun bindContactManageFragment(fragment: ContactManageFragment): Fragment
+
+    @Binds
+    @IntoMap
+    @FragmentKey(MyContactsFragment::class)
+    fun bindMyContactsFragment(fragment: MyContactsFragment): Fragment
+
+    @Binds
+    @IntoMap
+    @FragmentKey(RealContactsFragment::class)
+    fun bindRealContactFragment(fragment: RealContactsFragment): Fragment
+
+    @Binds
+    @IntoMap
+    @FragmentKey(InviteFragment::class)
+    fun bindInviteFragment(fragment: InviteFragment): Fragment
 
     @Binds
     @IntoMap
@@ -603,6 +647,16 @@ interface FragmentModule {
     @IntoMap
     @FragmentKey(RoomMemberProfileFragment::class)
     fun bindRoomMemberProfileFragment(fragment: RoomMemberProfileFragment): Fragment
+
+    @Binds
+    @IntoMap
+    @FragmentKey(UserInfoFragment::class)
+    fun bindUserInfoFragment(userInfoFragment: UserInfoFragment): Fragment
+
+    @Binds
+    @IntoMap
+    @FragmentKey(MoreInfoFragment::class)
+    fun bindMoreInfoFragment(moreInfoFragment: MoreInfoFragment): Fragment
 
     @Binds
     @IntoMap

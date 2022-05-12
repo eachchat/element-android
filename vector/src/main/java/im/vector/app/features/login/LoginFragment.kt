@@ -25,7 +25,7 @@ import android.view.inputmethod.EditorInfo
 import androidx.autofill.HintConstants
 import androidx.core.text.isDigitsOnly
 import androidx.core.view.isVisible
-import androidx.lifecycle.lifecycleScope
+import androidx.core.widget.doAfterTextChanged
 import com.airbnb.mvrx.Fail
 import com.airbnb.mvrx.Loading
 import com.airbnb.mvrx.Success
@@ -36,15 +36,10 @@ import im.vector.app.core.extensions.hidePassword
 import im.vector.app.core.extensions.toReducedUrl
 import im.vector.app.databinding.FragmentLoginBinding
 import im.vector.app.features.webview.NormalWebViewActivity
-import im.vector.app.yiqia.utils.ToastUtil
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
+import im.vector.app.eachchat.utils.ToastUtil
 import org.matrix.android.sdk.api.failure.Failure
 import org.matrix.android.sdk.api.failure.MatrixError
 import org.matrix.android.sdk.api.failure.isInvalidPassword
-import reactivecircus.flowbinding.android.widget.textChanges
 import javax.inject.Inject
 
 /**
@@ -252,18 +247,28 @@ class LoginFragment @Inject constructor() : AbstractSSOLoginFragment<FragmentLog
 
     private fun setupSubmitButton() {
         views.loginSubmit.debouncedClicks { submit() }
-        combine(
-                views.loginField.textChanges().map { it.trim().isNotEmpty() },
-                views.passwordField.textChanges().map { it.isNotEmpty() }
-        ) { isLoginNotEmpty, isPasswordNotEmpty ->
-            isLoginNotEmpty && isPasswordNotEmpty
+//        combine(
+//                views.loginField.textChanges().map { it.trim().isNotEmpty() },
+//                views.passwordField.textChanges().map { it.isNotEmpty() }
+//        ) { isLoginNotEmpty, isPasswordNotEmpty ->
+//            isLoginNotEmpty && isPasswordNotEmpty
+//        }
+//                .onEach {
+////                    views.loginFieldTil.error = null
+////                    views.passwordFieldTil.error = null
+//                    views.loginSubmit.isEnabled = it
+//                }
+//                .launchIn(viewLifecycleOwner.lifecycleScope)
+        views.loginField.doAfterTextChanged {
+            checkSubmitEnable()
         }
-                .onEach {
-//                    views.loginFieldTil.error = null
-//                    views.passwordFieldTil.error = null
-                    views.loginSubmit.isEnabled = it
-                }
-                .launchIn(viewLifecycleOwner.lifecycleScope)
+        views.passwordField.doAfterTextChanged {
+            checkSubmitEnable()
+        }
+    }
+
+    private fun checkSubmitEnable() {
+        views.loginSubmit.isEnabled = views.loginField.text?.isNotEmpty() == true && views.passwordField.text?.isNotEmpty() == true
     }
 
     private fun forgetPasswordClicked() {

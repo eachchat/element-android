@@ -16,6 +16,7 @@
 
 package im.vector.app.eachchat.push
 
+import ai.workly.eachchat.android.push.firebase.FirebasePush
 import android.content.Context
 import android.content.Intent
 import android.os.Build
@@ -23,7 +24,7 @@ import android.text.TextUtils
 import im.vector.app.R
 import im.vector.app.core.di.ActiveSessionHolder
 import im.vector.app.core.di.DefaultSharedPreferences
-import im.vector.app.eachchat.BaseModule
+import im.vector.app.eachchat.base.BaseModule
 import im.vector.app.eachchat.bean.PNSInput
 import im.vector.app.eachchat.net.CloseableCoroutineScope
 import im.vector.app.eachchat.net.NetConstant
@@ -33,10 +34,10 @@ import im.vector.app.eachchat.push.mipush.MiPush
 import im.vector.app.eachchat.push.oppoPush.OppoPush
 import im.vector.app.eachchat.push.vivo.VivoPush
 import im.vector.app.eachchat.service.ApiService
-import im.vector.app.eachchat.utils.AppCache
 import im.vector.app.eachchat.utils.YQBadgeUtils
 import im.vector.app.features.home.HomeActivity
 import im.vector.app.features.settings.VectorPreferences
+import im.vector.app.eachchat.utils.AppCache
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -92,6 +93,7 @@ class PushHelper {
             TYPE_OPPO_PUSH -> OppoPush(BaseModule.getContext())
             TYPE_VIVO_PUSH -> VivoPush(BaseModule.getContext())
             TYPE_GETUI     -> GeTuiPush(BaseModule.getContext())
+            TYPE_FIREBASE  -> FirebasePush(BaseModule.getContext())
             else           -> GeTuiPush(BaseModule.getContext())
         }
         try {

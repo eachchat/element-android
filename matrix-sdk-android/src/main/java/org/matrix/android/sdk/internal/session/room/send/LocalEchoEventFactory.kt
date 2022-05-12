@@ -634,10 +634,10 @@ internal class LocalEchoEventFactory @Inject constructor(
                     TextContent(content.body, formattedText)
                 }
             }
-            MessageType.MSGTYPE_FILE       -> return TextContent("sent a file.")
-            MessageType.MSGTYPE_AUDIO      -> return TextContent("sent an audio file.")
-            MessageType.MSGTYPE_IMAGE      -> return TextContent("sent an image.")
-            MessageType.MSGTYPE_VIDEO      -> return TextContent("sent a video.")
+            MessageType.MSGTYPE_FILE       -> return TextContent("文件")
+            MessageType.MSGTYPE_AUDIO      -> return TextContent("音频")
+            MessageType.MSGTYPE_IMAGE      -> return TextContent("图片")
+            MessageType.MSGTYPE_VIDEO      -> return TextContent("视频")
             MessageType.MSGTYPE_POLL_START -> return TextContent((content as? MessagePollContent)?.pollCreationInfo?.question?.question ?: "")
             else                           -> return TextContent(content?.body ?: "")
         }
@@ -754,7 +754,7 @@ internal class LocalEchoEventFactory @Inject constructor(
         //     </blockquote>
         // </mx-reply>
         // No whitespace because currently breaks temporary formatted text to Span
-        const val REPLY_PATTERN = """<mx-reply><blockquote><a href="%s">In reply to</a> <a href="%s">%s</a><br />%s</blockquote></mx-reply>%s"""
+        const val REPLY_PATTERN = """<mx-reply><blockquote><a href="%s">回复给</a> <a href="%s">%s</a><br />%s</blockquote></mx-reply>%s"""
         const val QUOTE_PATTERN = """<blockquote><p>%s</p></blockquote><p>%s</p>"""
 
         // This is used to replace inner mx-reply tags

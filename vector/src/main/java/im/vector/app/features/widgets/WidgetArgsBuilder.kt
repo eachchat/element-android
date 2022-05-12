@@ -28,15 +28,16 @@ class WidgetArgsBuilder @Inject constructor(
 
     @Suppress("UNCHECKED_CAST")
     fun buildIntegrationManagerArgs(roomId: String, integId: String?, screen: String?): WidgetArgs {
-        val session = sessionHolder.getActiveSession()
-        val integrationManagerConfig = session.integrationManagerService().getPreferredConfig()
+        // val session = sessionHolder.getActiveSession()
+        // val integrationManagerConfig = session.integrationManagerService().getPreferredConfig()
+
         val normalizedScreen = when {
             screen == null             -> null
             screen.startsWith("type_") -> screen
             else                       -> "type_$screen"
         }
         return WidgetArgs(
-                baseUrl = integrationManagerConfig.uiUrl,
+                baseUrl = "https://scalar.eachchat.net/element",// integrationManagerConfig.uiUrl,
                 kind = WidgetKind.INTEGRATION_MANAGER,
                 roomId = roomId,
                 urlParams = mapOf(

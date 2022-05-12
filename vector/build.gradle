@@ -7,6 +7,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-parcelize'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'placeholder-resolver'
+apply plugin: 'com.google.gms.google-services'  // Google Services plugin
 apply plugin: 'dagger.hilt.android.plugin'
 
 kapt {
@@ -124,6 +125,12 @@ android {
 
         renderscriptTargetApi 24
         renderscriptSupportModeEnabled true
+
+        kapt {
+            arguments {
+                arg("room.schemaLocation", "$projectDir/schemas")
+            }
+        }
 
         // `develop` branch will have version code from timestamp, to ensure each build from CI has a incremented versionCode.
         // Other branches (main, features, etc.) will have version code based on application version.
@@ -262,6 +269,7 @@ android {
         }
 
         release {
+            debuggable true
             resValue "string", "app_name", "亿洽"
 
             resValue "bool", "debug_mode", "false"
@@ -322,13 +330,26 @@ android {
             buildConfigField "String", "SHORT_FLAVOR_DESCRIPTION", "\"F\""
             buildConfigField "String", "FLAVOR_DESCRIPTION", "\"FDroid\""
         }
+
+        // 用来打包小米渠道包，不注释就打不了其他包？
+//        xiaomi {
+//            dimension "store"
+//
+//            //versionName "${versionMajor}.${versionMinor}.${versionPatch}${getFdroidVersionSuffix()}"
+//            versionName "2.6.0"
+//
+//            resValue "bool", "isGplay", "false"
+//            buildConfigField "boolean", "ALLOW_FCM_USE", "false"
+//            buildConfigField "String", "SHORT_FLAVOR_DESCRIPTION", "\"F\""
+//            buildConfigField "String", "FLAVOR_DESCRIPTION", "\"Xiaomi\""
+//        }
     }
 
 //    lintOptions {
 //        lintConfig file("lint.xml")
 //
-//        checkDependencies true
-//        abortOnError true
+//        checkDependencies false
+//        abortOnError false
 //    }
 
     compileOptions {
@@ -399,6 +420,8 @@ dependencies {
 
     implementation libs.squareup.moshi
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.databinding:databinding-common:4.2.2'
+    implementation 'androidx.databinding:databinding-adapters:4.2.2'
     kapt libs.squareup.moshiKotlin
 
     // Lifecycle
@@ -602,6 +625,29 @@ dependencies {
     implementation 'com.getui:gtsdk:3.2.9.0'  // 个推SDK
     implementation 'com.getui:gtc:3.1.7.0'  // 个推核心组件
 
+    // https://mvnrepository.com/artifact/com.github.promeg/tinypinyin
+    implementation 'com.github.promeg:tinypinyin:3.0.0'
+
+    // Room
+    api "androidx.room:room-runtime:2.5.0-alpha01"
+    kapt "androidx.room:room-compiler:2.5.0-alpha01"
+
+    // https://mvnrepository.com/artifact/com.wj/BaseRecyclerViewAdapterHelper
+    implementation("com.wj:BaseRecyclerViewAdapterHelper:1.0.1")
+
+    // Glide
+//    api "com.github.bumptech.glide:glide:4.12.0"
+//    kapt "com.github.bumptech.glide:compiler:4.12.0"
+
+    api "org.greenrobot:eventbus:3.2.0"
+
+    implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
+    implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.5'
+
     // bugly
     implementation 'com.tencent.bugly:crashreport:latest.release'
+
+    implementation platform('com.google.firebase:firebase-bom:26.1.0')
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-messaging'
 }

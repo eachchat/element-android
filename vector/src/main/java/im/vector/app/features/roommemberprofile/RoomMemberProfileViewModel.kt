@@ -17,6 +17,7 @@
 
 package im.vector.app.features.roommemberprofile
 
+import androidx.lifecycle.LifecycleOwner
 import com.airbnb.mvrx.Fail
 import com.airbnb.mvrx.Loading
 import com.airbnb.mvrx.MavericksViewModelFactory
@@ -32,6 +33,14 @@ import im.vector.app.core.extensions.exhaustive
 import im.vector.app.core.mvrx.runCatchingToAsync
 import im.vector.app.core.platform.VectorViewModel
 import im.vector.app.core.resources.StringProvider
+import im.vector.app.eachchat.base.BaseModule
+import im.vector.app.eachchat.contact.api.ContactService
+import im.vector.app.eachchat.contact.api.ContactServiceV2
+import im.vector.app.eachchat.contact.data.ContactsDisplayBean
+import im.vector.app.eachchat.contact.data.ContactsDisplayBeanV2
+import im.vector.app.eachchat.contact.database.ContactDaoHelper
+import im.vector.app.eachchat.database.AppDatabase
+import im.vector.app.eachchat.utils.AppCache
 import im.vector.app.features.displayname.getBestName
 import im.vector.app.features.home.room.detail.timeline.helper.MatrixItemColorProvider
 import im.vector.app.features.powerlevel.PowerLevelsFlowFactory
@@ -43,6 +52,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.matrix.android.sdk.api.query.QueryStringValue
+import org.matrix.android.sdk.api.query.RoomCategoryFilter
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.session.accountdata.UserAccountDataTypes
 import org.matrix.android.sdk.api.session.events.model.EventType
@@ -56,11 +66,13 @@ import org.matrix.android.sdk.api.session.room.model.RoomEncryptionAlgorithm
 import org.matrix.android.sdk.api.session.room.model.RoomType
 import org.matrix.android.sdk.api.session.room.powerlevels.PowerLevelsHelper
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
+import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 import org.matrix.android.sdk.api.util.MatrixItem
 import org.matrix.android.sdk.api.util.toMatrixItem
 import org.matrix.android.sdk.api.util.toOptional
 import org.matrix.android.sdk.flow.flow
 import org.matrix.android.sdk.flow.unwrap
+import timber.log.Timber
 
 class RoomMemberProfileViewModel @AssistedInject constructor(
         @Assisted private val initialState: RoomMemberProfileViewState,
@@ -76,7 +88,7 @@ class RoomMemberProfileViewModel @AssistedInject constructor(
 
     companion object : MavericksViewModelFactory<RoomMemberProfileViewModel, RoomMemberProfileViewState> by hiltMavericksViewModelFactory()
 
-    private val room = if (initialState.roomId != null) {
+    val room = if (initialState.roomId != null) {
         session.getRoom(initialState.roomId)
     } else {
         null
@@ -107,6 +119,7 @@ class RoomMemberProfileViewModel @AssistedInject constructor(
                 observeRoomMemberSummary(room)
                 observeRoomSummaryAndPowerLevels(room)
             }
+
         }
 
         session.flow().liveUserCryptoDevices(initialState.userId)
@@ -126,6 +139,60 @@ class RoomMemberProfileViewModel @AssistedInject constructor(
         session.flow().liveCrossSigningInfo(initialState.userId)
                 .execute {
                     copy(userMXCrossSigningInfo = it.invoke()?.getOrNull())
+                }
+
+        viewModelScope.launch(Dispatchers.IO) {
+            val queryParams = roomSummaryQueryParams {
+                memberships = listOf(Membership.JOIN)
+                roomCategoryFilter = RoomCategoryFilter.ONLY_DM
+            }
+            var roomSummaries = session.getRoomSummaries(queryParams)
+            roomSummaries = roomSummaries.filter { it.otherMemberIds[0] == initialState.userId && it.joinedMembersCount == 2  }
+            if (roomSummaries.isNotEmpty()) {
+                setState { copy(directRoomId = roomSummaries[0].roomId) }
+            }
+        }
+    }
+
+    fun getExistingDM() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val queryParams = roomSummaryQueryParams {
+                memberships = listOf(Membership.JOIN)
+                roomCategoryFilter = RoomCategoryFilter.ONLY_DM
+            }
+            var roomSummaries = session.getRoomSummaries(queryParams)
+            roomSummaries = roomSummaries.filter { it.otherMemberIds[0] == initialState.userId && it.joinedMembersCount == 2 }
+            if (roomSummaries.isNotEmpty()) {
+                setState { copy(directRoomId = roomSummaries[0].roomId) }
+            }
+        }
+    }
+
+    // 观察一些补充的信息
+    fun observeOtherInfo(lifecycleOwner: LifecycleOwner) {
+        if (AppCache.getIsOpenContact())
+            observeContact(lifecycleOwner)
+        if (AppCache.getIsOpenOrg())
+            observeDepartmentUser(lifecycleOwner)
+    }
+
+    private fun observeContact(lifecycleOwner: LifecycleOwner) {
+        AppDatabase
+                .getInstance(BaseModule.getContext()).contactDaoV2()
+                .getContactByMatrixIdLive(initialState.userId).observe(lifecycleOwner) {
+                    setState {
+                        copy(contact = it)
+                    }
+                }
+    }
+
+    private fun observeDepartmentUser(lifecycleOwner: LifecycleOwner) {
+        AppDatabase
+                .getInstance(BaseModule.getContext()).userDao()
+                .getBriefUserByMatrixIdLive(initialState.userId).observe(lifecycleOwner) {
+                    setState {
+                        copy(departmentUser = it)
+                    }
                 }
     }
 
@@ -390,6 +457,52 @@ class RoomMemberProfileViewModel @AssistedInject constructor(
     private fun handleShareRoomMemberProfile() {
         session.permalinkService().createPermalink(initialState.userId)?.let { permalink ->
             _viewEvents.post(RoomMemberProfileViewEvents.ShareRoomMemberProfile(permalink))
+        }
+    }
+
+    fun addContacts(contact: ContactsDisplayBean) {
+        loading.postValue(true)
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                val contactV2 = contact.toContactsDisplayBeanV2()
+                val response = ContactServiceV2.getInstance().add(contactV2)
+                if (!response.obj?.id.isNullOrEmpty()) {
+                    contact.contactAdded = true
+                    contact.contactId = response.obj?.id.orEmpty()
+                    withContext(Dispatchers.IO) {
+                        ContactDaoHelper.getInstance().insertContacts(contact)
+                        loading.postValue(false)
+                    }
+                } else {
+                    loading.postValue(false)
+                }
+            }.exceptionOrNull()?.let {
+                it.printStackTrace()
+                loading.postValue(false)
+            }
+        }
+    }
+
+    fun deleteContact(mContact: ContactsDisplayBeanV2, deleteSuccessListener: () -> Unit) {
+        loading.postValue(true)
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                val response = mContact.id?.let { it1 -> ContactServiceV2.getInstance().delete(it1) }
+                if (response?.isSuccess == true) {
+                    mContact.del = 1
+                    AppDatabase.getInstance(BaseModule.getContext()).contactDaoV2().update(mContact)
+                    // callBack.invoke(RoomProfileController.END_LOADING)
+                    deleteSuccessListener.invoke()
+                    loading.postValue(false)
+                } else {
+                    // callBack.invoke(RoomProfileController.END_LOADING)
+                    loading.postValue(false)
+                }
+            }.exceptionOrNull()?.let {
+                it.printStackTrace()
+                loading.postValue(false)
+                Timber.e("删除联系人错误")
+            }
         }
     }
 }

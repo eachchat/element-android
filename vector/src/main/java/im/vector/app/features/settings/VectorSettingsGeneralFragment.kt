@@ -44,6 +44,7 @@ import im.vector.app.core.intent.getFilenameFromUri
 import im.vector.app.core.platform.SimpleTextWatcher
 import im.vector.app.core.preference.UserAvatarPreference
 import im.vector.app.core.preference.VectorPreference
+import im.vector.app.core.preference.VectorPreferenceCategory
 import im.vector.app.core.preference.VectorSwitchPreference
 import im.vector.app.core.resources.ColorProvider
 import im.vector.app.core.utils.TextUtils
@@ -309,6 +310,8 @@ class VectorSettingsGeneralFragment @Inject constructor(
 
             false
         }
+        // findPreference<VectorPreferenceCategory>("SETTINGS_SIGN_OUT_KEY_CATEGORY")!!.colorResource = R.color.caution_fc4
+        findPreference<VectorPreference>("SETTINGS_SIGN_OUT_KEY")!!.colorResource = R.color.caution_fc4
     }
 
     override fun onResume() {

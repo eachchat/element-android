@@ -16,12 +16,16 @@
 
 package im.vector.app.features.home
 
+import ai.workly.eachchat.android.usercenter.api.VersionUpdateHelper
+import ai.workly.eachchat.android.usercenter.api.VersionUpdateHelper.Companion.getAppUpdateVersionCode
+import ai.workly.eachchat.android.usercenter.api.VersionUpdateHelper.Companion.setShowUpdateTips
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
+import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -36,6 +40,8 @@ import com.airbnb.mvrx.viewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import im.vector.app.AppStateHandler
+import im.vector.app.BuildConfig
+import im.vector.app.BuildConfig.FLAVOR
 import im.vector.app.R
 import im.vector.app.core.di.ActiveSessionHolder
 import im.vector.app.core.extensions.exhaustive
@@ -45,7 +51,12 @@ import im.vector.app.core.extensions.replaceFragment
 import im.vector.app.core.platform.VectorBaseActivity
 import im.vector.app.core.pushers.PushersManager
 import im.vector.app.databinding.ActivityHomeBinding
+import im.vector.app.eachchat.base.BaseModule
+import im.vector.app.eachchat.contact.addcontact.ContactAddHomeActivity
+import im.vector.app.eachchat.contact.api.BaseConstant
 import im.vector.app.eachchat.push.PushHelper
+import im.vector.app.eachchat.search.contactsearch.ContactsSearchActivity
+import im.vector.app.eachchat.version_update.CheckVersionUpdateEvent
 import im.vector.app.features.MainActivity
 import im.vector.app.features.MainActivityArgs
 import im.vector.app.features.analytics.accountdata.AnalyticsAccountDataViewModel
@@ -78,6 +89,9 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.matrix.android.sdk.api.session.initsync.SyncStatusService
 import org.matrix.android.sdk.api.session.permalinks.PermalinkService
 import org.matrix.android.sdk.api.util.MatrixItem
@@ -184,9 +198,12 @@ class HomeActivity :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        EventBus.getDefault().register(this)
+        BaseModule.setSession(activeSessionHolder.getActiveSession())
         analyticsScreenName = Screen.ScreenName.Home
         supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentLifecycleCallbacks, false)
         PushHelper.getInstance().startPush(activeSessionHolder)
+        // ContactSyncUtils.getInstance().init(this, application)
 //        FcmHelper.ensureFcmTokenIsRetrieved(this, pushManager, vectorPreferences.areNotificationEnabledForDevice())
         sharedActionViewModel = viewModelProvider.get(HomeSharedActionViewModel::class.java)
         views.drawerLayout.addDrawerListener(drawerListener)
@@ -452,6 +469,9 @@ class HomeActivity :
         views.drawerLayout.removeDrawerListener(drawerListener)
         supportFragmentManager.unregisterFragmentLifecycleCallbacks(fragmentLifecycleCallbacks)
         PushHelper.getInstance().stopPush()
+        updateHelper?.onDestroy()
+        updateHelper = null
+        EventBus.getDefault().unregister(this)
         super.onDestroy()
     }
 
@@ -489,6 +509,10 @@ class HomeActivity :
                 bugReporter.openBugReportScreen(this, ReportType.SUGGESTION)
                 return true
             }
+            R.id.menu_home_add_contact       -> {
+                ContactAddHomeActivity.start(this)
+                return true
+            }
             R.id.menu_home_report_bug          -> {
                 bugReporter.openBugReportScreen(this, ReportType.BUG_REPORT)
                 return true
@@ -508,7 +532,7 @@ class HomeActivity :
                 return true
             }
             R.id.menu_home_filter              -> {
-                navigator.openRoomsFiltering(this)
+                ContactsSearchActivity.start(this)
                 return true
             }
             R.id.menu_home_setting             -> {
@@ -575,5 +599,49 @@ class HomeActivity :
 
     override fun mxToBottomSheetSwitchToSpace(spaceId: String) {
         navigator.switchToSpace(this, spaceId, Navigator.PostSwitchSpaceAction.None)
+    }
+
+    fun selectContactFragment() {
+        supportFragmentManager.fragments.forEach {
+            if (it is HomeDetailFragment) {
+                it.updateUIForTab(HomeTab.RoomList(RoomListDisplayMode.ROOMS))
+            }
+        }
+        views.drawerLayout.closeDrawers()
+    }
+
+    fun selectHomeFragment() {
+        supportFragmentManager.fragments.forEach {
+            if (it is HomeDetailFragment) {
+                it.updateUIForTab(HomeTab.RoomList(RoomListDisplayMode.PEOPLE))
+            }
+        }
+        views.drawerLayout.closeDrawers()
+    }
+
+    fun getSelectedTab(): Int {
+        supportFragmentManager.fragments.forEach {
+            if (it is HomeDetailFragment) {
+                return it.getSelectedTab()
+            }
+        }
+        return 0
+    }
+
+    private var updateHelper: VersionUpdateHelper? = VersionUpdateHelper(this)
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onCheckVersionUpdateEvent(event: CheckVersionUpdateEvent?) {
+        if (event == null) return
+        if (FLAVOR.equals(BaseConstant.FLAVOR_XIAOMI)) return
+        if (isFinishing) {
+            return
+        }
+        // Version update
+        //one version only check once
+        if (!TextUtils.equals(getAppUpdateVersionCode(), BuildConfig.VERSION_NAME)) {
+            setShowUpdateTips(true)
+            updateHelper?.checkVersionUpdate(false)
+        }
     }
 }

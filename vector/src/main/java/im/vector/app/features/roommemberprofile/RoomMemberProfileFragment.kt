@@ -19,11 +19,16 @@ package im.vector.app.features.roommemberprofile
 
 import android.os.Bundle
 import android.os.Parcelable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import com.airbnb.mvrx.Fail
 import com.airbnb.mvrx.Incomplete
 import com.airbnb.mvrx.Success
@@ -39,15 +44,28 @@ import im.vector.app.core.extensions.cleanup
 import im.vector.app.core.extensions.configureWith
 import im.vector.app.core.extensions.copyOnLongClick
 import im.vector.app.core.extensions.exhaustive
-import im.vector.app.core.extensions.setTextOrHide
 import im.vector.app.core.platform.StateView
 import im.vector.app.core.platform.VectorBaseFragment
+import im.vector.app.core.utils.PERMISSIONS_FOR_AUDIO_IP_CALL
+import im.vector.app.core.utils.PERMISSIONS_FOR_VIDEO_IP_CALL
+import im.vector.app.core.utils.checkPermissions
+import im.vector.app.core.utils.onPermissionDeniedDialog
+import im.vector.app.core.utils.registerForPermissionsResult
 import im.vector.app.core.utils.startSharePlainTextIntent
 import im.vector.app.databinding.DialogBaseEditTextBinding
 import im.vector.app.databinding.DialogShareQrCodeBinding
 import im.vector.app.databinding.FragmentMatrixProfileBinding
 import im.vector.app.databinding.ViewStubRoomMemberProfileHeaderBinding
+import im.vector.app.eachchat.base.BaseModule
+import im.vector.app.eachchat.contact.addcontact.ContactEditAddActivity
+import im.vector.app.eachchat.contact.data.ContactsDisplayBean
+import im.vector.app.eachchat.contact.data.getDepartments
+import im.vector.app.eachchat.contact.data.toContact
+import im.vector.app.eachchat.moreinfo.MoreInfoActivity
+import im.vector.app.eachchat.user.UserInfoArg
 import im.vector.app.features.analytics.plan.Screen
+import im.vector.app.features.call.VectorCallActivity
+import im.vector.app.features.call.webrtc.WebRtcCallManager
 import im.vector.app.features.crypto.verification.VerificationBottomSheet
 import im.vector.app.features.displayname.getBestName
 import im.vector.app.features.home.AvatarRenderer
@@ -56,6 +74,9 @@ import im.vector.app.features.home.room.detail.RoomDetailPendingActionStore
 import im.vector.app.features.home.room.detail.timeline.helper.MatrixItemColorProvider
 import im.vector.app.features.roommemberprofile.devices.DeviceListBottomSheet
 import im.vector.app.features.roommemberprofile.powerlevel.EditPowerLevelDialogs
+import im.vector.app.features.settings.VectorPreferences
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 import org.matrix.android.sdk.api.crypto.RoomEncryptionTrustLevel
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
@@ -72,7 +93,9 @@ class RoomMemberProfileFragment @Inject constructor(
         private val roomMemberProfileController: RoomMemberProfileController,
         private val avatarRenderer: AvatarRenderer,
         private val roomDetailPendingActionStore: RoomDetailPendingActionStore,
-        private val matrixItemColorProvider: MatrixItemColorProvider
+        private val matrixItemColorProvider: MatrixItemColorProvider,
+        private val callManager: WebRtcCallManager,
+        private val vectorPreferences: VectorPreferences
 ) : VectorBaseFragment<FragmentMatrixProfileBinding>(),
         RoomMemberProfileController.Callback {
 
@@ -89,9 +112,58 @@ class RoomMemberProfileFragment @Inject constructor(
 
     override fun getMenuRes() = R.menu.vector_room_member_profile
 
+    private var actionAddContact: MenuItem? = null
+    private var actionDeleteContact: MenuItem? = null
+    private var actionEditContact: MenuItem? = null
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        actionAddContact = menu.findItem(R.id.userInfoAddContactAction)
+        actionDeleteContact = menu.findItem(R.id.userInfoDeleteContactAction)
+        actionEditContact = menu.findItem(R.id.userEditContactAction)
+        actionDeleteContact?.title?.let {
+            val spannableString = SpannableString(it)
+            spannableString.setSpan(ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.caution_fc4)), 0, spannableString.length, 0)
+            actionDeleteContact?.title = spannableString
+        }
+        actionAddContact?.setOnMenuItemClickListener {
+            withState(viewModel) {
+                lifecycleScope.launch(Dispatchers.IO) {
+                    if (it.departmentUser != null) {
+                        viewModel.addContacts(it.departmentUser.toContact(it.departmentUser.getDepartments(), false))
+                    } else if (it.userMatrixItem.invoke() != null) {
+                        viewModel.addContacts(ContactsDisplayBean(
+                                it.userMatrixItem.invoke()!!.avatarUrl,
+                                it.userMatrixItem.invoke()!!.displayName,
+                                it.userMatrixItem.invoke()!!.id
+                        ))
+                    }
+                }
+            }
+            true
+        }
+        actionDeleteContact?.setOnMenuItemClickListener {
+            withState(viewModel) {
+                if (it.contact != null) {
+                    viewModel.deleteContact(it.contact) {
+
+                    }
+                }
+            }
+            true
+        }
+        actionEditContact?.setOnMenuItemClickListener {
+            withState(viewModel) {
+                ContactEditAddActivity.startEdit(requireContext(), it.contact?.id)
+            }
+            true
+        }
+        return super.onPrepareOptionsMenu(menu)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         analyticsScreenName = Screen.ScreenName.User
+        viewModel.observeOtherInfo(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -136,7 +208,13 @@ class RoomMemberProfileFragment @Inject constructor(
         }
         setupLongClicks()
 
-        headerViews.memberProfileIdView.visibility = View.GONE
+        viewModel.loading.observe(viewLifecycleOwner) {
+            views.waitingView.waitingView.isVisible = it
+        }
+
+        views.waitingView.waitingStatusText.text = getString(R.string.please_wait)
+        views.waitingView.waitingStatusText.visibility = View.VISIBLE
+
         headerViews.memberProfilePowerLevelView.visibility = View.GONE
     }
 
@@ -254,6 +332,20 @@ class RoomMemberProfileFragment @Inject constructor(
                 }
             }
         }
+
+        if (state.contact != null) {
+            headerViews.memberProfileNameView.text = state.contact.displayName
+            views.matrixProfileToolbarTitleView.text = state.contact.displayName
+        } else if (state.departmentUser != null) {
+            headerViews.memberProfileNameView.text = state.departmentUser.displayName
+            views.matrixProfileToolbarTitleView.text = state.departmentUser.displayName
+        }
+
+
+        actionAddContact?.isVisible = state.contact == null
+        actionDeleteContact?.isVisible = state.contact != null
+        actionEditContact?.isVisible = state.contact != null
+
         //headerViews.memberProfilePowerLevelView.setTextOrHide(state.userPowerLevelString())
         roomMemberProfileController.setData(state)
     }
@@ -420,5 +512,130 @@ class RoomMemberProfileFragment @Inject constructor(
 
     override fun onInviteClicked() {
         viewModel.handle(RoomMemberProfileAction.InviteUser)
+    }
+
+    override fun onVoiceCall() {
+        isVideoCall = false
+        handleCallRequest(false)
+    }
+
+    override fun onVideoCall() {
+        isVideoCall = true
+        handleCallRequest(true)
+    }
+
+    override fun onMoreInfoClick() {
+        withState(viewModel) {
+            MoreInfoActivity.start(requireActivity(), UserInfoArg(userId = it.userId, contact = it.contact, departmentUserId = it.departmentUser?.id))
+        }
+    }
+
+    private fun handleCallRequest(isVideoCall: Boolean) = withState(viewModel) { state ->
+        val roomSummary = viewModel.room?.roomSummary()
+        when (roomSummary?.joinedMembersCount) {
+            1    -> {
+                val pendingInvite = roomSummary.invitedMembersCount ?: 0 > 0
+                if (pendingInvite) {
+                    // wait for other to join
+                    showDialogWithMessage(BaseModule.getContext().getString(R.string.cannot_call_yourself_with_invite))
+                } else {
+                    // You cannot place a call with yourself.
+                    showDialogWithMessage(BaseModule.getContext().getString(R.string.cannot_call_yourself))
+                }
+            }
+            2    -> {
+                val currentCall = callManager.getCurrentCall()
+                if (currentCall?.signalingRoomId == state.directRoomId) {
+                    onTapToReturnToCall()
+                } else {
+                    safeStartCall(isVideoCall)
+                }
+            }
+            else -> {
+            }
+        }
+    }
+
+    private fun onTapToReturnToCall() {
+        callManager.getCurrentCall()?.let { call ->
+            VectorCallActivity.newIntent(
+                    context = requireContext(),
+                    callId = call.callId,
+                    signalingRoomId = call.signalingRoomId,
+                    otherUserId = call.mxCall.opponentUserId,
+                    isIncomingCall = !call.mxCall.isOutgoing,
+                    isVideoCall = call.mxCall.isVideoCall,
+                    mode = null
+            ).let {
+                startActivity(it)
+            }
+        }
+    }
+
+    private fun showDialogWithMessage(message: String) {
+        MaterialAlertDialogBuilder(requireContext())
+                .setMessage(message)
+                .setPositiveButton(getString(R.string.ok), null)
+                .show()
+    }
+
+    private fun safeStartCall(isVideoCall: Boolean) {
+        if (vectorPreferences.preventAccidentalCall()) {
+            MaterialAlertDialogBuilder(requireActivity())
+                    .setMessage(if (isVideoCall) R.string.start_video_call_prompt_msg else R.string.start_voice_call_prompt_msg)
+                    .setPositiveButton(if (isVideoCall) R.string.start_video_call else R.string.start_voice_call) { _, _ ->
+                        safeStartCall2(isVideoCall)
+                    }
+                    .setNegativeButton(R.string.action_cancel, null)
+                    .show()
+        } else {
+            safeStartCall2(isVideoCall)
+        }
+    }
+
+    private fun safeStartCall2(isVideoCall: Boolean) {
+        // val startCallAction = RoomDetailAction.StartCall(isVideoCall)
+        // timelineViewModel.pendingAction = startCallAction
+        if (isVideoCall) {
+            if (checkPermissions(PERMISSIONS_FOR_VIDEO_IP_CALL,
+                            requireActivity(),
+                            startCallActivityResultLauncher,
+                            R.string.permissions_rationale_msg_camera_and_audio)) {
+                // timelineViewModel.pendingAction = null
+                startCall(isVideoCall)
+            }
+        } else {
+            if (checkPermissions(PERMISSIONS_FOR_AUDIO_IP_CALL,
+                            requireActivity(),
+                            startCallActivityResultLauncher,
+                            R.string.permissions_rationale_msg_record_audio)) {
+                // timelineViewModel.pendingAction = null
+                startCall(isVideoCall)
+            }
+        }
+    }
+
+    var isVideoCall = false
+    private val startCallActivityResultLauncher = registerForPermissionsResult { allGranted, deniedPermanently ->
+        if (allGranted) {
+            startCall(isVideoCall)
+        } else {
+            if (deniedPermanently) {
+                activity?.onPermissionDeniedDialog(R.string.denied_permission_generic)
+            }
+        }
+    }
+
+    private fun startCall(isVideoCall: Boolean) {
+        withState(viewModel) {
+            lifecycleScope.launch(Dispatchers.IO) {
+                it.directRoomId?.let { it1 -> callManager.startOutgoingCall(it1, it.userId, isVideoCall) }
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getExistingDM()
     }
 }

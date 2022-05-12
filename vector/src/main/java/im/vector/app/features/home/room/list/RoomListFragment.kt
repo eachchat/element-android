@@ -42,6 +42,7 @@ import im.vector.app.core.platform.StateView
 import im.vector.app.core.platform.VectorBaseFragment
 import im.vector.app.core.resources.UserPreferencesProvider
 import im.vector.app.databinding.FragmentRoomListBinding
+import im.vector.app.eachchat.version_update.CheckVersionUpdateEvent
 import im.vector.app.features.analytics.plan.Screen
 import im.vector.app.features.home.RoomListDisplayMode
 import im.vector.app.features.home.room.filtered.FilteredRoomFooterItem
@@ -54,6 +55,7 @@ import im.vector.app.features.notifications.NotificationDrawerManager
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.parcelize.Parcelize
+import org.greenrobot.eventbus.EventBus
 import org.matrix.android.sdk.api.extensions.orTrue
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import org.matrix.android.sdk.api.session.room.model.SpaceChildInfo
@@ -66,7 +68,7 @@ data class RoomListParams(
         val displayMode: RoomListDisplayMode
 ) : Parcelable
 
-class RoomListFragment @Inject constructor(
+open class RoomListFragment @Inject constructor(
         private val pagedControllerFactory: RoomSummaryPagedControllerFactory,
         private val notificationDrawerManager: NotificationDrawerManager,
         private val footerController: RoomListFooterController,
@@ -113,6 +115,7 @@ class RoomListFragment @Inject constructor(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        EventBus.getDefault().post(CheckVersionUpdateEvent())
         views.stateView.contentView = views.roomListView
         views.stateView.state = StateView.State.Loading
         setupCreateRoomButton()
@@ -158,12 +161,15 @@ class RoomListFragment @Inject constructor(
             actualBlock.section = actualBlock.section.copy(
                     isExpanded = isRoomSectionExpanded
             )
-            actualBlock.sectionHeaderAdapter.updateSection(
-                    actualBlock.sectionHeaderAdapter.roomsSectionData.copy(isExpanded = isRoomSectionExpanded)
-            )
+            actualBlock.sectionHeaderAdapter.roomsSectionData?.let {
+                actualBlock.sectionHeaderAdapter.updateSection(
+                        it.copy(isExpanded = isRoomSectionExpanded)
+                )
+            }
         }
     }
 
+    // 底部弹出的错误提示
     override fun showFailure(throwable: Throwable) {
         showErrorInSnackbar(throwable)
     }
@@ -192,9 +198,9 @@ class RoomListFragment @Inject constructor(
     private fun setupCreateRoomButton() {
         when (roomListParams.displayMode) {
             RoomListDisplayMode.NOTIFICATIONS -> views.createChatFabMenu.isVisible = true
-            RoomListDisplayMode.PEOPLE        -> views.createChatRoomButton.isVisible = true
+            RoomListDisplayMode.PEOPLE        -> views.createChatFabMenu.isVisible = true
             RoomListDisplayMode.ROOMS         -> views.createGroupRoomButton.isVisible = true
-            else                              -> Unit // No button in this mode
+            else                              -> views.createChatFabMenu.isVisible = false // No button in this mode
         }
 
         views.createChatRoomButton.debouncedClicks {
@@ -218,7 +224,7 @@ class RoomListFragment @Inject constructor(
                             RecyclerView.SCROLL_STATE_SETTLING -> {
                                 when (roomListParams.displayMode) {
                                     RoomListDisplayMode.NOTIFICATIONS -> views.createChatFabMenu.hide()
-                                    RoomListDisplayMode.PEOPLE        -> views.createChatRoomButton.hide()
+                                    RoomListDisplayMode.PEOPLE        -> views.createChatFabMenu.hide()
                                     RoomListDisplayMode.ROOMS         -> views.createGroupRoomButton.hide()
                                     else                              -> Unit
                                 }
@@ -286,17 +292,21 @@ class RoomListFragment @Inject constructor(
                                     .also { controller ->
                                         section.livePages.observe(viewLifecycleOwner) { pl ->
                                             controller.submitList(pl)
-                                            sectionAdapter.updateSection(sectionAdapter.roomsSectionData.copy(
-                                                    isHidden = pl.isEmpty(),
-                                                    isLoading = false
-                                            ))
+                                            sectionAdapter.roomsSectionData?.let {
+                                                sectionAdapter.updateSection(it.copy(
+                                                        isHidden = pl.isEmpty(),
+                                                        isLoading = false
+                                                ))
+                                            }
                                             checkEmptyState()
                                         }
                                         section.notificationCount.observe(viewLifecycleOwner) { counts ->
-                                            sectionAdapter.updateSection(sectionAdapter.roomsSectionData.copy(
-                                                    notificationCount = counts.totalCount,
-                                                    isHighlighted = counts.isHighlight
-                                            ))
+                                            sectionAdapter.roomsSectionData?.let {
+                                                sectionAdapter.updateSection(it.copy(
+                                                        notificationCount = counts.totalCount,
+                                                        isHighlighted = counts.isHighlight
+                                                ))
+                                            }
                                         }
                                         section.isExpanded.observe(viewLifecycleOwner) { _ ->
                                             refreshCollapseStates()
@@ -309,10 +319,12 @@ class RoomListFragment @Inject constructor(
                                     .also { controller ->
                                         section.liveSuggested.observe(viewLifecycleOwner) { info ->
                                             controller.setData(info)
-                                            sectionAdapter.updateSection(sectionAdapter.roomsSectionData.copy(
-                                                    isHidden = info.rooms.isEmpty(),
-                                                    isLoading = false
-                                            ))
+                                            sectionAdapter.roomsSectionData?.let {
+                                                sectionAdapter.updateSection(it.copy(
+                                                        isHidden = info.rooms.isEmpty(),
+                                                        isLoading = false
+                                                ))
+                                            }
                                             checkEmptyState()
                                         }
                                         section.isExpanded.observe(viewLifecycleOwner) { _ ->
@@ -326,16 +338,20 @@ class RoomListFragment @Inject constructor(
                                     .also { controller ->
                                         section.liveList?.observe(viewLifecycleOwner) { list ->
                                             controller.setData(list)
-                                            sectionAdapter.updateSection(sectionAdapter.roomsSectionData.copy(
-                                                    isHidden = list.isEmpty(),
-                                                    isLoading = false))
+                                            sectionAdapter.roomsSectionData?.let {
+                                                sectionAdapter.updateSection(it.copy(
+                                                        isHidden = list.isEmpty(),
+                                                        isLoading = false))
+                                            }
                                             checkEmptyState()
                                         }
                                         section.notificationCount.observe(viewLifecycleOwner) { counts ->
-                                            sectionAdapter.updateSection(sectionAdapter.roomsSectionData.copy(
-                                                    notificationCount = counts.totalCount,
-                                                    isHighlighted = counts.isHighlight
-                                            ))
+                                            sectionAdapter.roomsSectionData?.let {
+                                                sectionAdapter.updateSection(it.copy(
+                                                        notificationCount = counts.totalCount,
+                                                        isHighlighted = counts.isHighlight
+                                                ))
+                                            }
                                         }
                                         section.isExpanded.observe(viewLifecycleOwner) { _ ->
                                             refreshCollapseStates()
@@ -371,7 +387,7 @@ class RoomListFragment @Inject constructor(
         if (isAdded) {
             when (roomListParams.displayMode) {
                 RoomListDisplayMode.NOTIFICATIONS -> views.createChatFabMenu.show()
-                RoomListDisplayMode.PEOPLE        -> views.createChatRoomButton.show()
+                RoomListDisplayMode.PEOPLE        -> views.createChatFabMenu.show()
                 RoomListDisplayMode.ROOMS         -> views.createGroupRoomButton.show()
                 else                              -> Unit
             }
@@ -431,8 +447,8 @@ class RoomListFragment @Inject constructor(
     }
 
     private fun checkEmptyState() {
-        val shouldShowEmpty = adapterInfosList.all { it.sectionHeaderAdapter.roomsSectionData.isHidden } &&
-                !adapterInfosList.any { it.sectionHeaderAdapter.roomsSectionData.isLoading }
+        val shouldShowEmpty = adapterInfosList.all { it.sectionHeaderAdapter.roomsSectionData?.isHidden == true } &&
+                !adapterInfosList.any { it.sectionHeaderAdapter.roomsSectionData?.isLoading == true }
         if (shouldShowEmpty) {
             val emptyState = when (roomListParams.displayMode) {
                 RoomListDisplayMode.NOTIFICATIONS -> {
@@ -462,7 +478,7 @@ class RoomListFragment @Inject constructor(
             views.stateView.state = emptyState
         } else {
             // is there something to show already?
-            if (adapterInfosList.any { !it.sectionHeaderAdapter.roomsSectionData.isHidden }) {
+            if (adapterInfosList.any { it.sectionHeaderAdapter.roomsSectionData?.isHidden != true }) {
                 views.stateView.state = StateView.State.Content
             } else {
                 views.stateView.state = StateView.State.Loading

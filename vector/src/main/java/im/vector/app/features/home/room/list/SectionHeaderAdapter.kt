@@ -17,14 +17,17 @@
 package im.vector.app.features.home.room.list
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.view.isGone
 import androidx.recyclerview.widget.RecyclerView
 import im.vector.app.R
 import im.vector.app.core.epoxy.ClickListener
 import im.vector.app.core.epoxy.onClick
 import im.vector.app.databinding.ItemRoomCategoryBinding
+import im.vector.app.features.home.RoomListDisplayMode
 import im.vector.app.features.themes.ThemeUtils
 
 class SectionHeaderAdapter constructor(
@@ -38,14 +41,15 @@ class SectionHeaderAdapter constructor(
             val isHighlighted: Boolean = false,
             val isHidden: Boolean = true,
             // This will be false until real data has been submitted once
-            val isLoading: Boolean = true
+            val isLoading: Boolean = true,
+            val roomListDisplayMode: RoomListDisplayMode? = null
     )
 
-    lateinit var roomsSectionData: RoomsSectionData
+    var roomsSectionData: RoomsSectionData? = null
         private set
 
     fun updateSection(newRoomsSectionData: RoomsSectionData) {
-        if (!::roomsSectionData.isInitialized || newRoomsSectionData != roomsSectionData) {
+        if (newRoomsSectionData != roomsSectionData) {
             roomsSectionData = newRoomsSectionData
             notifyDataSetChanged()
         }
@@ -64,10 +68,10 @@ class SectionHeaderAdapter constructor(
     }
 
     override fun onBindViewHolder(holder: VH, position: Int) {
-        holder.bind(roomsSectionData)
+        roomsSectionData?.let { holder.bind(it) }
     }
 
-    override fun getItemCount(): Int = if (roomsSectionData.isHidden) 0 else 1
+    override fun getItemCount(): Int = if (roomsSectionData?.isHidden == true) 0 else 1
 
     class VH constructor(
             private val binding: ItemRoomCategoryBinding,
@@ -79,6 +83,9 @@ class SectionHeaderAdapter constructor(
         }
 
         fun bind(roomsSectionData: RoomsSectionData) {
+            if (roomsSectionData.roomListDisplayMode == RoomListDisplayMode.INVITE) {
+                binding.roomCategoryRootView.visibility = View.GONE
+            }
             binding.roomCategoryTitleView.text = roomsSectionData.name
             val tintColor = ThemeUtils.getColor(binding.root.context, R.attr.vctr_content_secondary)
             val expandedArrowDrawableRes = if (roomsSectionData.isExpanded) R.drawable.ic_expand_more else R.drawable.ic_expand_less

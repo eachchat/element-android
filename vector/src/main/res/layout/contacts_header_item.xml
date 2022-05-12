@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#EEEFF2"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/common_padding"
+    android:paddingRight="@dimen/common_padding">
+
+    <TextView
+        android:id="@+id/tv_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingTop="3dp"
+        style="@style/_12_000000_Regular"
+        android:textStyle="bold"
+        android:paddingBottom="3dp"
+        android:paddingStart="0dp"
+        android:paddingEnd="0dp"
+        android:singleLine="true" />
+
+</LinearLayout>
