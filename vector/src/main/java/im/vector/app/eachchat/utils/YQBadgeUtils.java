@@ -36,14 +36,15 @@ public class YQBadgeUtils {
 //                    new Handler().postDelayed(() -> setNotificationBadge(count, context), 3000);
                     return true;
                 case "huawei":
+                    return setHuaweiBadge(count, context);
                 case "honor":
                     return setHuaweiBadge(count, context);
                 case "samsung":
                     return setSamsungBadge(count, context);
 //                case "oppo":
 //                    return setOPPOBadge(count, context) || setOPPOBadge2(count, context);
-                case "vivo":
-                    return setVivoBadge(count, context);
+//                case "vivo":
+//                    return setVivoBadge(count, context);
                 case "lenovo":
                     return setZukBadge(count, context);
                 case "htc":

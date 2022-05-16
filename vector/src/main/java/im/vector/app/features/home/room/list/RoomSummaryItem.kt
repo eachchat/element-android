@@ -35,9 +35,14 @@ import im.vector.app.core.extensions.setTextOrHide
 import im.vector.app.core.ui.views.PresenceStateImageView
 import im.vector.app.core.ui.views.ShieldImageView
 import im.vector.app.features.displayname.getBestName
+import im.vector.app.features.displayname.getBestNameEachChat
 import im.vector.app.features.home.AvatarRenderer
 import im.vector.app.features.themes.ThemeUtils
 import im.vector.lib.core.utils.epoxy.charsequence.EpoxyCharSequence
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.matrix.android.sdk.api.crypto.RoomEncryptionTrustLevel
 import org.matrix.android.sdk.api.session.presence.model.UserPresence
 import org.matrix.android.sdk.api.util.MatrixItem
@@ -63,7 +68,10 @@ abstract class RoomSummaryItem : VectorEpoxyModel<RoomSummaryItem.Holder>() {
     @EpoxyAttribute(EpoxyAttribute.Option.DoNotHash) var itemLongClickListener: View.OnLongClickListener? = null
     @EpoxyAttribute(EpoxyAttribute.Option.DoNotHash) var itemClickListener: ClickListener? = null
     @EpoxyAttribute var showSelected: Boolean = false
+    @EpoxyAttribute open var isDm: Boolean = false
+    @EpoxyAttribute var otherMemberIds: List<String>? = null
 
+    @OptIn(DelicateCoroutinesApi::class)
     override fun bind(holder: Holder) {
         super.bind(holder)
         holder.rootView.onClick(itemClickListener)
@@ -72,6 +80,18 @@ abstract class RoomSummaryItem : VectorEpoxyModel<RoomSummaryItem.Holder>() {
             itemLongClickListener?.onLongClick(it) ?: false
         }
         holder.titleView.text = matrixItem.getBestName()
+//        if (isDm && otherMemberIds?.isNotEmpty() == true) {
+//            GlobalScope.launch(Dispatchers.IO)
+//            {
+//                otherMemberIds!![0].getBestNameEachChat (matrixItem.getBestName()) {
+//                    GlobalScope.launch(Dispatchers.Main) {
+//                        holder.titleView.text = it
+//                    }
+//                }
+//            }
+//        } else {
+//            holder.titleView.text = matrixItem.getBestName()
+//        }
         holder.lastEventTimeView.text = lastEventTime
         holder.lastEventView.text = lastFormattedEvent.charSequence
         holder.unreadCounterBadgeView.render(UnreadCounterBadgeView.State(unreadNotificationCount, showHighlighted))

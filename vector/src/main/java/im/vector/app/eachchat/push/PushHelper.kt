@@ -41,9 +41,12 @@ import im.vector.app.eachchat.utils.AppCache
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.matrix.android.sdk.api.query.ActiveSpaceFilter
+import org.matrix.android.sdk.api.query.RoomCategoryFilter
 import org.matrix.android.sdk.api.session.pushers.PushersService
 import org.matrix.android.sdk.api.session.room.RoomSummaryQueryParams
 import org.matrix.android.sdk.api.session.room.model.Membership
+import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 import kotlin.math.abs
 
 class PushHelper {
@@ -241,23 +244,39 @@ class PushHelper {
     }
 
     fun setBadge(context: Context?) {
-        val currentSession = activeSessionHolder.getSafeActiveSession() ?: return
+        // val currentSession = activeSessionHolder.getSafeActiveSession() ?: return
         scope.launch {
-            val roomSummaries = withContext(Dispatchers.IO) {
-                val membershipList: MutableList<Membership> = ArrayList()
-                membershipList.add(Membership.JOIN)
-                val params = RoomSummaryQueryParams.Builder().apply {
-                    memberships = membershipList
-                }.build()
-                currentSession.getRoomSummaries(params)
-            }
-            if (roomSummaries.isEmpty()) {
-                YQBadgeUtils.setCount(0, context)
-            }
-            var count = 0
-            roomSummaries.forEach {
-                count += it.notificationCount
-            }
+//            val roomSummaries = withContext(Dispatchers.IO) {
+//                val membershipList: MutableList<Membership> = ArrayList()
+//                membershipList.add(Membership.JOIN)
+//                val params = RoomSummaryQueryParams.Builder().apply {
+//                    memberships = membershipList
+//                }.build()
+//                currentSession.getRoomSummaries(params)
+//            }
+//            if (roomSummaries.isEmpty()) {
+//                YQBadgeUtils.setCount(0, context)
+//            }
+//            var count = 0
+//            roomSummaries.forEach {
+//                count += it.notificationCount
+//            }
+            val dmRooms = BaseModule.getSession().getNotificationCountForRooms(
+                    roomSummaryQueryParams {
+                        memberships = listOf(Membership.JOIN)
+                        roomCategoryFilter = RoomCategoryFilter.ONLY_DM
+                        activeSpaceFilter = ActiveSpaceFilter.ActiveSpace(null)
+                    }
+            )
+
+            val otherRooms = BaseModule.getSession().getNotificationCountForRooms(
+                    roomSummaryQueryParams {
+                        memberships = listOf(Membership.JOIN)
+                        roomCategoryFilter = RoomCategoryFilter.ONLY_ROOMS
+                        activeSpaceFilter = ActiveSpaceFilter.ActiveSpace(null)
+                    }
+            )
+            val count = dmRooms.totalCount + otherRooms.totalCount
             YQBadgeUtils.setCount(count, context)
         }
     }

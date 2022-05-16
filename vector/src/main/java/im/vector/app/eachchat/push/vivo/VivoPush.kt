@@ -26,10 +26,6 @@ class VivoPush(context: Context) : AbsPush(context) {
                 PushHelper.getInstance().bindDevice(regId)
             }
         }
-        val filter = IntentFilter()
-        filter.addAction("com.vivo.pushclient.action.RECEIVE")
-        BaseModule.getContext().registerReceiver(PushMessageReceiverImpl(), filter)
-        LogUtil.i("##注册vivo接收")
     }
 
     override fun stopPush() {
