@@ -27,7 +27,12 @@ import im.vector.app.core.epoxy.ClickListener
 import im.vector.app.core.epoxy.VectorEpoxyHolder
 import im.vector.app.core.epoxy.onClick
 import im.vector.app.features.displayname.getBestName
+import im.vector.app.features.displayname.getBestNameEachChat
 import im.vector.app.features.home.AvatarRenderer
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.matrix.android.sdk.api.util.MatrixItem
 
 @EpoxyModelClass(layout = R.layout.item_display_read_receipt)
@@ -38,10 +43,19 @@ abstract class DisplayReadReceiptItem : EpoxyModelWithHolder<DisplayReadReceiptI
     @EpoxyAttribute lateinit var avatarRenderer: AvatarRenderer
     @EpoxyAttribute(EpoxyAttribute.Option.DoNotHash) var userClicked: ClickListener? = null
 
+    @OptIn(DelicateCoroutinesApi::class)
     override fun bind(holder: Holder) {
         super.bind(holder)
         avatarRenderer.render(matrixItem, holder.avatarView)
-        holder.displayNameView.text = matrixItem.getBestName()
+        GlobalScope.launch(Dispatchers.IO)
+        {
+            matrixItem.id.getBestNameEachChat (matrixItem.getBestName()) {
+                GlobalScope.launch(Dispatchers.Main) {
+                    holder.displayNameView.text = it
+                }
+            }
+        }
+        // holder.displayNameView.text = matrixItem.getBestName()
         timestamp?.let {
             holder.timestampView.text = it
             holder.timestampView.isVisible = true

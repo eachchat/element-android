@@ -27,7 +27,12 @@ import im.vector.app.core.epoxy.VectorEpoxyModel
 import im.vector.app.core.epoxy.onClick
 import im.vector.app.core.extensions.setTextOrHide
 import im.vector.app.features.displayname.getBestName
+import im.vector.app.features.displayname.getBestNameEachChat
 import im.vector.app.features.home.AvatarRenderer
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.matrix.android.sdk.api.util.MatrixItem
 
 @EpoxyModelClass(layout = R.layout.item_autocomplete_matrix_item)
@@ -38,10 +43,19 @@ abstract class AutocompleteMatrixItem : VectorEpoxyModel<AutocompleteMatrixItem.
     @EpoxyAttribute var subName: String? = null
     @EpoxyAttribute(EpoxyAttribute.Option.DoNotHash) var clickListener: ClickListener? = null
 
+    @OptIn(DelicateCoroutinesApi::class)
     override fun bind(holder: Holder) {
         super.bind(holder)
         holder.view.onClick(clickListener)
-        holder.nameView.text = matrixItem.getBestName()
+        GlobalScope.launch(Dispatchers.IO)
+        {
+            matrixItem.id.getBestNameEachChat (matrixItem.getBestName()) {
+                GlobalScope.launch(Dispatchers.Main) {
+                    holder.nameView.text = it
+                }
+            }
+        }
+        // holder.nameView.text = matrixItem.getBestName()
         holder.subNameView.setTextOrHide(subName)
         avatarRenderer.render(matrixItem, holder.avatarImageView)
     }

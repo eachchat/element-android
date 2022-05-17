@@ -143,5 +143,6 @@ class RoomSummaryItemFactory @Inject constructor(private val displayableEventFor
                     onLongClick?.invoke(roomSummary) ?: false
                 }
                 .itemClickListener { onClick?.invoke(roomSummary) }
+                .timelineEvent(latestEvent)
     }
 }

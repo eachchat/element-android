@@ -479,7 +479,6 @@ class HomeActivity :
         super.onResume()
 
         PushHelper.getInstance().clearNotification()
-        PushHelper.getInstance().setBadge(this)
 
         if (vectorUncaughtExceptionHandler.didAppCrash()) {
             vectorUncaughtExceptionHandler.clearAppCrashStatus()

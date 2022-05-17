@@ -32,9 +32,14 @@ import im.vector.app.R
 import im.vector.app.core.epoxy.ClickListener
 import im.vector.app.core.epoxy.onClick
 import im.vector.app.core.ui.views.SendStateImageView
+import im.vector.app.features.displayname.getBestNameEachChat
 import im.vector.app.features.home.AvatarRenderer
 import im.vector.app.features.home.room.detail.timeline.MessageColorProvider
 import im.vector.app.features.home.room.detail.timeline.TimelineEventController
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.matrix.android.sdk.api.session.threads.ThreadDetails
 import org.matrix.android.sdk.api.util.MatrixItem
 
@@ -72,6 +77,7 @@ abstract class AbsMessageItem<H : AbsMessageItem.Holder> : AbsBaseMessageItem<H>
         }
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     override fun bind(holder: H) {
         super.bind(holder)
         if (attributes.informationData.messageLayout.showAvatar) {
@@ -90,7 +96,14 @@ abstract class AbsMessageItem<H : AbsMessageItem.Holder> : AbsBaseMessageItem<H>
         }
         if (attributes.informationData.messageLayout.showDisplayName) {
             holder.memberNameView.isVisible = true
-            holder.memberNameView.text = attributes.informationData.memberName
+            GlobalScope.launch(Dispatchers.IO) {
+                attributes.informationData.senderId.getBestNameEachChat(attributes.informationData.memberName as String) {
+                    GlobalScope.launch(Dispatchers.Main) {
+                        holder.memberNameView.text = it
+                    }
+                }
+            }
+
             holder.memberNameView.setTextColor(attributes.getMemberNameColor())
             holder.memberNameView.onClick(_memberNameClickListener)
             holder.memberNameView.setOnLongClickListener(attributes.itemLongClickListener)

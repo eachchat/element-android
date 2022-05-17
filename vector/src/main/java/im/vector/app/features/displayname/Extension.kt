@@ -43,3 +43,12 @@ fun String.getBestNameEachChat(displayName: String, unit: (String) -> Unit){
     displayName
     unit.invoke(bestName)
 }
+
+fun String.getBestNameEachChat(displayName: String) : String{
+    val contactDisplayName = database.contactDaoV2().getContactByMatrixId(this)?.displayName
+    val orgDisplayName = database.userDao().getBriefUserByMatrixId(this)?.displayName
+    val bestName = contactDisplayName?.takeIf { it.isNotBlank() }?:
+    orgDisplayName?.takeIf { it.isNotBlank() }?:
+    displayName
+    return bestName
+}

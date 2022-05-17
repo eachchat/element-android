@@ -21,6 +21,7 @@ import im.vector.app.EmojiSpanify
 import im.vector.app.R
 import im.vector.app.core.resources.ColorProvider
 import im.vector.app.core.resources.StringProvider
+import im.vector.app.features.displayname.getBestNameEachChat
 import im.vector.app.features.html.EventHtmlRenderer
 import me.gujun.android.span.span
 import org.commonmark.node.Document

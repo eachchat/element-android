@@ -31,7 +31,12 @@ import com.google.android.material.chip.ChipDrawable
 import im.vector.app.R
 import im.vector.app.core.glide.GlideRequests
 import im.vector.app.features.displayname.getBestName
+import im.vector.app.features.displayname.getBestNameEachChat
 import im.vector.app.features.home.AvatarRenderer
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.matrix.android.sdk.api.session.room.send.MatrixItemSpan
 import org.matrix.android.sdk.api.util.MatrixItem
 import java.lang.ref.WeakReference
@@ -111,7 +116,7 @@ class PillImageSpan(private val glideRequests: GlideRequests,
         }
 
         return ChipDrawable.createFromResource(context, R.xml.pill_view).apply {
-            text = matrixItem.getBestName()
+            text = matrixItem.id.getBestNameEachChat(matrixItem.getBestName())
             textEndPadding = textPadding
             textStartPadding = textPadding
             setChipMinHeightResource(R.dimen.pill_min_height)
