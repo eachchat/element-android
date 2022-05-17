@@ -27,8 +27,14 @@ import im.vector.app.core.epoxy.ClickListener
 import im.vector.app.core.epoxy.VectorEpoxyHolder
 import im.vector.app.core.epoxy.VectorEpoxyModel
 import im.vector.app.core.epoxy.onClick
+import im.vector.app.features.displayname.getBestName
+import im.vector.app.features.displayname.getBestNameEachChat
 import im.vector.app.features.home.AvatarRenderer
 import im.vector.app.features.themes.ThemeUtils
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.matrix.android.sdk.api.util.MatrixItem
 
 @EpoxyModelClass(layout = R.layout.item_known_user)
@@ -39,17 +45,27 @@ abstract class UserDirectoryUserItem : VectorEpoxyModel<UserDirectoryUserItem.Ho
     @EpoxyAttribute(EpoxyAttribute.Option.DoNotHash) var clickListener: ClickListener? = null
     @EpoxyAttribute var selected: Boolean = false
 
+    @OptIn(DelicateCoroutinesApi::class)
     override fun bind(holder: Holder) {
         super.bind(holder)
         holder.view.onClick(clickListener)
         // If name is empty, use userId as name and force it being centered
-        if (matrixItem.displayName.isNullOrEmpty()) {
-            holder.userIdView.visibility = View.GONE
-            holder.nameView.text = matrixItem.id
-        } else {
-            holder.userIdView.visibility = View.VISIBLE
-            holder.nameView.text = matrixItem.displayName
-            holder.userIdView.text = matrixItem.id
+//        if (matrixItem.displayName.isNullOrEmpty()) {
+//            holder.userIdView.visibility = View.GONE
+//            holder.nameView.text = matrixItem.id
+//        } else {
+//            holder.userIdView.visibility = View.VISIBLE
+//            holder.nameView.text = matrixItem.displayName
+//            holder.userIdView.text = matrixItem.id
+//        }
+        GlobalScope.launch(Dispatchers.IO) {
+            matrixItem.id.getBestNameEachChat(matrixItem.getBestName()) {
+                GlobalScope.launch(Dispatchers.Main) {
+                    holder.userIdView.visibility = View.VISIBLE
+                    holder.nameView.text = it
+                    holder.userIdView.text = matrixItem.id
+                }
+            }
         }
         renderSelection(holder, selected)
     }
