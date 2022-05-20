@@ -189,7 +189,7 @@
 
         <!-- HMS -->
         <service
-            android:name=".eachchat.push.hwpush.HWMessageService"
+            android:name="ai.workly.eachchat.HWMessageService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.huawei.push.action.MESSAGING_EVENT" />

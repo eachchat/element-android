@@ -30,7 +30,7 @@ buildscript {
         classpath 'com.google.android.gms:oss-licenses-plugin:0.10.4'
         classpath "com.likethesalad.android:string-reference:1.2.2"
         // 添加华为 agcp 插件配置。
-        classpath 'com.huawei.agconnect:agcp:1.6.0.300'
+        classpath 'com.huawei.agconnect:agcp:1.0.0.300'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files

@@ -7,6 +7,7 @@ include ':library:core-utils'
 include ':library:ui-styles'
 include ':library:jsonviewer'
 include ':matrix-sdk-android-flow'
+include ':push-receiver'
 
 dependencyResolutionManagement {
     repositories {
