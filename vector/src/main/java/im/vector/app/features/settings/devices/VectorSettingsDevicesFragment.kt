@@ -90,8 +90,21 @@ class VectorSettingsDevicesFragment @Inject constructor(
                         viewModel.handle(DevicesAction.MarkAsManuallyVerified(it.cryptoDeviceInfo))
                     }
                 }
+                is DevicesViewEvents.ReAuthFailed -> {
+                    onReAuthFailed()
+                }
+
             }.exhaustive
         }
+    }
+
+    private fun onReAuthFailed() {
+        views.waitingView.waitingView.isVisible = false
+        MaterialAlertDialogBuilder(requireActivity())
+                .setTitle(R.string.reauth_failed)
+                .setMessage(R.string.wrong_password)
+                .setPositiveButton(R.string.ok, null)
+                .show()
     }
 
     override fun onDestroyView() {

@@ -337,7 +337,10 @@ class DevicesViewModel @AssistedInject constructor(
                                         user = session.myUserId,
                                         password = reAuthHelper.data
                                 ).let { promise.resume(it) }
-                            } else {
+                            } else if (errCode == "M_FORBIDDEN") {
+                                _viewEvents.post(DevicesViewEvents.ReAuthFailed())
+                            }
+                            else {
                                 Timber.d("## UIA : deleteDevice UIA > start reauth activity")
                                 _viewEvents.post(DevicesViewEvents.RequestReAuth(flowResponse, errCode))
                                 pendingAuth = DefaultBaseAuth(session = flowResponse.session)

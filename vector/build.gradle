@@ -269,7 +269,7 @@ android {
         }
 
         release {
-            debuggable true
+            debuggable false
             resValue "string", "app_name", "亿洽"
 
             resValue "bool", "debug_mode", "false"

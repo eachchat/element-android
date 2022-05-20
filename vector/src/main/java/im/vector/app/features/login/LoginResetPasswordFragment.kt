@@ -62,6 +62,7 @@ class LoginResetPasswordFragment @Inject constructor() : AbstractLoginFragment<F
         views.ivBack.setOnClickListener {
             activity?.onBackPressed()
         }
+        views.resetPasswordSubmit.isEnabled = false
         setupSubmitButton()
     }
 
@@ -72,10 +73,10 @@ class LoginResetPasswordFragment @Inject constructor() : AbstractLoginFragment<F
     private fun setupSubmitButton() {
         views.resetPasswordSubmit.debouncedClicks { submit() }
         views.resetPasswordEmail.doAfterTextChanged {
-            views.resetPasswordSubmit.isEnabled = !views.resetPasswordEmail.text.isNullOrBlank() && !views.passwordField.text.isNullOrBlank()
+            views.resetPasswordSubmit.isEnabled = views.resetPasswordEmail.text?.isEmail() == true && !views.passwordField.text.isNullOrBlank()
         }
         views.passwordField.doAfterTextChanged {
-            views.resetPasswordSubmit.isEnabled = !views.resetPasswordEmail.text.isNullOrBlank() && !views.passwordField.text.isNullOrBlank()
+            views.resetPasswordSubmit.isEnabled = views.resetPasswordEmail.text?.isEmail() == true && !views.passwordField.text.isNullOrBlank()
         }
         combine(
                 views.resetPasswordEmail.textChanges().map { it.isEmail() },
