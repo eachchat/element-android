@@ -102,9 +102,9 @@ class VectorSettingsActivity : VectorBaseActivity<ActivityVectorSettingsBinding>
     }
 
     override fun onBackStackChanged() {
-        if (0 == supportFragmentManager.backStackEntryCount) {
-            supportActionBar?.title = getString(getTitleRes())
-        }
+//        if (0 == supportFragmentManager.backStackEntryCount) {
+//            supportActionBar?.title = getString(getTitleRes())
+//        }
     }
 
     override fun onPreferenceStartFragment(caller: PreferenceFragmentCompat, pref: Preference): Boolean {

@@ -269,7 +269,7 @@ android {
         }
 
         release {
-            debuggable false
+            debuggable true
             resValue "string", "app_name", "亿洽"
 
             resValue "bool", "debug_mode", "false"
@@ -394,7 +394,6 @@ dependencies {
     implementation project(":library:jsonviewer")
     implementation project(":library:ui-styles")
     implementation project(":library:core-utils")
-    implementation project(":push-receiver")
     implementation 'androidx.multidex:multidex:2.0.1'
 
     implementation libs.jetbrains.coroutinesCore

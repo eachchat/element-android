@@ -87,6 +87,6 @@ class PillsPostProcessor @AssistedInject constructor(@Assisted private val roomI
             }
             else                       -> null
         } ?: return null
-        return PillImageSpan(GlideApp.with(context), avatarRenderer, context, matrixItem)
+        return PillImageSpan(GlideApp.with(context), avatarRenderer, context, matrixItem, isEvent = true)
     }
 }
