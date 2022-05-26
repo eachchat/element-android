@@ -13,7 +13,7 @@ interface ApiService {
 
     companion object {
         fun getInstance(): ApiService {
-            return NetWorkManager.getInstance().retrofit.create(ApiService::class.java)
+            return NetWorkManager.getInstance().getRetrofit().create(ApiService::class.java)
         }
     }
 }

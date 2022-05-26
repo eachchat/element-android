@@ -24,6 +24,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.moshi.MoshiConverterFactory;
+import timber.log.Timber;
 
 /**
  * Created by zhouguanjie on 2019/8/9.
@@ -57,9 +58,10 @@ public class NetWorkManager {
 
 
     public Retrofit getRetrofit() throws IOException {
-        if (retrofit == null) {
+        if (retrofit != null) retrofit = null;
+        // if (retrofit == null) {
             synchronized (NetWorkManager.class) {
-                if (retrofit == null) {
+                // if (retrofit == null) {
                     MyLoggingInterceptor httpLoggingInterceptor = new MyLoggingInterceptor("yql-request");
                     httpLoggingInterceptor.setPrintLevel(BuildConfig.DEBUG ? MyLoggingInterceptor.Level.BODY
                             : MyLoggingInterceptor.Level.NONE);
@@ -89,9 +91,9 @@ public class NetWorkManager {
                         builder.baseUrl("http://no_app_url");
                     }
                     retrofit = builder.build();
-                }
+                // }
             }
-        }
+        // }
         return retrofit;
     }
 
@@ -285,13 +287,13 @@ public class NetWorkManager {
 
     public void update() throws IOException {
         retrofit = null;
-        getRetrofit();
+        // getRetrofit();
         serverRetrofit = null;
-        getServerRetrofit();
+        // getServerRetrofit();
         retrofitMoshi = null;
-        getMoshiRetrofit();
+        // getMoshiRetrofit();
         customTimeoutRetrofit = null;
-        getCustomTimeoutRetrofit(COMMON_TIMEOUT);
+        // getCustomTimeoutRetrofit(COMMON_TIMEOUT);
     }
 
     private static class NetWorkManagerHolder {

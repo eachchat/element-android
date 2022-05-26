@@ -21,10 +21,12 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import im.vector.app.R
 import im.vector.app.core.extensions.cannotLogoutSafely
 import im.vector.app.core.extensions.singletonEntryPoint
+import im.vector.app.eachchat.base.BaseModule
 import im.vector.app.eachchat.mqtt.IMManager
 import im.vector.app.eachchat.mqtt.MQTTManager
 import im.vector.app.eachchat.mqtt.MQTTService
 import im.vector.app.eachchat.net.NetConstant
+import im.vector.app.eachchat.push.PushHelper
 import im.vector.app.features.MainActivity
 import im.vector.app.features.MainActivityArgs
 
@@ -34,6 +36,8 @@ class SignOutUiWorker(private val activity: FragmentActivity) {
         kotlin.runCatching {
             NetConstant.clearHost()
             IMManager.getClient().disconnect()
+            PushHelper.getInstance().clearNotification()
+            PushHelper.getInstance().logout()
             val session = activity.singletonEntryPoint().activeSessionHolder().getSafeActiveSession() ?: return
             if (session.cannotLogoutSafely()) {
                 // The backup check on logout flow has to be displayed if there are keys in the store, and the keys backup state is not Ready

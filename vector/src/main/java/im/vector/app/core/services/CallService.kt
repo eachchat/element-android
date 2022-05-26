@@ -173,16 +173,16 @@ class CallService : VectorService() {
 //            contentAction = Runnable { showCallScreen(call, VectorCallActivity.INCOMING_RINGING) }
 //        }
 //        alertManager.postVectorAlert(incomingCallAlert)
-        val notification = notificationUtils.buildIncomingCallNotification(
-                call = call,
-                title = callInformation.opponentMatrixItem?.getBestName() ?: callInformation.opponentUserId,
-                fromBg = fromBg
-        )
-        if (knownCalls.isEmpty()) {
-            startForeground(callId.hashCode(), notification)
-        } else {
-            notificationManager.notify(callId.hashCode(), notification)
-        }
+//        val notification = notificationUtils.buildIncomingCallNotification(
+//                call = call,
+//                title = callInformation.opponentMatrixItem?.getBestName() ?: callInformation.opponentUserId,
+//                fromBg = fromBg
+//        )
+//        if (knownCalls.isEmpty()) {
+//            startForeground(callId.hashCode(), notification)
+//        } else {
+//            notificationManager.notify(callId.hashCode(), notification)
+//        }
         knownCalls[callId] = callInformation
     }
 

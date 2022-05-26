@@ -20,12 +20,19 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Parcelable
 import dagger.hilt.android.AndroidEntryPoint
+import im.vector.app.core.extensions.addFragment
 import im.vector.app.core.extensions.replaceFragment
 import im.vector.app.core.platform.VectorBaseActivity
 import im.vector.app.databinding.ActivityFragmentContainerBinding
-import im.vector.app.features.home.RoomListDisplayMode
-import im.vector.app.features.home.room.list.RoomListParams
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
+data class WidgetEmailParams(
+        val email: String,
+        val password: String
+) : Parcelable
 
 @AndroidEntryPoint
 class WidgetEmailActivity: VectorBaseActivity<ActivityFragmentContainerBinding>() {
@@ -35,8 +42,12 @@ class WidgetEmailActivity: VectorBaseActivity<ActivityFragmentContainerBinding>(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val params = RoomListParams(RoomListDisplayMode.INVITE)
-        replaceFragment(views.fragmentContainer, WidgetEmailFragment::class.java, params)
+        replaceFragment(views.fragmentContainer, WidgetEmailFragment::class.java)
+    }
+
+    fun openWidgetEmailFragment(email: String, password: String) {
+        val params = WidgetEmailParams(email, password)
+        addFragment(views.fragmentContainer, WidgetEmailServerFragment::class.java, params)
     }
 
     fun submit() {
@@ -48,9 +59,6 @@ class WidgetEmailActivity: VectorBaseActivity<ActivityFragmentContainerBinding>(
         submit()
         super.onDestroy()
     }
-
-
-
 
     companion object {
         fun start(context: Context,

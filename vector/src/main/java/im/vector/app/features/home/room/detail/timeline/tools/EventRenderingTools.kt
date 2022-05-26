@@ -32,8 +32,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.matrix.android.sdk.api.session.permalinks.MatrixLinkify
 import org.matrix.android.sdk.api.session.permalinks.MatrixPermalinkSpan
+import timber.log.Timber
 
 fun CharSequence.findPillsAndProcess(scope: CoroutineScope, processBlock: (PillImageSpan) -> Unit) {
+    Timber.v("渲染findPillsAndProcess")
     scope.launch(Dispatchers.Main) {
         withContext(Dispatchers.IO) {
             toSpannable().let { spannable ->
@@ -44,11 +46,13 @@ fun CharSequence.findPillsAndProcess(scope: CoroutineScope, processBlock: (PillI
 }
 
 fun CharSequence.linkify(callback: TimelineEventController.UrlClickCallback?): CharSequence {
+    Timber.v("渲染linkify")
     val text = this.toString()
     // SpannableStringBuilder is used to avoid Epoxy throwing ImmutableModelException
     val spannable = SpannableStringBuilder(this)
     MatrixLinkify.addLinks(spannable, object : MatrixPermalinkSpan.Callback {
         override fun onUrlClicked(url: String) {
+            Timber.v("渲染linkify" + url)
             callback?.onUrlClicked(url, text)
         }
     })
@@ -59,10 +63,12 @@ fun CharSequence.linkify(callback: TimelineEventController.UrlClickCallback?): C
 // Better link movement methods fixes the issue when
 // long pressing to open the context menu on a TextView also triggers an autoLink click.
 fun createLinkMovementMethod(urlClickCallback: TimelineEventController.UrlClickCallback?): EvenBetterLinkMovementMethod {
+    Timber.v("渲染createLinkMovementMethod")
     return EvenBetterLinkMovementMethod(object : EvenBetterLinkMovementMethod.OnLinkClickListener {
         override fun onLinkClicked(textView: TextView, span: ClickableSpan, url: String, actualText: String): Boolean {
             // Always return false if the url is not valid, so the EvenBetterLinkMovementMethod can fallback to default click listener.
-            return url.isValidUrl() && urlClickCallback?.onUrlClicked(url, actualText) == true
+            Timber.v("渲染createLinkMovementMethod" + url)
+            return urlClickCallback?.onUrlClicked(url, actualText) == true
         }
     })
             .apply {

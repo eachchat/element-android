@@ -243,20 +243,36 @@ class AutoCompleter @AssistedInject constructor(
         editable.replace(startIndex, endIndex, "$displayName$displayNameSuffix")
 
         GlobalScope.launch(Dispatchers.IO) {
-            // Add the span
-            val eachChatBestName = matrixItem.displayName?.let { matrixItem.id.getBestNameEachChat(it) }
-            val span = PillImageSpan(
-                    glideRequests,
-                    avatarRenderer,
-                    editText.context,
-                    matrixItem,
-                    eachChatBestName
-                    )
-            GlobalScope.launch(Dispatchers.Main) {
-                span.bind(editText)
+            kotlin.runCatching {
+                val eachChatBestName = matrixItem.displayName?.let { matrixItem.id.getBestNameEachChat(it) }
+                val span = PillImageSpan(
+                        glideRequests,
+                        avatarRenderer,
+                        editText.context,
+                        matrixItem,
+                        eachChatBestName
+                )
+                GlobalScope.launch(Dispatchers.Main) {
+                    span.bind(editText)
 
-                editable.setSpan(span, startIndex, startIndex + displayName.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    editable.setSpan(span, startIndex, startIndex + displayName.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                }
+            }.exceptionOrNull()?.let {
+                GlobalScope.launch(Dispatchers.Main) {
+                    val span = PillImageSpan(
+                            glideRequests,
+                            avatarRenderer,
+                            editText.context,
+                            matrixItem
+                    )
+
+                    span.bind(editText)
+
+                    editable.setSpan(span, startIndex, startIndex + displayName.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                }
             }
+            // Add the span
+
         }
 
     }

@@ -18,7 +18,11 @@ package im.vector.app.eachchat.widget.email
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doAfterTextChanged
+import im.vector.app.core.epoxy.onClick
+import im.vector.app.core.extensions.isEmail
 import im.vector.app.core.platform.VectorBaseFragment
 import im.vector.app.databinding.FragmentWidgetEmailBinding
 import im.vector.app.databinding.FragmentWidgetEmailServerBinding
@@ -33,9 +37,21 @@ class WidgetEmailFragment @Inject constructor(
         return FragmentWidgetEmailBinding.inflate(inflater, container, false)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
+        views.loginField.doAfterTextChanged {
+            views.confirmTv.isEnabled = views.loginField.text?.isEmail() == true && views.passwordField.text?.isNotBlank() == true
+        }
+        views.passwordField.doAfterTextChanged {
+            views.confirmTv.isEnabled = views.loginField.text?.isEmail() == true && views.passwordField.text?.isNotBlank() == true
+        }
+
+        views.confirmTv.onClick {
+            if (activity is WidgetEmailActivity) {
+                (activity as WidgetEmailActivity).openWidgetEmailFragment(views.loginField.text.toString(), views.passwordField.text.toString())
+            }
+        }
     }
 
 }

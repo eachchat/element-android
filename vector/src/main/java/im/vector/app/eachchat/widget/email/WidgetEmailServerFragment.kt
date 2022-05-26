@@ -18,17 +18,30 @@ package im.vector.app.eachchat.widget.email
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import com.airbnb.mvrx.args
 import com.airbnb.mvrx.fragmentViewModel
 import im.vector.app.R
 import im.vector.app.core.platform.VectorBaseFragment
 import im.vector.app.databinding.FragmentWidgetEmailBinding
 import im.vector.app.databinding.FragmentWidgetEmailServerBinding
+import im.vector.app.features.home.room.list.RoomListParams
 
 import javax.inject.Inject
 
 class WidgetEmailServerFragment @Inject constructor(
 ) : VectorBaseFragment<FragmentWidgetEmailServerBinding>() {
+
+    private val widgetEmailParams: WidgetEmailParams by args()
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        views.acceptUserNameField.setText(widgetEmailParams.email)
+        views.acceptPasswordField.setText(widgetEmailParams.password)
+        views.outboundUserNameField.setText(widgetEmailParams.email)
+        views.outboundPasswordField.setText(widgetEmailParams.password)
+    }
 
     override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentWidgetEmailServerBinding {
         return FragmentWidgetEmailServerBinding.inflate(inflater, container, false)

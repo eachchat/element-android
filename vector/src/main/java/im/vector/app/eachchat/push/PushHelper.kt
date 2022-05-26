@@ -34,19 +34,18 @@ import im.vector.app.eachchat.push.mipush.MiPush
 import im.vector.app.eachchat.push.oppoPush.OppoPush
 import im.vector.app.eachchat.push.vivo.VivoPush
 import im.vector.app.eachchat.service.ApiService
+import im.vector.app.eachchat.utils.AppCache
 import im.vector.app.eachchat.utils.YQBadgeUtils
 import im.vector.app.features.home.HomeActivity
 import im.vector.app.features.settings.VectorPreferences
-import im.vector.app.eachchat.utils.AppCache
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.matrix.android.sdk.api.query.ActiveSpaceFilter
 import org.matrix.android.sdk.api.query.RoomCategoryFilter
 import org.matrix.android.sdk.api.session.pushers.PushersService
-import org.matrix.android.sdk.api.session.room.RoomSummaryQueryParams
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
+import timber.log.Timber
 import kotlin.math.abs
 
 class PushHelper {
@@ -57,8 +56,10 @@ class PushHelper {
     private var hasBind = false
     private val scope: CloseableCoroutineScope by lazy { CloseableCoroutineScope() }
 
+    var retryCount = 0 //
     fun init() {
         if (hasReg) {
+            Timber.v("已注册通知")
             initClient(AppCache.getPNS())
             return
         }
@@ -69,25 +70,31 @@ class PushHelper {
         input.sdk = Build.VERSION.SDK_INT.toString()
         input.osVersion = Build.VERSION.RELEASE
         input.rom = RomUtils.getRom() // room is a push identifier, used to determine which push to use
-        scope.launch(Dispatchers.Main) {
-            val response = withContext(Dispatchers.IO) {
-                ApiService.getInstance().getPNS(input)
-            }
-            if (response.isSuccess && response.obj != null && !TextUtils.isEmpty(response.obj!!.pns)) {
-                AppCache.setPns(response.obj!!.pns)
-                hasReg = true
-                hasBind = false
-                initClient(AppCache.getPNS())
-            } else {
-                if (!TextUtils.isEmpty(AppCache.getPNS())) {
-                    initClient(AppCache.getPNS())
+        scope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                val response = ApiService.getInstance().getPNS(input)
+                scope.launch(Dispatchers.Main) {
+                    if (response.isSuccess && response.obj != null && !TextUtils.isEmpty(response.obj!!.pns)) {
+                        AppCache.setPns(response.obj!!.pns)
+                        hasReg = true
+                        hasBind = false
+                        initClient(AppCache.getPNS())
+                    } else {
+                        if (!TextUtils.isEmpty(AppCache.getPNS())) {
+                            initClient(AppCache.getPNS())
+                        }
+                    }
                 }
+            }.exceptionOrNull()?.let{
+                Timber.v("获取通知PNS异常")
+                it.printStackTrace()
             }
         }
     }
 
     private fun initClient(type: String) {
         if (pushClient != null) {
+            Timber.v("已有通知客户端")
             return
         }
         pushClient = when (type) {
@@ -104,7 +111,9 @@ class PushHelper {
             pushClient?.startPush()
             clearNotification()
             bindDevice(pushClient?.regId)
+            Timber.v("通知初始化完成")
         } catch (e: Exception) {
+            Timber.v("通知初始化异常")
             e.printStackTrace()
         }
     }
@@ -123,7 +132,7 @@ class PushHelper {
 //                return
 //            }
         try {
-            val session = activeSessionHolder.getSafeActiveSession() ?: return
+            val session = BaseModule.getSession() ?: return
             val pushGateWay = NetConstant.getPushHost()
             if (TextUtils.isEmpty(pushGateWay)) return
             val profileTag = "android_" + abs(session.myUserId.hashCode())
@@ -206,12 +215,15 @@ class PushHelper {
 //            }
         if (!DefaultSharedPreferences.getInstance(BaseModule.getContext())
                         .getBoolean(VectorPreferences.SETTINGS_ENABLE_THIS_DEVICE_PREFERENCE_KEY, true)) {
+            Timber.v("设备未启动，停止初始化通知")
             return
         }
         if (pushClient == null) {
+            Timber.v("开始初始化通知")
             init()
             return
         }
+        Timber.v("已有通知客户端，开始推送")
         pushClient?.startPush()
     }
 
