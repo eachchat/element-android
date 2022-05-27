@@ -45,6 +45,7 @@ import kotlinx.coroutines.launch
 import org.matrix.android.sdk.api.query.QueryStringValue
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.session.content.ContentAttachmentData
+import org.matrix.android.sdk.api.session.events.model.Content
 import org.matrix.android.sdk.api.session.events.model.EventType
 import org.matrix.android.sdk.api.session.events.model.getRootThreadEventId
 import org.matrix.android.sdk.api.session.events.model.isThread
@@ -54,6 +55,7 @@ import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 import org.matrix.android.sdk.api.session.room.model.RoomAvatarContent
 import org.matrix.android.sdk.api.session.room.model.RoomEncryptionAlgorithm
 import org.matrix.android.sdk.api.session.room.model.RoomMemberContent
+import org.matrix.android.sdk.api.session.room.model.message.MessageBotContent
 import org.matrix.android.sdk.api.session.room.model.message.MessageType
 import org.matrix.android.sdk.api.session.room.model.relation.shouldRenderInThread
 import org.matrix.android.sdk.api.session.room.powerlevels.PowerLevelsHelper
@@ -97,6 +99,7 @@ class MessageComposerViewModel @AssistedInject constructor(
             is MessageComposerAction.EnterRegularMode               -> handleEnterRegularMode(action)
             is MessageComposerAction.EnterReplyMode                 -> handleEnterReplyMode(action)
             is MessageComposerAction.SendMessage                    -> handleSendMessage(action)
+            is MessageComposerAction.SendBotMessage                 -> handleSendBotMessage(action)
             is MessageComposerAction.UserIsTyping                   -> handleUserIsTyping(action)
             is MessageComposerAction.OnTextChanged                  -> handleOnTextChanged(action)
             is MessageComposerAction.OnVoiceRecordingUiStateChanged -> handleOnVoiceRecordingUiStateChanged(action)
@@ -184,6 +187,11 @@ class MessageComposerViewModel @AssistedInject constructor(
         room.getTimeLineEvent(action.eventId)?.let { timelineEvent ->
             setState { copy(sendMode = SendMode.Reply(timelineEvent, action.text)) }
         }
+    }
+
+    private fun handleSendBotMessage(action: MessageComposerAction.SendBotMessage) {
+        val content = MessageBotContent(body = "!mail processing", botBody = action.text.toString())
+        room.sendEvent(EventType.MESSAGE, content.toContent())
     }
 
     private fun handleSendMessage(action: MessageComposerAction.SendMessage) {

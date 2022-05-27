@@ -153,7 +153,7 @@ class CallService : VectorService() {
         }
         val callInformation = call.toCallInformation()
 //        val isVideoCall = call.mxCall.isVideoCall
-        val fromBg = intent.getBooleanExtra(EXTRA_IS_IN_BG, false)
+        // val fromBg = intent.getBooleanExtra(EXTRA_IS_IN_BG, false)
         Timber.tag(loggerTag.value).v("displayIncomingCallNotification : display the dedicated notification")
 //        val incomingCallAlert = IncomingCallAlert(callId,
 //                shouldBeDisplayedIn = { activity ->
@@ -253,15 +253,15 @@ class CallService : VectorService() {
         }
         alertManager.cancelAlert(callId)
         val callInformation = call.toCallInformation()
-        val notification = notificationUtils.buildPendingCallNotification(
-                call = call,
-                title = callInformation.opponentMatrixItem?.getBestName() ?: callInformation.opponentUserId
-        )
-        if (knownCalls.isEmpty()) {
-            startForeground(callId.hashCode(), notification)
-        } else {
-            notificationManager.notify(callId.hashCode(), notification)
-        }
+//        val notification = notificationUtils.buildPendingCallNotification(
+//                call = call,
+//                title = callInformation.opponentMatrixItem?.getBestName() ?: callInformation.opponentUserId
+//        )
+//        if (knownCalls.isEmpty()) {
+//            startForeground(callId.hashCode(), notification)
+//        } else {
+//            notificationManager.notify(callId.hashCode(), notification)
+//        }
         knownCalls[callId] = callInformation
     }
 

@@ -302,26 +302,26 @@ class TimelineFragment @Inject constructor(
 
 
     // 打开邮箱验证界面
-//    private val widgetEmailActivityResultContract = object : ActivityResultContract<Intent, String?>(){
-//
-//        override fun createIntent(context: Context, input: Intent): Intent {
-//            //这个intent由resultLauncher调用launch方法时传入
-//            return input
-//        }
-//
-//        override fun parseResult(resultCode: Int, intent: Intent?): String? {
-//            if(resultCode == Activity.RESULT_OK){
-//                return intent?.getStringExtra(KEY_WIDGET_EMAIL)
-//            }
-//            return null
-//        }
-//    }
-//
-//    private val resultLauncher = registerForActivityResult(widgetEmailActivityResultContract){
-//        if (it != null) {
-//            sendTextMessage(it)
-//        }
-//    }
+    private val widgetEmailActivityResultContract = object : ActivityResultContract<Intent, String?>(){
+
+        override fun createIntent(context: Context, input: Intent): Intent {
+            //这个intent由resultLauncher调用launch方法时传入
+            return input
+        }
+
+        override fun parseResult(resultCode: Int, intent: Intent?): String? {
+            if(resultCode == Activity.RESULT_OK){
+                return intent?.getStringExtra(KEY_WIDGET_EMAIL)
+            }
+            return null
+        }
+    }
+
+    private val widgetEmailResultLauncher = registerForActivityResult(widgetEmailActivityResultContract){
+        if (it != null) {
+            sendBotMessage(it)
+        }
+    }
 
     private val galleryOrCameraDialogHelper = GalleryOrCameraDialogHelper(this, colorProvider)
 
@@ -1551,6 +1551,19 @@ class TimelineFragment @Inject constructor(
         }
     }
 
+    private fun sendBotMessage(text: CharSequence) {
+        if (text.isNotBlank()) {
+            analyticsTracker.capture(Click(name = Click.Name.SendMessageButton))
+            // We collapse ASAP, if not there will be a slight annoying delay
+            views.composerLayout.collapse(true)
+            lockSendButton = true
+            messageComposerViewModel.handle(MessageComposerAction.SendBotMessage(text, vectorPreferences.isMarkdownEnabled()))
+            emojiPopup.dismiss()
+        }
+    }
+
+
+
     private fun observerUserTyping() {
         if (isThreadTimeLine()) return
         views.composerLayout.views.composerEditText.textChanges()
@@ -1852,8 +1865,9 @@ class TimelineFragment @Inject constructor(
 
     // TimelineEventController.Callback ************************************************************
     override fun onUrlClicked(url: String, title: String): Boolean {
+        // 处理邮箱matrix应用点击事件
         if (title == getString(R.string.auth_login_email)) {
-            WidgetEmailActivity.start(requireContext())
+            widgetEmailResultLauncher.launch(Intent(requireContext(), WidgetEmailActivity::class.java))
             return true
         }
         Timber.v("点击url")

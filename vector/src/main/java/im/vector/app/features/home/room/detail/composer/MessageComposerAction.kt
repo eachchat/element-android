@@ -23,6 +23,7 @@ import org.matrix.android.sdk.api.session.room.model.message.MessageAudioContent
 
 sealed class MessageComposerAction : VectorViewModelAction {
     data class SendMessage(val text: CharSequence, val autoMarkdown: Boolean) : MessageComposerAction()
+    data class SendBotMessage(val text: CharSequence, val autoMarkdown: Boolean) : MessageComposerAction()
     data class EnterEditMode(val eventId: String, val text: String) : MessageComposerAction()
     data class EnterQuoteMode(val eventId: String, val text: String) : MessageComposerAction()
     data class EnterReplyMode(val eventId: String, val text: String) : MessageComposerAction()

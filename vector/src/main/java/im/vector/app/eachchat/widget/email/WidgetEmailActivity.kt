@@ -55,6 +55,12 @@ class WidgetEmailActivity: VectorBaseActivity<ActivityFragmentContainerBinding>(
         setResult(Activity.RESULT_OK, resultIntent)
     }
 
+    fun submit(string: String) {
+        val resultIntent = Intent().apply{ putExtra(KEY_WIDGET_EMAIL, string) }
+        setResult(Activity.RESULT_OK, resultIntent)
+        finish()
+    }
+
     override fun onDestroy() {
         submit()
         super.onDestroy()

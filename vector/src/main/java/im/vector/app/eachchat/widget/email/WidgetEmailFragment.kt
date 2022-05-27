@@ -41,13 +41,13 @@ class WidgetEmailFragment @Inject constructor(
         super.onViewCreated(view, savedInstanceState)
 
         views.loginField.doAfterTextChanged {
-            views.confirmTv.isEnabled = views.loginField.text?.isEmail() == true && views.passwordField.text?.isNotBlank() == true
+            views.loginSubmit.isEnabled = views.loginField.text?.isEmail() == true && views.passwordField.text?.isNotBlank() == true
         }
         views.passwordField.doAfterTextChanged {
-            views.confirmTv.isEnabled = views.loginField.text?.isEmail() == true && views.passwordField.text?.isNotBlank() == true
+            views.loginSubmit.isEnabled = views.loginField.text?.isEmail() == true && views.passwordField.text?.isNotBlank() == true
         }
 
-        views.confirmTv.onClick {
+        views.loginSubmit.setOnClickListener {
             if (activity is WidgetEmailActivity) {
                 (activity as WidgetEmailActivity).openWidgetEmailFragment(views.loginField.text.toString(), views.passwordField.text.toString())
             }
