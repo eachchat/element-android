@@ -125,11 +125,23 @@ import im.vector.app.eachchat.moreinfo.MoreInfoViewModel
 import im.vector.app.eachchat.search.contactadd.ContactAddSearchViewModel
 import im.vector.app.eachchat.search.contactsearch.ContactsSearchViewModel
 import im.vector.app.eachchat.user.UserInfoViewModel
+import im.vector.app.eachchat.widget.bot.BotViewModel
+import im.vector.app.eachchat.widget.bot.bot_info.BotInfoViewModel
 import im.vector.app.features.roomprofile.contact.RoomContactViewModel
 
 @InstallIn(MavericksViewModelComponent::class)
 @Module
 interface MavericksViewModelModule {
+
+    @Binds
+    @IntoMap
+    @MavericksViewModelKey(BotViewModel::class)
+    fun botViewModelFactory(factory: BotViewModel.Factory): MavericksAssistedViewModelFactory<*, *>
+
+    @Binds
+    @IntoMap
+    @MavericksViewModelKey(BotInfoViewModel::class)
+    fun botInfoViewModelFactory(factory: BotInfoViewModel.Factory): MavericksAssistedViewModelFactory<*, *>
 
     @Binds
     @IntoMap

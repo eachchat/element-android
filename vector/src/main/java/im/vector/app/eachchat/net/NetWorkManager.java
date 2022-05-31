@@ -219,7 +219,7 @@ public class NetWorkManager {
         matrixRetrofit = null;
     }
 
-    private Retrofit newMatrixRetrofit(String baseUrl) {
+    public Retrofit newMatrixRetrofit(String baseUrl) {
         MyLoggingInterceptor httpLoggingInterceptor = new MyLoggingInterceptor("yql-request");
         httpLoggingInterceptor.setPrintLevel(BuildConfig.DEBUG ? MyLoggingInterceptor.Level.BODY
                 : MyLoggingInterceptor.Level.NONE);

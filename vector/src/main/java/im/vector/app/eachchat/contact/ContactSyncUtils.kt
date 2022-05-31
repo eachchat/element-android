@@ -31,6 +31,8 @@ import im.vector.app.eachchat.net.CloseableCoroutineScope
 import im.vector.app.eachchat.net.NetConstant
 import im.vector.app.eachchat.service.LoginApi
 import im.vector.app.eachchat.utils.AppCache
+import im.vector.app.eachchat.widget.bot.data.BotDao
+import im.vector.app.eachchat.widget.bot.data.BotService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -53,6 +55,7 @@ class ContactSyncUtils {
     private var roomDao: ContactRoomDao? = null
     private var updateTimeDao: UpdateTimeDao? = null
     private var contactMatrixUserDao: ContactMatrixUserDao? = null
+    private var botDao: BotDao? = null
 
     private var orgJob: Job? = null
     private var enterpriseSettingJob: Job? = null
@@ -83,10 +86,33 @@ class ContactSyncUtils {
             contactMatrixUserDao = AppDatabase.getInstance(context).contactMatrixUserDao()
         }
 
+        if (botDao == null) {
+            botDao = AppDatabase.getInstance(BaseModule.getContext()).botDao()
+        }
+
         orgSettings()
         requestEnterpriseSettings()
         // requestTenantName()
         requestGMSConfig(application)
+        syncBots()
+    }
+
+    private fun syncBots() {
+        scope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                val response = BotService.getInstance().getBots()
+                if (response.isSuccess) {
+                    botDao?.bulkInsert(response.results)
+                    Timber.e("群应用同步成功")
+                } else {
+                    Timber.e("群应用同步失败")
+                }
+            }.exceptionOrNull()?.let {
+                Timber.e("群应用同步失败")
+                it.printStackTrace()
+            }
+        }
+
     }
 
     private var service: ContactService = ContactService.getInstance()

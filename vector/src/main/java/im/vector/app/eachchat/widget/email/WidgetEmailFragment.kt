@@ -52,6 +52,10 @@ class WidgetEmailFragment @Inject constructor(
                 (activity as WidgetEmailActivity).openWidgetEmailFragment(views.loginField.text.toString(), views.passwordField.text.toString())
             }
         }
+
+        views.backLayout.setOnClickListener {
+            activity?.onBackPressed()
+        }
     }
 
 }

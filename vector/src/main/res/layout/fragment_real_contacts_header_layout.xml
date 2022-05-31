@@ -162,6 +162,38 @@
             android:text="@string/organization_framework" />
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/bot_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingTop="12dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="12dp">
+
+        <ImageView
+            android:id="@+id/bot_iv"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_bot" />
+
+        <TextView
+            android:id="@+id/bot_tv"
+            style="@style/_16_000000_Regular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@mipmap/array_right_grey"
+            android:drawablePadding="16dp"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:paddingStart="12dp"
+            android:singleLine="true"
+            android:text="@string/bot" />
+    </LinearLayout>
+
     <TextView
         style="@style/_14_999999_Regular"
         android:layout_width="match_parent"

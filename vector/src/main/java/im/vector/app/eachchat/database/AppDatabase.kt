@@ -22,6 +22,8 @@ import im.vector.app.eachchat.contact.database.DepartmentDao
 import im.vector.app.eachchat.contact.database.RoomInviteDao
 import im.vector.app.eachchat.contact.database.UpdateTimeDao
 import im.vector.app.eachchat.contact.database.UserDao
+import im.vector.app.eachchat.widget.bot.data.Bot
+import im.vector.app.eachchat.widget.bot.data.BotDao
 
 /**
  * Created by chengww on 2020/11/3
@@ -35,8 +37,9 @@ import im.vector.app.eachchat.contact.database.UserDao
     UpdateTime::class,
     ContactsMatrixUser::class,
     RoomInviteDisplay::class,
-    Department::class
-], version = 2)
+    Department::class,
+    Bot::class
+], version = 4)
 abstract class AppDatabase : RoomDatabase() {
     //    abstract fun contactDao(): ContactDao
     abstract fun contactDaoV2(): ContactDaoV2
@@ -52,6 +55,8 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun roomInviteDao(): RoomInviteDao
 
     abstract fun departmentDao(): DepartmentDao
+
+    abstract fun botDao(): BotDao
 
     companion object {
         private var INSTANCE: AppDatabase? = null

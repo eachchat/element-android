@@ -4027,4 +4027,9 @@
     <string name="port">端口</string>
     <string name="auth_login_email">授权登录邮箱</string>
     <string name="please_enter_email_account">请输入邮箱账号</string>
+    <string name="bot">机器人</string>
+    <string name="loading_bot">正在加载机器人</string>
+    <string name="description">描述</string>
+    <string name="developer">开发者</string>
+    <string name="use_help">使用帮助</string>
 </resources>

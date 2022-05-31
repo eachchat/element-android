@@ -41,6 +41,8 @@ import im.vector.app.core.utils.DimensionConverter
 import im.vector.app.core.utils.showIdentityServerConsentDialog
 import im.vector.app.core.utils.startSharePlainTextIntent
 import im.vector.app.databinding.FragmentUserListBinding
+import im.vector.app.eachchat.base.BaseModule
+import im.vector.app.eachchat.database.AppDatabase
 import im.vector.app.features.homeserver.HomeServerCapabilitiesViewModel
 import im.vector.app.features.settings.VectorSettingsActivity
 import kotlinx.coroutines.flow.launchIn
@@ -104,6 +106,22 @@ class UserListFragment @Inject constructor(
                 }
                 is UserListViewEvents.Failure               -> showFailure(it.throwable)
                 is UserListViewEvents.OnPoliciesRetrieved   -> showConsentDialog(it)
+            }
+        }
+
+        AppDatabase.getInstance(BaseModule.getContext()).botDao().getBotsLive().observe(viewLifecycleOwner) {
+            val bots = ArrayList<User>()
+            it?.forEach {bot ->
+                bot.appMatrixId?.let { it1 ->
+                    val user = BaseModule.getSession().getUser(it1)
+                    if (user != null) {
+                        bots.add(user)
+                    }
+                }
+            }
+
+            if (it != null) {
+                viewModel.updateBots(bots)
             }
         }
     }

@@ -66,7 +66,7 @@
                         android:textAppearance="@style/TextAppearance.Vector.Widget.ActionBarTitle"
                         android:textColor="?vctr_content_primary"
                         android:textStyle="bold"
-                        android:text="@string/my_contacts" />
+                        android:text="@string/bot" />
 
                 </LinearLayout>
 
@@ -111,6 +111,7 @@
         app:charTextColor="@color/forward_msg_content"
         app:indexTextColor="@color/white"
         app:indexTextSize="11sp"
+        android:visibility="gone"
         tools:visibility="visible" />
 
     <TextView

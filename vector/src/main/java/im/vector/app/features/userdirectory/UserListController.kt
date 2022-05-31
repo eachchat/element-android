@@ -37,6 +37,7 @@ import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.session.identity.IdentityServiceError
 import org.matrix.android.sdk.api.session.identity.ThreePid
 import org.matrix.android.sdk.api.session.user.model.User
+import org.matrix.android.sdk.api.util.MatrixItem
 import org.matrix.android.sdk.api.util.toMatrixItem
 import javax.inject.Inject
 
@@ -209,6 +210,8 @@ class UserListController @Inject constructor(private val session: Session,
             }
         }
 
+        currentState.bots?.let { buildBots(it, currentState.getSelectedMatrixId()) }
+
         when (currentState.knownUsers) {
             is Uninitialized -> renderEmptyState()
             is Loading       -> renderLoading()
@@ -258,6 +261,27 @@ class UserListController @Inject constructor(private val session: Session,
                         }
                     }
                 }
+    }
+
+    private fun buildBots(bots: List<User>, selectedUsers: List<String>) {
+        if (bots.isEmpty()) return
+        val host = this
+        userListHeaderItem {
+            id("bot_header")
+            header(host.stringProvider.getString(R.string.bot))
+        }
+        bots.forEach {bot ->
+            val isSelected = selectedUsers.contains(bot.userId)
+            userDirectoryUserItem {
+                id(bot.userId)
+                selected(isSelected)
+                matrixItem(MatrixItem.UserItem(bot.userId, bot.displayName, bot.avatarUrl))
+                avatarRenderer(host.avatarRenderer)
+                clickListener {
+                    host.callback?.onItemClick(User(bot.userId, bot.displayName, bot.avatarUrl))
+                }
+            }
+        }
     }
 
     private fun buildDirectoryUsers(directoryUsers: List<User>, selectedUsers: List<String>, searchTerms: String, ignoreIds: List<String>) {

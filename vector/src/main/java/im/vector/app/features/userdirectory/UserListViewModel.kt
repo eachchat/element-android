@@ -309,6 +309,15 @@ class UserListViewModel @AssistedInject constructor(
         val selections = state.pendingSelections.minus(action.pendingSelection)
         setState { copy(pendingSelections = selections) }
     }
+
+    fun updateBots(bots: List<User>) {
+        withState {
+            setState {
+                copy(bots = bots)
+            }
+        }
+    }
+
 }
 
 private fun UserListViewState.hasNoIdentityServerConfigured() = matchingEmail is Fail && matchingEmail.error == IdentityServiceError.NoIdentityServerConfigured

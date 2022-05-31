@@ -23,6 +23,8 @@ import android.os.Bundle
 import android.os.Parcelable
 import dagger.hilt.android.AndroidEntryPoint
 import im.vector.app.core.extensions.addFragment
+import im.vector.app.core.extensions.addFragmentToBackstack
+import im.vector.app.core.extensions.popBackstack
 import im.vector.app.core.extensions.replaceFragment
 import im.vector.app.core.platform.VectorBaseActivity
 import im.vector.app.databinding.ActivityFragmentContainerBinding
@@ -47,7 +49,7 @@ class WidgetEmailActivity: VectorBaseActivity<ActivityFragmentContainerBinding>(
 
     fun openWidgetEmailFragment(email: String, password: String) {
         val params = WidgetEmailParams(email, password)
-        addFragment(views.fragmentContainer, WidgetEmailServerFragment::class.java, params)
+        addFragmentToBackstack(views.fragmentContainer, WidgetEmailServerFragment::class.java, params)
     }
 
     fun submit() {
@@ -64,6 +66,14 @@ class WidgetEmailActivity: VectorBaseActivity<ActivityFragmentContainerBinding>(
     override fun onDestroy() {
         submit()
         super.onDestroy()
+    }
+
+    override fun onBackPressed() {
+        if (supportFragmentManager.backStackEntryCount > 0) {
+            popBackstack()
+        } else {
+            super.onBackPressed()
+        }
     }
 
     companion object {

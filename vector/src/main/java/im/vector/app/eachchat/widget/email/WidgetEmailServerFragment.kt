@@ -70,6 +70,10 @@ class WidgetEmailServerFragment @Inject constructor(
                 + ", true")
             }
         }
+
+        views.backLayout.setOnClickListener {
+            activity?.onBackPressed()
+        }
     }
 
     fun checkSubmitEnable() {

@@ -37,6 +37,7 @@ import im.vector.app.eachchat.contact.invite.InviteActivity
 import im.vector.app.eachchat.contact.mycontacts.MyContactsActivity
 import im.vector.app.eachchat.department.DepartmentActivity
 import im.vector.app.eachchat.utils.AppCache
+import im.vector.app.eachchat.widget.bot.BotActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -120,6 +121,9 @@ class RealContactsFragment @Inject constructor()  : VectorBaseFragment<FragmentR
                 null,
                 true
             )
+        }
+        header.findViewById<LinearLayout>(R.id.bot_ll).setOnClickListener {
+            BotActivity.start(requireContext())
         }
 //        views.backLayout.setOnClickListener {
 //            requireActivity().onBackPressed()

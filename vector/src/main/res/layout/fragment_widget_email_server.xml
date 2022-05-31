@@ -106,16 +106,25 @@
             android:paddingStart="24dp"
             android:paddingEnd="24dp">
 
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/widgetEmailTabLayout"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:tabBackground="?colorSurface"
-                app:tabIndicatorColor="@color/white"
-                app:tabIndicatorGravity="stretch"
-                app:tabInlineLabel="true"
-                app:tabSelectedTextColor="@color/black"
-                app:tabTextColor="@color/black" />
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_round_surface"
+                android:padding="3dp">
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/widgetEmailTabLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    app:tabBackground="?colorSurface"
+                    app:tabIndicatorColor="@color/white"
+                    app:tabIndicatorGravity="stretch"
+                    app:tabInlineLabel="true"
+                    app:tabSelectedTextColor="@color/black"
+                    app:tabTextColor="@color/black" />
+
+            </LinearLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/emailFieldTil"
@@ -129,6 +138,7 @@
                     android:id="@+id/emailField"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
                     android:focusable="false"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
@@ -148,6 +158,7 @@
                 android:id="@+id/acceptHostFieldTil"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:hint="@string/host_server_name"
                 app:errorEnabled="false">
 
@@ -165,6 +176,7 @@
                 android:id="@+id/acceptPortFieldTil"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:hint="@string/port"
                 app:errorEnabled="false">
 
@@ -182,6 +194,7 @@
                 android:id="@+id/acceptUserNameFieldTil"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:hint="@string/user_name"
                 app:errorEnabled="false">
 

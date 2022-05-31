@@ -185,6 +185,8 @@ import im.vector.app.eachchat.contact.manage.ContactManageFragment
 import im.vector.app.eachchat.contact.mycontacts.MyContactsFragment
 import im.vector.app.eachchat.contact.real.RealContactsFragment
 import im.vector.app.eachchat.moreinfo.MoreInfoFragment
+import im.vector.app.eachchat.widget.bot.BotFragment
+import im.vector.app.eachchat.widget.bot.bot_info.BotInfoFragment
 import im.vector.app.eachchat.widget.email.WidgetEmailFragment
 import im.vector.app.eachchat.widget.email.WidgetEmailServerFragment
 import im.vector.app.features.roomprofile.contact.RoomContactFragment
@@ -197,6 +199,16 @@ interface FragmentModule {
      */
     @Binds
     fun bindFragmentFactory(factory: VectorFragmentFactory): FragmentFactory
+
+    @Binds
+    @IntoMap
+    @FragmentKey(BotFragment::class)
+    fun botFragment(fragment: BotFragment): Fragment
+
+    @Binds
+    @IntoMap
+    @FragmentKey(BotInfoFragment::class)
+    fun botInfoFragment(fragment: BotInfoFragment): Fragment
 
     @Binds
     @IntoMap
