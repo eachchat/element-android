@@ -239,6 +239,9 @@ android {
             keyPassword 'zhu88jie'
             storeFile file('./signature/yiqia-android-signature.jks')
             storePassword 'Zhu88jie'
+
+            v1SigningEnabled true
+            v2SigningEnabled true
         }
     }
 

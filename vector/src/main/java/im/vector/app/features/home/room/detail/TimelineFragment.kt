@@ -1866,10 +1866,10 @@ class TimelineFragment @Inject constructor(
     // TimelineEventController.Callback ************************************************************
     override fun onUrlClicked(url: String, title: String): Boolean {
         // 处理邮箱matrix应用点击事件
-        if (title == getString(R.string.auth_login_email)) {
-            widgetEmailResultLauncher.launch(Intent(requireContext(), WidgetEmailActivity::class.java))
-            return true
-        }
+//        if (title == getString(R.string.auth_login_email)) {
+//            widgetEmailResultLauncher.launch(Intent(requireContext(), WidgetEmailActivity::class.java))
+//            return true
+//        }
         Timber.v("点击url")
         viewLifecycleOwner.lifecycleScope.launch {
             val isManaged = permalinkHandler
