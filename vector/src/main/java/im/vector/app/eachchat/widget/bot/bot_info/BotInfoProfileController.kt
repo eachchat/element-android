@@ -118,14 +118,15 @@ class BotInfoProfileController @Inject constructor(
         val membership = state.asyncMembership() ?: return
         val canKick = !state.isMine && state.actionPermissions.canKick
         val canBan = !state.isMine && state.actionPermissions.canBan
-        val canEditPowerLevel = state.actionPermissions.canEditPowerLevel
-        if (canKick || canBan || canEditPowerLevel && !state.isMine) {
-            buildProfileSection(stringProvider.getString(R.string.room_profile_section_admin))
-        }
+        // val canEditPowerLevel = state.actionPermissions.canEditPowerLevel
+//        if (canKick || canBan || canEditPowerLevel && !state.isMine) {
+//
+//        }
 
         if (canKick) {
             when (membership) {
                 Membership.JOIN   -> {
+                    buildProfileSection(stringProvider.getString(R.string.room_profile_section_admin))
                     buildProfileAction(
                             id = "kick",
                             editable = false,
@@ -136,6 +137,7 @@ class BotInfoProfileController @Inject constructor(
                     )
                 }
                 Membership.INVITE -> {
+                    buildProfileSection(stringProvider.getString(R.string.room_profile_section_admin))
                     buildProfileAction(
                             id = "cancel_invite",
                             title = stringProvider.getString(R.string.room_participants_action_cancel_invite),

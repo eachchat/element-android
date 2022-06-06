@@ -32,6 +32,8 @@ import im.vector.app.R
 import im.vector.app.core.epoxy.ClickListener
 import im.vector.app.core.epoxy.onClick
 import im.vector.app.core.ui.views.SendStateImageView
+import im.vector.app.eachchat.base.BaseModule
+import im.vector.app.eachchat.database.AppDatabase
 import im.vector.app.features.displayname.getBestNameEachChat
 import im.vector.app.features.home.AvatarRenderer
 import im.vector.app.features.home.room.detail.timeline.MessageColorProvider
@@ -102,6 +104,12 @@ abstract class AbsMessageItem<H : AbsMessageItem.Holder> : AbsBaseMessageItem<H>
                         holder.memberNameView.text = it
                     }
                 }
+                val bot = AppDatabase.getInstance(BaseModule.getContext()).botDao().getBot(attributes.informationData.senderId)
+
+                    GlobalScope.launch(Dispatchers.Main) {
+                        holder.botView.isVisible = bot != null
+                    }
+
             }
 
             holder.memberNameView.setTextColor(attributes.getMemberNameColor())
@@ -177,6 +185,7 @@ abstract class AbsMessageItem<H : AbsMessageItem.Holder> : AbsBaseMessageItem<H>
         val threadSummaryCounterTextView by bind<TextView>(R.id.messageThreadSummaryCounterTextView)
         val threadSummaryAvatarImageView by bind<ImageView>(R.id.messageThreadSummaryAvatarImageView)
         val threadSummaryInfoTextView by bind<TextView>(R.id.messageThreadSummaryInfoTextView)
+        val botView by bind<TextView>(R.id.messageBotView)
     }
 
     /**

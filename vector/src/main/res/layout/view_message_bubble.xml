@@ -32,7 +32,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="4dp"
         android:layout_toEndOf="@id/messageStartGuideline"
@@ -42,6 +41,28 @@
         android:textColor="?vctr_content_primary"
         android:textStyle="bold"
         tools:text="@sample/users.json/data/displayName" />
+
+
+    <TextView
+        android:id="@+id/messageBotView"
+        style="@style/Widget.Vector.TextView.Caption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="1.5dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="2dp"
+        android:layout_toEndOf="@id/messageMemberNameView"
+        android:background="@drawable/bg_bot_view"
+        android:paddingStart="4dp"
+        android:paddingTop="1dp"
+        android:paddingEnd="4dp"
+        android:paddingBottom="1dp"
+        android:text="@string/bot"
+        android:textColor="?vctr_content_secondary"
+        android:visibility="gone"
+        tools:visibility="visible" />
 
     <View
         android:id="@+id/messageStartGuideline"

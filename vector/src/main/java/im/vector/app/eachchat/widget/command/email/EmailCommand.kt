@@ -30,12 +30,12 @@ enum class EmailCommand(val command: String,
                         @StringRes val description: Int,
                         val isDevCommand: Boolean,
                         val isThreadCommand: Boolean) {
-    HELP("!mail help", null, "", R.string.command_description_emote, false, true),
-    LEAVE("!mail leave", null, "", R.string.command_description_emote, false, true),
-    SET_MAILBOX("!mail set mailbox", null, "", R.string.command_description_emote, false, true),
+    LOGIN("!mail login", null, "", R.string.command_description_emote, false, true),
     MAILBOXES("!mail mailboxes", null, "", R.string.command_description_emote, false, true),
+    SET_MAILBOX("!mail set mailbox", null, "", R.string.command_description_emote, false, true),
     LOGOUT("!mail logout", null, "", R.string.command_description_emote, false, true),
-    LOGIN("!mail login", null, "", R.string.command_description_emote, false, true);
+    LEAVE("!mail leave", null, "", R.string.command_description_emote, false, true),
+    HELP("!mail help", null, "", R.string.command_description_emote, false, true);
 
     val allAliases = arrayOf(command, *aliases.orEmpty())
 
