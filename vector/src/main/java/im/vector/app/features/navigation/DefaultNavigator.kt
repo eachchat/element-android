@@ -20,6 +20,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.BaseBundle
 import android.os.Build
 import android.view.View
 import android.view.Window
@@ -37,6 +38,11 @@ import im.vector.app.core.di.ActiveSessionHolder
 import im.vector.app.core.error.fatalError
 import im.vector.app.core.platform.VectorBaseActivity
 import im.vector.app.core.utils.toast
+import im.vector.app.eachchat.base.BaseModule
+import im.vector.app.eachchat.database.AppDatabase
+import im.vector.app.eachchat.widget.bot.BotActivity
+import im.vector.app.eachchat.widget.bot.bot_info.BotInfoActivity
+import im.vector.app.eachchat.widget.bot.bot_info.BotInfoArg
 import im.vector.app.features.VectorFeatures
 import im.vector.app.features.VectorFeatures.OnboardingVariant
 import im.vector.app.features.analytics.ui.consent.AnalyticsOptInActivity
@@ -100,6 +106,10 @@ import im.vector.app.features.terms.ReviewTermsActivity
 import im.vector.app.features.widgets.WidgetActivity
 import im.vector.app.features.widgets.WidgetArgsBuilder
 import im.vector.app.space
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.matrix.android.sdk.api.session.crypto.verification.IncomingSasVerificationTransaction
 import org.matrix.android.sdk.api.session.permalinks.PermalinkData
 import org.matrix.android.sdk.api.session.room.model.roomdirectory.PublicRoom
@@ -267,10 +277,19 @@ class DefaultNavigator @Inject constructor(
         }
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     override fun openRoomMemberProfile(userId: String, roomId: String?, context: Context, buildTask: Boolean) {
-        val args = RoomMemberProfileArgs(userId = userId, roomId = roomId)
-        val intent = RoomMemberProfileActivity.newIntent(context, args)
-        startActivity(context, intent, buildTask)
+        GlobalScope.launch (Dispatchers.IO) {
+            val bot = AppDatabase.getInstance(BaseModule.getContext()).botDao().getBot(userId)
+            if (bot != null) {
+                BotInfoActivity.start(context, BotInfoArg(userId, bot.appName, roomId))
+                return@launch
+            }
+            val args = RoomMemberProfileArgs(userId = userId, roomId = roomId)
+            val intent = RoomMemberProfileActivity.newIntent(context, args)
+            startActivity(context, intent, buildTask)
+        }
+
     }
 
     override fun openRoomForSharingAndFinish(activity: Activity, roomId: String, sharedData: SharedData) {

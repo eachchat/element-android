@@ -26,14 +26,18 @@ import im.vector.app.core.epoxy.profiles.buildShowMoreInfoInfoItem
 import im.vector.app.core.epoxy.profiles.buildUserProfileInfoItem
 import im.vector.app.core.resources.StringProvider
 import im.vector.app.core.ui.list.genericFooterItem
+import im.vector.app.eachchat.base.BaseModule
 import im.vector.app.eachchat.contact.api.bean.Department
 import im.vector.app.eachchat.contact.data.ContactsDisplayBeanV2
 import im.vector.app.eachchat.contact.data.EmailBean
 import im.vector.app.eachchat.contact.data.TelephoneBean
 import im.vector.app.eachchat.contact.data.User
 import im.vector.app.eachchat.department.DepartmentStoreHelper
+import im.vector.app.features.roommemberprofile.RoomMemberProfileViewState
 import im.vector.lib.core.utils.epoxy.charsequence.toEpoxyCharSequence
 import org.matrix.android.sdk.api.session.Session
+import org.matrix.android.sdk.api.session.room.model.Membership
+import org.matrix.android.sdk.api.session.room.powerlevels.PowerLevelsHelper
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
 import javax.inject.Inject
 
@@ -61,7 +65,7 @@ class BotInfoProfileController @Inject constructor(
 //        }
         buildBotInfo(data)
         buildUserActions(data)
-
+        buildAdminSection(data)
     }
 
     private fun buildBotInfo(state: BotInfoViewState) {
@@ -98,5 +102,65 @@ class BotInfoProfileController @Inject constructor(
                     action = { callback?.onOpenDmClicked() }
             )
         }
+    }
+
+    private fun buildAdminSection(state: BotInfoViewState) {
+        val powerLevelsContent = state.powerLevelsContent ?: return
+        val powerLevelsHelper = PowerLevelsHelper(powerLevelsContent)
+        val userPowerLevel = state.userId?.let { powerLevelsHelper.getUserRole(it) }
+        val myPowerLevel = powerLevelsHelper.getUserRole(BaseModule.getSession().myUserId)
+        if (userPowerLevel == null) {
+            return
+        }
+        if ((!state.isMine && myPowerLevel <= userPowerLevel)) {
+            return
+        }
+        val membership = state.asyncMembership() ?: return
+        val canKick = !state.isMine && state.actionPermissions.canKick
+        val canBan = !state.isMine && state.actionPermissions.canBan
+        val canEditPowerLevel = state.actionPermissions.canEditPowerLevel
+        if (canKick || canBan || canEditPowerLevel && !state.isMine) {
+            buildProfileSection(stringProvider.getString(R.string.room_profile_section_admin))
+        }
+
+        if (canKick) {
+            when (membership) {
+                Membership.JOIN   -> {
+                    buildProfileAction(
+                            id = "kick",
+                            editable = false,
+                            divider = canBan,
+                            destructive = true,
+                            title = stringProvider.getString(R.string.room_participants_action_remove),
+                            action = { callback?.onKickClicked(state.isSpace) }
+                    )
+                }
+                Membership.INVITE -> {
+                    buildProfileAction(
+                            id = "cancel_invite",
+                            title = stringProvider.getString(R.string.room_participants_action_cancel_invite),
+                            divider = canBan,
+                            destructive = true,
+                            editable = false,
+                            action = { callback?.onCancelInviteClicked() }
+                    )
+                }
+                else              -> Unit
+            }
+        }
+//        if (canBan) {
+//            val banActionTitle = if (membership == Membership.BAN) {
+//                stringProvider.getString(R.string.room_participants_action_unban)
+//            } else {
+//                stringProvider.getString(R.string.room_participants_action_ban)
+//            }
+//            buildProfileAction(
+//                    id = "ban",
+//                    editable = false,
+//                    destructive = true,
+//                    title = banActionTitle,
+//                    action = { callback?.onBanClicked(state.isSpace, membership == Membership.BAN) }
+//            )
+//        }
     }
 }

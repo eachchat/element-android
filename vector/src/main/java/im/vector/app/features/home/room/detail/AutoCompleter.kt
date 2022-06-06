@@ -29,6 +29,12 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import im.vector.app.core.glide.GlideApp
 import im.vector.app.core.glide.GlideRequests
+import im.vector.app.eachchat.widget.command.base.AutocompleteBaseCommandPresenter
+import im.vector.app.eachchat.widget.command.base.BaseCommand
+import im.vector.app.eachchat.widget.command.base.BaseCommandAutocompletePolicy
+import im.vector.app.eachchat.widget.command.email.AutocompleteEmailCommandPresenter
+import im.vector.app.eachchat.widget.command.email.EmailCommand
+import im.vector.app.eachchat.widget.command.email.EmailCommandAutocompletePolicy
 import im.vector.app.features.autocomplete.command.AutocompleteCommandPresenter
 import im.vector.app.features.autocomplete.command.CommandAutocompletePolicy
 import im.vector.app.features.autocomplete.emoji.AutocompleteEmojiPresenter
@@ -57,11 +63,15 @@ class AutoCompleter @AssistedInject constructor(
         @Assisted val isInThreadTimeline: Boolean,
         private val avatarRenderer: AvatarRenderer,
         private val commandAutocompletePolicy: CommandAutocompletePolicy,
+        private val emailCommandAutocompletePolicy: EmailCommandAutocompletePolicy,
+        private val baseCommandAutocompletePolicy: BaseCommandAutocompletePolicy,
         AutocompleteCommandPresenterFactory: AutocompleteCommandPresenter.Factory,
+        AutocompleteEmailCommandPresenterFactory: AutocompleteEmailCommandPresenter.Factory,
+        AutocompleteBaseCommandPresenterFactory: AutocompleteBaseCommandPresenter.Factory,
         private val autocompleteMemberPresenterFactory: AutocompleteMemberPresenter.Factory,
         private val autocompleteRoomPresenter: AutocompleteRoomPresenter,
         private val autocompleteGroupPresenter: AutocompleteGroupPresenter,
-        private val autocompleteEmojiPresenter: AutocompleteEmojiPresenter
+        private val autocompleteEmojiPresenter: AutocompleteEmojiPresenter,
 ) {
 
     private lateinit var autocompleteMemberPresenter: AutocompleteMemberPresenter
@@ -73,6 +83,15 @@ class AutoCompleter @AssistedInject constructor(
 
     private val autocompleteCommandPresenter: AutocompleteCommandPresenter by lazy {
         AutocompleteCommandPresenterFactory.create(isInThreadTimeline)
+    }
+
+
+    private val autocompleteBaeCommandPresenter: AutocompleteBaseCommandPresenter by lazy {
+        AutocompleteBaseCommandPresenterFactory.create(isInThreadTimeline)
+    }
+
+    private val autocompleteEmailCommandPresenter: AutocompleteEmailCommandPresenter by lazy {
+        AutocompleteEmailCommandPresenterFactory.create(isInThreadTimeline)
     }
 
     private var editText: EditText? = null
@@ -96,6 +115,8 @@ class AutoCompleter @AssistedInject constructor(
         setupGroups(backgroundDrawable, editText)
         // setupEmojis(backgroundDrawable, editText)
         setupRooms(backgroundDrawable, editText)
+        setupEmailBotCommands(backgroundDrawable, editText)
+        setupBaseBotCommands(backgroundDrawable, editText)
     }
 
     fun clear() {
@@ -119,6 +140,46 @@ class AutoCompleter @AssistedInject constructor(
                         editable
                                 .append(item.command)
                                 .append(" ")
+                        return true
+                    }
+
+                    override fun onPopupVisibilityChanged(shown: Boolean) {
+                    }
+                })
+                .build()
+    }
+
+    private fun setupEmailBotCommands(backgroundDrawable: Drawable, editText: EditText) {
+        Autocomplete.on<EmailCommand>(editText)
+                .with(emailCommandAutocompletePolicy)
+                .with(autocompleteEmailCommandPresenter)
+                .with(ELEVATION)
+                .with(backgroundDrawable)
+                .with(object : AutocompleteCallback<EmailCommand> {
+                    override fun onPopupItemClicked(editable: Editable, item: EmailCommand): Boolean {
+                        editable.clear()
+                        editable
+                                .append(item.command)
+                        return true
+                    }
+
+                    override fun onPopupVisibilityChanged(shown: Boolean) {
+                    }
+                })
+                .build()
+    }
+
+    private fun setupBaseBotCommands(backgroundDrawable: Drawable, editText: EditText) {
+        Autocomplete.on<BaseCommand>(editText)
+                .with(baseCommandAutocompletePolicy)
+                .with(autocompleteBaeCommandPresenter)
+                .with(ELEVATION)
+                .with(backgroundDrawable)
+                .with(object : AutocompleteCallback<BaseCommand> {
+                    override fun onPopupItemClicked(editable: Editable, item: BaseCommand): Boolean {
+                        editable.clear()
+                        editable
+                                .append(item.command)
                         return true
                     }
 

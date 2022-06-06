@@ -70,6 +70,7 @@ import im.vector.app.features.displayname.getBestName
 import im.vector.app.features.home.AvatarRenderer
 import im.vector.app.features.home.room.detail.RoomDetailPendingActionStore
 import im.vector.app.features.home.room.detail.timeline.helper.MatrixItemColorProvider
+import im.vector.app.features.roommemberprofile.RoomMemberProfileAction
 import im.vector.app.features.roommemberprofile.RoomMemberProfileViewEvents
 import im.vector.app.features.roommemberprofile.powerlevel.EditPowerLevelDialogs
 import im.vector.app.features.settings.VectorPreferences
@@ -85,7 +86,8 @@ import javax.inject.Inject
 @Parcelize
 data class BotInfoArg(
         val userId: String? = null,
-        val displayName: String? = null
+        val displayName: String? = null,
+        val roomId: String? = null
 ) : Parcelable
 
 class BotInfoFragment @Inject constructor(
@@ -403,7 +405,7 @@ class BotInfoFragment @Inject constructor(
                         reasonHintRes = R.string.room_participants_remove_reason,
                         titleRes = R.string.room_participants_remove_title
                 ) {
-                    //viewModel.handle(RoomMemberProfileAction.KickUser(reason))
+                    viewModel.handle(RoomMemberProfileAction.KickUser(it))
                 }
     }
 
@@ -445,7 +447,7 @@ class BotInfoFragment @Inject constructor(
                         reasonHintRes = 0,
                         titleRes = R.string.room_participants_action_cancel_invite_title
                 ) {
-                    //viewModel.handle(RoomMemberProfileAction.KickUser(null))
+                    viewModel.handle(RoomMemberProfileAction.KickUser(null))
                 }
     }
 

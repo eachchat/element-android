@@ -2040,8 +2040,7 @@ class TimelineFragment @Inject constructor(
         }
     }
 
-    override fun onThreadSummaryClicked(eventId: String, isRootThreadEvent: Boolean): Boolean {
-        return if (vectorPreferences.areThreadMessagesEnabled() && isRootThreadEvent && !isThreadTimeLine()) {
+    override fun onThreadSummaryClicked(eventId: String, isRootThreadEvent: Boolean): Boolean { return if (vectorPreferences.areThreadMessagesEnabled() && isRootThreadEvent && !isThreadTimeLine()) {
             navigateToThreadTimeline(eventId)
             true
         } else {

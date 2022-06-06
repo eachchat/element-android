@@ -37,7 +37,7 @@ class WidgetArgsBuilder @Inject constructor(
             else                       -> "type_$screen"
         }
         return WidgetArgs(
-                baseUrl = "https://scalar.eachchat.net/element",// integrationManagerConfig.uiUrl,
+                baseUrl = "https://integration.yiqia.com/element",// integrationManagerConfig.uiUrl,
                 kind = WidgetKind.INTEGRATION_MANAGER,
                 roomId = roomId,
                 urlParams = mapOf(

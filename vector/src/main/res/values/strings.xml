@@ -4032,4 +4032,5 @@
     <string name="description">描述</string>
     <string name="developer">开发者</string>
     <string name="use_help">使用帮助</string>
+    <string name="SMTP">SMTP</string>
 </resources>

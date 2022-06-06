@@ -22,6 +22,7 @@ import com.airbnb.mvrx.MavericksState
 import com.airbnb.mvrx.Uninitialized
 import im.vector.app.eachchat.contact.data.ContactsDisplayBeanV2
 import im.vector.app.eachchat.contact.data.User
+import im.vector.app.features.roommemberprofile.ActionPermissions
 import org.matrix.android.sdk.api.session.crypto.crosssigning.MXCrossSigningInfo
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
@@ -49,9 +50,12 @@ data class BotInfoViewState(
         val displayName: String? = null, // 用户的显示名称
         val botDescription: String? = null,
         val botDeveloper: String? = null,
-        val botHelp: String? = null
+        val botHelp: String? = null,
+        val powerLevelsContent: PowerLevelsContent? = null,
+        val userPowerLevelString: Async<String> = Uninitialized,
+        val actionPermissions: ActionPermissions = ActionPermissions()
 ) : MavericksState {
-     constructor(args: BotInfoArg) : this(userId = args.userId, displayName = args.displayName)
+     constructor(args: BotInfoArg) : this(userId = args.userId, displayName = args.displayName, roomId = args.roomId)
 }
 
 data class ActionPermissions(

@@ -47,7 +47,7 @@ class WidgetEmailServerFragment @Inject constructor(
         views.emailField.setText(widgetEmailParams.email)
 
         views.widgetEmailTabLayout.addTab(views.widgetEmailTabLayout.newTab().setText(R.string.IMAP))
-        views.widgetEmailTabLayout.addTab(views.widgetEmailTabLayout.newTab().setText(R.string.POP))
+        views.widgetEmailTabLayout.addTab(views.widgetEmailTabLayout.newTab().setText(R.string.SMTP))
 
         views.acceptUserNameField.doAfterTextChanged {
             checkSubmitEnable()
