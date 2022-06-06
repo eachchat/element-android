@@ -64,10 +64,9 @@ class WidgetEmailServerFragment @Inject constructor(
 
         views.loginSubmit.setOnClickListener {
             if (activity is WidgetEmailActivity) {
-                val selectedMode = views.widgetEmailTabLayout.getTabAt(views.widgetEmailTabLayout.selectedTabPosition)?.text.toString().lowercase(Locale.ROOT)
-                (activity as WidgetEmailActivity).submit("!mail setup " + selectedMode + ", " + views.acceptHostField.text +
-                ":" + views.acceptPortField.text + ", " + views.acceptUserNameField.text + ", " + views.acceptPasswordField.text + ", mailbox"
-                + ", true")
+                (activity as WidgetEmailActivity).submit("!mail setup imap, " + views.acceptHostField.text +
+                ":" + views.acceptPortField.text + ", " + views.acceptUserNameField.text + ", " + views.acceptPasswordField.text + ", INBOX"
+                + ", false")
             }
         }
 
