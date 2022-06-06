@@ -79,7 +79,7 @@ class RoomPermissionsController @Inject constructor(
             EditablePermission.NotifyEveryone(),
 
             // EditablePermission.ChangeSettings(),
-            EditablePermission.ModifyWidgets(), // 添加matrix应用的权限
+            // EditablePermission.ModifyWidgets(), // 添加matrix应用的权限
             // EditablePermission.ChangeHistoryVisibility(),
             // EditablePermission.ChangePermissions(),
             // EditablePermission.SendRoomServerAclEvents(),

@@ -22,6 +22,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.drawable.Drawable
+import android.text.TextUtils
 import android.text.style.ReplacementSpan
 import android.widget.TextView
 import androidx.annotation.UiThread
@@ -39,6 +40,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.matrix.android.sdk.api.session.room.send.MatrixItemSpan
 import org.matrix.android.sdk.api.util.MatrixItem
+import org.threeten.bp.format.TextStyle
 import java.lang.ref.WeakReference
 
 /**
