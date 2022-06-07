@@ -44,7 +44,7 @@ class WidgetEmailActivity: VectorBaseActivity<ActivityFragmentContainerBinding>(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        replaceFragment(views.fragmentContainer, WidgetEmailFragment::class.java)
+        replaceFragment(views.fragmentContainer, WidgetEmailServerFragment::class.java)
     }
 
     fun openWidgetEmailFragment(email: String, password: String) {

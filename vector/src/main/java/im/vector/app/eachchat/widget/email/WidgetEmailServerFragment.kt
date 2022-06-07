@@ -36,20 +36,13 @@ import javax.inject.Inject
 class WidgetEmailServerFragment @Inject constructor(
 ) : VectorBaseFragment<FragmentWidgetEmailServerBinding>() {
 
-    private val widgetEmailParams: WidgetEmailParams by args()
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        views.acceptUserNameField.setText(widgetEmailParams.email)
-        views.acceptPasswordField.setText(widgetEmailParams.password)
-        views.outboundUserNameField.setText(widgetEmailParams.email)
-        views.outboundPasswordField.setText(widgetEmailParams.password)
-        views.emailField.setText(widgetEmailParams.email)
 
         views.widgetEmailTabLayout.addTab(views.widgetEmailTabLayout.newTab().setText(R.string.IMAP))
         views.widgetEmailTabLayout.addTab(views.widgetEmailTabLayout.newTab().setText(R.string.SMTP))
 
-        views.acceptUserNameField.doAfterTextChanged {
+        views.emailField.doAfterTextChanged {
             checkSubmitEnable()
         }
         views.acceptPasswordField.doAfterTextChanged {
@@ -65,8 +58,8 @@ class WidgetEmailServerFragment @Inject constructor(
         views.loginSubmit.setOnClickListener {
             if (activity is WidgetEmailActivity) {
                 (activity as WidgetEmailActivity).submit("!mail setup imap, " + views.acceptHostField.text +
-                ":" + views.acceptPortField.text + ", " + views.acceptUserNameField.text + ", " + views.acceptPasswordField.text + ", INBOX"
-                + ", false")
+                ":" + views.acceptPortField.text + ", " + views.emailField.text + ", " + views.acceptPasswordField.text + ", INBOX"
+                + ", " + views.formSwitchSwitch.isChecked.toString())
             }
         }
 
@@ -76,10 +69,14 @@ class WidgetEmailServerFragment @Inject constructor(
     }
 
     fun checkSubmitEnable() {
-        views.loginSubmit.isEnabled = views.acceptUserNameField.text?.isEmail() == true
+        views.emailFieldTil.error = null
+        views.loginSubmit.isEnabled = views.emailField.text?.isEmail() == true
                 && views.acceptHostField.text?.isNotBlank() == true
                 && views.acceptPortField.text?.isNotBlank() == true
                 && views.acceptPasswordField.text?.isNotBlank() == true
+        if (views.emailField.text?.isEmail() == false) {
+            views.emailFieldTil.error = getString(R.string.please_enter_vaild_email)
+        }
     }
 
     override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentWidgetEmailServerBinding {

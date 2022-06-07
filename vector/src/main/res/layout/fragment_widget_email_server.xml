@@ -106,12 +106,19 @@
             android:paddingStart="24dp"
             android:paddingEnd="24dp">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/IMAP" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/bg_round_surface"
-                android:padding="3dp">
+                android:padding="3dp"
+                android:visibility="gone">
 
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/widgetEmailTabLayout"
@@ -131,6 +138,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="8dp"
                 android:hint="@string/email_hint"
                 app:errorEnabled="false">
 
@@ -138,12 +146,34 @@
                     android:id="@+id/emailField"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:focusable="false"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:paddingLeft="24dp"
                     android:paddingRight="24dp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/acceptPasswordFieldTil"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:hint="@string/password"
+                app:errorEnabled="false"
+                app:errorIconDrawable="@null"
+                app:passwordToggleDrawable="@drawable/password_selector"
+                app:passwordToggleEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/acceptPasswordField"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:imeOptions="actionDone"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:paddingEnd="48dp"
+                    tools:ignore="RtlSymmetry" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -187,7 +217,8 @@
                     android:maxLines="1"
                     android:paddingLeft="24dp"
                     android:paddingRight="24dp"
-                    android:text="995" />
+                    android:text="993"
+                    tools:ignore="HardcodedText" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -197,6 +228,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:hint="@string/user_name"
+                android:visibility="gone"
                 app:errorEnabled="false">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -210,36 +242,13 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/acceptPasswordFieldTil"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="0dp"
-                android:hint="@string/password"
-                app:errorEnabled="false"
-                app:errorIconDrawable="@null"
-                app:passwordToggleDrawable="@drawable/password_selector"
-                app:passwordToggleEnabled="true">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/acceptPasswordField"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:imeOptions="actionDone"
-                    android:inputType="textPassword"
-                    android:maxLines="1"
-                    android:paddingEnd="48dp"
-                    tools:ignore="RtlSymmetry" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:text="@string/outbound_email_server" />
+                android:text="@string/outbound_email_server"
+                android:visibility="gone" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/outboundHostFieldTil"
@@ -247,6 +256,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:hint="@string/host_server_name"
+                android:visibility="gone"
                 app:errorEnabled="false">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -265,6 +275,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:hint="@string/port"
+                android:visibility="gone"
                 app:errorEnabled="false">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -283,6 +294,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:hint="@string/user_name"
+                android:visibility="gone"
                 app:errorEnabled="false">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -296,12 +308,59 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/formSwitchTitle"
+                    style="@style/Widget.Vector.TextView.Subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/layout_horizontal_margin"
+                    android:layout_marginEnd="@dimen/layout_horizontal_margin"
+                    android:duplicateParentState="true"
+                    android:text="@string/ssl"
+                    android:textColor="?vctr_content_primary"
+                    app:layout_constraintBottom_toTopOf="@id/formSwitchSummary"
+                    app:layout_constraintEnd_toStartOf="@id/formSwitchSwitch"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed" />
+
+                <TextView
+                    android:id="@+id/formSwitchSummary"
+                    style="@style/Widget.Vector.TextView.Body"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:textColor="?vctr_content_secondary"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/formSwitchSwitch"
+                    app:layout_constraintStart_toStartOf="@id/formSwitchTitle"
+                    app:layout_constraintTop_toBottomOf="@id/formSwitchTitle"
+                    tools:text="@string/create_room_public_description" />
+
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/formSwitchSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="19dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/outboundPasswordFieldTil"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="0dp"
                 android:hint="@string/password"
+                android:visibility="gone"
                 app:errorEnabled="false"
                 app:errorIconDrawable="@null"
                 app:passwordToggleDrawable="@drawable/password_selector"
