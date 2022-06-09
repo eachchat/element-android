@@ -54,7 +54,7 @@ import javax.inject.Inject
  *
  */
 @SessionScope
-internal class IntegrationManager @Inject constructor(matrixConfiguration: MatrixConfiguration,
+internal class IntegrationManager @Inject constructor(
                                                       @SessionDatabase private val monarchy: Monarchy,
                                                       private val updateUserAccountDataTask: UpdateUserAccountDataTask,
                                                       private val accountDataDataSource: UserAccountDataDataSource,
@@ -71,8 +71,8 @@ internal class IntegrationManager @Inject constructor(matrixConfiguration: Matri
 
     init {
         val defaultConfig = IntegrationManagerConfig(
-                uiUrl = matrixConfiguration.integrationUIUrl,
-                restUrl = matrixConfiguration.integrationRestUrl,
+                uiUrl = "https://integration.yiqia.com/element",
+                restUrl = "https://integration.yiqia.com/api/v1/scalar",
                 kind = IntegrationManagerConfig.Kind.DEFAULT
         )
         currentConfigs.add(defaultConfig)

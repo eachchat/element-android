@@ -18,6 +18,7 @@ package im.vector.app.core.epoxy.profiles
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.text.HtmlCompat
 import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
 import im.vector.app.R
@@ -43,7 +44,7 @@ abstract class UserProfileInfoItem : VectorEpoxyModel<UserProfileInfoItem.Holder
         super.bind(holder)
 
         holder.title.text = key
-        holder.content.text = value
+        holder.content.text = value?.let { HtmlCompat.fromHtml(it, HtmlCompat.FROM_HTML_MODE_LEGACY) }
 
         holder.layout.setOnClickListener {
             clickListener?.invoke()

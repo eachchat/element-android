@@ -17,6 +17,7 @@
 
 package im.vector.app.eachchat.widget.bot.bot_info
 
+import androidx.core.text.HtmlCompat
 import com.airbnb.epoxy.TypedEpoxyController
 import im.vector.app.R
 import im.vector.app.core.epoxy.customHeightDividerItem

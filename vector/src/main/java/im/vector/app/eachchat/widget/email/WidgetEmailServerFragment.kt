@@ -44,6 +44,7 @@ class WidgetEmailServerFragment @Inject constructor(
 
         views.emailField.doAfterTextChanged {
             checkSubmitEnable()
+            checkEmail()
         }
         views.acceptPasswordField.doAfterTextChanged {
             checkSubmitEnable()
@@ -69,11 +70,16 @@ class WidgetEmailServerFragment @Inject constructor(
     }
 
     fun checkSubmitEnable() {
-        views.emailFieldTil.error = null
+
         views.loginSubmit.isEnabled = views.emailField.text?.isEmail() == true
                 && views.acceptHostField.text?.isNotBlank() == true
                 && views.acceptPortField.text?.isNotBlank() == true
                 && views.acceptPasswordField.text?.isNotBlank() == true
+    }
+
+    fun checkEmail() {
+        views.emailFieldTil.error = null
+        views.emailFieldTil.isErrorEnabled = false
         if (views.emailField.text?.isEmail() == false) {
             views.emailFieldTil.error = getString(R.string.please_enter_vaild_email)
         }
