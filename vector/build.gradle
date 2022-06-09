@@ -335,17 +335,17 @@ android {
         }
 
         // 用来打包小米渠道包，不注释就打不了其他包？
-        xiaomi {
-            dimension "store"
-
-            //versionName "${versionMajor}.${versionMinor}.${versionPatch}${getFdroidVersionSuffix()}"
-            versionName "2.6.0"
-
-            resValue "bool", "isGplay", "false"
-            buildConfigField "boolean", "ALLOW_FCM_USE", "false"
-            buildConfigField "String", "SHORT_FLAVOR_DESCRIPTION", "\"F\""
-            buildConfigField "String", "FLAVOR_DESCRIPTION", "\"Xiaomi\""
-        }
+//        xiaomi {
+//            dimension "store"
+//
+//            //versionName "${versionMajor}.${versionMinor}.${versionPatch}${getFdroidVersionSuffix()}"
+//            versionName "2.6.0"
+//
+//            resValue "bool", "isGplay", "false"
+//            buildConfigField "boolean", "ALLOW_FCM_USE", "false"
+//            buildConfigField "String", "SHORT_FLAVOR_DESCRIPTION", "\"F\""
+//            buildConfigField "String", "FLAVOR_DESCRIPTION", "\"Xiaomi\""
+//        }
     }
 
 //    lintOptions {
@@ -625,8 +625,8 @@ dependencies {
     // vivo push
     implementation files('libs/vivo_pushSDK_v3.0.0.4_484.aar')
     // GeTui
-    implementation 'com.getui:gtsdk:3.2.9.0'  // 个推SDK
-    implementation 'com.getui:gtc:3.1.7.0'  // 个推核心组件
+    //implementation 'com.getui:gtsdk:3.2.9.0'  // 个推SDK
+    //implementation 'com.getui:gtc:3.1.7.0'  // 个推核心组件
 
     // https://mvnrepository.com/artifact/com.github.promeg/tinypinyin
     implementation 'com.github.promeg:tinypinyin:3.0.0'

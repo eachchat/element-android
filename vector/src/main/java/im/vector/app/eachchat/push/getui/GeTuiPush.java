@@ -4,7 +4,6 @@ import android.app.NotificationManager;
 import android.content.Context;
 
 import com.facebook.stetho.common.LogUtil;
-import com.igexin.sdk.PushManager;
 
 import im.vector.app.eachchat.base.BaseModule;
 import im.vector.app.eachchat.push.AbsPush;
@@ -22,25 +21,21 @@ public class GeTuiPush extends AbsPush {
     @Override
     public void init(Context context) {
         LogUtil.i("## GeTui init");
-        PushManager.getInstance().initialize(context);
     }
 
     @Override
     public void startPush() {
         LogUtil.i("## GeTui startPush");
-        PushManager.getInstance().turnOnPush(BaseModule.getContext());
     }
 
     @Override
     public void stopPush() {
         LogUtil.i("## GeTui stopPush");
-        PushManager.getInstance().turnOffPush(BaseModule.getContext());
     }
 
     @Override
     public String getRegId() {
-        LogUtil.i("## GeTui getRegId = " + PushManager.getInstance().getClientid(BaseModule.getContext()));
-        return PushManager.getInstance().getClientid(BaseModule.getContext());
+        return "";
     }
 
     @Override
