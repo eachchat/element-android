@@ -44,7 +44,6 @@ class WidgetArgsBuilder @Inject constructor(
                         "screen" to normalizedScreen,
                         "integ_id" to integId,
                         "room_id" to roomId,
-                        "theme" to getTheme()
                 ).filterNotNull()
         )
     }

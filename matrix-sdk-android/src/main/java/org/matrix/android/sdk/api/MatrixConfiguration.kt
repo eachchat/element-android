@@ -26,6 +26,7 @@ data class MatrixConfiguration(
         val integrationUIUrl: String = "https://integration.yiqia.com/element",
         val integrationRestUrl: String = "https://integration.yiqia.com/api/v1/scalar",
         val integrationWidgetUrls: List<String> = listOf(
+                "https://integration.yiqia.com/widgets",
                 "https://scalar.vector.im/_matrix/integrations/v1",
                 "https://scalar.vector.im/api",
                 "https://scalar-staging.vector.im/_matrix/integrations/v1",
