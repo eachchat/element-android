@@ -88,6 +88,13 @@
         </intent>
     </queries>
 
+    <!-- HuaWei Need -->
+    <queries>
+        <intent>
+            <action android:name="com.huawei.hms.core.aidlservice" />
+        </intent>
+    </queries>
+
     <!-- GeTui Need -->
     <queries>
         <intent>
@@ -111,7 +118,6 @@
 
         <service android:name="org.eclipse.paho.android.service.MqttService" />
         <service android:name="im.vector.app.eachchat.mqtt.MQTTService" />
-        <service android:name=".eachchat.badge.BadgeService" />
 
         <!-- MiPush Start -->
         <activity
@@ -213,6 +219,14 @@
         <!-- OPPO end-->
 
         <!-- firebase push Start -->
+        <service
+            android:name=".eachchat.push.firebase.MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/push" />

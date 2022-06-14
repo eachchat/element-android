@@ -7,10 +7,6 @@ import com.blankj.utilcode.util.SPStaticUtils
 import com.blankj.utilcode.util.TimeUtils
 import im.vector.app.eachchat.base.BaseModule
 import im.vector.app.eachchat.bean.OrgSearchInput
-import im.vector.app.eachchat.net.CloseableCoroutineScope
-import im.vector.app.eachchat.net.NetConstant
-import im.vector.app.eachchat.service.LoginApi
-import im.vector.app.eachchat.utils.AppCache
 import im.vector.app.eachchat.contact.api.BaseConstant
 import im.vector.app.eachchat.contact.api.ContactService
 import im.vector.app.eachchat.contact.api.ContactServiceV2
@@ -31,6 +27,10 @@ import im.vector.app.eachchat.mqtt.MQTTService
 import im.vector.app.eachchat.mqtt.MessageConstant
 import im.vector.app.eachchat.mqtt.ModuleLoader
 import im.vector.app.eachchat.mqtt.UserCache
+import im.vector.app.eachchat.net.CloseableCoroutineScope
+import im.vector.app.eachchat.net.NetConstant
+import im.vector.app.eachchat.service.LoginApi
+import im.vector.app.eachchat.utils.AppCache
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -39,6 +39,7 @@ import org.greenrobot.eventbus.EventBus
 import org.matrix.android.sdk.api.extensions.orFalse
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.session.profile.ProfileService
+import timber.log.Timber
 
 /**
  * Created by chengww on 2020/11/6
@@ -88,7 +89,6 @@ class ContactSyncUtils {
         requestGMSConfig(application)
     }
 
-
     private var service: ContactService = ContactService.getInstance()
     private var serviceV2: ContactServiceV2 = ContactServiceV2.getInstance()
     fun syncContacts() {
@@ -118,20 +118,20 @@ class ContactSyncUtils {
                         SPStaticUtils.put(SP_CONTACTS_OPEN_ORG, it.openOrg > 0)
                         if (it.totalMembersFirstTime > 0) {
                             SPStaticUtils.put(
-                                BaseConstant.SP_CREATE_SELECT_TOTAL_COUNT,
-                                it.totalMembersFirstTime
+                                    BaseConstant.SP_CREATE_SELECT_TOTAL_COUNT,
+                                    it.totalMembersFirstTime
                             )
                         }
                         if (it.maxOtherHsMembersFirstTime > 0) {
                             SPStaticUtils.put(
-                                BaseConstant.SP_CREATE_SELECT_OUTSIDE_COUNT,
-                                it.maxOtherHsMembersFirstTime
+                                    BaseConstant.SP_CREATE_SELECT_OUTSIDE_COUNT,
+                                    it.maxOtherHsMembersFirstTime
                             )
                         }
                         if (it.totalMembersNextTime > 0) {
                             SPStaticUtils.put(
-                                BaseConstant.SP_GROUP_ADD_MEMBER_COUNT,
-                                it.totalMembersNextTime
+                                    BaseConstant.SP_GROUP_ADD_MEMBER_COUNT,
+                                    it.totalMembersNextTime
                             )
                         }
                     }
@@ -160,14 +160,14 @@ class ContactSyncUtils {
         if (tenantNameJob?.isActive.orFalse()) return
         tenantNameJob = scope.launch(Dispatchers.IO) {
             runCatching {
-                        val response = service.getTenantName()
-                        if (response.isSuccess) {
-                            response.obj?.let {
-                                if (it.isBlank()) return@runCatching
-                                AppCache.setTenantName(it)
-                            }
-                        }
-                    }.exceptionOrNull()?.printStackTrace()
+                val response = service.getTenantName()
+                if (response.isSuccess) {
+                    response.obj?.let {
+                        if (it.isBlank()) return@runCatching
+                        AppCache.setTenantName(it)
+                    }
+                }
+            }.exceptionOrNull()?.printStackTrace()
         }
     }
 
@@ -175,34 +175,37 @@ class ContactSyncUtils {
         if (gmsJob?.isActive.orFalse()) return
         gmsJob = scope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                        val homeServerUrl = AppCache.getTenantName()
-                        val response = LoginApi.getInstance()?.gms(OrgSearchInput(homeServerUrl))
-                        if (response?.isSuccess == true) {
-                            val isOpenContact = response.obj?.book?.contactSwitch?: false
-                            AppCache.setIsOpenContact(isOpenContact)
-                            val isOpenGroup = response.obj?.book?.groupSwitch?: false
-                            AppCache.setIsOpenGroup(isOpenGroup)
-                            val isOpenOrg = response.obj?.book?.orgSwitch?: false
-                            AppCache.setIsOpenOrg(isOpenOrg)
-                            val isOpenVideoCall = response.obj?.im?.videoSwitch?: false
-                            AppCache.setIsOpenVideoCall(isOpenVideoCall)
-                            response.obj?.im?.videoLimit?.let { AppCache.setVideoLimit(it) }
-                            response.obj?.im?.audioLimit?.let { AppCache.setAudioLimit(it) }
-                            response.obj?.im?.uploadLimit?.let { AppCache.setUploadLimit(it) }
-                            response.obj?.entry?.cooperationUrl?.let {
-                                NetConstant.setServerHost(it)
-                            }
-                            response.obj?.mqtt?.mqttUrl?.let {
-                                NetConstant.setMqttServiceHost(it)
-                            }
-                            AppCache.setTenantName(homeServerUrl)
-                            ModuleLoader.loadModule(application)
-                            MQTTService.sendMQTTEvent(MQTTEvent(MessageConstant.CMD_UPDATE_USER, UserCache.getUpdateUserTime(), 0))
-                            MQTTService.sendMQTTEvent(MQTTEvent(MessageConstant.CMD_UPDATE_CONTACT, "0", 0))
-                            MQTTService.sendMQTTEvent(MQTTEvent(MessageConstant.CMD_UPDATE_CONTACT_ROOM, "0", 0))
-                            MQTTService.sendMQTTEvent(MQTTEvent(MessageConstant.CMD_UPDATE_DEPARTMENT, UserCache.getUpdateDepartmentTime(), 0))
-                        }
-                    }.exceptionOrNull()?.printStackTrace()
+                val homeServerUrl = AppCache.getTenantName()
+                val response = LoginApi.getInstance()?.gms(OrgSearchInput(homeServerUrl))
+                if (response?.isSuccess == true) {
+                    val isOpenContact = response.obj?.book?.contactSwitch ?: false
+                    AppCache.setIsOpenContact(isOpenContact)
+                    val isOpenGroup = response.obj?.book?.groupSwitch ?: false
+                    AppCache.setIsOpenGroup(isOpenGroup)
+                    val isOpenOrg = response.obj?.book?.orgSwitch ?: false
+                    AppCache.setIsOpenOrg(isOpenOrg)
+                    val isOpenVideoCall = response.obj?.im?.videoSwitch ?: false
+                    AppCache.setIsOpenVideoCall(isOpenVideoCall)
+                    response.obj?.im?.videoLimit?.let { AppCache.setVideoLimit(it) }
+                    response.obj?.im?.audioLimit?.let { AppCache.setAudioLimit(it) }
+                    response.obj?.im?.uploadLimit?.let { AppCache.setUploadLimit(it) }
+                    response.obj?.entry?.cooperationUrl?.let {
+                        NetConstant.setServerHost(it)
+                    }
+                    response.obj?.mqtt?.mqttUrl?.let {
+                        NetConstant.setMqttServiceHost(it)
+                    }
+                    AppCache.setTenantName(homeServerUrl)
+                    ModuleLoader.loadModule(application)
+                    MQTTService.sendMQTTEvent(MQTTEvent(MessageConstant.CMD_UPDATE_USER, UserCache.getUpdateUserTime(), 0))
+                    MQTTService.sendMQTTEvent(MQTTEvent(MessageConstant.CMD_UPDATE_CONTACT, "0", 0))
+                    MQTTService.sendMQTTEvent(MQTTEvent(MessageConstant.CMD_UPDATE_CONTACT_ROOM, "0", 0))
+                    MQTTService.sendMQTTEvent(MQTTEvent(MessageConstant.CMD_UPDATE_DEPARTMENT, UserCache.getUpdateDepartmentTime(), 0))
+                }
+            }.exceptionOrNull()?.let {
+                Timber.v("联系人同步异常")
+                it.printStackTrace()
+            }
         }
     }
 
@@ -214,7 +217,7 @@ class ContactSyncUtils {
                 job = contactJob
                 incrementName = "updateContact"
             }
-            SyncType.ROOM -> {
+            SyncType.ROOM    -> {
                 job = roomJob
                 incrementName = "updateContactRoom"
             }
@@ -227,16 +230,16 @@ class ContactSyncUtils {
                 val increment = when (syncType) {
                     SyncType.CONTACT -> {
                         serviceV2.getIncrement(
-                            ContactIncrementInputV2(
-                                contactsUpdateTime, PER_PAGE, 0
-                            )
+                                ContactIncrementInputV2(
+                                        contactsUpdateTime, PER_PAGE, 0
+                                )
                         )
                     }
-                    SyncType.ROOM -> service.incrementContactRoom(
-                        ContactIncrementInput(
-                            incrementName, updateTimeDao?.getContactsRoomsTime()
-                                ?: 0, PER_PAGE, 0
-                        )
+                    SyncType.ROOM    -> service.incrementContactRoom(
+                            ContactIncrementInput(
+                                    incrementName, updateTimeDao?.getContactsRoomsTime()
+                                    ?: 0, PER_PAGE, 0
+                            )
                     )
                 }
                 if (increment.isSuccess) {
@@ -248,7 +251,7 @@ class ContactSyncUtils {
                                     updateTimeDao?.updateContactsTimeV2(it.updateTime)
                                     LogUtils.iTag(tag, "CMD_UPDATE_CONTACT response-updateTime = $tempUpdateTime")
                                 }
-                                SyncType.ROOM -> {
+                                SyncType.ROOM    -> {
                                     updateTimeDao?.updateContactsRoomsTime(it.updateTime)
                                     LogUtils.iTag(tag, "CMD_UPDATE_CONTACT_ROOM response-updateTime = $tempUpdateTime")
                                 }
@@ -267,7 +270,7 @@ class ContactSyncUtils {
                             }
                             LogUtils.iTag(tag, "CMD_UPDATE_CONTACT response-size = ${contacts?.size}")
                         }
-                        SyncType.ROOM -> {
+                        SyncType.ROOM    -> {
                             if (contacts != null) {
                                 syncContactRoomEnd(contacts)
                             }
@@ -281,9 +284,9 @@ class ContactSyncUtils {
 
     private suspend fun getNextContactsIncrement(contactsUpdateTime: Long, sequence: Int) {
         val increment = serviceV2.getIncrement(
-            ContactIncrementInputV2(
-                contactsUpdateTime, PER_PAGE, sequence
-            )
+                ContactIncrementInputV2(
+                        contactsUpdateTime, PER_PAGE, sequence
+                )
         )
         if (increment.isSuccess) {
             val contacts = increment.results
@@ -334,18 +337,17 @@ class ContactSyncUtils {
                     val avatar = data[ProfileService.AVATAR_URL_KEY] as? String?
                     if (!displayName.isNullOrEmpty() || !avatar.isNullOrEmpty()) {
                         contactMatrixUserDao?.insert(
-                            ContactsMatrixUser(
-                                matrixId,
-                                avatar ?: "",
-                                displayName ?: "",
-                                System.currentTimeMillis()
-                            )
+                                ContactsMatrixUser(
+                                        matrixId,
+                                        avatar ?: "",
+                                        displayName ?: "",
+                                        System.currentTimeMillis()
+                                )
                         )
                     }
                 }
             }
         }
-
     }
 
     fun isOpenOrg(): Boolean = SPStaticUtils.getBoolean(SP_CONTACTS_OPEN_ORG, true)

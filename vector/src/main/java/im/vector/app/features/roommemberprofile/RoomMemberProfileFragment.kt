@@ -531,7 +531,8 @@ class RoomMemberProfileFragment @Inject constructor(
     }
 
     private fun handleCallRequest(isVideoCall: Boolean) = withState(viewModel) { state ->
-        val roomSummary = viewModel.room?.roomSummary()
+        if (state.directRoomId == null) return@withState
+        val roomSummary = BaseModule.getSession().getRoom(state.directRoomId)?.roomSummary()
         when (roomSummary?.joinedMembersCount) {
             1    -> {
                 val pendingInvite = roomSummary.invitedMembersCount ?: 0 > 0

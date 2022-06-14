@@ -137,9 +137,12 @@ class RoomSummaryItemFactory @Inject constructor(private val displayableEventFor
                 .unreadNotificationCount(unreadCount)
                 .hasUnreadMessage(roomSummary.hasUnreadMessages)
                 .hasDraft(roomSummary.userDrafts.isNotEmpty())
+                .isDm(roomSummary.isDirect)
+                .otherMemberIds(roomSummary.otherMemberIds)
                 .itemLongClickListener { _ ->
                     onLongClick?.invoke(roomSummary) ?: false
                 }
                 .itemClickListener { onClick?.invoke(roomSummary) }
+                .timelineEvent(latestEvent)
     }
 }

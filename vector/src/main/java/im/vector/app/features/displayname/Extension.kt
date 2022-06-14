@@ -16,7 +16,11 @@
 
 package im.vector.app.features.displayname
 
+import im.vector.app.eachchat.base.BaseModule
+import im.vector.app.eachchat.database.AppDatabase
 import org.matrix.android.sdk.api.util.MatrixItem
+
+val database = AppDatabase.getInstance(BaseModule.getContext())
 
 fun MatrixItem.getBestName(): String {
     // Note: this code is copied from [DisplayNameResolver] in the SDK
@@ -28,4 +32,23 @@ fun MatrixItem.getBestName(): String {
                 ?.takeIf { it.isNotBlank() }
                 ?: VectorMatrixItemDisplayNameFallbackProvider.getDefaultName(this)
     }
+}
+
+// 通过matrixId获取最佳显示名
+fun String.getBestNameEachChat(displayName: String, unit: (String) -> Unit){
+    val contactDisplayName = database.contactDaoV2().getContactByMatrixId(this)?.displayName
+    val orgDisplayName = database.userDao().getBriefUserByMatrixId(this)?.displayName
+    val bestName = contactDisplayName?.takeIf { it.isNotBlank() }?:
+    orgDisplayName?.takeIf { it.isNotBlank() }?:
+    displayName
+    unit.invoke(bestName)
+}
+
+fun String.getBestNameEachChat(displayName: String) : String{
+    val contactDisplayName = database.contactDaoV2().getContactByMatrixId(this)?.displayName
+    val orgDisplayName = database.userDao().getBriefUserByMatrixId(this)?.displayName
+    val bestName = contactDisplayName?.takeIf { it.isNotBlank() }?:
+    orgDisplayName?.takeIf { it.isNotBlank() }?:
+    displayName
+    return bestName
 }

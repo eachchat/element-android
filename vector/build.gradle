@@ -172,6 +172,7 @@ android {
 
         // Keep abiFilter for the universalApk
         ndk {
+
             abiFilters "armeabi", "armeabi-v7a", "arm64-v8a"
         }
 
@@ -239,6 +240,9 @@ android {
             keyPassword 'zhu88jie'
             storeFile file('./signature/yiqia-android-signature.jks')
             storePassword 'Zhu88jie'
+
+            v1SigningEnabled true
+            v2SigningEnabled true
         }
     }
 
@@ -269,7 +273,7 @@ android {
         }
 
         release {
-            debuggable true
+            debuggable false
             resValue "string", "app_name", "亿洽"
 
             resValue "bool", "debug_mode", "false"
@@ -312,7 +316,6 @@ android {
             isDefault = true
 //            versionName "${versionMajor}.${versionMinor}.${versionPatch}${getGplayVersionSuffix()}"
             versionName "2.6.0"
-
             resValue "bool", "isGplay", "true"
             buildConfigField "boolean", "ALLOW_FCM_USE", "true"
             buildConfigField "String", "SHORT_FLAVOR_DESCRIPTION", "\"G\""
@@ -622,8 +625,8 @@ dependencies {
     // vivo push
     implementation files('libs/vivo_pushSDK_v3.0.0.4_484.aar')
     // GeTui
-    implementation 'com.getui:gtsdk:3.2.9.0'  // 个推SDK
-    implementation 'com.getui:gtc:3.1.7.0'  // 个推核心组件
+    //implementation 'com.getui:gtsdk:3.2.9.0'  // 个推SDK
+    //implementation 'com.getui:gtc:3.1.7.0'  // 个推核心组件
 
     // https://mvnrepository.com/artifact/com.github.promeg/tinypinyin
     implementation 'com.github.promeg:tinypinyin:3.0.0'

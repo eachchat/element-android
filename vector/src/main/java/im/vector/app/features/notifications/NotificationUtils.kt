@@ -109,7 +109,7 @@ class NotificationUtils @Inject constructor(private val context: Context,
 
         // on devices >= android O, we need to define a channel for each notifications
         private const val LISTENING_FOR_EVENTS_NOTIFICATION_CHANNEL_ID = "LISTEN_FOR_EVENTS_NOTIFICATION_CHANNEL_ID"
-        private const val LISTENING_FOR_BADGE_NOTIFICATION_CHANNEL_ID = "LISTENING_FOR_BADGE_NOTIFICATION_CHANNEL_ID"
+        // private const val LISTENING_FOR_BADGE_NOTIFICATION_CHANNEL_ID = "LISTENING_FOR_BADGE_NOTIFICATION_CHANNEL_ID"
 
         private const val NOISY_NOTIFICATION_CHANNEL_ID = "DEFAULT_NOISY_NOTIFICATION_CHANNEL_ID"
 
@@ -177,7 +177,7 @@ class NotificationUtils @Inject constructor(private val context: Context,
                     description = stringProvider.getString(R.string.notification_noisy_notifications)
                     enableVibration(true)
                     enableLights(true)
-                    setShowBadge(true)
+                    setShowBadge(false)
 //                    lightColor = accentColor
                 })
 
@@ -190,28 +190,28 @@ class NotificationUtils @Inject constructor(private val context: Context,
                 .apply {
                     description = stringProvider.getString(R.string.notification_silent_notifications)
                     setSound(null, null)
-                    enableLights(true)
+                    enableLights(false)
                     setShowBadge(true)
 //                    lightColor = accentColor
                 })
 
         notificationManager.createNotificationChannel(NotificationChannel(LISTENING_FOR_EVENTS_NOTIFICATION_CHANNEL_ID,
                 stringProvider.getString(R.string.notification_listening_for_events).ifEmpty { "Listening for events" },
-                NotificationManager.IMPORTANCE_HIGH)
+                NotificationManager.IMPORTANCE_MIN)
                 .apply {
                     description = stringProvider.getString(R.string.notification_listening_for_events)
                     setSound(null, null)
-                    setShowBadge(true)
+                    setShowBadge(false)
                 })
 
-        notificationManager.createNotificationChannel(NotificationChannel(LISTENING_FOR_BADGE_NOTIFICATION_CHANNEL_ID,
-                stringProvider.getString(R.string.notification_listening_for_set_badge).ifEmpty { "Listening for events" },
-                NotificationManager.IMPORTANCE_HIGH)
-                .apply {
-                    description = stringProvider.getString(R.string.notification_listening_for_set_badge)
-                    setSound(null, null)
-                    setShowBadge(true)
-                })
+//        notificationManager.createNotificationChannel(NotificationChannel(LISTENING_FOR_BADGE_NOTIFICATION_CHANNEL_ID,
+//                stringProvider.getString(R.string.notification_listening_for_set_badge).ifEmpty { "Listening for events" },
+//                NotificationManager.IMPORTANCE_HIGH)
+//                .apply {
+//                    description = stringProvider.getString(R.string.notification_listening_for_set_badge)
+//                    setSound(null, null)
+//                    setShowBadge(true)
+//                })
 
         notificationManager.createNotificationChannel(NotificationChannel(CALL_NOTIFICATION_CHANNEL_ID,
                 stringProvider.getString(R.string.call).ifEmpty { "Call" },
@@ -220,7 +220,7 @@ class NotificationUtils @Inject constructor(private val context: Context,
                     description = stringProvider.getString(R.string.call)
                     setSound(null, null)
                     enableLights(true)
-                    setShowBadge(true)
+                    setShowBadge(false)
 //                    lightColor = accentColor
                 })
     }
@@ -258,7 +258,7 @@ class NotificationUtils @Inject constructor(private val context: Context,
 
         // PRIORITY_MIN should not be used with Service#startForeground(int, Notification)
         builder.priority = NotificationCompat.PRIORITY_LOW
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+//        if (Build.VERSION.SDK_INT >= Build.VERSIO N_CODES.JELLY_BEAN) {
 //            builder.priority = NotificationCompat.PRIORITY_MIN
 //        }
 

@@ -24,7 +24,12 @@ import im.vector.app.core.epoxy.VectorEpoxyModel
 import im.vector.app.core.epoxy.onClick
 import im.vector.app.core.extensions.setTextOrHide
 import im.vector.app.features.displayname.getBestName
+import im.vector.app.features.displayname.getBestNameEachChat
 import im.vector.app.features.home.AvatarRenderer
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.matrix.android.sdk.api.crypto.RoomEncryptionTrustLevel
 import org.matrix.android.sdk.api.util.MatrixItem
 
@@ -39,6 +44,7 @@ abstract class BaseProfileMatrixItem<T : ProfileMatrixItem.Holder> : VectorEpoxy
     @EpoxyAttribute(EpoxyAttribute.Option.DoNotHash)
     var clickListener: ClickListener? = null
 
+    @OptIn(DelicateCoroutinesApi::class)
     @CallSuper
     override fun bind(holder: T) {
         super.bind(holder)
@@ -48,8 +54,13 @@ abstract class BaseProfileMatrixItem<T : ProfileMatrixItem.Holder> : VectorEpoxy
                 // Special case for ThreePid fake matrix item
                 .takeIf { it != "@" }
         holder.view.onClick(clickListener?.takeIf { editable })
-        holder.titleView.text = bestName
-        holder.subtitleView.setTextOrHide(matrixId)
+        // holder.titleView.text = bestName
+        GlobalScope.launch(Dispatchers.IO) {
+            matrixItem.id.getBestNameEachChat(bestName) {
+                holder.titleView.text = it
+            }
+        }
+        holder.subtitleView.text = matrixId
         holder.editableView.isVisible = editable
         avatarRenderer.render(matrixItem, holder.avatarImageView)
         holder.avatarDecorationImageView.render(userEncryptionTrustLevel)

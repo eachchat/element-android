@@ -108,6 +108,9 @@ class DefaultErrorFormatter @Inject constructor(
                     throwable.error.message == "Not an active room on this server" -> {
                         stringProvider.getString(R.string.not_an_active_room)
                     }
+                    throwable.error.message == "You are not invited to this room." -> {
+                        stringProvider.getString(R.string.not_a_vaild_invite)
+                    }
                     else                                                               -> {
                         throwable.error.message.takeIf { it.isNotEmpty() }
                                 ?: throwable.error.code.takeIf { it.isNotEmpty() }

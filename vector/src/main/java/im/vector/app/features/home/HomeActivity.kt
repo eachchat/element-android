@@ -201,8 +201,8 @@ class HomeActivity :
         EventBus.getDefault().register(this)
         BaseModule.setSession(activeSessionHolder.getActiveSession())
         analyticsScreenName = Screen.ScreenName.Home
-        supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentLifecycleCallbacks, false)
         PushHelper.getInstance().startPush(activeSessionHolder)
+        supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentLifecycleCallbacks, false)
         // ContactSyncUtils.getInstance().init(this, application)
 //        FcmHelper.ensureFcmTokenIsRetrieved(this, pushManager, vectorPreferences.areNotificationEnabledForDevice())
         sharedActionViewModel = viewModelProvider.get(HomeSharedActionViewModel::class.java)
@@ -477,6 +477,8 @@ class HomeActivity :
 
     override fun onResume() {
         super.onResume()
+
+        PushHelper.getInstance().clearNotification()
 
         if (vectorUncaughtExceptionHandler.didAppCrash()) {
             vectorUncaughtExceptionHandler.clearAppCrashStatus()

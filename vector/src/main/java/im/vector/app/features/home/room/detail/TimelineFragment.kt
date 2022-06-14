@@ -28,6 +28,7 @@ import android.os.Build
 import android.os.Bundle
 import android.text.Spannable
 import android.text.format.DateUtils
+import android.text.style.ClickableSpan
 import android.view.HapticFeedbackConstants
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -99,6 +100,7 @@ import im.vector.app.core.ui.views.JoinConferenceView
 import im.vector.app.core.ui.views.NotificationAreaView
 import im.vector.app.core.utils.Debouncer
 import im.vector.app.core.utils.DimensionConverter
+import im.vector.app.core.utils.EvenBetterLinkMovementMethod
 import im.vector.app.core.utils.KeyboardStateUtils
 import im.vector.app.core.utils.PERMISSIONS_FOR_VOICE_MESSAGE
 import im.vector.app.core.utils.PERMISSIONS_FOR_WRITING_FILES
@@ -141,6 +143,7 @@ import im.vector.app.features.call.webrtc.WebRtcCallManager
 import im.vector.app.features.command.Command
 import im.vector.app.features.crypto.keysbackup.restore.KeysBackupRestoreActivity
 import im.vector.app.features.crypto.verification.VerificationBottomSheet
+import im.vector.app.features.displayname.getBestNameEachChat
 import im.vector.app.features.home.AvatarRenderer
 import im.vector.app.features.home.room.detail.arguments.TimelineArgs
 import im.vector.app.features.home.room.detail.composer.CanSendStatus
@@ -201,7 +204,9 @@ import im.vector.app.features.widgets.WidgetActivity
 import im.vector.app.features.widgets.WidgetArgs
 import im.vector.app.features.widgets.WidgetKind
 import im.vector.app.features.widgets.permissions.RoomWidgetPermissionBottomSheet
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
@@ -274,7 +279,8 @@ class TimelineFragment @Inject constructor(
         AttachmentTypeSelectorView.Callback,
         AttachmentsHelper.Callback,
         GalleryOrCameraDialogHelper.Listener,
-        CurrentCallsView.Callback {
+        CurrentCallsView.Callback,
+        EvenBetterLinkMovementMethod.OnLinkClickListener{
 
     companion object {
         /**
@@ -296,26 +302,26 @@ class TimelineFragment @Inject constructor(
 
 
     // 打开邮箱验证界面
-//    private val widgetEmailActivityResultContract = object : ActivityResultContract<Intent, String?>(){
-//
-//        override fun createIntent(context: Context, input: Intent): Intent {
-//            //这个intent由resultLauncher调用launch方法时传入
-//            return input
-//        }
-//
-//        override fun parseResult(resultCode: Int, intent: Intent?): String? {
-//            if(resultCode == Activity.RESULT_OK){
-//                return intent?.getStringExtra(KEY_WIDGET_EMAIL)
-//            }
-//            return null
-//        }
-//    }
-//
-//    private val resultLauncher = registerForActivityResult(widgetEmailActivityResultContract){
-//        if (it != null) {
-//            sendTextMessage(it)
-//        }
-//    }
+    private val widgetEmailActivityResultContract = object : ActivityResultContract<Intent, String?>(){
+
+        override fun createIntent(context: Context, input: Intent): Intent {
+            //这个intent由resultLauncher调用launch方法时传入
+            return input
+        }
+
+        override fun parseResult(resultCode: Int, intent: Intent?): String? {
+            if(resultCode == Activity.RESULT_OK){
+                return intent?.getStringExtra(KEY_WIDGET_EMAIL)
+            }
+            return null
+        }
+    }
+
+    private val widgetEmailResultLauncher = registerForActivityResult(widgetEmailActivityResultContract){
+        if (it != null) {
+            sendBotMessage(it)
+        }
+    }
 
     private val galleryOrCameraDialogHelper = GalleryOrCameraDialogHelper(this, colorProvider)
 
@@ -1545,6 +1551,19 @@ class TimelineFragment @Inject constructor(
         }
     }
 
+    private fun sendBotMessage(text: CharSequence) {
+        if (text.isNotBlank()) {
+            analyticsTracker.capture(Click(name = Click.Name.SendMessageButton))
+            // We collapse ASAP, if not there will be a slight annoying delay
+            views.composerLayout.collapse(true)
+            lockSendButton = true
+            messageComposerViewModel.handle(MessageComposerAction.SendBotMessage(text, vectorPreferences.isMarkdownEnabled()))
+            emojiPopup.dismiss()
+        }
+    }
+
+
+
     private fun observerUserTyping() {
         if (isThreadTimeLine()) return
         views.composerLayout.views.composerEditText.textChanges()
@@ -1632,6 +1651,7 @@ class TimelineFragment @Inject constructor(
         voiceMessageRecorderView.isVisible = false
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     private fun renderToolbar(roomSummary: RoomSummary?, typingMessage: String?) {
         if (!isThreadTimeLine()) {
             views.includeRoomToolbar.roomToolbarContentView.isVisible = true
@@ -1640,7 +1660,18 @@ class TimelineFragment @Inject constructor(
                 views.includeRoomToolbar.roomToolbarContentView.isClickable = false
             } else {
                 views.includeRoomToolbar.roomToolbarContentView.isClickable = roomSummary.membership == Membership.JOIN
-                views.includeRoomToolbar.roomToolbarTitleView.text = roomSummary.displayName
+//                views.includeRoomToolbar.roomToolbarTitleView.text = roomSummary.displayName
+                if (roomSummary.isDirect) {
+                    GlobalScope.launch(Dispatchers.IO) {
+                        if (roomSummary.otherMemberIds.isNullOrEmpty()) returnTransition
+                        val bestEachChatName = roomSummary.otherMemberIds[0].getBestNameEachChat(roomSummary.displayName)
+                        GlobalScope.launch(Dispatchers.Main) {
+                            views.includeRoomToolbar.roomToolbarTitleView.text = bestEachChatName
+                        }
+                    }
+                } else {
+                    views.includeRoomToolbar.roomToolbarTitleView.text = roomSummary.displayName
+                }
                 avatarRenderer.render(roomSummary.toMatrixItem(), views.includeRoomToolbar.roomToolbarAvatarImageView)
                 renderSubTitle(typingMessage, roomSummary.topic)
                 views.includeRoomToolbar.roomToolbarDecorationImageView.render(roomSummary.roomEncryptionTrustLevel)
@@ -1834,6 +1865,12 @@ class TimelineFragment @Inject constructor(
 
     // TimelineEventController.Callback ************************************************************
     override fun onUrlClicked(url: String, title: String): Boolean {
+        // 处理邮箱matrix应用点击事件
+//        if (title == getString(R.string.auth_login_email)) {
+//            widgetEmailResultLauncher.launch(Intent(requireContext(), WidgetEmailActivity::class.java))
+//            return true
+//        }
+        Timber.v("点击url")
         viewLifecycleOwner.lifecycleScope.launch {
             val isManaged = permalinkHandler
                     .launch(requireActivity(), url, object : NavigationInterceptor {
@@ -2026,6 +2063,7 @@ class TimelineFragment @Inject constructor(
     }
 
     override fun onClickOnReactionPill(informationData: MessageInformationData, reaction: String, on: Boolean) {
+        Timber.v("pill点击事件")
         if (on) {
             // we should test the current real state of reaction on this event
             timelineViewModel.handle(RoomDetailAction.SendReaction(informationData.eventId, reaction))
@@ -2524,4 +2562,10 @@ class TimelineFragment @Inject constructor(
      * Returns the root thread event if we are in a thread room, otherwise returns null
      */
     fun getRootThreadEventId(): String? = timelineArgs.threadTimelineArgs?.rootThreadEventId
+
+    // 处理bot链接点击事件
+    override fun onLinkClicked(textView: TextView, span: ClickableSpan, url: String, actualText: String): Boolean {
+        Timber.v("点击onLinkClicked")
+        return true
+    }
 }

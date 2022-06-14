@@ -37,9 +37,14 @@ import im.vector.app.features.autocomplete.member.AutocompleteMemberPresenter
 import im.vector.app.features.autocomplete.room.AutocompleteRoomPresenter
 import im.vector.app.features.command.Command
 import im.vector.app.features.displayname.getBestName
+import im.vector.app.features.displayname.getBestNameEachChat
 import im.vector.app.features.home.AvatarRenderer
 import im.vector.app.features.html.PillImageSpan
 import im.vector.app.features.themes.ThemeUtils
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.matrix.android.sdk.api.session.group.model.GroupSummary
 import org.matrix.android.sdk.api.session.room.model.RoomMemberSummary
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
@@ -210,6 +215,7 @@ class AutoCompleter @AssistedInject constructor(
                 .build()
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     private fun insertMatrixItem(editText: EditText, editable: Editable, firstChar: String, matrixItem: MatrixItem) {
         // Detect last firstChar and remove it
         var startIndex = editable.lastIndexOf(firstChar)
@@ -236,16 +242,39 @@ class AutoCompleter @AssistedInject constructor(
 
         editable.replace(startIndex, endIndex, "$displayName$displayNameSuffix")
 
-        // Add the span
-        val span = PillImageSpan(
-                glideRequests,
-                avatarRenderer,
-                editText.context,
-                matrixItem
-        )
-        span.bind(editText)
+        GlobalScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                val eachChatBestName = matrixItem.displayName?.let { matrixItem.id.getBestNameEachChat(it) }
+                val span = PillImageSpan(
+                        glideRequests,
+                        avatarRenderer,
+                        editText.context,
+                        matrixItem,
+                        eachChatBestName
+                )
+                GlobalScope.launch(Dispatchers.Main) {
+                    span.bind(editText)
 
-        editable.setSpan(span, startIndex, startIndex + displayName.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    editable.setSpan(span, startIndex, startIndex + displayName.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                }
+            }.exceptionOrNull()?.let {
+                GlobalScope.launch(Dispatchers.Main) {
+                    val span = PillImageSpan(
+                            glideRequests,
+                            avatarRenderer,
+                            editText.context,
+                            matrixItem
+                    )
+
+                    span.bind(editText)
+
+                    editable.setSpan(span, startIndex, startIndex + displayName.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                }
+            }
+            // Add the span
+
+        }
+
     }
 
     companion object {

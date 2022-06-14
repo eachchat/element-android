@@ -70,7 +70,7 @@
 
                     <TextView
                         android:id="@+id/confirmTv"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
@@ -82,7 +82,8 @@
                         android:text="@string/pickerview_submit"
                         android:textAppearance="@style/TextAppearance.Vector.Widget.ActionBarTitle"
                         android:textColor="?vctr_content_primary"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        android:visibility="gone" />
 
                 </RelativeLayout>
 
@@ -113,9 +114,9 @@
             android:id="@+id/loginFieldTil"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            app:errorEnabled="false"
-            tools:hint="@string/login_signin_username_hint">
+            android:layout_marginTop="12dp"
+            android:hint="@string/please_enter_email_account"
+            app:errorEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/loginField"
@@ -130,20 +131,19 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/passwordFieldTil"
-            app:passwordToggleEnabled="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="12dp"
             android:hint="@string/login_signup_password_hint"
-            app:errorEnabled="false"
+            app:errorEnabled="true"
             app:errorIconDrawable="@null"
-            app:passwordToggleDrawable="@drawable/password_selector" >
+            app:passwordToggleDrawable="@drawable/password_selector"
+            app:passwordToggleEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/passwordField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
                 android:ems="10"
                 android:imeOptions="actionDone"
                 android:inputType="textPassword"
@@ -155,9 +155,7 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            >
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/loginSubmit"
@@ -182,9 +180,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:gravity="center"
-            tools:text="@string/network_error_please_retry"
+            android:textColor="@color/caution_fc4"
             android:textSize="12sp"
-            android:textColor="@color/caution_fc4" />
+            tools:text="@string/network_error_please_retry" />
 
     </LinearLayout>
 

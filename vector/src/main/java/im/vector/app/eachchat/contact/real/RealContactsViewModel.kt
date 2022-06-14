@@ -104,8 +104,8 @@ class RealContactsViewModel @AssistedInject constructor(
                         if (matrixUser.userId.isNotEmpty() && AppCache.getIsOpenContact()) {
                             contact = ContactDaoHelper.getInstance().getContactByMatrixId(matrixUser.userId)
                         }
-                        if (user == null) {
-                            user = contact?.toUser()
+                        if (contact != null) {
+                            user = contact.toUser()
                         }
                         if (user == null) {
                             user = User()

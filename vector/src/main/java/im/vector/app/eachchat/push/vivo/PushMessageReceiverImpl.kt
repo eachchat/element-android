@@ -20,12 +20,12 @@ class PushMessageReceiverImpl : BasePushMessageReceiver() {
     override fun onNotificationMessageArrived(p0: Context?, p1: UPSNotificationMessage?): Boolean {
         LogUtil.i("##vivo接收通知")
         kotlin.runCatching {
-            val queryParams = roomSummaryQueryParams {
-                memberships = listOf(Membership.JOIN)
-            }
-            val roomSummaries = BaseModule.getSession().getRoomSummaries(queryParams)
-            val unreadRoomSummaries = roomSummaries.filter { it.hasUnreadMessages }
-            YQBadgeUtils.setCount(unreadRoomSummaries.size, BaseModule.getContext())
+//            val queryParams = roomSummaryQueryParams {
+//                memberships = listOf(Membership.JOIN)
+//            }
+            // val roomSummaries = BaseModule.getSession().getRoomSummaries(queryParams)
+            // val unreadRoomSummaries = roomSummaries.filter { it.hasUnreadMessages }
+            // YQBadgeUtils.setCount(unreadRoomSummaries.size, BaseModule.getContext())
         }.exceptionOrNull()?.let{
             return false
         }

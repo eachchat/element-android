@@ -22,6 +22,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.drawable.Drawable
+import android.text.TextUtils
 import android.text.style.ReplacementSpan
 import android.widget.TextView
 import androidx.annotation.UiThread
@@ -31,9 +32,15 @@ import com.google.android.material.chip.ChipDrawable
 import im.vector.app.R
 import im.vector.app.core.glide.GlideRequests
 import im.vector.app.features.displayname.getBestName
+import im.vector.app.features.displayname.getBestNameEachChat
 import im.vector.app.features.home.AvatarRenderer
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.matrix.android.sdk.api.session.room.send.MatrixItemSpan
 import org.matrix.android.sdk.api.util.MatrixItem
+import org.threeten.bp.format.TextStyle
 import java.lang.ref.WeakReference
 
 /**
@@ -41,15 +48,27 @@ import java.lang.ref.WeakReference
  * It's needed to call [bind] method to start requesting avatar, otherwise only the placeholder icon will be displayed if not already cached.
  * Implements MatrixItemSpan so that it could be automatically transformed in matrix links and displayed as pills.
  */
-class PillImageSpan(private val glideRequests: GlideRequests,
-                    private val avatarRenderer: AvatarRenderer,
-                    private val context: Context,
-                    override val matrixItem: MatrixItem
+@OptIn(DelicateCoroutinesApi::class) class PillImageSpan(private val glideRequests: GlideRequests,
+                                                         private val avatarRenderer: AvatarRenderer,
+                                                         private val context: Context,
+                                                         override val matrixItem: MatrixItem,
+                                                         eachChatBestName: String? = null,
+                                                         isEvent: Boolean = false // 将timeLineEvent和editText分开处理，优化交互效果
+
 ) : ReplacementSpan(), MatrixItemSpan {
 
-    private val pillDrawable = createChipDrawable()
+    private var pillDrawable:ChipDrawable = createChipDrawable(eachChatBestName)
     private val target = PillImageSpanTarget(this)
     private var tv: WeakReference<TextView>? = null
+
+    init {
+        if (isEvent) {
+            GlobalScope.launch(Dispatchers.IO) {
+                val name = matrixItem.id.getBestNameEachChat(matrixItem.getBestName())
+                pillDrawable = createChipDrawable(name)
+            }
+        }
+    }
 
     @UiThread
     fun bind(textView: TextView) {
@@ -95,6 +114,7 @@ class PillImageSpan(private val glideRequests: GlideRequests,
         canvas.restore()
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     internal fun updateAvatarDrawable(drawable: Drawable?) {
         pillDrawable.chipIcon = drawable
         tv?.get()?.invalidate()
@@ -102,7 +122,8 @@ class PillImageSpan(private val glideRequests: GlideRequests,
 
     // Private methods *****************************************************************************
 
-    private fun createChipDrawable(): ChipDrawable {
+    @OptIn(DelicateCoroutinesApi::class)
+    private fun createChipDrawable(name: String?): ChipDrawable {
         val textPadding = context.resources.getDimension(R.dimen.pill_text_padding)
         val icon = try {
             avatarRenderer.getCachedDrawable(glideRequests, matrixItem)
@@ -111,7 +132,7 @@ class PillImageSpan(private val glideRequests: GlideRequests,
         }
 
         return ChipDrawable.createFromResource(context, R.xml.pill_view).apply {
-            text = matrixItem.getBestName()
+            text = name?: matrixItem.getBestName()
             textEndPadding = textPadding
             textStartPadding = textPadding
             setChipMinHeightResource(R.dimen.pill_min_height)

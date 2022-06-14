@@ -22,6 +22,7 @@ import android.widget.FrameLayout
 import androidx.core.view.isVisible
 import im.vector.app.R
 import im.vector.app.databinding.ViewCallControlsBinding
+import im.vector.app.features.call.audio.CallAudioManager
 import org.matrix.android.sdk.api.session.call.CallState
 import org.matrix.android.sdk.api.session.call.MxPeerConnectionState
 
@@ -90,6 +91,8 @@ class CallControlsView @JvmOverloads constructor(
             views.videoToggleIcon.contentDescription = resources.getString(R.string.a11y_start_camera)
         }
 
+        views.audioSettingsIcon.setImageResource(state.device.drawableRes)
+
         when (callState) {
             is CallState.LocalRinging -> {
                 views.ringingControls.isVisible = true
@@ -105,7 +108,7 @@ class CallControlsView @JvmOverloads constructor(
                 views.ringingControls.isVisible = false
                 views.connectedControls.isVisible = true
                 views.videoToggleIcon.isVisible = state.isVideoCall
-                views.moreIcon.isVisible = callState is CallState.Connected && callState.iceConnectionState == MxPeerConnectionState.CONNECTED
+                views.moreIcon.isVisible = false // callState is CallState.Connected && callState.iceConnectionState == MxPeerConnectionState.CONNECTED
             }
             is CallState.Ended        -> {
                 views.ringingControls.isVisible = false
