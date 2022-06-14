@@ -86,6 +86,7 @@ class BotFragment @Inject constructor(
 
     private fun setupToolbar() {
         setupToolbar(views.groupToolbar)
+        views.groupToolbarTitleView.text = getString(R.string.bot)
     }
 
     private fun initListener() {

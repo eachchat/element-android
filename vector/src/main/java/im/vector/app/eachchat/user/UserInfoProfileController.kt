@@ -102,6 +102,7 @@ class UserInfoProfileController @Inject constructor(
             phone = state.contact.telephoneList!![0]
         }
         phone?.let {
+            if (it.value.isNullOrBlank()) return@let
             if (!hasDivider) {
                 hasDivider = true
                 customHeightDividerItem {

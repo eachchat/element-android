@@ -216,7 +216,7 @@ fun User.toContact(company: String?, contactAdded: Boolean = false) =
             }
         }
 
-fun User.toContactV2(company: String?, department: String? = null, contactAdded: Boolean = false) =
+fun User.toContactV2(company: String? = null, department: String? = null, contactAdded: Boolean = false) =
         ContactsDisplayBeanV2(
                 photo = avatarTUrl,
                 family = displayName.emptyTake(userName),

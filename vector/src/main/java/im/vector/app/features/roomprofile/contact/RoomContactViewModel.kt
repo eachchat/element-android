@@ -31,7 +31,9 @@ import im.vector.app.eachchat.complain.RoomComplainViewModel
 import im.vector.app.eachchat.complain.RoomComplainViewState
 import im.vector.app.eachchat.contact.api.ContactServiceV2
 import im.vector.app.eachchat.contact.data.ContactsDisplayBeanV2
+import im.vector.app.eachchat.contact.data.toContactV2
 import im.vector.app.eachchat.database.AppDatabase
+import im.vector.app.eachchat.department.getCompany
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.matrix.android.sdk.api.session.Session
@@ -71,7 +73,12 @@ class RoomContactViewModel @AssistedInject constructor(@Assisted initialState: R
         room.roomSummary()?.otherMemberIds?.get(0)?.let {
             viewModelScope.launch(Dispatchers.IO) {
                 kotlin.runCatching {
-                    val contact = ContactsDisplayBeanV2(matrixId = it, nickName = room.roomSummary()?.displayName, photoUrl = room.roomSummary()?.avatarUrl)
+                    var contact = ContactsDisplayBeanV2(matrixId = it, nickName = room.roomSummary()?.displayName, photoUrl = room.roomSummary()?.avatarUrl)
+                    val departmentUser = AppDatabase.getInstance(BaseModule.getContext()).userDao().getBriefUserByMatrixId(it)
+                    if (departmentUser != null) {
+
+                        contact = departmentUser.toContactV2(getCompany(null, departmentUser.departmentId))
+                    }
                     val response = ContactServiceV2.getInstance().add(contact)
                     if (response.obj != null) {
                         contact.id = response.obj?.id
